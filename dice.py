@@ -1,5 +1,6 @@
 import random
-"""dice class"""
+"""dice class
+it works"""
 class Dice(object):
   @staticmethod
   def roll():
