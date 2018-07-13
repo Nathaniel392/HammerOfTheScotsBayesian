@@ -1,5 +1,7 @@
 """
 country class
+just to throw error if invalid country
+country is a str
 idk what's going on
 """
 class Country(object):
