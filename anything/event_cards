@@ -1,0 +1,5 @@
+"""
+event cards inherest from Card
+not finished
+"""
+class EventCard(Card):
