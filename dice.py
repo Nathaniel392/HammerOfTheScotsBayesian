@@ -3,4 +3,4 @@ import random
 class Dice(object):
   @staticmethod
   def roll:
-    return random.randint(1,7)
+    return random.randint(6) + 1
