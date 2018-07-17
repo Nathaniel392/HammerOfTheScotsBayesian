@@ -1,6 +1,7 @@
 import random
 """dice class
-it works"""
+Dice.num_dice(num_dice) returns tuple of dice things
+"""
 dice_list = list()
 class Dice(object):
     @staticmethod
