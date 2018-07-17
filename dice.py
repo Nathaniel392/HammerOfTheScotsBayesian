@@ -1,7 +1,12 @@
 import random
 """dice class
 it works"""
+dice_list = list()
 class Dice(object):
-  @staticmethod
-  def roll(num_dice):
-    return random.randint(1 * num_dice, 6 * num_dice)
+    @staticmethod
+    def roll(num_dice):
+        for i in range(num_dice):
+            dice_list.append(random.randint)
+        return tuple(dice_list)
+ 
+    
