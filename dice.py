@@ -3,5 +3,5 @@ import random
 it works"""
 class Dice(object):
   @staticmethod
-  def roll():
-    return random.randint(1, 6)
+  def roll(num_dice):
+    return random.randint(1 * num_dice, 6 * num_dice)
