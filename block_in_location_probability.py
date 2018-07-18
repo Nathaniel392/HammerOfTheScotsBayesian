@@ -4,3 +4,4 @@ def make_table_location_of_blocks_probability():
 		table.append(list())
 		for j in range(25):
 			table[i].append(0)
+	return table
