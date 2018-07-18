@@ -65,6 +65,7 @@ class Block(object):
         supposed to move block
         """
         pass
+
 class Edward(Block):
     """
     english king block
@@ -72,15 +73,16 @@ class Edward(Block):
 
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross):
-        super().__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
+        super(Edward, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
+
 class Wallace(Block):
     """
     wallace block
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross):
-        super().__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
+        super(Wallace, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
 
 class ScottishKing(Block):
@@ -89,7 +91,7 @@ class ScottishKing(Block):
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross):
-        super().__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
+        super(ScottishKing, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
 
 
@@ -99,7 +101,7 @@ class Noble(Block):
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
                  allegiance, location, has_cross, home_location):
-        super().__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
+        super(Noble, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
         self.home_location = home_location
     def go_home(self):
@@ -126,7 +128,7 @@ class Norse(Block):
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
                  allegiance, location, has_cross):
-        super().__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength,\
+        super(Norse, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength,\
                          allegiance, location, has_cross)
 class Celtic(Block):
     """
@@ -134,5 +136,5 @@ class Celtic(Block):
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
                  allegiance, location, has_cross, type_men):
-        super().__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength,\
+        super(Celtic, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength,\
                          allegiance, location, has_cross, type_men)
