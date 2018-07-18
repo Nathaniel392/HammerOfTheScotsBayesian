@@ -71,7 +71,7 @@ def initialize_blocks():
         i+=29
         specific_data = data[i].split()
         nobles.append(blocks.Noble(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),\
-                            specific_data[7], specific_data[8]))
+                            specific_data[7], specific_data[8], specific_data[9]))
         i-=29
     return nobles, other_blocks
 
