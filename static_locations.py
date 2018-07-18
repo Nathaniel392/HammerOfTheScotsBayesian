@@ -19,8 +19,6 @@ def create_static_locations():
 
 		block_info = line.split()
 
-		print (block_info)
-
 		for i in range(25):
 
 			if int(block_info[6]) == i:
@@ -35,6 +33,6 @@ def create_static_locations():
 
 	fp.close()
 
-	print (static_locations)
+	return static_locations
 
 create_static_locations()
