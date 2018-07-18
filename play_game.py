@@ -2,6 +2,7 @@ import cards
 import initialize_blocks
 import static_locations
 import blocks_occupied
+import board
 
 """
 stuff
@@ -25,5 +26,5 @@ def play_game():
     probability_cards = deck.count_probabilities()
     
     #map of occupied
-    
+    map_of_blocks = blocks_occupied.make_occupied()
 play_game()
