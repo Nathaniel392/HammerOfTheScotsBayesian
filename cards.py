@@ -59,24 +59,24 @@ class Deck( object ):
     probabilities_lst.append(twos_probability)
     
     threes_probability = self.__deck.count('3') / len(self.__deck)
-    probaility_lst.append(threes_probability)
+    probabilities_lst.append(threes_probability)
     
     SEA_probability = self.__deck.count('SEA') / len(self.__deck)
-    probability_lst.append(SEA_probability)
+    probabilities_lst.append(SEA_probability)
     
     HER_probability = self.__deck.count('HER') / len(self.__deck)
-    probability_lst.append(HER_probability)
+    probabilities_lst.append(HER_probability)
     
     TRU_probability = self.__deck.count('TRU') / len(self.__deck)
-    probability_lst.append(TRU_probability)
+    probabilities_lst.append(TRU_probability)
     
     VIC_probability = self.__deck.count('VIC') / len(self.__deck)
-    probability_lst.append(VIC_probability)
+    probabilities_lst.append(VIC_probability)
     
     PIL_probability = self.__deck.count('PIL') / len(self.__deck)
-    probability_lst.append(PIL_probability)
+    probabilities_lst.append(PIL_probability)
     
-    return probability_lst
+    return probabilities_lst
                                         
   def reset(self):
     '''resets the deck after each year so that all the cards are accounted for in the following year'''
