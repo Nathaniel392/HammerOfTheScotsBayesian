@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jul 18 10:51:35 2018
+
+@author: elliotmoore
+"""
+
 """
 blocks class
 as well as noble class
@@ -8,8 +16,7 @@ as well as edward
 as well as king
 """
 class Block(object):
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                allegiance, location, has_cross, type_men = None):
+    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, allegiance, location, has_cross, type_men = None):
         """
         name is name of object
         movement_points is movement points
@@ -90,7 +97,7 @@ class Noble(Block):
     """
     adds extra attribute home_location on top of Block
     """
-    def __init__(self, name, movement_points, attack_letter, attack_number, intitial_attack_strength,\
+    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
                  allegiance, location, has_cross, home_location):
         super().__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
@@ -107,7 +114,7 @@ class Noble(Block):
             raise Exception("Moray can't change sides")
         if allegiance == None:
             if self.allegiance == 'SCOTLAND':
-                self.allegiance = 'ENGLAND':
+                self.allegiance = 'ENGLAND'
             else:
                 self.allegiance == 'SCOTLAND'
         self.allegiance = allegiance
@@ -129,10 +136,3 @@ class Celtic(Block):
                  allegiance, location, has_cross, type_men):
         super().__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength,\
                          allegiance, location, has_cross, type_men)
-
-
-
-
-
-
-
