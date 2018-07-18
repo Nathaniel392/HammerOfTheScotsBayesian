@@ -103,6 +103,8 @@ class Noble(Block):
         allegiance is allegiance to change to
         whether it is changed or not
         """
+        if self.has_cross:
+            raise("Moray can't change sides")
         if allegiance == None:
             if self.allegiance == 'SCOTLAND':
                 self.allegiance = 'ENGLAND':
