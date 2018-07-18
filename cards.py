@@ -46,18 +46,40 @@ class Deck( object ):
   def __str__( self ):
     return self.__deck
   
-  def count_probabilities( self ):
-    '''returns probabilities of each type of card being picked'''
+  def count_probabilities(self):
+    '''returns probabilities of each type of card being picked after each turn depeneding on the other cards that have 
+    been picked'''
+    
+    probabilities_lst = []
     
     ones_probability = self.__deck.count('1') / len(self.__deck)
-    twos_probability = self.__deck.count('2') / len(self.__deck)
-    threes_probability = self.__deck.count('3') / len(self.__deck)
-    event_card_probabilities = 1 - (ones_probability + twos_probabilty + threes_probability)
+    probabilities_lst.append(ones_probability)
     
-    return ones_probability,twos_probability,threes_probabilities,event_card_probabilities
-  
+    twos_probability = self.__deck.count('2') / len(self.__deck)
+    probabilities_lst.append(twos_probability)
+    
+    threes_probability = self.__deck.count('3') / len(self.__deck)
+    probaility_lst.append(threes_probability)
+    
+    SEA_probability = self.__deck.count('SEA') / len(self.__deck)
+    probability_lst.append(SEA_probability)
+    
+    HER_probability = self.__deck.count('HER') / len(self.__deck)
+    probability_lst.append(HER_probability)
+    
+    TRU_probability = self.__deck.count('TRU') / len(self.__deck)
+    probability_lst.append(TRU_probability)
+    
+    VIC_probability = self.__deck.count('VIC') / len(self.__deck)
+    probability_lst.append(VIC_probability)
+    
+    PIL_probability = self.__deck.count("PIL') / len(self.__deck)
+    probability_lst.append(PIL_probability)
+    
+    return probability_lst
+                                        
   def reset(self):
-    '''resets the deck after each year so that  all the cards are accounted for in the following year'''
+    '''resets the deck after each year so that all the cards are accounted for in the following year'''
     
     self.__deck = []
     
