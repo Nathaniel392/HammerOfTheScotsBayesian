@@ -100,10 +100,11 @@ class Noble(Block):
     adds extra attribute home_location on top of Block
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                 allegiance, location, has_cross, home_location):
+                 allegiance, location, has_cross, home_location, loyalty):
         super(Noble, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
         self.home_location = home_location
+        self.loyalty = loyalty
     def go_home(self):
         self.location = self.home_location
     def change_allegiance(self, allegiance = None):
