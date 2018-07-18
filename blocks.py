@@ -63,4 +63,9 @@ class Noble(Block):
         self.home_location = home_location
     def go_home(self):
         self.location = self.home_location
+    def change_allegance(self, allegance):
+        """
+        allegance is allegance to change to
+        """
+        self.allegance = allegance
     
