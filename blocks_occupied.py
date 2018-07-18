@@ -1,3 +1,4 @@
+import initialize_blocks
 def blocks_occupied():
     """
     makes list of where all blocks are
@@ -8,3 +9,5 @@ def blocks_occupied():
         
       
     return territory_lst
+def make_occupied():
+    
