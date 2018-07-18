@@ -19,7 +19,7 @@ def make_occupied():
         territory_lst[block.location].append(block)
     for block in other_blocks:
         territory_lst[block.location].append(block)
-    print(territory_lst)
+
     return territory_lst
 make_occupied()
     
