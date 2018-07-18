@@ -73,7 +73,7 @@ class Deck( object ):
     VIC_probability = self.__deck.count('VIC') / len(self.__deck)
     probability_lst.append(VIC_probability)
     
-    PIL_probability = self.__deck.count("PIL') / len(self.__deck)
+    PIL_probability = self.__deck.count('PIL') / len(self.__deck)
     probability_lst.append(PIL_probability)
     
     return probability_lst
