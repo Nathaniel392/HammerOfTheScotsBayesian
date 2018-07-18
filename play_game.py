@@ -16,7 +16,10 @@ def play_game():
     my_hand = list()
     opp_hand = list()
     for i in range(5):
-        my_hand.append(Deck.deal())
-        opp_hand.append(Deck.deal())
+        my_hand.append(cards.Deck.deal())
+        opp_hand.append(cards.Deck.deal())
+        
+    #probabilites of cards
+    probability_cards = cards.Deck.count_probabilities()
     
 play_game()
