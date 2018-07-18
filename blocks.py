@@ -8,7 +8,7 @@ class Block(object):
         """
         name is name of object
         movement_points is movement points
-        attack letter is A, B, or C
+        attack_letter is A, B, or C
         attack_number is the number after the A or B or C
         attack_strength1 is weakest attack strength or 0 
         attack_strength4 is strongest attack strength
@@ -33,4 +33,16 @@ class Block(object):
             for i, strength in enumerate(self.attack_strength):
                 if self.current_strength = strength:
                     self.current_strength = attack_strength[i - 1]
+                    return True
+    def heal(self, health_points):
+        """
+        returns False if cannot heal by that many points
+        otherwise returns True and heals block
+        """
+        for i, strength in enumerate(self.attack_strength):
+            if self.current_strength = strength:
+                if i + health_points - 1 > len(self.attack_strength):
+                    return False
+                else:
+                    self.current_strength = self.attack_strength[i + health_points]
                     return True
