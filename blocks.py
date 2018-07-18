@@ -4,7 +4,7 @@ as well as noble class
 """
 class Block(object):
     def __init__(self, name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
-                attack_strength4, location):
+                attack_strength4, location, allegance):
         """
         name is name of object
         movement_points is movement points
@@ -22,6 +22,7 @@ class Block(object):
         self.attack_strength = list(attack_strength1, attack_strength2, attack_strength3, attack_strength4)
         self.current_strength = attack_strength4
         self.location = location
+        self.allegance = allegance
     def get_hurt(self, damage):
         """
         returns False if block is dead
@@ -52,4 +53,14 @@ class Block(object):
         """
         pass
 class Noble(Block):
+    """
+    adds extra attribute home_location on top of Block
+    """
+    def __init__(self, name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, location, allegance, home_location):
+        Block.__init__(self, name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, location, allegance)
+        self.home_location = home_location
+    def go_home(self):
+        self.location = self.home_location
     
