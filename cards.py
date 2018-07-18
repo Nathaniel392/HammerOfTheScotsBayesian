@@ -24,8 +24,8 @@ class Deck( object ):
     self.__deck.append('TRU')
     
   def shuffle( self ):
-        """ Shuffle deck using shuffle method in random module. """
-      
+    
+    """ Shuffle deck using shuffle method in random module. """  
     random.shuffle(self.__deck)
 
   def deal( self ):
