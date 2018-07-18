@@ -36,7 +36,11 @@ def read_file(file_name):
 
 
 def initialize_blocks():
-
+    """
+    This function initlializes all the block objects into two
+    lists, one for all 14 nobles and the other for the rest
+    of the infantry and other blocks
+    """
     data = []
     data = read_file('block_info.txt')
 
