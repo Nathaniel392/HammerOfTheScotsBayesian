@@ -1,10 +1,15 @@
 """
 blocks class
 as well as noble class
+as well as Welsh
+as well as norse
+as well as wallace
+as well as edward
+as well as king
 """
 class Block(object):
     def __init__(self, name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
-                attack_strength4, location, allegance):
+                attack_strength4, allegance, location, has_cross, type_men = None):
         """
         name is name of object
         movement_points is movement points
@@ -14,6 +19,7 @@ class Block(object):
         attack_strength4 is strongest attack strength
         current_strength is current strength
         location is a Region object
+        type_men is usually archers,knights, or infantry
         """
         self.name = name
         self.movement_points = movement_points
@@ -23,6 +29,9 @@ class Block(object):
         self.current_strength = attack_strength4
         self.location = location
         self.allegance = allegance
+        self.has_cross = has_cross
+        if type_men != None:
+            self.type = type_men
     def get_hurt(self, damage):
         """
         returns False if block is dead
@@ -52,20 +61,79 @@ class Block(object):
         supposed to move block
         """
         pass
+class Edward(Block):
+    """
+    english king block
+    """
+
+    def __init__(self, name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, allegance, location, has_cross):
+        super().__init__(name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, allegance, location, has_cross)
+class Wallace(Block):
+    """
+    wallace block
+    """
+    def __init__(self, name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, allegance, location, has_cross):
+        super().__init__(name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, allegance, location, has_cross)
+
+class ScottishKing(Block):
+    """
+    Scottish King
+    """
+    def __init__(self, name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, allegance, location, has_cross):
+        super().__init__(name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, allegance, location, has_cross)
+
+
 class Noble(Block):
     """
     adds extra attribute home_location on top of Block
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
-                attack_strength4, location, allegance, home_location):
-        Block.__init__(self, name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
-                attack_strength4, location, allegance)
+                attack_strength4, allegance, location, has_cross, home_location):
+        super().__init__(name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, allegance, location, has_cross)
         self.home_location = home_location
     def go_home(self):
         self.location = self.home_location
-    def change_allegance(self, allegance):
+    def change_allegance(self, allegance = None):
         """
+        if no allegance passed, changes 
         allegance is allegance to change to
+        whether it is changed or not
         """
+        if allegance == None:
+            if self.allegance == 'SCOTLAND':
+                self.allegance = 'ENGLAND':
+            else:
+                self.allegance == 'SCOTLAND'
         self.allegance = allegance
-    
+
+
+class Norse(Block):
+    """
+    norse block
+    """
+    def __init__(self, name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, allegance, location, has_cross):
+        super().__init__(name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, allegance, location, has_cross)
+class Celtic(Block):
+    """
+    celtic block
+    """
+    def __init__(self, name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, allegance, location, has_cross, type_men):
+        super().__init__(name, movement_points, attack_letter, attack_number, attack_strength1, attack_strength2, attack_strength3 \
+                attack_strength4, allegance, location, has_cross, type_men)
+
+
+
+
+
+
+
