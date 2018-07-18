@@ -52,7 +52,6 @@ def read_file(file_name):
 			output.append(row)
 	
 	#List of information
-	print(output)
 	return output
 
 
