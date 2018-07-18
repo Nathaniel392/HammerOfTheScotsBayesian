@@ -74,8 +74,4 @@ def initialize_blocks():
                             specific_data[7], specific_data[8]))
         i-=29
     return nobles, other_blocks
-def main():
-    
-    initialize_blocks()
-    
-main()
+
