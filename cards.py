@@ -24,22 +24,23 @@ class Deck( object ):
     self.__deck.append('TRU')
     
   def shuffle( self ):
-    
-   """ Shuffle deck using shuffle method in random module. """  
+    """
+    Shuffle deck using shuffle method in random module.
+    """
     random.shuffle(self.__deck)
 
   def deal( self ):
-  """ Return top card from deck (return None if deck empty). """
+    """ Return top card from deck (return None if deck empty). """
  
     return self.__deck.pop() if len(self.__deck) else None # Use ternary expression to guard against empty deck.
 
   def is_empty( self ):
-  """ Return True if deck is empty; False, otherwise """
+    """ Return True if deck is empty; False, otherwise """
       
     return len(self.__deck) == 0
 
   def __len__( self ):
-  """ Return number of cards remaining in deck. """
+    """ Return number of cards remaining in deck. """
       
     return len(self.__deck)
   
