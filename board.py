@@ -56,7 +56,7 @@ def read_file(file_name):
 
 
 class Board(object):
-	
+	@staticmethod
 	def __init__(self):
 		'''
 		Reads in files on borders, cathedrals, coasts, and castle points
