@@ -46,3 +46,10 @@ class Block(object):
                 else:
                     self.current_strength = self.attack_strength[i + health_points]
                     return True
+    def move(self, region):
+        """
+        supposed to move block
+        """
+        pass
+class Noble(Block):
+    
