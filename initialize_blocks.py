@@ -110,10 +110,9 @@ def initialize_blocks_bruce():
     for i in range(23, 26):
         specific_data = data[i].split()
         other_blocks.append(blocks.Celtic(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7], specific_data[8]))
-	#Initialize Edward II object
-	"""
-	not done!!!!
-	"""
+	#Initialize Edward Object
+    specific_data = data[27].split()
+    other_blocks.append(blocks.Edward2(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),specific_data[7]))
 	#Initialize Scottish King Object
     specific_data = data[27].split()
     other_blocks.append(blocks.ScottishKing(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),specific_data[7]))
