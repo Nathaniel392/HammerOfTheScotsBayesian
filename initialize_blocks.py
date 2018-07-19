@@ -73,14 +73,14 @@ def initialize_blocks():
     for i in range(22):
         specific_data = data[i].split()
         
-        other_blocks.append(blocks.Block(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7]))
+        other_blocks.append(blocks.Block(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7], specific_data[8]))
     #Initilize Norse Object
     specific_data = data[22].split()
     other_blocks.append(blocks.Norse(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7]))
     #Initilize Celtic (Wales and Ulsher)
     for i in range(23, 26):
         specific_data = data[i].split()
-        other_blocks.append(blocks.Celtic(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7]))
+        other_blocks.append(blocks.Celtic(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7], specific_data[8]))
     #Initialize Wallace Object
     specific_data = data[26].split()
     other_blocks.append(blocks.Wallace(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),specific_data[7]))
@@ -100,5 +100,11 @@ def initialize_blocks():
         nobles.append(blocks.Noble(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),\
                             specific_data[7], specific_data[8], specific_data[9]))
         i-=29
+
+
+        
     return nobles, other_blocks
+
+
+
 
