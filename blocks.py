@@ -83,7 +83,7 @@ class Edward2(Block):
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross):
-        super(Edward, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
+        super(Edward2, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
 
 class Wallace(Block):
