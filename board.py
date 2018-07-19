@@ -121,7 +121,7 @@ def add_starting_blocks(board, nobles, other_blocks):
 			#Add to roster based on allegiance
 			if x.allegiance == "SCOTLAND":
 				board.scot_roster.append(x)
-			elif x.allegiance = "ENGLAND":
+			elif x.allegiance == "ENGLAND":
 				board.eng_roster.append(x)
 	#Add other blocks
 	for x in other_blocks:
@@ -131,7 +131,7 @@ def add_starting_blocks(board, nobles, other_blocks):
 			#Add to roster based on allegiance
 			if x.allegiance == "SCOTLAND":
 				board.scot_roster.append(x)
-			elif x.allegiance = "ENGLAND":
+			elif x.allegiance == "ENGLAND":
 				board.eng_roster.append(x)
 		else:
 			#Add to pool based on allegiance
