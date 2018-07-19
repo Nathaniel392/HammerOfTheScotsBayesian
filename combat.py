@@ -44,15 +44,14 @@ def attack_block(attack_block_block, defending_blocks):
 	attacks blocks
 	uses random in case where everyone same health
 	"""
-	dice_tuple = dice.roll(attack_block_block.current_strength)
-	dice_lst = list(dice_tuple)
-
+	dice_lst = dice.roll(attack_block_block.current_strength)
 	for num in dice_lst:
 		strong_blocks = find_max_strength(defending_blocks)
 
 		if num <= attack_block_block.attack_number:
 			strong_blocks[random.randint(0, len(strong_blocks) - 1)].get_hurt(1)
 
+	#dice_lst = list()
 
 
 def check_if_dead(attackers_lst, defenders_lst):
@@ -126,7 +125,7 @@ def make_lists(num1, num2 = None, num3 = None, num4 = None):
 		return [non_nobles[num1], nobles[num2], nobles[num3], nobles[num4]]
 
 
-battle(make_lists(0), make_lists(1))
+battle(make_lists(0, 6), make_lists(1, 9))
 
 		
 				
