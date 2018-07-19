@@ -59,12 +59,15 @@ class Board(object):
 		self.static_borders = read_file('borders.txt')
 		#self.cath_coast = read_file('cath_coast.txt')
 		#self.castle_points = read_file('castle_points.txt')
+		
 		self.regions = []
 		self.eng_pool = []
 		self.scot_pool = []
 		self.scot_roster = []
 		self.eng_roster = []
+		
 		self.initialize_regions()
+		
 	def add_to_region(self, block_to_add, regionID):
 		'''
 		This function takes a block object and adds it to a particular region
