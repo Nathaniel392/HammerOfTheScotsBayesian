@@ -16,8 +16,7 @@ as well as edward
 as well as king
 """
 
-import board
-import blocks_occupied
+
 class Block(object):
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, allegiance, location, has_cross, type_men = None):
         """
