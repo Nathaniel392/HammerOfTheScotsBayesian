@@ -34,6 +34,18 @@ def read_file(file_name):
 	fp.close()
 	return output
 
+def reset_block(block, blockID):
+    """
+    resets a block
+    returns nothing
+    """
+    fp = open('block_info.txt', 'r')
+    for i, line in enumerate(fp):
+
+        if i == blockID:
+            specific_data = line.strip().split()
+
+            block = blocks.Block(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7])
 
 def initialize_blocks():
     """
