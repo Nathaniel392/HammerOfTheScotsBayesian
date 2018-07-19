@@ -15,6 +15,9 @@ as well as wallace
 as well as edward
 as well as king
 """
+
+import board
+import blocks_occupied
 class Block(object):
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, allegiance, location, has_cross, type_men = None):
         """
@@ -60,9 +63,9 @@ class Block(object):
         else:
             self.current_strength = self.attack_strength + health_points
             return True
-    def move(self, region):
+    def move(self, region, block):
         """
-        supposed to move block
+        supposed to move block to a adjacent location and take away a movement point
         """
         pass
 
