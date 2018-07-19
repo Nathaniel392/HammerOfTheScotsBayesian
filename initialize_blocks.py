@@ -11,6 +11,7 @@ initlizes blocks
 """
 
 import blocks
+import copy
 
 def read_file(file_name):
 	'''
@@ -35,6 +36,7 @@ def read_file(file_name):
 	return output
 
 
+
 def initialize_blocks():
     """
     This function initlializes all the block objects into two
@@ -49,11 +51,17 @@ def initialize_blocks():
     specific_data = []
 
     #Initialize Infantry, Knights, Archers Objects.
-    for i in range(26):
+    for i in range(22):
         specific_data = data[i].split()
         
-        other_blocks.append(blocks.Block(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7]))
-
+        other_blocks.append(blocks.Block(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7], specific_data[8]))
+    #Initilize Norse Object
+    specific_data = data[22].split()
+    other_blocks.append(blocks.Norse(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7]))
+    #Initilize Celtic (Wales and Ulsher)
+    for i in range(23, 26):
+        specific_data = data[i].split()
+        other_blocks.append(blocks.Celtic(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7], specific_data[8]))
     #Initialize Wallace Object
     specific_data = data[26].split()
     other_blocks.append(blocks.Wallace(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),specific_data[7]))
@@ -71,7 +79,14 @@ def initialize_blocks():
         i+=29
         specific_data = data[i].split()
         nobles.append(blocks.Noble(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),\
-                            specific_data[7], specific_data[8]))
+                            specific_data[7], specific_data[8], specific_data[9]))
         i-=29
-    return nobles, other_blocks
+
+    static_nobles = copy.deepcopy(nobles)
+    static_other_blocks = copy.deepcopy(other_blocks)
+        
+    return nobles, other_blocks, static_nobles, static_other_blocks
+
+
+
 
