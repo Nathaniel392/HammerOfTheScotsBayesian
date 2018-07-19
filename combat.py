@@ -34,7 +34,7 @@ def find_max_strength(block_lst):
 				not_found = True
 	strong_blocks = list()
 	for block in block_lst:
-		if block.current_strength == max_strength
+		if block.current_strength == max_strength:
 			strong_blocks.append(block)
 	return strong_blocks
 
@@ -58,8 +58,8 @@ def battle(attack, defense):
 		
 		for round in 'ABC':
 			not_lost = False
-			for block in attackers:
-				if block.attack_letter == round:
+			for letter in attackers:
+				if letter == round:
 					dice_roll_lst = list(dice.roll(block.current_strength))
 					for num in dice_roll_list:
 						if num <= block.attack_number:
