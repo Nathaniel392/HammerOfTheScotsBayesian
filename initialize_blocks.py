@@ -34,27 +34,7 @@ def read_file(file_name):
 	fp.close()
 	return output
 
-def reset_block(block, blockID):
-    """
-    resets a block
-    returns nothing
-    """
-    fp = open('block_info.txt', 'r')
-    for i, line in enumerate(fp):
 
-        if i == blockID:
-            specific_data = line.strip().split()
-            if type(block) is Noble:
-                block = blocks.Noble(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),\
-                            specific_data[7], specific_data[8], specific_data[9])
-            elif type(block) is Wallace:
-                block = blocks.Wallace(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),specific_data[7])
-            elif type(block) is Edward:
-                block = blocks.Edward(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),specific_data[7])
-            elif type(block) is ScottishKing:
-                block = blocks.ScottishKing(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),specific_data[7])
-            else:
-                block = blocks.Block(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7])
 
 def initialize_blocks():
     """
@@ -101,9 +81,10 @@ def initialize_blocks():
                             specific_data[7], specific_data[8], specific_data[9]))
         i-=29
 
-
+    static_nobles = nobles.copy()
+    static_other_blocks = otherblocks.copy()
         
-    return nobles, other_blocks
+    return nobles, other_blocks, static_nobles, static_other_blocks
 
 
 
