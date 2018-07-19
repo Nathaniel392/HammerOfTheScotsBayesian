@@ -44,8 +44,17 @@ def reset_block(block, blockID):
 
         if i == blockID:
             specific_data = line.strip().split()
-
-            block = blocks.Block(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7])
+            if type(block) is Noble:
+                block = blocks.Noble(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),\
+                            specific_data[7], specific_data[8], specific_data[9])
+            elif type(block) is Wallace:
+                block = blocks.Wallace(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),specific_data[7])
+            elif type(block) is Edward:
+                block = blocks.Edward(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),specific_data[7])
+            elif type(block) is ScottishKing:
+                block = blocks.ScottishKing(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),specific_data[7])
+            else:
+                block = blocks.Block(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7])
 
 def initialize_blocks():
     """
