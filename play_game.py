@@ -21,10 +21,12 @@ def play_game():
     for i in range(5):
         my_hand.append(deck.deal())
         opp_hand.append(deck.deal())
-        
+    known_cards = my_hand
     #probabilites of cards
-    probability_cards = deck.count_probabilities()
-    
+    probability_cards = deck.count_probabilities(known_cards)
+    print(probability_cards)
     #map of occupied
     map_of_blocks = blocks_occupied.make_occupied()
+
+
 play_game()
