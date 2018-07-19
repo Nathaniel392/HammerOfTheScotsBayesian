@@ -17,7 +17,24 @@ def organize(blocks):
 			ordered['C'].append(block)
 
 	return ordered
-
+def find_max_strength(block_lst):
+	"""
+	finds max strength
+	returns blocks with max strength
+	"""
+	max_strength = 0
+	not_found = True
+	while(not_found):
+		for block in block_lst:
+			not_found = False
+			if block.current_strength > max_strength:
+				max_strength = block.current_strength
+				not_found = True
+	strong_blocks = list()
+	for block in block_lst:
+		if block.current_strength == max_strength
+			strong_blocks.append(block)
+	return strong_blocks
 
 def battle(attack, defense):
 	'''
@@ -38,7 +55,16 @@ def battle(attack, defense):
 		combat_round += 1
 
 		for round in 'ABC':
-			pass
+			for block in attackers:
+				if block.attack_letter == round:
+					dice_roll_lst = list(dice.roll(block.current_strength))
+					for num in dice_roll_list:
+						if num <= block.attack_number:
+							strong_blocks = find_max_strength(defenders)
+							strong_blocks[0].get_hurt(1)
+							for block in defenders:
+								if block.current_strength == 0:
+									;alsdkfj;alsdjkf;laksjdf;lkasdjfl;kajsd;flkasjdkf
 
 		# End of combat
 		if combat_round == 3:
