@@ -1,5 +1,7 @@
 import dice
-
+"""
+all screwed up
+"""
 def organize(blocks):
 	'''
 	Separates list of blocks into a, b, and c
