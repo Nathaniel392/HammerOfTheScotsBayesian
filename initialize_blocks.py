@@ -70,11 +70,17 @@ def initialize_blocks():
     specific_data = []
 
     #Initialize Infantry, Knights, Archers Objects.
-    for i in range(26):
+    for i in range(22):
         specific_data = data[i].split()
         
         other_blocks.append(blocks.Block(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7]))
-
+    #Initilize Norse Object
+    specific_data = data[22].split()
+    other_blocks.append(blocks.Norse(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7]))
+    #Initilize Celtic (Wales and Ulsher)
+    for i in range(23, 26):
+        specific_data = data[i].split()
+        other_blocks.append(blocks.Celtic(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]), specific_data[7]))
     #Initialize Wallace Object
     specific_data = data[26].split()
     other_blocks.append(blocks.Wallace(specific_data[0], int(specific_data[1]), specific_data[2], int(specific_data[3]), int(specific_data[4]), specific_data[5], int(specific_data[6]),specific_data[7]))
