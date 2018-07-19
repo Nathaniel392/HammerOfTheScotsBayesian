@@ -62,6 +62,8 @@ class Board(object):
 		self.regions = []
 		self.eng_pool = []
 		self.scot_pool = []
+		self.scot_roster = []
+		self.eng_roster = []
 		self.initialize_regions()
 	def add_to_region(self, block_to_add, regionID):
 		'''
@@ -111,12 +113,25 @@ def add_starting_blocks(board, nobles, other_blocks):
 	#Add nobles 
 	for x in nobles:
 		if x.location != 23:
+			#Add to region
 			board.add_to_region(x, x.location)
+			#Add to roster based on allegiance
+			if x.allegiance == "SCOTLAND":
+				board.scot_roster.append(x)
+			elif x.allegiance = "ENGLAND":
+				board.eng_roster.append(x)
 	#Add other blocks
 	for x in other_blocks:
 		if x.location != 23:
+			#Add to region
 			board.add_to_region(x, x.location)
+			#Add to roster based on allegiance
+			if x.allegiance == "SCOTLAND":
+				board.scot_roster.append(x)
+			elif x.allegiance = "ENGLAND":
+				board.eng_roster.append(x)
 		else:
+			#Add to pool based on allegiance
 			if x.allegiance == "SCOTLAND":
 				board.scot_pool.append(x)
 			elif x.allegiance == "ENGLAND":
@@ -128,8 +143,7 @@ def main():
 	#Get the blocks to add to the board
 	nobles, other_blocks, static_nobles, static_other_blocks = initialize_blocks.initialize_blocks()
 	add_starting_blocks(board, nobles, other_blocks)
-	for x in board.pool:
-		print(x.name)
+
 if __name__ == '__main__':
 	main()
 
