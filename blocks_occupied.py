@@ -13,7 +13,7 @@ def make_occupied():
     """
     initialize where all blocks are
     """
-    nobles, other_blocks = initialize_blocks.initialize_blocks()
+    nobles, other_blocks, static_nobles, static_other_blocks = initialize_blocks.initialize_blocks()
     territory_lst = blocks_occupied()
     for block in nobles:
         territory_lst[block.location].append(block)
