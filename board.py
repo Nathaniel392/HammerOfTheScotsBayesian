@@ -84,7 +84,7 @@ class Board(object):
 		Reads in files on borders, cathedrals, coasts, and castle points
 		'''
 		self.static_borders = read_file('borders.txt')
-		self.static_border_moves = copy.Deepcopy(self.static_borders)
+		self.static_border_moves = border_chars(copy.Deepcopy(self.static_borders))
 		self.cath_coast = read_file('cath_coast.txt')
 		self.castle_points = read_file('castle_points.txt')
 
