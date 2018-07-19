@@ -46,7 +46,7 @@ class Block(object):
         returns False if block is dead
         otherwise returns True and damages block
         """
-        if self.current_strength == 1:
+        if self.current_strength == 0:
             return False
         else:
             self.current_strength -=1
