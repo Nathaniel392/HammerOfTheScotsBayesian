@@ -11,6 +11,7 @@ initlizes blocks
 """
 
 import blocks
+import copy
 
 def read_file(file_name):
 	'''
@@ -81,8 +82,8 @@ def initialize_blocks():
                             specific_data[7], specific_data[8], specific_data[9]))
         i-=29
 
-    static_nobles = nobles.copy()
-    static_other_blocks = other_blocks.copy()
+    static_nobles = copy.deepcopy(nobles)
+    static_other_blocks = copy.deepcopy(other_blocks)
         
     return nobles, other_blocks, static_nobles, static_other_blocks
 
