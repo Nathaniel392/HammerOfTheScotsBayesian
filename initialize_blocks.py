@@ -82,7 +82,7 @@ def initialize_blocks():
         i-=29
 
     static_nobles = nobles.copy()
-    static_other_blocks = otherblocks.copy()
+    static_other_blocks = other_blocks.copy()
         
     return nobles, other_blocks, static_nobles, static_other_blocks
 
