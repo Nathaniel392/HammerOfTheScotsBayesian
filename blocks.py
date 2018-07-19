@@ -77,6 +77,14 @@ class Edward(Block):
                  allegiance, location, has_cross):
         super(Edward, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
+class Edward2(Block):
+    """
+    english king block in bruce
+    """
+    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
+                 allegiance, location, has_cross):
+        super(Edward, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
+                 allegiance, location, has_cross)
 
 class Wallace(Block):
     """
