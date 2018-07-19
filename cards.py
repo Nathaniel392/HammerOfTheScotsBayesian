@@ -47,34 +47,34 @@ class Deck( object ):
   def __str__( self ):
     return self.__deck
   
-  def count_probabilities(self):
+  def count_probabilities(self, known):
     '''returns probabilities of each type of card being picked after each turn depeneding on the other cards that have 
     been picked'''
     
     probabilities_lst = []
-    
-    ones_probability = self.__deck.count('1') / len(self.__deck)
+
+    ones_probability = float((7 - known.count('1'))) / (25 - len(known))
     probabilities_lst.append(ones_probability)
     
-    twos_probability = self.__deck.count('2') / len(self.__deck)
+    twos_probability = float((10 - known.count('2'))) / (25 - len(known))
     probabilities_lst.append(twos_probability)
     
-    threes_probability = self.__deck.count('3') / len(self.__deck)
+    threes_probability = float((3 - known.count('3'))) / (25 - len(known))
     probabilities_lst.append(threes_probability)
     
-    SEA_probability = self.__deck.count('SEA') / len(self.__deck)
+    SEA_probability = float((1- known.count('SEA'))) / (25 - len(known))
     probabilities_lst.append(SEA_probability)
     
-    HER_probability = self.__deck.count('HER') / len(self.__deck)
+    HER_probability = float((1-known.count('HER'))) / (25 - len(known))
     probabilities_lst.append(HER_probability)
     
-    TRU_probability = self.__deck.count('TRU') / len(self.__deck)
+    TRU_probability = float((1-known.count('TRU'))) / (25 - len(known))
     probabilities_lst.append(TRU_probability)
     
-    VIC_probability = self.__deck.count('VIC') / len(self.__deck)
+    VIC_probability = float((1-known.count('VIC'))) / (25 - len(known))
     probabilities_lst.append(VIC_probability)
     
-    PIL_probability = self.__deck.count('PIL') / len(self.__deck)
+    PIL_probability = float((1-known.count('PIL'))) / (25 - len(known))
     probabilities_lst.append(PIL_probability)
     
     return probabilities_lst

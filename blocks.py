@@ -15,6 +15,8 @@ as well as wallace
 as well as edward
 as well as king
 """
+
+
 class Block(object):
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, allegiance, location, has_cross, type_men = None):
         """
@@ -44,7 +46,7 @@ class Block(object):
         returns False if block is dead
         otherwise returns True and damages block
         """
-        if self.current_strength == 1:
+        if self.current_strength == 0:
             return False
         else:
             self.current_strength -=1
@@ -60,9 +62,9 @@ class Block(object):
         else:
             self.current_strength = self.attack_strength + health_points
             return True
-    def move(self, region):
+    def move(self, region, block):
         """
-        supposed to move block
+        supposed to move block to a adjacent location and take away a movement point
         """
         pass
 
@@ -100,10 +102,11 @@ class Noble(Block):
     adds extra attribute home_location on top of Block
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                 allegiance, location, has_cross, home_location):
+                 allegiance, location, has_cross, home_location, loyalty):
         super(Noble, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
         self.home_location = home_location
+        self.loyalty = loyalty
     def go_home(self):
         self.location = self.home_location
     def change_allegiance(self, allegiance = None):

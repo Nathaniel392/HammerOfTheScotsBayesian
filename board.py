@@ -25,6 +25,8 @@
 22	England
 '''
 
+import copy
+
 NUM_REGIONS = 23
 
 
@@ -49,22 +51,47 @@ def read_file(file_name):
 
 		else:	#borders or cath_coast
 			row = info.strip().split()
+
+			#Turn 'F' and 'T' into booleans
+			for index in range(len(row)):
+				if row[index] == 'F':
+					row[index] = False
+				elif row[index] == 'T':
+					row[index] = True
+
 			output.append(row)
 	
 	#List of information
+	print(output)
 	return output
 
 
 class Board(object):
-	
+
 	def __init__(self):
 		'''
 		Reads in files on borders, cathedrals, coasts, and castle points
 		'''
+
 		self.static_borders = read_file('borders.txt')
 		self.cath_coast = read_file('cath_coast.txt')
 		self.castle_points = read_file('castle_points.txt')
+		self.reset_borders()
+		print(self.dynamic_borders)
 
+	def reset_borders(self):
+		'''
+
+		'''
+		self.dynamic_borders = copy.deepcopy(self.static_borders)
+		for row in range(len(self.static_borders)):
+			for col in range(len(self.static_borders[0])):
+				if self.dynamic_borders[row][col] == 'X':
+					self.dynamic_borders[row][col] = 0
+				elif self.dynamic_borders[row][col] == 'R':
+					self.dynamic_borders[row][col] = 2
+				elif self.dynamic_borders[row][col] == 'B':
+					self.dynamic_borders[row][col] = 6
 
 
 def main():
