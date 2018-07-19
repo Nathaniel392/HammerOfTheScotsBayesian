@@ -1,3 +1,4 @@
+import copy
 
 '''
 0	Ross
@@ -26,6 +27,27 @@
 '''
 
 NUM_REGIONS = 23
+
+
+def border_chars(border_array):
+	
+	for row,location in combat_array:
+		
+		for column,color in row:
+			
+			if color == 'R':
+				
+				border_array[row][column] = 2
+				
+			elif color == 'B'
+			
+				border_array[row][column] = 6
+				
+			elif color == 'X'
+			
+				border_array[row][column] = 0
+				
+	return border_array
 
 
 def read_file(file_name):
@@ -62,6 +84,7 @@ class Board(object):
 		Reads in files on borders, cathedrals, coasts, and castle points
 		'''
 		self.static_borders = read_file('borders.txt')
+		self.static_border_moves = copy.Deepcopy(self.static_borders)
 		self.cath_coast = read_file('cath_coast.txt')
 		self.castle_points = read_file('castle_points.txt')
 
