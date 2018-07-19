@@ -67,6 +67,7 @@ def battle(attack, defense):
 							for block in defenders:
 								if block.current_strength != 0:
 									not_lost = True
+									
 					if not not_lost:
 						break
 			if not not_lost:
