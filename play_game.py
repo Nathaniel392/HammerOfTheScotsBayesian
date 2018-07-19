@@ -11,7 +11,7 @@ def play_game():
     #create stuff
     deck = cards.Deck()
     deck.shuffle()
-    nobles, non_noble_blocks = initialize_blocks.initialize_blocks()
+    nobles, non_noble_blocks, static_nobles, static_non_noble_blocks = initialize_blocks.initialize_blocks()
     stc_locations = static_locations.create_static_locations()
     dyn_locations = static_locations.create_static_locations()
     
