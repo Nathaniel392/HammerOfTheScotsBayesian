@@ -1,3 +1,4 @@
+import copy
 
 '''
 0	Ross
@@ -29,6 +30,27 @@
 import copy
 import initialize_blocks
 NUM_REGIONS = 23
+
+
+def border_chars(border_array):
+	
+	for row,location in combat_array:
+		
+		for column,color in row:
+			
+			if color == 'R':
+				
+				border_array[row][column] = 2
+				
+			elif color == 'B'
+			
+				border_array[row][column] = 6
+				
+			elif color == 'X'
+			
+				border_array[row][column] = 0
+				
+	return border_array
 
 
 def read_file(file_name):
