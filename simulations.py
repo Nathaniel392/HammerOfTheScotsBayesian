@@ -25,6 +25,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	#print_situation(attack, defense)
 #run through the combat rounds
 	for combat_round in range(3):
+
 		if combat_round == 1:
 
 			attack += attack_reinforcements
@@ -33,7 +34,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 			attackers = combat.organize(attack)
 			defenders = combat.organize(defense)
 
-			
+
 
 		for letter in 'ABC':
 			#defenders first
@@ -81,7 +82,7 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 	
 
 
-		totals_dict[battle(attack, defense)] += 1
+		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements)] += 1
 	
 		attack, defense = copy.deepcopy(original_attack), copy.deepcopy(original_defense)
 
@@ -119,11 +120,11 @@ def print_situation(attack, defense):
 	print('defenders:')
 	for block in defense:
 		print(block.current_strength, end = ' ')
-
+	print('\n')
 
 
 def main():
 	attack, defense = make_block_lists()
-	attack_reinforcements, defense_reinforcements = make_block_lists()
-	print(simulation(attack,defense, 1000, attack_reinforcements = attack_reinforcements))
+	attack_reinforcements2, defense_reinforcements = make_block_lists()
+	print(simulation(attack,defense, 1000, attack_reinforcements = attack_reinforcements2 ))
 main()

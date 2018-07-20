@@ -79,15 +79,16 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	returns what happens
 	'''
 
-	tackers = organize(attack)
+	attackers = organize(attack)
 	defenders = organize(defense)
 	
 	attacker_is_dead = False
 	defender_is_dead = False
 
-	
+	#print_situation(attack, defense)
 #run through the combat rounds
 	for combat_round in range(3):
+
 		if combat_round == 1:
 
 			attack += attack_reinforcements
@@ -96,7 +97,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 			attackers = organize(attack)
 			defenders = organize(defense)
 
-			
+
 
 		for letter in 'ABC':
 			#defenders first
@@ -104,7 +105,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				if letter2 == letter:
 					for attacking_block in defenders[letter2]:
 						attack_block(attacking_block, attack)
-						
+						#print_situation(attack, defense)
 						attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
 					
 						if attacker_is_dead:
@@ -116,7 +117,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				if letter2 == letter:
 					for attacking_block in attackers[letter2]:
 						attack_block(attacking_block, defense)
-						
+						#print_situation(attack, defense)
 						attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
 					
 						if defender_is_dead:
