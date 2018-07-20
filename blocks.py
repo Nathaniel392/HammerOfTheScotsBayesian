@@ -62,11 +62,12 @@ class Block(object):
         else:
             self.current_strength = self.attack_strength + health_points
             return True
-    def move(self, region, block):
-        """
-        supposed to move block to a adjacent location and take away a movement point
-        """
-        pass
+            
+    #prints block name in terminal
+    def __str__(self):
+        return self.name
+    def __repr__(self):
+        return self.name
 
 class Edward(Block):
     """
