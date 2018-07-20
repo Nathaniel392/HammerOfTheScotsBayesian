@@ -1,5 +1,3 @@
-import copy
-
 '''
 0	Ross
 1 	Garmoran
@@ -42,11 +40,11 @@ def border_chars(border_array):
 				
 				border_array[row][column] = 2
 				
-			elif color == 'B'
+			elif color == 'B':
 			
 				border_array[row][column] = 6
 				
-			elif color == 'X'
+			elif color == 'X':
 			
 				border_array[row][column] = 0
 				
@@ -54,10 +52,6 @@ def border_chars(border_array):
 
 
 def read_file(file_name):
-
-
-
-
 
 	# Open the file
 	#try:
@@ -158,6 +152,15 @@ class Board(object):
 
 				return self.find_paths(num_moves-1, compare_region, path)
 
+	def move_block(self, start, end):
+		'''
+		Changes a block's location on the board, assuming that all conditions are legal.
+		block:  
+		start:  starting location (Region)
+		end:  end location (Region)
+		'''
+
+
 
 
 
@@ -188,6 +191,16 @@ class Region(object):
 		same as __str__
 		'''
 		return self.name + '-' + str(self.regionID)
+
+	def activate_movement(self):
+		'''
+		use 1 movement point to activate movement for blocks in a region
+		used only during movement phase
+		'''
+
+		#Loop through blocks in the region
+		for index, block in enumerate(self.blocks_present):
+			pass
 		
 
 def add_starting_blocks(board, nobles, other_blocks):
