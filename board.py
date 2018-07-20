@@ -27,11 +27,16 @@
 
 
 import copy
-imort initialize_blocks
+import initialize_blocks
 NUM_REGIONS = 23
 
 
 def read_file(file_name):
+
+
+
+
+
 	# Open the file
 	#try:
 	fp = open(file_name, 'r')
@@ -57,8 +62,11 @@ class Board(object):
 		'''
 		Reads in files on borders, cathedrals, coasts, and castle points
 		'''
-		
-		self.static_borders = read_file('borders.txt')
+		self.static_borders = []
+		temp = read_file('borders.txt')
+		for x in temp:
+			self.static_borders.append(x.split())
+		print(self.static_borders)
 		self.reset_borders()
 		#self.cath_coast = read_file('cath_coast.txt')
 		#self.castle_points = read_file('castle_points.txt')
@@ -83,7 +91,7 @@ class Board(object):
 					self.dynamic_borders[row][col] = 2
 				elif self.dynamic_borders[row][col] == 'B':
 					self.dynamic_borders[row][col] = 6
-					
+
 	def add_to_region(self, block_to_add, regionID):
 		'''
 		This function takes a block object and adds it to a particular region
@@ -155,6 +163,8 @@ def add_starting_blocks(board, nobles, other_blocks):
 				board.scot_pool.append(x)
 			elif x.allegiance == "ENGLAND":
 				board.eng_pool.append(x)
+def should_retreat(attacking, defending, attacking_reinforcement):
+	pass
 def main():
 	#Create board object
 	board = Board()
