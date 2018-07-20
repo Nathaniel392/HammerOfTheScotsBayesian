@@ -126,18 +126,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	return 'attacker retreats'
 
-
-
-
-
-
-		
-				
-
-	
-
-
-
+def main():
+	battle([], [])
 
 
 

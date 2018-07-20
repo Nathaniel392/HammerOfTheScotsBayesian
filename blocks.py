@@ -63,6 +63,7 @@ class Block(object):
         else:
             self.current_strength = self.attack_strength + health_points
             return True
+          
     def move(self, region, block):
         """
         supposed to move block to a adjacent location and take away a movement point
@@ -74,8 +75,8 @@ class Block(object):
         """
         return('name: ' + str(self.name))
     def __len__(self):
-        return 1  
-
+        return 1
+      
 class Edward(Block):
     """
     english king block
