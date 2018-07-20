@@ -278,7 +278,7 @@ class Winter(object):
 
 			elif noble.home_location.blocks_present[0].allegiance != noble.allegiance:
 
-				noble.allegiance = noble.home_location.blocks_present[0]
+				noble.allegiance = noble.home_location.blocks_present[0].allegiance
 
 				go_home(noble)
 
