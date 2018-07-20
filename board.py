@@ -41,9 +41,6 @@ import initialize_blocks
 
 def read_file(file_name):
 	'''
-
-	'''
-
 	# Open the file
 	#try:
 	fp = open(file_name, 'r')
@@ -52,28 +49,6 @@ def read_file(file_name):
 	
 	output = []
 
-
-	for line in fp:
-		info = line.strip('\n')
-
-		if file_name == 'castle_points.txt':
-			output.append(int(info))
-
-		else:	#borders or cath_coast
-			row = info.strip().split()
-
-			#Turn 'F' and 'T' into booleans
-			for index in range(len(row)):
-				if row[index] == 'F':
-					row[index] = False
-				elif row[index] == 'T':
-					row[index] = True
-
-			output.append(row)
-	
-	#List of information
-	print(output)
-=======
 	for line in fp:
 		info = line.strip()
 
@@ -91,13 +66,18 @@ class Board(object):
 		'''
 		Reads in files on borders, cathedrals, coasts, and castle points
 		'''
-
-
+		
 		self.static_borders = read_file('borders.txt')
-		self.cath_coast = read_file('cath_coast.txt')
-		self.castle_points = read_file('castle_points.txt')
 		self.reset_borders()
-		print(self.dynamic_borders)
+		#self.cath_coast = read_file('cath_coast.txt')
+		#self.castle_points = read_file('castle_points.txt')
+		self.regions = []
+		self.eng_pool = []
+		self.scot_pool = []
+		self.scot_roster = []
+		self.eng_roster = []
+		
+		self.initialize_regions()
 
 	def reset_borders(self):
 		'''
@@ -112,24 +92,7 @@ class Board(object):
 					self.dynamic_borders[row][col] = 2
 				elif self.dynamic_borders[row][col] == 'B':
 					self.dynamic_borders[row][col] = 6
-
-
-def main():
-	board = Board()
-
-=======
-		self.static_borders = read_file('borders.txt')
-		#self.cath_coast = read_file('cath_coast.txt')
-		#self.castle_points = read_file('castle_points.txt')
-		
-		self.regions = []
-		self.eng_pool = []
-		self.scot_pool = []
-		self.scot_roster = []
-		self.eng_roster = []
-		
-		self.initialize_regions()
-		
+					
 	def add_to_region(self, block_to_add, regionID):
 		'''
 		This function takes a block object and adds it to a particular region
