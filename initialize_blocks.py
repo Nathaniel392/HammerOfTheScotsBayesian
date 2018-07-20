@@ -127,8 +127,7 @@ def initialize_blocks_bruce():
         
     return nobles, other_blocks, static_nobles, static_other_blocks
 
-initialize_blocks()
-initialize_blocks_bruce()						
+						
 						
 
 
