@@ -144,52 +144,6 @@ battle(make_lists(0, 6), make_lists(1, 9))
 		
 				
 
-	
-=======
-
-	
-
-
-	# Loop for 3 combat rounds
-	for combat_round in range(3):
-		combat_round += 1
-		
-		for round in 'ABC':
-			not_lost = False
-			for letter in attackers:
-				if letter == round:
-					dice_roll_lst = list(dice.roll(block.current_strength))
-					for num in dice_roll_list:
-						if num <= block.attack_number:
-							strong_blocks = find_max_strength(defenders)
-							strong_blocks[0].get_hurt(1)
-							
-							for block in defenders:
-								if block.current_strength != 0:
-									not_lost = True
-									
-					if not not_lost:
-						break
-			if not not_lost:
-				break
-		
-				
-
-		# End of combat
-		if combat_round == 3:
-
-			#Check if any defenders remain
-			if success(defense):
-
-
-
-
-
-
-
-
-
-=======
 def main():
 	battle([], [])
 
