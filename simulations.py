@@ -2,7 +2,8 @@ import combat
 import blocks
 import copy
 import random
-def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list()):
+
+def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
 	'''
 	Manages combat
 	attack:  list of attacking blocks
@@ -17,6 +18,11 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	'''
 
 	# Divide each side into letter groups (dictionary)
+	letter_found = False
+	number_found = False
+	turn_found = False
+
+
 	attackers = combat.organize(attack)
 	defenders = combat.organize(defense)
 	
@@ -26,45 +32,62 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	#print_situation(attack, defense)
 #run through the combat rounds
 	for combat_round in range(3):
+		if not number_found and combat_round != before_number:
+	
+			pass
+		else:
+			number_found = True
 
-		if combat_round == 1:
+			if combat_round == 1:
 
-			attack += attack_reinforcements
-			defense += defense_reinforcements
-			
-			attackers = combat.organize(attack)
-			defenders = combat.organize(defense)
+				attack += attack_reinforcements
+				defense += defense_reinforcements
+				
+				attackers = combat.organize(attack)
+				defenders = combat.organize(defense)
 
 
 
-		for letter in 'ABC':
-			#defenders first
-			for letter2 in defenders:
-				if letter2 == letter:
-					for attacking_block in defenders[letter2]:
-						combat.attack_block(attacking_block, attack)
-						#print_situation(attack, defense)
-						attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense)
+			for letter in 'ABC':
+				if not letter_found and letter != before_letter:
 					
-						if attacker_is_dead:
-							
-							return 'defender wins'
-						
+					pass
+				else:
+					letter_found = True
+					#defenders first
+					if not turn_found and 'defender' != turn:
+						pass
+					else:
+						turn_found = True
+						for letter2 in defenders:
+							if letter2 == letter:
+								for attacking_block in defenders[letter2]:
+									combat.attack_block(attacking_block, attack)
+									#print_situation(attack, defense)
+									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense)
+								
+									if attacker_is_dead:
+										
+										return 'defender wins'
+								
+					if not turn_found and 'attacker' != turn:
+						pass
+					else:
+						turn_found = True
+						for letter2 in attackers:
+							if letter2 == letter:
+								for attacking_block in attackers[letter2]:
+									combat.attack_block(attacking_block, defense)
+									#print_situation(attack, defense)
+									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense)
+								
+									if defender_is_dead:
 
-			for letter2 in attackers:
-				if letter2 == letter:
-					for attacking_block in attackers[letter2]:
-						combat.attack_block(attacking_block, defense)
-						#print_situation(attack, defense)
-						attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense)
-					
-						if defender_is_dead:
-
-							return 'attacker wins'
+										return 'attacker wins'
 
 	return 'attacker retreats'
 
-def simulation(attack, defense, num_times, attack_reinforcements = list(), defense_reinforcements = list()):
+def simulation(attack, defense, num_times, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
 	"""
 	attack is list of attacking blocks
 	defense is list of defending blocks
@@ -89,7 +112,7 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 				attack[i] = pick_random_block(element)
 
 
-		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements)] += 1
+		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)] += 1
 	
 		attack, defense = copy.deepcopy(original_attack), copy.deepcopy(original_defense)
 
@@ -108,4 +131,5 @@ def pick_random_block(block_tuple):
 	then it will pick a random one
 	"""
 	return block_tuple[random.randint(0, len(block_tuple) - 1)]
+
 
