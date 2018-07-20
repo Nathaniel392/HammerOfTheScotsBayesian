@@ -1,13 +1,8 @@
 import dice
-
 import random
 import blocks
 import initialize_blocks
-=======
-"""
-all screwed up
-"""
-
+import copy
 def organize(blocks):
 	'''
 	Separates list of blocks into a, b, and c
@@ -28,11 +23,7 @@ def organize(blocks):
 def find_max_strength(block_lst):
 	"""
 	finds max strength
-
 	returns list blocks with max strength
-=======
-	returns blocks with max strength
-
 	"""
 	max_strength = 0
 	not_found = True
@@ -49,20 +40,20 @@ def find_max_strength(block_lst):
 	return strong_blocks
 
 
-
 def attack_block(attack_block_block, defending_blocks):
 	"""
 	attacks blocks
 	uses random in case where everyone same health
 	"""
 	dice_lst = dice.roll(attack_block_block.current_strength)
+	
 	for num in dice_lst:
 		strong_blocks = find_max_strength(defending_blocks)
 
 		if num <= attack_block_block.attack_number:
 			strong_blocks[random.randint(0, len(strong_blocks) - 1)].get_hurt(1)
 
-	#dice_lst = list()
+
 
 
 def check_if_dead(attackers_lst, defenders_lst):
@@ -80,120 +71,72 @@ def check_if_dead(attackers_lst, defenders_lst):
 			defender_is_dead = False
 
 	return attacker_is_dead, defender_is_dead
-=======
-
-def battle(attack, defense):
+def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list()):
 	'''
 	Manages combat
 	attack:  list of attacking blocks
 	defense:  list of defending blocks
+	returns what happens
 	'''
 
-	# Divide each side into letter groups (dictionary)
-	attackers = organize(attack)
+	tackers = organize(attack)
 	defenders = organize(defense)
-
 	
 	attacker_is_dead = False
 	defender_is_dead = False
 
 	
-
+#run through the combat rounds
 	for combat_round in range(3):
+		if combat_round == 1:
+
+			attack += attack_reinforcements
+			defense += defense_reinforcements
+			
+			attackers = organize(attack)
+			defenders = organize(defense)
+
+			
+
 		for letter in 'ABC':
+			#defenders first
 			for letter2 in defenders:
 				if letter2 == letter:
 					for attacking_block in defenders[letter2]:
 						attack_block(attacking_block, attack)
 						
 						attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
+					
+						if attacker_is_dead:
+							
+							return 'defender wins'
 						
-						if attacker_is_dead or defender_is_dead:
-							break
+
 			for letter2 in attackers:
 				if letter2 == letter:
 					for attacking_block in attackers[letter2]:
 						attack_block(attacking_block, defense)
 						
 						attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
+					
+						if defender_is_dead:
 
-						if attacker_is_dead or defender_is_dead:
-							break
+							return 'attacker wins'
 
-	if attacker_is_dead:
-		print('defender wins')
-	elif defender_is_dead:
-		print('attacker wins')
-	else:
-		print('attacker retreats')
-
-def make_lists(num1, num2 = None, num3 = None, num4 = None):
-	nobles, non_nobles, static_nobles, static_blocks = initialize_blocks.initialize_blocks()
-	if num2 == None:
-		return [non_nobles[num1]]
-	if num3 == None:
-		return [non_nobles[num1], nobles[num2]]
-	if num4 == None:
-		return [non_nobles[num1], nobles[num2], nobles[num3]]
-	else:
-		return [non_nobles[num1], nobles[num2], nobles[num3], nobles[num4]]
+	return 'attacker retreats'
 
 
-battle(make_lists(0, 6), make_lists(1, 9))
+
+
+
 
 		
 				
 
 	
-=======
-
-	
-
-
-	# Loop for 3 combat rounds
-	for combat_round in range(3):
-		combat_round += 1
-		
-		for round in 'ABC':
-			not_lost = False
-			for letter in attackers:
-				if letter == round:
-					dice_roll_lst = list(dice.roll(block.current_strength))
-					for num in dice_roll_list:
-						if num <= block.attack_number:
-							strong_blocks = find_max_strength(defenders)
-							strong_blocks[0].get_hurt(1)
-							
-							for block in defenders:
-								if block.current_strength != 0:
-									not_lost = True
-									
-					if not not_lost:
-						break
-			if not not_lost:
-				break
-		
-				
-
-		# End of combat
-		if combat_round == 3:
-
-			#Check if any defenders remain
-			if success(defense):
 
 
 
 
 
-
-
-
-
-=======
-def main():
-	battle([], [])
-
-
-if __name__ == '__main__':
-	main()
 

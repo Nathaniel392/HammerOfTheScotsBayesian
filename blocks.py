@@ -18,7 +18,8 @@ as well as king
 
 
 class Block(object):
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, allegiance, location, has_cross, type_men = None):
+    def __init__(self, name = None, movement_points = None, attack_letter = None , attack_number = None, initial_attack_strength = None, \
+        allegiance = None, location = None, has_cross = None, type_men = None):
         """
         name is name of object
         movement_points is movement points
@@ -67,6 +68,12 @@ class Block(object):
         supposed to move block to a adjacent location and take away a movement point
         """
         pass
+    def __repr__(self):
+        """
+        prints name
+        """
+        return('name: ' + str(self.name))
+        
 
 class Edward(Block):
     """
