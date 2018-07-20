@@ -27,20 +27,11 @@
 
 
 import copy
-
+imort initialize_blocks
 NUM_REGIONS = 23
 
 
 def read_file(file_name):
-	'''
-
-=======
-NUM_REGIONS = 23
-
-import initialize_blocks
-
-def read_file(file_name):
-	'''
 	# Open the file
 	#try:
 	fp = open(file_name, 'r')
