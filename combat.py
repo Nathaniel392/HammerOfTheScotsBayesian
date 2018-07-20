@@ -1,5 +1,13 @@
 import dice
 
+import random
+import blocks
+import initialize_blocks
+=======
+"""
+all screwed up
+"""
+
 def organize(blocks):
 	'''
 	Separates list of blocks into a, b, and c
@@ -20,7 +28,11 @@ def organize(blocks):
 def find_max_strength(block_lst):
 	"""
 	finds max strength
+
+	returns list blocks with max strength
+=======
 	returns blocks with max strength
+
 	"""
 	max_strength = 0
 	not_found = True
@@ -32,9 +44,43 @@ def find_max_strength(block_lst):
 				not_found = True
 	strong_blocks = list()
 	for block in block_lst:
-		if block.current_strength == max_strength
+		if block.current_strength == max_strength:
 			strong_blocks.append(block)
 	return strong_blocks
+
+
+
+def attack_block(attack_block_block, defending_blocks):
+	"""
+	attacks blocks
+	uses random in case where everyone same health
+	"""
+	dice_lst = dice.roll(attack_block_block.current_strength)
+	for num in dice_lst:
+		strong_blocks = find_max_strength(defending_blocks)
+
+		if num <= attack_block_block.attack_number:
+			strong_blocks[random.randint(0, len(strong_blocks) - 1)].get_hurt(1)
+
+	#dice_lst = list()
+
+
+def check_if_dead(attackers_lst, defenders_lst):
+	"""
+	checkers if attackers and defenders are alive
+	"""
+	attacker_is_dead = True
+	defender_is_dead = True
+	for block in attackers_lst:
+		if block.current_strength != 0:
+			attacker_is_dead = False
+
+	for block in defenders_lst:
+		if block.current_strength != 0:
+			defender_is_dead = False
+
+	return attacker_is_dead, defender_is_dead
+=======
 
 def battle(attack, defense):
 	'''
@@ -48,42 +94,55 @@ def battle(attack, defense):
 	defenders = organize(defense)
 
 	
+	attacker_is_dead = False
+	defender_is_dead = False
 
+	
 
-	# Loop for 3 combat rounds
 	for combat_round in range(3):
-		combat_round += 1
-		
-		for round in 'ABC':
-			not_lost = False
-			for block in attackers:
-				if block.attack_letter == round:
-					dice_roll_lst = list(dice.roll(block.current_strength))
-					for num in dice_roll_list:
-						if num <= block.attack_number:
-							strong_blocks = find_max_strength(defenders)
-							strong_blocks[0].get_hurt(1)
-							
-							for block in defenders:
-								if block.current_strength != 0:
-									not_lost = True
-									
-					if not not_lost:
-						break
-			if not not_lost:
-				break
+		for letter in 'ABC':
+			for letter2 in defenders:
+				if letter2 == letter:
+					for attacking_block in defenders[letter2]:
+						attack_block(attacking_block, attack)
+						
+						attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
+						
+						if attacker_is_dead or defender_is_dead:
+							break
+			for letter2 in attackers:
+				if letter2 == letter:
+					for attacking_block in attackers[letter2]:
+						attack_block(attacking_block, defense)
+						
+						attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
+
+						if attacker_is_dead or defender_is_dead:
+							break
+
+	if attacker_is_dead:
+		print('defender wins')
+	elif defender_is_dead:
+		print('attacker wins')
+	else:
+		print('attacker retreats')
+
+def make_lists(num1, num2 = None, num3 = None, num4 = None):
+	nobles, non_nobles, static_nobles, static_blocks = initialize_blocks.initialize_blocks()
+	if num2 == None:
+		return [non_nobles[num1]]
+	if num3 == None:
+		return [non_nobles[num1], nobles[num2]]
+	if num4 == None:
+		return [non_nobles[num1], nobles[num2], nobles[num3]]
+	else:
+		return [non_nobles[num1], nobles[num2], nobles[num3], nobles[num4]]
+
+
+battle(make_lists(0, 6), make_lists(1, 9))
+
 		
 				
-
-		# End of combat
-		if combat_round == 3:
-
-			#Check if any defenders remain
-			if success(defense):
-
-
-
-
 
 def main():
 	battle([], [])
@@ -91,3 +150,4 @@ def main():
 
 if __name__ == '__main__':
 	main()
+
