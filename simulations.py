@@ -1,6 +1,7 @@
 import combat
 import blocks
 import copy
+import random
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list()):
 	'''
 	Manages combat
@@ -80,6 +81,12 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 
 
 	
+		for i, element in enumerate(attack):
+			if len(element) != 1:
+				attack[i] = pick_random_block(element)
+		for i, element in enumerate(defense):
+			if len(element) != 1:
+				attack[i] = pick_random_block(element)
 
 
 		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements)] += 1
@@ -94,37 +101,11 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 	return totals_dict
 
 
-	
-
-def make_block_lists():
+def pick_random_block(block_tuple):
 	"""
-	makes blocks
+	if multiple blocks unkonwn
+	send all possible blocks in tuple
+	then it will pick a random one
 	"""
-	block_list1 = []
-	block_list2 = []
-	block_list1.append(blocks.Block(name = 'hi', attack_number = 2, attack_letter = 'A', initial_attack_strength = 4))
-	block_list2.append(blocks.Block(name = 'hey', attack_number = 2, attack_letter = 'A', initial_attack_strength = 4))
-	
+	return block_tuple[random.randint(0, len(block_tuple) - 1)]
 
-	return block_list1, block_list2
-
-def print_situation(attack, defense):
-	"""
-	for testing purposes
-	prints health
-	"""
-	print('attackers:')
-	for block in attack:
-		print(block.current_strength, end = ' ')
-	print('\n')
-	print('defenders:')
-	for block in defense:
-		print(block.current_strength, end = ' ')
-	print('\n')
-
-
-def main():
-	attack, defense = make_block_lists()
-	attack_reinforcements2, defense_reinforcements = make_block_lists()
-	print(simulation(attack,defense, 1000, attack_reinforcements = attack_reinforcements2 ))
-main()

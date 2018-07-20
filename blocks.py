@@ -73,7 +73,8 @@ class Block(object):
         prints name
         """
         return('name: ' + str(self.name))
-        
+    def __len__(self):
+        return 1  
 
 class Edward(Block):
     """
