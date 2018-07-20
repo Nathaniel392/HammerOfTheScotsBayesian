@@ -239,8 +239,7 @@ def main():
 	#Create board object
 	board = Board()
 
-def main():
-	board = Board()
+
 
 
 if __name__ == '__main__':
