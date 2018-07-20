@@ -32,6 +32,26 @@ import simulations
 
 NUM_REGIONS = 23
 
+def border_chars(border_array):
+	
+	for row,location in combat_array:
+		
+		for column,color in row:
+			
+			if color == 'R':
+				
+				border_array[row][column] = 2
+				
+			elif color == 'B':
+			
+				border_array[row][column] = 6
+				
+			elif color == 'X':
+			
+				border_array[row][column] = 0
+				
+	return border_array
+
 
 def read_file(file_name):
 
@@ -107,6 +127,37 @@ class Board(object):
 			specific_data = data[i].split()
 			self.regions.append(Region(specific_data[0], int(specific_data[1]), specific_data[2], specific_data[3], int(specific_data[4])))
 
+	def find_paths(self, num_moves, starting_region, path=[]):
+		'''
+		Recursively finds every path that can be taken from a given region
+		starting_region:  Region that each path should start from
+		Returns:  A list of lists of region objects of legal moves from a starting region
+		
+		Not finished
+		'''
+		path.append(starting_region)
+		#print(path)
+
+		#Base case
+		if num_moves == 0:
+			return path
+
+		#Loop through region list and find adjacent ones
+		for compare_region in self.regions:
+			if self.static_borders[starting_region.regionID][compare_region.regionID] != 'X' \
+			and compare_region not in path:
+
+				return self.find_paths(num_moves-1, compare_region, path)
+
+	def move_block(self, start, end):
+		'''
+		Changes a block's location on the board, assuming that all conditions are legal.
+		block:  
+		start:  starting location (Region)
+		end:  end location (Region)
+		'''
+
+
 class Region(object):
 
 	def __init__(self, name, regionID, cathedral, coast, castle_points,):
@@ -123,6 +174,27 @@ class Region(object):
 		self.combat_dict = {'Attacking':[], 'Defending':[], 'Attacking Reinforcements':[], 'Defending Reinforcements':[]}
 		self.contested = False
 		self.blocks_present = []
+		
+	def __str__(self):
+		'''
+		Prints a region object as the string 'name-ID'
+		'''
+		return self.name + '-' + str(self.regionID)
+	def __repr__(self):
+		'''
+		same as __str__
+		'''
+		return self.name + '-' + str(self.regionID)
+
+	def activate_movement(self):
+		'''
+		use 1 movement point to activate movement for blocks in a region
+		used only during movement phase
+		'''
+
+		#Loop through blocks in the region
+		for index, block in enumerate(self.blocks_present):
+			pass
 		
 
 def add_starting_blocks(board, nobles, other_blocks):
