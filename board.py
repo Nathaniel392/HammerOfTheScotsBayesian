@@ -60,25 +60,6 @@ def read_file(file_name):
 	output = []
 
 	for line in fp:
-		info = line.strip('\n')
-
-		if file_name == 'castle_points.txt':
-			output.append(int(info))
-
-		else:	#borders or cath_coast
-			row = info.strip().split()
-
-			#Turn 'F' and 'T' into booleans
-			for index in range(len(row)):
-				if row[index] == 'F':
-					row[index] = False
-				elif row[index] == 'T':
-					row[index] = True
-
-			output.append(row)
-	
-	#List of information
-	print(output)
 		info = line.strip()
 
 		output.append(info)
