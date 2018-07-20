@@ -18,7 +18,8 @@ as well as king
 
 
 class Block(object):
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, allegiance, location, has_cross, type_men = None):
+    def __init__(self, name = None, movement_points = None, attack_letter = None , attack_number = None, initial_attack_strength = None, \
+        allegiance = None, location = None, has_cross = None, type_men = None):
         """
         name is name of object
         movement_points is movement points
@@ -62,13 +63,20 @@ class Block(object):
         else:
             self.current_strength = self.attack_strength + health_points
             return True
-            
-    #prints block name in terminal
-    def __str__(self):
-        return self.name
+          
+    def move(self, region, block):
+        """
+        supposed to move block to a adjacent location and take away a movement point
+        """
+        pass
     def __repr__(self):
-        return self.name
-
+        """
+        prints name
+        """
+        return('name: ' + str(self.name))
+    def __len__(self):
+        return 1
+      
 class Edward(Block):
     """
     english king block

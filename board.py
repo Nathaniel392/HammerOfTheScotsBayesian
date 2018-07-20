@@ -24,11 +24,9 @@
 22	England
 '''
 
-
 import copy
 import initialize_blocks
 NUM_REGIONS = 23
-
 
 def border_chars(border_array):
 	
@@ -62,6 +60,25 @@ def read_file(file_name):
 	output = []
 
 	for line in fp:
+		info = line.strip('\n')
+
+		if file_name == 'castle_points.txt':
+			output.append(int(info))
+
+		else:	#borders or cath_coast
+			row = info.strip().split()
+
+			#Turn 'F' and 'T' into booleans
+			for index in range(len(row)):
+				if row[index] == 'F':
+					row[index] = False
+				elif row[index] == 'T':
+					row[index] = True
+
+			output.append(row)
+	
+	#List of information
+	print(output)
 		info = line.strip()
 
 		output.append(info)
@@ -78,6 +95,7 @@ class Board(object):
 		'''
 		Reads in files on borders, cathedrals, coasts, and castle points
 		'''
+    
 		self.static_borders = []
 		temp = read_file('borders.txt')
 		for x in temp:
@@ -109,6 +127,8 @@ class Board(object):
 				elif self.dynamic_borders[row][col] == 'B':
 					self.dynamic_borders[row][col] = 6
 
+
+
 	def add_to_region(self, block_to_add, regionID):
 		'''
 		This function takes a block object and adds it to a particular region
@@ -124,11 +144,6 @@ class Board(object):
 		data = []
 		data = read_file("region_info.txt")
 
-		specific_data = []
-		
-		for i in range(23):
-			specific_data = data[i].split()
-			self.regions.append(Region(specific_data[0], int(specific_data[1]), specific_data[2], specific_data[3], int(specific_data[4])))
 
 	def find_paths(self, num_moves, starting_region, path=[]):
 		'''
@@ -238,14 +253,17 @@ def add_starting_blocks(board, nobles, other_blocks):
 
 def should_retreat(attacking, defending, attacking_reinforcement):
 	pass
+
 def main():
 	#Create board object
 	board = Board()
 
-	#Get the blocks to add to the board
-	nobles, other_blocks, static_nobles, static_other_blocks = initialize_blocks.initialize_blocks()
-	add_starting_blocks(board, nobles, other_blocks)
+def main():
+	board = Board()
 
 
 if __name__ == '__main__':
 	main()
+
+
+
