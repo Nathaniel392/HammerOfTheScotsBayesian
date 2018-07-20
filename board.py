@@ -157,7 +157,6 @@ def add_starting_blocks(board, nobles, other_blocks):
 				board.scot_pool.append(x)
 			elif x.allegiance == "ENGLAND":
 				board.eng_pool.append(x)
-def send_board(board = None):
 
 def find_location(block):
 	'''
@@ -212,10 +211,10 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 def main():
 	#Create board object
 	board = Board()
-
 	#Get the blocks to add to the board
 	nobles, other_blocks, static_nobles, static_other_blocks = initialize_blocks.initialize_blocks()
 	add_starting_blocks(board, nobles, other_blocks)
+
 
 
 if __name__ == '__main__':
