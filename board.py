@@ -88,7 +88,6 @@ class Board(object):
 		temp = read_file('borders.txt')
 		for x in temp:
 			self.static_borders.append(x.split())
-		print(self.static_borders)
 		self.reset_borders()
 		#self.cath_coast = read_file('cath_coast.txt')
 		#self.castle_points = read_file('castle_points.txt')
@@ -97,12 +96,14 @@ class Board(object):
 		self.scot_pool = []
 		self.scot_roster = []
 		self.eng_roster = []
+
+		#print(self.static_borders)
 		
 		self.initialize_regions()
 
 	def reset_borders(self):
 		'''
-
+		Reset the max moves over each border in self.dynamic_borders (6, 2, 0)
 		'''
 		self.dynamic_borders = copy.deepcopy(self.static_borders)
 		for row in range(len(self.static_borders)):
@@ -124,7 +125,7 @@ class Board(object):
 
 	def initialize_regions(self):
 		'''
-		This function iniliazes a list of region objects within the board class
+		This function initializes a list of region objects within the board class
 		'''
 		data = []
 		data = read_file("region_info.txt")
@@ -134,6 +135,29 @@ class Board(object):
 		for i in range(23):
 			specific_data = data[i].split()
 			self.regions.append(Region(specific_data[0], int(specific_data[1]), specific_data[2], specific_data[3], int(specific_data[4])))
+
+	def find_paths(self, num_moves, starting_region, path=[]):
+		'''
+		Recursively finds every path that can be taken from a given region
+		starting_region:  Region that each path should start from
+		Returns:  A list of lists of region objects of legal moves from a starting region
+		'''
+		path.append(starting_region)
+		print(path)
+
+		#Base case
+		if num_moves == 0:
+			return path
+
+		#Loop through region list and find adjacent ones
+		for compare_region in self.regions:
+			if self.static_borders[starting_region.regionID][compare_region.regionID] != 'X' \
+			and compare_region not in path:
+
+				return self.find_paths(num_moves-1, compare_region, path)
+
+
+
 
 class Region(object):
 
@@ -151,6 +175,17 @@ class Region(object):
 		self.combat_dict = {'Attacking':[], 'Defending':[], 'Attacking Reinforcements':[], 'Defending Reinforcements':[]}
 		self.contested = False
 		self.blocks_present = []
+
+	def __str__(self):
+		'''
+		Prints a region object as the string 'name-ID'
+		'''
+		return self.name + '-' + str(self.regionID)
+	def __repr__(self):
+		'''
+		same as __str__
+		'''
+		return self.name + '-' + str(self.regionID)
 		
 
 def add_starting_blocks(board, nobles, other_blocks):
@@ -185,11 +220,15 @@ def add_starting_blocks(board, nobles, other_blocks):
 				board.scot_pool.append(x)
 			elif x.allegiance == "ENGLAND":
 				board.eng_pool.append(x)
+
 def should_retreat(attacking, defending, attacking_reinforcement):
 	pass
 def main():
 	#Create board object
 	board = Board()
+	print(board.regions)
+	paths = board.find_paths(3, board.regions[2])
+	print(paths)
 
 	#Get the blocks to add to the board
 	nobles, other_blocks, static_nobles, static_other_blocks = initialize_blocks.initialize_blocks()
