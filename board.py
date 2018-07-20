@@ -141,9 +141,11 @@ class Board(object):
 		Recursively finds every path that can be taken from a given region
 		starting_region:  Region that each path should start from
 		Returns:  A list of lists of region objects of legal moves from a starting region
+		
+		Not finished
 		'''
 		path.append(starting_region)
-		print(path)
+		#print(path)
 
 		#Base case
 		if num_moves == 0:
@@ -226,9 +228,6 @@ def should_retreat(attacking, defending, attacking_reinforcement):
 def main():
 	#Create board object
 	board = Board()
-	print(board.regions)
-	paths = board.find_paths(3, board.regions[2])
-	print(paths)
 
 	#Get the blocks to add to the board
 	nobles, other_blocks, static_nobles, static_other_blocks = initialize_blocks.initialize_blocks()
