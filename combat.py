@@ -3,6 +3,7 @@ import random
 import blocks
 import initialize_blocks
 import copy
+import board
 def organize(blocks):
 	'''
 	Separates list of blocks into a, b, and c
@@ -65,7 +66,7 @@ def check_if_dead(attackers_lst, defenders_lst):
 	for block in attackers_lst:
 		if (type(block) == blocks.Edward or type(block) == blocks.Edward2 or type(block) == blocks.ScottishKing) and block.is_dead():
 			return True, False
-		elif type(block) == blocks.Noble:
+		elif type(block) == blocks.Noble and block.is_dead():
 			block.change_allegiance()
 		if not block.is_dead():
 			attacker_is_dead = False
@@ -73,10 +74,10 @@ def check_if_dead(attackers_lst, defenders_lst):
 	for block in defenders_lst:
 		if (type(block) == blocks.Edward or type(block) == blocks.Edward2 or type(block) == blocks.ScottishKing) and block.is_dead():
 			return False, True
-		elif type(block) == blocks.Noble:
+		elif type(block) == blocks.Noble and block.is_dead():
 			
 			block.change_allegiance()
-		
+			
 
 		if not block.is_dead():
 			defender_is_dead = False
