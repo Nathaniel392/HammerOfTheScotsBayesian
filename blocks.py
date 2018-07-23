@@ -15,11 +15,11 @@ as well as wallace
 as well as edward
 as well as king
 """
-
+import random
 
 class Block(object):
     def __init__(self, name = None, movement_points = None, attack_letter = None , attack_number = None, initial_attack_strength = None, \
-        allegiance = None, location = None, has_cross = None, type_men = None):
+        allegiance = None, location = None, has_cross = False, type_men = None, block_ID = None):
         """
         name is name of object
         movement_points is movement points
@@ -40,6 +40,7 @@ class Block(object):
         self.location = location
         self.allegiance = allegiance
         self.has_cross = has_cross
+        self.block_ID = block_ID
         if type_men != None:
             self.type = type_men
     def get_hurt(self, damage):
@@ -64,11 +65,6 @@ class Block(object):
             self.current_strength = self.attack_strength + health_points
             return True
           
-    def move(self, region, block):
-        """
-        supposed to move block to a adjacent location and take away a movement point
-        """
-        pass
     def __repr__(self):
         """
         prints name
@@ -76,22 +72,24 @@ class Block(object):
         return('name: ' + str(self.name))
     def __len__(self):
         return 1
+    def is_dead(self):
+        return self.current_strength == 0
       
 class Edward(Block):
     """
     english king block
     """
 
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
+    def __init__(self, name = "EDWARD", movement_points = 3, attack_letter = 'B', attack_number = 4, initial_attack_strength = 4, \
+                 allegiance = 'ENGLAND', location = 23, has_cross = True):
         super(Edward, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
 class Edward2(Block):
     """
     english king block in bruce
     """
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
+    def __init__(self, name = "EDWARD", movement_points = 3, attack_letter = 'B', attack_number = 4, initial_attack_strength = 4, \
+                 allegiance = 'ENGLAND', location = 23, has_cross = True):
         super(Edward2, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
 
@@ -99,8 +97,8 @@ class Wallace(Block):
     """
     wallace block
     """
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
+    def __init__(self, name = "WALLACE", movement_points = 3, attack_letter = 'A', attack_number = 3, initial_attack_strength = 4, \
+                 allegiance = 'SCOTLAND', location = 11, has_cross = True):
         super(Wallace, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
 
@@ -108,8 +106,8 @@ class ScottishKing(Block):
     """
     Scottish King
     """
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
+    def __init__(self, name = "KING", movement_points = 3, attack_letter = 'A', attack_number = 3, initial_attack_strength = 4, \
+                 allegiance = 'SCOTLAND', location = 23, has_cross = True):
         super(ScottishKing, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
 
@@ -118,8 +116,8 @@ class Noble(Block):
     """
     adds extra attribute home_location on top of Block
     """
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                 allegiance, location, has_cross, home_location, loyalty):
+    def __init__(self, name = None, movement_points = None, attack_letter = None, attack_number = None, initial_attack_strength = None,\
+                 allegiance = None, location = None, has_cross = False, home_location = None, loyalty = None):
         super(Noble, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
                  allegiance, location, has_cross)
         self.home_location = home_location
@@ -133,14 +131,16 @@ class Noble(Block):
         whether it is changed or not
         """
         if self.has_cross:
-            raise Exception("Moray can't change sides")
-        if allegiance == None:
-            if self.allegiance == 'SCOTLAND':
-                self.allegiance = 'ENGLAND'
-            else:
-                self.allegiance == 'SCOTLAND'
-        self.allegiance = allegiance
+            pass
+        else:
+            if allegiance == None:
+                if self.allegiance == 'SCOTLAND':
+                    self.allegiance = 'ENGLAND'
+                else:
+                    self.allegiance == 'SCOTLAND'
+            self.allegiance = allegiance
 
+        self.current_strength = 1
 
 class Norse(Block):
     """
@@ -154,7 +154,18 @@ class Celtic(Block):
     """
     celtic block
     """
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                 allegiance, location, has_cross, type_men):
+    def __init__(self, name = None, movement_points = None, attack_letter = None, attack_number = None, initial_attack_strength = None,\
+                 allegiance = None, location = None, has_cross = False, type_men = None):
         super(Celtic, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength,\
                          allegiance, location, has_cross, type_men)
+    def check_loyalty(self):
+        """
+        returns true if loyal
+        returns false if not and takes out all strength
+        """
+        if random.randint(0,2) == 0:
+            self.current_strength = 0
+           
+            return False
+        else:
+            return True

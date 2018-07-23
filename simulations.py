@@ -25,6 +25,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	attackers = combat.organize(attack)
 	defenders = combat.organize(defense)
+
+	attackers_allegiance = attack[0].allegiance
+	defenders_allegiance = defense[0].allegiance
 	
 	attacker_is_dead = False
 	defender_is_dead = False
@@ -38,14 +41,24 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 		else:
 			number_found = True
 
-			if combat_round == 1:
+			if combat_round >= 1:
+
+				for i, block in enumerate(attack):
+					if block.allegiance != attackers_allegiance:
+						defense_reinforcements.append(attack.pop(i))
+				for i, block in enumerate(defense):
+			 		if block.allegiance != defenders_allegiance:
+			 			attack_reinforcements.append(defense.pop(i))
+
 
 				attack += attack_reinforcements
 				defense += defense_reinforcements
 				
+				attack_reinforcements = list()
+				defense_reinforcements = list()
+				
 				attackers = combat.organize(attack)
 				defenders = combat.organize(defense)
-
 
 
 			for letter in 'ABC':
@@ -62,11 +75,19 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						for letter2 in defenders:
 							if letter2 == letter:
 								for attacking_block in defenders[letter2]:
+									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
+										if random.randint(0,2) == 0:
+											attack_block.current_strength = 0
+
 									combat.attack_block(attacking_block, attack)
+
+								
+
+
 									#print_situation(attack, defense)
 									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense)
 								
-									if attacker_is_dead:
+									if attacker_is_dead and combat_round != 0:
 										
 										return 'defender wins'
 								
@@ -77,11 +98,15 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						for letter2 in attackers:
 							if letter2 == letter:
 								for attacking_block in attackers[letter2]:
+									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
+										if random.randint(0,2) == 0:
+											attack_block.current_strength = 0
+
 									combat.attack_block(attacking_block, defense)
 									#print_situation(attack, defense)
 									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense)
 								
-									if defender_is_dead:
+									if defender_is_dead and combat_round != 0:
 
 										return 'attacker wins'
 
@@ -131,5 +156,7 @@ def pick_random_block(block_tuple):
 	then it will pick a random one
 	"""
 	return block_tuple[random.randint(0, len(block_tuple) - 1)]
+
+simulation([blocks.Block(attack_number = 4, attack_letter = 'A', initial_attack_strength = 4)], [blocks.Block(attack_number = 4, attack_letter = 'A', initial_attack_strength = 4)], 1000)
 
 
