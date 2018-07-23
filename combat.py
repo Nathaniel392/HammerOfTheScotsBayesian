@@ -192,13 +192,13 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	return 'attacker retreats'
 
-def update_roster(attack,defense, current_board):
+def update_roster(all_blocks_lst, current_board):
 	"""
 	updates allegiance roster after a battle
 	updates dead pool too
 	receives attacking and defending blocks as lists
 	"""
-	all_blocks_lst = attack + defense
+	
 	for block in all_blocks_lst:
 		
 		if block.is_dead():	
