@@ -93,7 +93,7 @@ def initialize_blocks_bruce():
     of the infantry and other blocks
     """
     data = []
-    data = read_file('block_info.txt')
+    data = read_file('block_info_bruce.txt')
 
     nobles = []
     other_blocks = []
