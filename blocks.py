@@ -19,7 +19,7 @@ import random
 
 class Block(object):
     def __init__(self, name = None, movement_points = None, attack_letter = None , attack_number = None, initial_attack_strength = None, \
-        allegiance = None, location = None, has_cross = False, type_men = None):
+        allegiance = None, location = None, has_cross = False, type_men = None, block_ID = None):
         """
         name is name of object
         movement_points is movement points
@@ -40,6 +40,7 @@ class Block(object):
         self.location = location
         self.allegiance = allegiance
         self.has_cross = has_cross
+        self.block_ID = block_ID
         if type_men != None:
             self.type = type_men
     def get_hurt(self, damage):
