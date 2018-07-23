@@ -198,7 +198,7 @@ class Region(object):
 			pass
 		
 
-def add_starting_blocks(board, nobles, other_blocks):
+def add_starting_blocks(current_board, nobles, other_blocks):
 	'''
 	Adds the blocks that should be present at the beginning of the game
 	to the board object in its region list at the specific region that each
@@ -208,42 +208,42 @@ def add_starting_blocks(board, nobles, other_blocks):
 	for x in nobles:
 		if x.location != 23 and x.location != 99:
 			#Add to region
-			board.add_to_region(x, x.location)
+			current_board.add_to_region(x, x.location)
 			#Add to roster based on allegiance
 			if x.allegiance == "SCOTLAND":
-				board.scot_roster.append(x)
+				current_board.scot_roster.append(x)
 			elif x.allegiance == "ENGLAND":
-				board.eng_roster.append(x)
+				current_board.eng_roster.append(x)
 	#Add other blocks
 	for x in other_blocks:
 		if x.location != 23:
 			#Add to region
-			board.add_to_region(x, x.location)
+			current_board.add_to_region(x, x.location)
 			#Add to roster based on allegiance
 			if x.allegiance == "SCOTLAND":
-				board.scot_roster.append(x)
+				current_board.scot_roster.append(x)
 			elif x.allegiance == "ENGLAND":
-				board.eng_roster.append(x)
+				current_board.eng_roster.append(x)
 		
 		elif x.location != 99:
 			#Add to pool based on allegiance
 			if x.allegiance == "SCOTLAND":
-				board.scot_pool.append(x)
+				current_board.scot_pool.append(x)
 			elif x.allegiance == "ENGLAND":
-				board.eng_pool.append(x)
+				current_board.eng_pool.append(x)
 
-def find_location(block):
+def find_location(current_board, block):
 	'''
 	Takes a block from the current battle and searches the regions
 	to find a region that has that block present in its blocks_present
 	list. Return the region in which it is found
 	'''
-	for x in board.regions:
+	for x in current_board.regions:
 		for y in x.blocks_present:
 			if y.name == block.name:
 				return x
 
-def go_home(noble):
+def go_home(current_board, noble):
 
 	'''
 	takes a noble from the location that they are at and then transports them
@@ -252,15 +252,15 @@ def go_home(noble):
 
 	if type(noble.home_location) == int:
 
-		board.regions[noble.location].blocks_present.pop(noble)
+		current_board.regions[noble.location].blocks_present.pop(noble)
 
-		board.regions[noble.home_location].blocks_present.append(noble)
+		current_board.regions[noble.home_location].blocks_present.append(noble)
 
 	else:
 
-		board.regions[noble.location].blocks_present.pop(noble)
+		current_board.regions[noble.location].blocks_present.pop(noble)
 
-		board.regions[random.choice(noble.home_location)].blocks_present.append(noble) 
+		current_board.regions[random.choice(noble.home_location)].blocks_present.append(noble) 
 
 class Winter(object):
 
@@ -312,8 +312,8 @@ class Winter(object):
 
 					self.english_rp += region.castle_points
 
-def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
-	combat_letter = 'A', combat_round = 0):
+def should_retreat(current_board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
+	combat_letter = A, combat_round = 0):
 	'''
 	This function takes in all the group that are involved in a battle and a boolean about whether the computer is attacking or not. 
 	The should_retreat function will return either False, meaning the computer should not retreat, or a location in which the computer should
@@ -328,9 +328,9 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	win_percentage = 0
 	#Calculate the win percentage based on if you are attacking or defending in the simulation
 	if is_attacking:
-		win_percentage = float(simulation_dict['attacker wins'])/1000
+		win_percentage = simulation_dict['attacker wins']
 	else:
-		win_percentage = float(simulation_dict['defender wins'])/1000
+		win_percentage = simulation_dict['defender wins']
 
 	retreat_constant = .3	
 	#Insert code to check to see if it should retreat
@@ -341,16 +341,15 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 		current_location = find_location(attacking[0])
 		possible_locations = []
 		#Create list of possible locations to retreat to
-		for x, border in enumerate(board.static_borders[current_location.regionID]):
-			if is_attacking == False and attacking[0].allegiance != board.regions[x].blocks_present.allegiance and border != 'X':
-				possible_locations.append(board.regions[x])
-			elif is_attacking == True and defending[0].allegiance != board.regions[x].blocks_present.allegiance and border != 'X':
-				possible_locations.append(board.regions[x])
+		for x, border in enumerate(current_board.static_borders[current_location.regionID]):
+			if is_attacking == False and attacking[0].allegiance != current_board.regions[x].blocks_present.allegiance and border != 'X':
+				possible_locations.append(current_board.regions[x])
+			elif is_attacking == True annd defending[0].allegiance != current_board.regions[x].blocks_present.allegiance and border != 'X':
+				possible_locations.append(current_board.regions[x])
 
 
 		num = random.randint(0, len(possible_locations)-1)
 		return possible_locations[num]
-
 
 
 def main():
