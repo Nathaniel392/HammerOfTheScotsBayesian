@@ -9,14 +9,25 @@ stuff
 """
 def play_game():
     #create stuff
-    game_type = input("Enter whether you are playing BraveHeart (1), The Bruce (2), or Campaign (3): ")
-    computer_role = input("Enter which side you want the computer to play (England or Scotland): ")
-    
-    if game_type == 1 or game_type == 3:
-        nobles, non_noble_blocks, static_nobles, static_non_noble_blocks = initialize_blocks.initialize_blocks()
-    elif game_type == 2:
-        nobles, non_noble_blocks, static_nobles, static_non_noble_blocks = initialize_blocks.initlialize_blocks_bruce()
+    flag = False
+    while flag == False:
+        game_type = input("Enter whether you are playing BraveHeart (1), The Bruce (2), or Campaign (3): ")
+        if game_type == 1 or game_type == 3:
+            nobles, non_noble_blocks, static_nobles, static_non_noble_blocks = initialize_blocks.initialize_blocks(1)
+            flag = True
+        elif game_type == 2:
+            nobles, non_noble_blocks, static_nobles, static_non_noble_blocks = initialize_blocks.initlialize_blocks(2)
+            flag = True
+        else:
+            print("Invalid input, try again")
 
+    flag = False
+    while flag = False:
+        computer_role = input("Enter which side you want the computer to play (England or Scotland): ")
+        if computer_role.lower() == 'england' and computer_role.lower() == 'scotland':
+            flag = True
+        else:
+            print("Invalid input, try again")
 
     stc_locations = location_prob.create_static_locations()
     dyn_locations = location_prob.create_static_locations()
@@ -40,16 +51,10 @@ def play_game():
 
     current_board = board.Board()
     
-    add_starting_blocks(board, nobles, other_blocks)
+    add_starting_blocks(current_board, nobles, other_blocks)
 
-    if computer_role.lower() == 'england':
-        computer_pool = board.eng_pool
-        computer_roster = board.eng_roster
-    elif computer_role.lower() == 'scotland':
-        computer_roster = board.scot_roster
-        computer_pool = board.scot_pool
+    comp_roster, comp_pool = board.get_comp_blocks(current_board, computer_role)
 
-    edward = static_non_noble_blocks[27]
-    scot_king = static_non_noble_blocks[28]
-    
+
+
 play_game()
