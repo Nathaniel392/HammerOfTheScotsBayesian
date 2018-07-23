@@ -25,6 +25,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	attackers = combat.organize(attack)
 	defenders = combat.organize(defense)
+
+	attackers_allegiance = attack[0].allegiance
+	defenders_allegiance = defense[0].allegiance
 	
 	attacker_is_dead = False
 	defender_is_dead = False
@@ -38,14 +41,24 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 		else:
 			number_found = True
 
-			if combat_round == 1:
+			if combat_round >= 1:
+
+				for block in attack:
+					if block.allegiance != attackers_allegiance:
+						defense_reinforcements.append(attack.pop(block))
+				for block in defense:
+			 		if block.allegiance != defenders_allegiance:
+			 			attack_reinforcements.append(defense.pop(block))
+
 
 				attack += attack_reinforcements
 				defense += defense_reinforcements
 				
+				attack_reinforcements = list()
+				defense_reinforcements = list()
+				
 				attackers = combat.organize(attack)
 				defenders = combat.organize(defense)
-
 
 
 			for letter in 'ABC':
@@ -73,7 +86,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									#print_situation(attack, defense)
 									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense)
 								
-									if attacker_is_dead:
+									if attacker_is_dead and combat_round != 0:
 										
 										return 'defender wins'
 								
@@ -91,7 +104,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									#print_situation(attack, defense)
 									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense)
 								
-									if defender_is_dead:
+									if defender_is_dead and combat_round != 0:
 
 										return 'attacker wins'
 

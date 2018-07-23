@@ -63,24 +63,48 @@ def check_if_dead(attackers_lst, defenders_lst):
 	attacker_is_dead = True
 	defender_is_dead = True
 	for block in attackers_lst:
-		if block.current_strength != 0:
+		if (type(block) == blocks.Edward or type(block) == blocks.Edward2 or type(block) == blocks.ScottishKing) and block.is_dead():
+			return True, False
+		if not block.is_dead():
 			attacker_is_dead = False
 
 	for block in defenders_lst:
-		if block.current_strength != 0:
+		if (type(block) == blocks.Edward or type(block) == blocks.Edward2 or type(block) == blocks.ScottishKing) and block.is_dead():
+			return False, True
+		elif type(block) == blocks.Noble:
+			
+			block.change_allegiance()
+		
+
+		if not block.is_dead():
 			defender_is_dead = False
 
 	return attacker_is_dead, defender_is_dead
-def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list()):
+def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
 	'''
 	Manages combat
 	attack:  list of attacking blocks
 	defense:  list of defending blocks
 	returns what happens
+
+
+	TAKES NO INPUT
+
+
+
 	'''
+
+	# Divide each side into letter groups (dictionary)
+	letter_found = False
+	number_found = False
+	turn_found = False
+
 
 	attackers = organize(attack)
 	defenders = organize(defense)
+
+	attackers_allegiance = attack[0].allegiance
+	defenders_allegiance = defense[0].allegiance
 	
 	attacker_is_dead = False
 	defender_is_dead = False
@@ -88,46 +112,81 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	#print_situation(attack, defense)
 #run through the combat rounds
 	for combat_round in range(3):
+		if not number_found and combat_round != before_number:
+	
+			pass
+		else:
+			number_found = True
 
-		if combat_round == 1:
+			if combat_round >= 1:
 
-			attack += attack_reinforcements
-			defense += defense_reinforcements
-			
-			attackers = organize(attack)
-			defenders = organize(defense)
+				for block in attack:
+					if block.allegiance != attackers_allegiance:
+						defense_reinforcements.append(attack.pop(block))
+				for block in defense:
+			 		if block.allegiance != defenders_allegiance:
+			 			attack_reinforcements.append(defense.pop(block))
 
 
+				attack += attack_reinforcements
+				defense += defense_reinforcements
+				
+				attack_reinforcements = list()
+				defense_reinforcements = list()
+				
+				attackers = organize(attack)
+				defenders = organize(defense)
 
-		for letter in 'ABC':
-			#defenders first
-			for letter2 in defenders:
-				if letter2 == letter:
-					for attacking_block in defenders[letter2]:
-						attack_block(attacking_block, attack)
-						#print_situation(attack, defense)
-						attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
+
+			for letter in 'ABC':
+				if not letter_found and letter != before_letter:
 					
-						if attacker_is_dead:
-							
-							return 'defender wins'
-						
+					pass
+				else:
+					letter_found = True
+					#defenders first
+					if not turn_found and 'defender' != turn:
+						pass
+					else:
+						turn_found = True
+						for letter2 in defenders:
+							if letter2 == letter:
+								for attacking_block in defenders[letter2]:
+									if type(attacking_block) == blocks.Celtic:
+										attacking_block.check_loyalty()
 
-			for letter2 in attackers:
-				if letter2 == letter:
-					for attacking_block in attackers[letter2]:
-						attack_block(attacking_block, defense)
-						#print_situation(attack, defense)
-						attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
-					
-						if defender_is_dead:
+									attack_block(attacking_block, attack)
 
-							return 'attacker wins'
+								
+
+
+									#print_situation(attack, defense)
+									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
+								
+									if attacker_is_dead and combat_round != 0:
+										
+										return 'defender wins'
+								
+					if not turn_found and 'attacker' != turn:
+						pass
+					else:
+						turn_found = True
+						for letter2 in attackers:
+							if letter2 == letter:
+								for attacking_block in attackers[letter2]:
+									if type(attacking_block) == blocks.Celtic:
+										attacking_block.check_loyalty()
+
+									attack_block(attacking_block, defense)
+									#print_situation(attack, defense)
+									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
+								
+									if defender_is_dead and combat_round != 0:
+
+										return 'attacker wins'
 
 	return 'attacker retreats'
 
-def main():
-	battle([], [])
 
 
 

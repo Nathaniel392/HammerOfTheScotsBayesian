@@ -135,13 +135,14 @@ class Noble(Block):
         whether it is changed or not
         """
         if self.has_cross:
-            raise Exception("Moray can't change sides")
-        if allegiance == None:
-            if self.allegiance == 'SCOTLAND':
-                self.allegiance = 'ENGLAND'
-            else:
-                self.allegiance == 'SCOTLAND'
-        self.allegiance = allegiance
+            pass
+        else:
+            if allegiance == None:
+                if self.allegiance == 'SCOTLAND':
+                    self.allegiance = 'ENGLAND'
+                else:
+                    self.allegiance == 'SCOTLAND'
+            self.allegiance = allegiance
 
 
 class Norse(Block):
