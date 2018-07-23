@@ -19,7 +19,7 @@ as well as king
 
 class Block(object):
     def __init__(self, name = None, movement_points = None, attack_letter = None , attack_number = None, initial_attack_strength = None, \
-        allegiance = None, location = None, has_cross = None, type_men = None):
+        allegiance = None, location = None, has_cross = None, type_men = None, block_ID = None):
         """
         name is name of object
         movement_points is movement points
@@ -83,35 +83,35 @@ class Edward(Block):
     """
 
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
+                 allegiance, location, has_cross, block_ID):
         super(Edward, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross)
+                 allegiance, location, has_cross, block_ID)
 class Edward2(Block):
     """
     english king block in bruce
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
+                 allegiance, location, has_cross, block_ID):
         super(Edward2, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross)
+                 allegiance, location, has_cross, block_ID)
 
 class Wallace(Block):
     """
     wallace block
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
+                 allegiance, location, has_cross, block_ID):
         super(Wallace, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross)
+                 allegiance, location, has_cross, block_ID)
 
 class ScottishKing(Block):
     """
     Scottish King
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
+                 allegiance, location, has_cross, block_ID):
         super(ScottishKing, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross)
+                 allegiance, location, has_cross, block_ID)
 
 
 class Noble(Block):
@@ -119,9 +119,9 @@ class Noble(Block):
     adds extra attribute home_location on top of Block
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                 allegiance, location, has_cross, home_location, loyalty):
+                 allegiance, location, has_cross, block_ID, home_location, loyalty):
         super(Noble, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross)
+                 allegiance, location, has_cross, block_ID)
         self.home_location = home_location
         self.loyalty = loyalty
     def go_home(self):
@@ -147,9 +147,9 @@ class Norse(Block):
     norse block
     """
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                 allegiance, location, has_cross):
+                 allegiance, location, has_cross, block_ID):
         super(Norse, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                         allegiance, location, has_cross)
+                 allegiance, location, has_cross, block_ID)
 class Celtic(Block):
     """
     celtic block
@@ -157,4 +157,4 @@ class Celtic(Block):
     def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
                  allegiance, location, has_cross, type_men):
         super(Celtic, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                         allegiance, location, has_cross, type_men)
+                 allegiance, location, has_cross, block_ID, type_men)
