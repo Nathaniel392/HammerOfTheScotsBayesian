@@ -3,7 +3,7 @@ import random
 import blocks
 import initialize_blocks
 import copy
-import board
+
 def organize(blocks):
 	'''
 	Separates list of blocks into a, b, and c
@@ -64,7 +64,7 @@ def check_if_dead(attackers_lst, defenders_lst):
 	attacker_is_dead = True
 	defender_is_dead = True
 	for block in attackers_lst:
-		if (type(block) == blocks.Edward or type(block) == blocks.Edward2 or type(block) == blocks.ScottishKing) and block.is_dead():
+		if block.type == 'KING' and block.is_dead():
 			return True, False
 		elif type(block) == blocks.Noble and block.is_dead():
 			block.change_allegiance()
@@ -72,7 +72,7 @@ def check_if_dead(attackers_lst, defenders_lst):
 			attacker_is_dead = False
 
 	for block in defenders_lst:
-		if (type(block) == blocks.Edward or type(block) == blocks.Edward2 or type(block) == blocks.ScottishKing) and block.is_dead():
+		if block.type == 'KING' and block.is_dead():
 			return False, True
 		elif type(block) == blocks.Noble and block.is_dead():
 			
@@ -155,8 +155,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						for letter2 in defenders:
 							if letter2 == letter:
 								for attacking_block in defenders[letter2]:
-									if type(attacking_block) == blocks.Celtic:
-										if not attacking_block.check_loyalty():
+									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
+										if random.randint(0,2) == 0:
 											attack_block.current_strength = 0
 
 									attack_block(attacking_block, attack)
@@ -178,8 +178,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						for letter2 in attackers:
 							if letter2 == letter:
 								for attacking_block in attackers[letter2]:
-									if type(attacking_block) == blocks.Celtic:
-										if not attacking_block.check_loyalty():
+									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
+										if random.randint(0,2) == 0:
 											attack_block.current_strength = 0
 
 									attack_block(attacking_block, defense)
@@ -192,45 +192,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	return 'attacker retreats'
 
-def update_roster(all_blocks_lst, current_board):
-	"""
-	updates allegiance roster after a battle
-	updates dead pool too
-	receives attacking and defending blocks as lists
-	"""
-	
-	for block in all_blocks_lst:
-		
-		if block.is_dead():	
-			if block.allegiance == 'SCOTLAND':
-				current_board.scot_roster.append(current_board.remove_from_region(block, \
-					find_location(current_board, block).regionID))
-			elif block.allegiance == 'ENGLAND':
-				current_board.eng_roster.append(current_board.remove_from_region(block, \
-					find_location(current_board, block).regionID))
 
-		if block.allegiance == 'SCOTLAND':
-			block_found_bool = False
-			for block2 in current_board.scot_roster:
-				if block is block2:
-					block_found_bool = True
-					break
-			if not block_found_bool:
-				for i, block2 in enumerate(current_board.eng_roster):
-					if block is block2:
-						current_board.scot_roster.append(current_board.eng_roster.pop(i))
-						break
-		elif block.allegiance == 'ENGLAND':
-			block_found_bool = False
-			for block2 in current_board.eng_roster:
-				if block is block2:
-					block_found_bool = True
-					break
-			if not block_found_bool:
-				for i, block2 in enumerate(current_board.scot_roster):
-					if block is block2:
-						current_board.scot_roster.append(current_board.scot_roster.pop(i))
-						break
 
 
 

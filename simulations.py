@@ -75,8 +75,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						for letter2 in defenders:
 							if letter2 == letter:
 								for attacking_block in defenders[letter2]:
-									if type(attacking_block) == blocks.Celtic:
-										if not attacking_block.check_loyalty():
+									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
+										if random.randint(0,2) == 0:
 											attack_block.current_strength = 0
 
 									combat.attack_block(attacking_block, attack)
@@ -98,8 +98,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						for letter2 in attackers:
 							if letter2 == letter:
 								for attacking_block in attackers[letter2]:
-									if type(attacking_block) == blocks.Celtic:
-										if not attacking_block.check_loyalty():
+									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
+										if random.randint(0,2) == 0:
 											attack_block.current_strength = 0
 
 									combat.attack_block(attacking_block, defense)
@@ -156,5 +156,7 @@ def pick_random_block(block_tuple):
 	then it will pick a random one
 	"""
 	return block_tuple[random.randint(0, len(block_tuple) - 1)]
+
+print(simulation([blocks.Block(attack_number = 4, attack_letter = 'A', initial_attack_strength = 4)], [blocks.Block(attack_number = 4, attack_letter = 'A', initial_attack_strength = 4)], 1000))
 
 
