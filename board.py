@@ -120,7 +120,7 @@ class Board(object):
 		"""
 		for block in self.regions.blocks_present:
 			if block is block_to_remove:
-				return self.regions.blocks_present.pop(block_to_remove)
+				return self.regions[regionID].blocks_present.pop(block_to_remove)
 
 	def initialize_regions(self):
 		'''
