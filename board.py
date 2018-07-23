@@ -241,6 +241,21 @@ def add_starting_blocks(current_board, nobles, other_blocks):
 			elif x.allegiance == "ENGLAND":
 				current_board.eng_pool.append(x)
 
+def get_comp_blocks(current_board, computer_role):
+	'''
+	This function is meant to determine which set of lists is the set that the computer
+	can control. The function returns 2 lists, one with the computer's pool and the 
+	other with the computer's roster
+	'''
+	if computer_role.lower = 'scottish':
+		comp_pool = copy.deepcopy(current_board.scot_pool)
+		comp_roster = copy.deepcopy(current_board.scot_roster)
+	else:
+		comp_pool = copy.deepcopy(current_board.eng_pool)
+		comp_roster = copy.deepcopy(current_board.eng_roster)
+
+	return comp_roster, comp_pool
+
 def find_location(current_board, block):
 	'''
 	Takes a block from the current battle and searches the regions
