@@ -76,7 +76,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							if letter2 == letter:
 								for attacking_block in defenders[letter2]:
 									if type(attacking_block) == blocks.Celtic:
-										attacking_block.check_loyalty()
+										if not attacking_block.check_loyalty():
+											attack_block.current_strength = 0
 
 									combat.attack_block(attacking_block, attack)
 
@@ -98,7 +99,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							if letter2 == letter:
 								for attacking_block in attackers[letter2]:
 									if type(attacking_block) == blocks.Celtic:
-										attacking_block.check_loyalty()
+										if not attacking_block.check_loyalty():
+											attack_block.current_strength = 0
 
 									combat.attack_block(attacking_block, defense)
 									#print_situation(attack, defense)

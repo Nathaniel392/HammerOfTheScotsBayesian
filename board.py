@@ -113,14 +113,15 @@ class Board(object):
 		of the region it is being added to, regionID
 		'''
 		self.regions[regionID].blocks_present.append(block_to_add)
-		
-	def remove_from_region(self, block_to_remove, regionID):
+
+	def remove_from_region(self, block_to_remove):
 		"""
 		removes a block from a region and returns the block
 		"""
 		for block in self.regions.blocks_present:
 			if block is block_to_remove:
-				return self.regions[regionID].blocks_present.pop(block_to_remove)
+				return self.regions.blocks_present.pop(block_to_remove)
+				
 
 	def initialize_regions(self):
 		'''
