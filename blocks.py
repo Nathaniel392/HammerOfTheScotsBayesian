@@ -65,11 +65,6 @@ class Block(object):
             self.current_strength = self.attack_strength + health_points
             return True
           
-    def move(self, region, block):
-        """
-        supposed to move block to a adjacent location and take away a movement point
-        """
-        pass
     def __repr__(self):
         """
         prints name
