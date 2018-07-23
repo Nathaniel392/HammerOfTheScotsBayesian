@@ -207,7 +207,7 @@ def update_roster(attack,defense, current_board):
 					find_location(current_board, block).regionID))
 			elif block.allegiance == 'ENGLAND':
 				current_board.eng_roster.append(current_board.remove_from_region(block, \
-					find_location(current_boardd, block).regionID))
+					find_location(current_board, block).regionID))
 
 		if block.allegiance == 'SCOTLAND':
 			block_found_bool = False
