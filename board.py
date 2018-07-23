@@ -252,28 +252,56 @@ def find_location(current_board, block):
 			if y.name == block.name:
 				return x
 
-def go_home(current_board, noble):
+def go_home(board,noble):
 
 	'''
 	takes a noble from the location that they are at and then transports them
 	home. if there is more than 1 home location, it randomly picks one.
+	changes allegiance based on who controls home area
 	'''
 
 	if type(noble.home_location) == int:
 
-		current_board.regions[noble.location].blocks_present.pop(noble)
+		
+		if not board.regions[noble.home_location].blocks_present or board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
 
-		current_board.regions[noble.home_location].blocks_present.append(noble)
+			board.regions[noble.location].blocks_present.pop(noble)
+
+			board.regions[noble.home_location].blocks_present.append(noble)
+
+		else:
+
+			noble.allegiance = board_regions[noble.home_location].blocks_present[0].allegiance
+
+			board.regions[noble.location].blocks_present.pop(noble)
+
+			board.regions[noble.home_location].blocks_present.append(noble)
+
 
 	else:
 
-		current_board.regions[noble.location].blocks_present.pop(noble)
+		
+		for home in noble.home_location:
 
-		current_board.regions[random.choice(noble.home_location)].blocks_present.append(noble) 
+			if not board.regions[home].blocks_present or board.regions[home].blocks_present[0].allegiance == noble.allegiance:
+
+				board.regions[noble.location].blocks_present.pop(noble)
+
+				board.regions[noble.home_location].blocks_present.append(noble)
+				
+				break
+
+		else:
+
+			board.regions[noble.location].blocks_present.pop(noble)
+
+			board.regions[random.choice(noble.home_location)].blocks_present.append(noble) 
+
+			noble.allegiance = board.regions[noble.location].blocks_present[0].allegiance 
 
 class Winter(object):
 
-	def __init__(self):
+	def __init__(self,board):
 
 		'''
 		all nobles go home for the winter
@@ -282,19 +310,7 @@ class Winter(object):
 
 		for noble in nobles:
 
-			if not noble.home_location.blocks_present:
-
-				go_home(noble)
-
-			elif noble.home_location.blocks_present[0].allegiance != noble.allegiance:
-
-				noble.allegiance = noble.home_location.blocks_present[0].allegiance
-
-				go_home(noble)
-
-			else:
-
-				go_home(noble)
+			go_home(board,noble)
 
 		self.scottish_rp = 0
 		self.english_rp = 0
