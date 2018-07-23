@@ -157,6 +157,6 @@ def pick_random_block(block_tuple):
 	"""
 	return block_tuple[random.randint(0, len(block_tuple) - 1)]
 
-simulation([blocks.Block(attack_number = 4, attack_letter = 'A', initial_attack_strength = 4)], [blocks.Block(attack_number = 4, attack_letter = 'A', initial_attack_strength = 4)], 1000)
+print(simulation([blocks.Block(attack_number = 4, attack_letter = 'A', initial_attack_strength = 4)], [blocks.Block(attack_number = 4, attack_letter = 'A', initial_attack_strength = 4)], 1000))
 
 
