@@ -206,7 +206,7 @@ def add_starting_blocks(board, nobles, other_blocks):
 	'''
 	#Add nobles 
 	for x in nobles:
-		if x.location != 23:
+		if x.location != 23 and x.location != 99:
 			#Add to region
 			board.add_to_region(x, x.location)
 			#Add to roster based on allegiance
@@ -224,7 +224,8 @@ def add_starting_blocks(board, nobles, other_blocks):
 				board.scot_roster.append(x)
 			elif x.allegiance == "ENGLAND":
 				board.eng_roster.append(x)
-		else:
+		
+		elif x.location != 99:
 			#Add to pool based on allegiance
 			if x.allegiance == "SCOTLAND":
 				board.scot_pool.append(x)

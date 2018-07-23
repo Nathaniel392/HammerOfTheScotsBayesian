@@ -65,7 +65,7 @@ def check_if_dead(attackers_lst, defenders_lst):
 	for block in attackers_lst:
 		if (type(block) == blocks.Edward or type(block) == blocks.Edward2 or type(block) == blocks.ScottishKing) and block.is_dead():
 			return True, False
-		elif type(block) = blocks.Noble:
+		elif type(block) == blocks.Noble:
 			block.change_allegiance()
 		if not block.is_dead():
 			attacker_is_dead = False
