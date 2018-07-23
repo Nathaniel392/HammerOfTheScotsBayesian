@@ -27,6 +27,8 @@ def play_game():
     print(probability_cards)
     #map of occupied
     map_of_blocks = blocks_occupied.make_occupied()
+    
+    current_board = Board()
 
 
 play_game()
