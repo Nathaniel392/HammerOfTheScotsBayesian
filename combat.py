@@ -120,12 +120,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 			if combat_round >= 1:
 
-				for block in attack:
+				for i, block in enumerate(attack):
 					if block.allegiance != attackers_allegiance:
-						defense_reinforcements.append(attack.pop(block))
-				for block in defense:
+						defense_reinforcements.append(attack.pop(i))
+				for i, block in enumerate(defense):
 			 		if block.allegiance != defenders_allegiance:
-			 			attack_reinforcements.append(defense.pop(block))
+			 			attack_reinforcements.append(defense.pop(i))
 
 
 				attack += attack_reinforcements
