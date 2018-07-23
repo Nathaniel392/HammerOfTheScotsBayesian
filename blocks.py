@@ -144,6 +144,7 @@ class Noble(Block):
                     self.allegiance == 'SCOTLAND'
             self.allegiance = allegiance
 
+        self.current_strength = 1
 
 class Norse(Block):
     """
