@@ -190,6 +190,14 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	return 'attacker retreats'
 
+	def update_roster(attack,defense, current_board):
+		"""
+		updates allegiance roster after a battle
+		receives attacking and defending blocks as lists
+		"""
+		pass
+
+
 
 
 
