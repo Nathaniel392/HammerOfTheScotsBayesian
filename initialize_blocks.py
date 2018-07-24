@@ -14,7 +14,6 @@ import blocks
 
 def read_file(file_name):
 	'''
-    Reads a file and 
 	'''
 
 	# Open the file
@@ -29,7 +28,7 @@ def read_file(file_name):
 		info = line.strip().split()
 		output.append(info)
 	
-	# (2D) list of information from file
+	#List of information
 	fp.close()
 	return output
 

@@ -32,8 +32,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	attacker_is_dead = False
 	defender_is_dead = False
 
-	#print_situation(attack, defense)
 #run through the combat rounds
+
 	for combat_round in range(3):
 		if not number_found and combat_round != before_number:
 	
@@ -42,20 +42,16 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 			number_found = True
 
 			if combat_round >= 1:
-
-				for i, block in enumerate(attack):
-					if block.allegiance != attackers_allegiance:
-						defense_reinforcements.append(attack.pop(i))
-				for i, block in enumerate(defense):
-			 		if block.allegiance != defenders_allegiance:
-			 			attack_reinforcements.append(defense.pop(i))
-
+				
+			
 
 				attack += attack_reinforcements
 				defense += defense_reinforcements
-				
+
 				attack_reinforcements = list()
 				defense_reinforcements = list()
+				
+			
 				
 				attackers = combat.organize(attack)
 				defenders = combat.organize(defense)
@@ -77,15 +73,15 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								for attacking_block in defenders[letter2]:
 									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
 										if random.randint(0,2) == 0:
-											attack_block.current_strength = 0
+											attacking_block.current_strength = 0
 
 									combat.attack_block(attacking_block, attack)
 
 								
 
 
-									#print_situation(attack, defense)
-									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense)
+									
+									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
 								
 									if attacker_is_dead and combat_round != 0:
 										
@@ -100,11 +96,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								for attacking_block in attackers[letter2]:
 									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
 										if random.randint(0,2) == 0:
-											attack_block.current_strength = 0
-
+											attacking_block.current_strength = 0
+									
 									combat.attack_block(attacking_block, defense)
-									#print_situation(attack, defense)
-									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense)
+
+							
+									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
 								
 									if defender_is_dead and combat_round != 0:
 
@@ -126,15 +123,17 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 
 	totals_dict = {'attacker wins':0, 'defender wins':0, 'attacker retreats':0}
 	for j in range(num_times):
-
+	
 
 	
 		for i, element in enumerate(attack):
 			if len(element) != 1:
 				attack[i] = pick_random_block(element)
+
+
 		for i, element in enumerate(defense):
 			if len(element) != 1:
-				attack[i] = pick_random_block(element)
+				defense[i] = pick_random_block(element)
 
 
 		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)] += 1
@@ -156,4 +155,24 @@ def pick_random_block(block_tuple):
 	then it will pick a random one
 	"""
 	return block_tuple[random.randint(0, len(block_tuple) - 1)]
+
+def print_situation(attack,defense):
+	"""
+	for debugging
+	"""
+	print('attack:')
+	for block in attack:
+		print(block.current_strength, end = ' ')
+	print('\n')
+	print('defense:')
+	for block in defense:
+		print(block.current_strength, end = ' ')
+	print('\n')
+
+
+
+
+
+
+
 
