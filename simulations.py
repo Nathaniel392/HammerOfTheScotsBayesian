@@ -2,7 +2,7 @@ import combat
 import blocks
 import copy
 import random
-import initialize_blocks
+
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
 	'''
 	Manages combat
