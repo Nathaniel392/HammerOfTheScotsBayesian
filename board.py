@@ -54,9 +54,6 @@ def border_chars(border_array):
 
 
 def read_file(file_name):
-	'''
-	Return a list of a file's lines - 1D list
-	'''
 
 	fp = open(file_name, 'r')
 	
@@ -77,7 +74,7 @@ class Board(object):
 
 	def __init__(self):
 		'''
-		Initializes empty lists to store regions and blocks not on the board, and maintains the static border table
+		Reads in files on borders, cathedrals, coasts, and castle points
 		'''
 		self.static_borders = []
 		temp = read_file('borders.txt')
@@ -94,14 +91,6 @@ class Board(object):
 		self.eng_roster = []
 		
 		self.initialize_regions()
-
-	def init_blocks(self, block_list, scenario):
-		'''
-		Takes a list of block objects and places them in the correct regions based on the scenario given
-		scenario:  1=Braveheart, 2=Bruce, reads from braveheart/bruce.txt
-		block_list:  list of all blocks with no alliegance
-		'''
-		pass
 
 	def reset_borders(self):
 		'''
@@ -147,49 +136,29 @@ class Board(object):
 			specific_data = data[i].split()
 			self.regions.append(Region(specific_data[0], int(specific_data[1]), specific_data[2], specific_data[3], int(specific_data[4])))
 
-	def find_borders(self,regionID):
-
+	def find_paths(self, num_moves, starting_region, path=[]):
 		'''
-		returns a list of all bordering regions of a particular region ID
+		Recursively finds every path that can be taken from a given region
+		starting_region:  Region that each path should start from
+		Returns:  A list of lists of region objects of legal moves from a starting region
+		
+		Not finished
 		'''
+		path.append(starting_region)
+		#print(path)
 
-		return_list = []
+		#Base case
+		if num_moves == 0:
+			return path
 
-		for element in regionID:
+		#Loop through region list and find adjacent ones
+		for compare_region in self.regions:
+			if self.static_borders[starting_region.regionID][compare_region.regionID] != 'X' \
+			and compare_region not in path:
 
-			for i,border in enumerate(self.static_borders[element]):
+				return self.find_paths(num_moves-1, compare_region, path)
 
-				if border == "B":
-
-					return_list.append(i)
-
-		return return_list
-
-
-	def check_path(self,num_moves,startID,endID):
-
-		'''
-		takes a block's movement points, starting location ID, ending location ID, and a board object and
-		checks to see if it can move from one location to another
-		'''
-
-		check_list = [startID]
-
-		for i in range(num_moves):
-
-			if endID in find_borders(self,check_list):
-
-				return True
-
-			else:
-
-				check_list = find_borders(self,check_list)
-
-		else:
-
-			return False
-
-	def move_block(self,block, start, end):
+	def move_block(self, start, end):
 		'''
 		Changes a block's location on the board, assuming that all conditions are legal.
 		block:  
@@ -197,37 +166,6 @@ class Board(object):
 		end:  end location (Region)
 		'''
 
-		if check_path(self,block.movement_points,start,end):
-
-			if self.regions[end].is_contested():
-
-				self.regions[start].blocks_present.pop(block)
-
-				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
-
-					self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
-
-					self.regions[end].blocks_present.append(block)
-
-				else:
-
-					self.regions[end].combact_dict['Defending Reinforcements'].append(block)
-
-					self.regions[end].blocks_present.append(block)
-
-			else:
-
-				self.regions[start].blocks_present.pop(block)
-
-				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
-
-					self.regions[end].combat_dict['Attacking'].append(block)
-
-					self.regions[end].blocks_present.append(block)
-
-				else:
-
-					self.regions[end].blocks_present.append(block)
 
 class Region(object):
 

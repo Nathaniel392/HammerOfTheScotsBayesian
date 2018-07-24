@@ -46,44 +46,95 @@ def attack_block(attack_block_block, defending_blocks):
 	attacks blocks
 	uses random in case where everyone same health
 	"""
+
+	if defending_blocks == []:
+		return False
 	dice_lst = dice.roll(attack_block_block.current_strength)
-	
+
+
+
+
 	for num in dice_lst:
+
 		strong_blocks = find_max_strength(defending_blocks)
 
 		if num <= attack_block_block.attack_number:
-			strong_blocks[random.randint(0, len(strong_blocks) - 1)].get_hurt(1)
+			block_to_get_hurt = strong_blocks[random.randint(0, len(strong_blocks) - 1)]
+		  
+			
+			block_to_get_hurt.get_hurt(1)
+			
+			
 
 
 
 
-def check_if_dead(attackers_lst, defenders_lst):
+
+def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_reinforcements, eng_roster = list(), scot_roster = list()):
 	"""
 	checkers if attackers and defenders are alive
 	"""
 	attacker_is_dead = True
 	defender_is_dead = True
-	for block in attackers_lst:
+	
+
+	for i, block in enumerate(attackers_lst):
+	
+
 		if block.type == 'KING' and block.is_dead():
+		
 			return True, False
+		elif block.has_cross and block.is_dead():
+		
+			attackers_lst.pop(i)
+		
 		elif type(block) == blocks.Noble and block.is_dead():
 			block.change_allegiance()
+			
+			defense_reinforcements.append(attackers_lst.pop(i))
+		elif block.is_dead():
+			if block.allegiance == 'ENGLAND':
+				eng_roster.append(attackers_lst.pop(i))
+			else:
+				scot_roster.append(attackers_lst.pop(i))
+		
+			
 		if not block.is_dead():
+	
 			attacker_is_dead = False
 
-	for block in defenders_lst:
+
+	for i, block in enumerate(defenders_lst):
+
+
+		
+
 		if block.type == 'KING' and block.is_dead():
+	
 			return False, True
+
+		elif block.has_cross and block.is_dead():
+
+			defenders_lst.pop(i)
+			
+
 		elif type(block) == blocks.Noble and block.is_dead():
 			
 			block.change_allegiance()
 			
+			attack_reinforcements.append(defenders_lst.pop(i))
+		
+			
 
 		if not block.is_dead():
+			if block.allegiance == 'ENGLAND':
+				eng_roster.append(defenders_lst.pop(i))
+			else:
+				scot_roster.append(defenders_lst.pop(i))
 			defender_is_dead = False
-
+	
 	return attacker_is_dead, defender_is_dead
-def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
+def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), eng_roster = list(), scot_roster = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
 	'''
 	Manages combat
 	attack:  list of attacking blocks
@@ -103,8 +154,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	turn_found = False
 
 
-	attackers = organize(attack)
-	defenders = organize(defense)
+	attackers = combat.organize(attack)
+	defenders = combat.organize(defense)
 
 	attackers_allegiance = attack[0].allegiance
 	defenders_allegiance = defense[0].allegiance
@@ -112,8 +163,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	attacker_is_dead = False
 	defender_is_dead = False
 
-	#print_situation(attack, defense)
 #run through the combat rounds
+
 	for combat_round in range(3):
 		if not number_found and combat_round != before_number:
 	
@@ -122,23 +173,19 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 			number_found = True
 
 			if combat_round >= 1:
-
-				for i, block in enumerate(attack):
-					if block.allegiance != attackers_allegiance:
-						defense_reinforcements.append(attack.pop(i))
-				for i, block in enumerate(defense):
-			 		if block.allegiance != defenders_allegiance:
-			 			attack_reinforcements.append(defense.pop(i))
-
+				
+			
 
 				attack += attack_reinforcements
 				defense += defense_reinforcements
-				
+
 				attack_reinforcements = list()
 				defense_reinforcements = list()
 				
-				attackers = organize(attack)
-				defenders = organize(defense)
+			
+				
+				attackers = combat.organize(attack)
+				defenders = combat.organize(defense)
 
 
 			for letter in 'ABC':
@@ -157,15 +204,15 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								for attacking_block in defenders[letter2]:
 									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
 										if random.randint(0,2) == 0:
-											attack_block.current_strength = 0
+											attacking_block.current_strength = 0
 
-									attack_block(attacking_block, attack)
+									combat.attack_block(attacking_block, attack)
 
 								
 
 
-									#print_situation(attack, defense)
-									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
+									
+									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
 								
 									if attacker_is_dead and combat_round != 0:
 										
@@ -180,11 +227,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								for attacking_block in attackers[letter2]:
 									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
 										if random.randint(0,2) == 0:
-											attack_block.current_strength = 0
+											attacking_block.current_strength = 0
+									
+									combat.attack_block(attacking_block, defense)
 
-									attack_block(attacking_block, defense)
-									#print_situation(attack, defense)
-									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense)
+							
+									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
 								
 									if defender_is_dead and combat_round != 0:
 
