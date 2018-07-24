@@ -50,6 +50,9 @@ def border_chars(border_array):
 
 
 def read_file(file_name):
+	'''
+	Return a list of a file's lines - 1D list
+	'''
 
 	# Open the file
 	#try:
@@ -74,7 +77,7 @@ class Board(object):
 
 	def __init__(self):
 		'''
-		Reads in files on borders, cathedrals, coasts, and castle points
+		Initializes empty lists to store regions and blocks not on the board, and maintains the static border table
 		'''
     
 		self.static_borders = []
@@ -93,6 +96,14 @@ class Board(object):
 		#print(self.static_borders)
 		
 		self.initialize_regions()
+
+	def init_blocks(self, block_list, scenario):
+		'''
+		Takes a list of block objects and places them in the correct regions based on the scenario given
+		scenario:  1=Braveheart, 2=Bruce, reads from braveheart/bruce.txt
+		block_list:  list of all blocks with no alliegance
+		'''
+		pass
 
 	def reset_borders(self):
 		'''
