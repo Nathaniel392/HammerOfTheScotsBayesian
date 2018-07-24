@@ -131,36 +131,156 @@ class Board(object):
 			specific_data = data[i].split()
 			self.regions.append(Region(specific_data[0], int(specific_data[1]), specific_data[2], specific_data[3], int(specific_data[4])))
 
+	def find_all_borders(self,regionID):
 
-	def find_paths(self, num_moves, starting_region, path=[]):
 		'''
-		Recursively finds every path that can be taken from a given region
-		starting_region:  Region that each path should start from
-		Returns:  A list of lists of region objects of legal moves from a starting region
-		
-		Not finished
+		returns a list of all bordering regions of a particular regionID
 		'''
-		path.append(starting_region)
-		#print(path)
 
-		#Base case
-		if num_moves == 0:
-			return path
+		return_list = []
 
-		#Loop through region list and find adjacent ones
-		for compare_region in self.regions:
-			if self.static_borders[starting_region.regionID][compare_region.regionID] != 'X' \
-			and compare_region not in path:
+		for element in regionID:
 
-				return self.find_paths(num_moves-1, compare_region, path)
+			for i,border in enumerate(self.static_borders[element]):
 
-	def move_block(self, start, end):
+				if border == "B" or border == "R":
+
+					return_list.append(i)
+
+		return return_list
+
+	def find_black_borders(self,regionID,friendly = False):
+
 		'''
-		Changes a block's location on the board, assuming that all conditions are legal.
+		returns a list of all black bordering regions of a particular region ID
+		'''
+
+		if friendly:
+
+			return_list = []
+
+			for element in regionID:
+
+				for i,border in enumerate(self.static_borders[element]):
+
+					if border == "B" and (self.regions[i].blocks_present[0].allegiance == self.regions[regionID].blocks_present[0].allegiance or not self.regions[i].blocks_present):
+
+						return_list.append(i)
+
+			return return_list
+
+		else:
+
+			return_list = []
+
+			for element in regionID:
+
+				for i,border in enumerate(self.static_borders[element]):
+
+					if border == "B":
+
+						return_list.append(i)
+
+			return return_list
+
+
+
+	def check_path(self,num_moves,startID,endID):
+
+		'''
+		takes a block's movement points, starting location ID, ending location ID, and a board object and
+		checks to see if it can move from one location to another
+		'''
+
+		check_list = [startID]
+
+		for i in range(num_moves):
+
+			if endID in find_black_borders(self,check_list):
+
+				return True
+
+			else:
+
+				check_list = find_black_borders(self,check_list,True)
+
+		else:
+
+			return False
+
+	def move_block(self,block, start, end):
+		'''
+		Changes a block's location on the board, assuming that all conditions are legal. 
+		Adds them to appropriate dictionaries if in a combat or attack scenario
 		block:  
-		start:  starting location (Region)
-		end:  end location (Region)
+		start:  starting location (Region ID)
+		end:  end location (Region ID)
 		'''
+
+		if self.static_borders[start][end] == 'R':
+
+			if self.regions[end].is_contested():
+
+				self.regions[start].blocks_present.pop(block)
+
+				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
+
+					self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
+
+					self.regions[end].blocks_present.append(block)
+
+				else:
+
+					self.regions[end].combact_dict['Defending Reinforcements'].append(block)
+
+					self.regions[end].blocks_present.append(block)
+
+			else:
+
+				self.regions[start].blocks_present.pop(block)
+
+				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
+
+					self.regions[end].combat_dict['Attacking'].append(block)
+
+					self.regions[end].blocks_present.append(block)
+
+				else:
+
+					self.regions[end].blocks_present.append(block)
+
+		
+		elif check_path(self,block.movement_points,start,end):
+
+			if self.regions[end].is_contested():
+
+				self.regions[start].blocks_present.pop(block)
+
+				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
+
+					self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
+
+					self.regions[end].blocks_present.append(block)
+
+				else:
+
+					self.regions[end].combact_dict['Defending Reinforcements'].append(block)
+
+					self.regions[end].blocks_present.append(block)
+
+			else:
+
+				self.regions[start].blocks_present.pop(block)
+
+				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
+
+					self.regions[end].combat_dict['Attacking'].append(block)
+
+					self.regions[end].blocks_present.append(block)
+
+				else:
+
+					self.regions[end].blocks_present.append(block)
 
 class Region(object):
 
