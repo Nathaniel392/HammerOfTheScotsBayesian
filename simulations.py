@@ -157,5 +157,3 @@ def pick_random_block(block_tuple):
 	"""
 	return block_tuple[random.randint(0, len(block_tuple) - 1)]
 
-
-
