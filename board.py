@@ -247,7 +247,8 @@ def get_comp_blocks(current_board, computer_role):
 	can control. The function returns 2 lists, one with the computer's pool and the 
 	other with the computer's roster
 	'''
-	if computer_role.lower == 'scottish':
+  
+	if computer_role.lower() == 'scottish':
 		comp_pool = copy.deepcopy(current_board.scot_pool)
 		comp_roster = copy.deepcopy(current_board.scot_roster)
 	else:

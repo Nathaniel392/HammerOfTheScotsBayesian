@@ -41,8 +41,8 @@ class Block(object):
         self.allegiance = allegiance
         self.has_cross = has_cross
         self.block_ID = block_ID
-    
         self.type = type_men
+        
     def get_hurt(self, damage):
         """
         returns False if block is dead
