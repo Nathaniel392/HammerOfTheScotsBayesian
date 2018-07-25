@@ -19,7 +19,7 @@ as well as king
 
 class Block(object):
     def __init__(self, name = None, movement_points = None, attack_letter = None , attack_number = None, initial_attack_strength = None, \
-        allegiance = None, location = None, has_cross = False, type_men = None, block_ID = None):
+        has_cross = False, type_men = None, blockID = None, allegiance = None):
         """
         name is name of object
         movement_points is movement points
@@ -37,7 +37,6 @@ class Block(object):
         self.attack_number = attack_number
         self.attack_strength = initial_attack_strength
         self.current_strength = initial_attack_strength
-        self.location = location
         self.allegiance = allegiance
         self.has_cross = has_cross
         self.blockID = blockID
@@ -93,10 +92,10 @@ class Noble(Block):
     """
     
     def __init__(self, name = None, movement_points = None, attack_letter = None, attack_number = None, max_attack_strength = None,\
-                 has_cross = None, block_ID = None, home_location = None, loyalty = None, allegiance = None):
+                 has_cross = None, blockID = None, home_location = None, loyalty = None, allegiance = None):
 
         super(Noble, self).__init__(name, movement_points, attack_letter, attack_number, max_attack_strength, \
-                 has_cross, block_ID, allegiance)
+                 has_cross, blockID, allegiance)
 
         #self.home_location = home_location
         self.loyalty = loyalty
@@ -121,12 +120,3 @@ class Noble(Block):
                     print('changed from ENGLAND to SCOTLAND')
             else:
                 self.allegiance = allegiance
-
-    def home_territory(self):
-        """
-        changes dude from B2 to B3 and back
-        """
-        if self.attack_number == 2:
-            self.attack_number = 3
-        else:
-            self.attack_number = 2
