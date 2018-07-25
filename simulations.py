@@ -126,12 +126,12 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 	
 		for i, element in enumerate(attack):
 			if len(element) != 1:
-				attack[i] = pick_random_block(element)
+				attack[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
 
 
 		for i, element in enumerate(defense):
 			if len(element) != 1:
-				defense[i] = pick_random_block(element)
+				defense[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
 
 
 		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)] += 1
@@ -146,13 +146,39 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 	return totals_dict
 
 
-def pick_random_block(block_tuple):
+def pick_random_block(block_tuple, attack, defense, attack_reinforcements, defense_reinforcements):
 	"""
 	if multiple blocks unkonwn
 	send all possible blocks in tuple
 	then it will pick a random one
 	"""
-	return block_tuple[random.randint(0, len(block_tuple) - 1)]
+	repeat_block = True
+
+	while repeat_block:
+		block_to_be_attacked = block_tuple[random.randint(0, len(block_tuple) - 1)]
+		repeat_block = False
+		for block in attack:
+			if block is block_to_be_attacked:
+				repeat_block = True
+				break
+		if not repeat_block:
+			for block in defense:
+				if block is block_to_be_attacked:
+					repeat_block = True
+					break
+		if not repeat_block:
+			for block in attack_reinforcements:
+				if block is block_to_be_attacked:
+					repeat_block = True
+					break
+		if not repeat_block:
+			for block in defense_reinforcements:
+				if block is block_to_be_attacked:
+					repeat_block = True
+					break
+
+	return block_to_be_attacked
+
 
 def print_situation(attack,defense):
 	print('attack:')
@@ -163,6 +189,7 @@ def print_situation(attack,defense):
 	for block in defense:
 		print(block.current_strength, end = ' ')
 	print('\n')
+
 
 
 
