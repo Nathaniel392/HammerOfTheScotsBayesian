@@ -14,6 +14,7 @@ import blocks
 
 def read_file(file_name):
 	'''
+
 	'''
 
 	# Open the file
@@ -33,10 +34,9 @@ def read_file(file_name):
 	return output
 
 
-def initialize_blocks(scenario):
+def initialize_blocks():
     '''
     Initialized all blocks into one list
-    scenario:  setup scenario: 1=Braveheart/Campaign, 2=Bruce
     Returns:  List of all blocks in the game, with no alliegance
     '''
     block_list = []
@@ -69,11 +69,11 @@ def initialize_blocks(scenario):
 
             # Assign noble loyalty
             loyalty = block_type
-            temp_block = blocks.Noble(name, movement_points, attack_letter, attack_number, attack_strength, cross, block_id)
+            temp_block = blocks.Noble(name, movement_points, attack_letter, attack_number, attack_strength, cross, block_id, home, loyalty)
 
         else:
             is_noble = False
-            temp_block = blocks.Block(name, movement_points, attack_letter, attack_number, attack_strength, cross, block_type, block_id, home, loyalty)
+            temp_block = blocks.Block(name, movement_points, attack_letter, attack_number, attack_strength, cross, block_type, block_id)
 
         #Finished block - no alliegence yet
         block_list.append(temp_block)
