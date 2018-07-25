@@ -121,3 +121,12 @@ class Noble(Block):
                     print('changed from ENGLAND to SCOTLAND')
             else:
                 self.allegiance = allegiance
+
+    def home_territory(self):
+        """
+        changes dude from B2 to B3 and back
+        """
+        if self.attack_number == 2:
+            self.attack_number = 3
+        else:
+            self.attack_number = 2
