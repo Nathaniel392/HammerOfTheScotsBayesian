@@ -5,7 +5,8 @@ def update_roster(all_blocks_lst, current_board):
 	"""
 	updates allegiance roster after a battle
 	updates dead pool too
-	receives attacking and defending blocks as lists
+	all_blocks_lst is all blocks want to be updated
+	current_board is the board
 	"""
 	
 	for block in all_blocks_lst:
