@@ -45,6 +45,8 @@ def attack_block(attack_block_block, defending_blocks):
 	"""
 	attacks blocks
 	uses random in case where everyone same health
+	attack_block_block is the block attacking
+	defending_blocks is the list of all defending blocks to be attacked
 	"""
 
 	if defending_blocks == []:
@@ -73,6 +75,9 @@ def attack_block(attack_block_block, defending_blocks):
 def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_reinforcements, eng_roster  = list(), scot_roster = list()):
 	"""
 	checkers if attackers and defenders are alive
+	moves nobles to different reinforcements
+	moves dead to the roster
+	if king dies then returns stuff
 	"""
 	attacker_is_dead = True
 	defender_is_dead = True
@@ -138,9 +143,11 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	Manages combat
 	attack:  list of attacking blocks
 	defense:  list of defending blocks
+	can start battle in the middle
+	
 	returns what happens
 
-
+	
 	TAKES NO INPUT
 
 
