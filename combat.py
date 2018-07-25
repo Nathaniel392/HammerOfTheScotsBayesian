@@ -3,7 +3,7 @@ import random
 import blocks
 import initialize_blocks
 import copy
-
+import update_roster
 def organize(blocks):
 	'''
 	Separates list of blocks into a, b, and c
@@ -89,8 +89,11 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 		
 			return True, False
 		elif block.has_cross and block.is_dead():
-		
-			attackers_lst.pop(i)
+			if current_board == None:
+				attackers_lst.pop(i)
+			else:
+				attackers_lst.pop(i)
+				
 		
 		elif type(block) == blocks.Noble and block.is_dead():
 			block.change_allegiance()
@@ -138,7 +141,7 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 			defender_is_dead = False
 
 	return attacker_is_dead, defender_is_dead
-def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), eng_roster = list(), scot_roster = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
+def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), eng_roster = list(), scot_roster = list(), current_board = None, before_letter = 'A', before_number = 0, turn = 'defender'):
 	'''
 	Manages combat
 	attack:  list of attacking blocks
@@ -216,10 +219,10 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 					
-									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, eng_roster, scot_roster)
+									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, eng_roster, scot_roster, current_board)
 							
 									if attacker_is_dead and combat_round != 0:
-										
+										update_roster(current_board = current_board)
 										return 'defender wins'
 								
 					if not turn_found and 'attacker' != turn:
@@ -236,12 +239,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									combat.attack_block(attacking_block, defense)
 
 				
-									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, eng_roster, scot_roster)
+									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, eng_roster, scot_roster, current_board)
 			
 									if defender_is_dead and combat_round != 0:
-
+										update_roster(current_board = current_board)
 										return 'attacker wins'
-
+	update_roster(current_board = current_board)
 	return 'attacker retreats'
 
 
