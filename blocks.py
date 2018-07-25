@@ -53,6 +53,8 @@ class Block(object):
             return False
         else:
             self.current_strength -= 1
+            if self.current_strength < 0:
+                self.current_strength = 0
             return True
           
     def heal(self, health_points):
