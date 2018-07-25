@@ -87,8 +87,8 @@ def play_game():
     #for block in block_list:
     #    print(block)
 
-    for region in current_board.regions:
-        print(region)
+    #for region in current_board.regions:
+        #print(region)
     
     #add_starting_blocks(current_board, nobles, other_blocks)
 
