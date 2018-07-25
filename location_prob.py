@@ -35,4 +35,9 @@ def create_static_locations():
 
 	return static_locations
 
-create_static_locations()
+
+def main():
+	create_static_locations()
+
+if __name__ == '__main__':
+	main()

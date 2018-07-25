@@ -26,9 +26,13 @@
 
 import copy
 import initialize_blocks
+
 NUM_REGIONS = 23
 
 def border_chars(border_array):
+	'''
+	function header here
+	'''
 	
 	for row,location in combat_array:
 		
@@ -50,6 +54,9 @@ def border_chars(border_array):
 
 
 def read_file(file_name):
+	'''
+	Read a file and store its contents into a list of strings, one string per line
+	'''
 
 	# Open the file
 	#try:
@@ -74,9 +81,9 @@ class Board(object):
 
 	def __init__(self):
 		'''
-		Reads in files on borders, cathedrals, coasts, and castle points
+		Reads in files on borders, set up lists for regions, pools, and rosters
 		'''
-    
+		
 		self.static_borders = []
 		temp = read_file('borders.txt')
 		for x in temp:
@@ -92,7 +99,9 @@ class Board(object):
 
 		#print(self.static_borders)
 		
+		#fills self.regions
 		self.initialize_regions()
+		#print(self.regions)
 
 	def reset_borders(self):
 		'''
@@ -109,7 +118,6 @@ class Board(object):
 					self.dynamic_borders[row][col] = 6
 
 
-
 	def add_to_region(self, block_to_add, regionID):
 		'''
 		This function takes a block object and adds it to a particular region
@@ -118,67 +126,122 @@ class Board(object):
 		'''
 		self.regions[regionID].blocks_present.append(block_to_add)
 
+
+	def fill_board(self, block_list, scenario):
+		'''
+		Initialize the location and alligiance of blocks
+		scenario:  'BRAVEHEART' or 'BRUCE'
+		block_list:  list of all block objects, no allegiance assigned
+		board:  board object to be filled
+		'''
+
+		#Loop through the blocks and assign allegiance according to the init list
+		#Pick the scenario based on input
+		if scenario == 'BRAVEHEART':
+			file = 'braveheart_init.txt'
+		elif scenario == 'BRUCE':
+			file = 'bruce_init.txt'
+		#Take init information from file into a 2d list, same method as initialize_blocks()
+		block_init_info = initialize_blocks.read_file(file)
+
+		#Convert number data into int objects
+		for row, line in enumerate(block_init_info):
+			for col, data in enumerate(line):
+				if data.isdigit():
+					block_init_info[row][col] = int(data)
+
+		#Set alliegance and location of blocks
+		for blockID, line in enumerate(block_init_info):
+			#Read information from block_init_info
+			allegiance = line[1]
+			location = line[2]
+
+			block_list[blockID].allegiance = allegiance  #Alleigance: SCOTLAND or ENGLAND
+			block_to_add = block_list[blockID]
+
+			#pool
+			if location == 23:
+				if allegiance == 'ENGLAND':
+					self.eng_pool.append(block_to_add)
+				elif allegiance == 'SCOTLAND':
+					self.scot_pool.append(block_to_add)
+
+			#put on board
+			elif location != 99:
+				self.regions[location].add_block(block_to_add)
+
+
 	def initialize_regions(self):
 		'''
 		This function initializes a list of region objects within the board class
 		'''
 		data = []
-		data = read_file("region_info.txt")
+		#Reusing the read_file in initialize_blocks, returns 2D list
+		data = initialize_blocks.read_file("region_info.txt")
 
 		specific_data = []
 		
-		for i in range(23):
-			specific_data = data[i].split()
-			self.regions.append(Region(specific_data[0], int(specific_data[1]), specific_data[2], specific_data[3], int(specific_data[4])))
+		for line_num, line in enumerate(data):
+
+			#Change data types from string to int, T/F to bool
+			for index, item in enumerate(line):
+				if item.isdigit():
+					data[line_num][index] = int(item)
+				if item == 'T':
+					data[line_num][index] = True
+				elif item == 'F':
+					data[line_num][index] = False
+
+			name = line[0]
+			regionID = line[1]
+			cathedral = line[2]
+			coast = line[3]
+			castle_points = line[4]
+
+			temp_region = Region(name, regionID, cathedral, coast, castle_points)
+			self.regions.append(temp_region)
+
+		#print(self.regions)
 
 	def find_all_borders(self,regionID):
-
 		'''
 		returns a list of all bordering regions of a particular regionID
 		'''
 
 		return_list = []
-
 		for element in regionID:
-
 			for i,border in enumerate(self.static_borders[element]):
 
 				if border == "B" or border == "R":
-
 					return_list.append(i)
 
 		return return_list
 
 	def find_black_borders(self,regionID,friendly = False):
-
 		'''
-		returns a list of all black bordering regions of a particular region ID
+		regionID:  ID of a region to be checked
+		friendly:  
+		Returns a list of regionIDs of regions that share a black border with the given region
 		'''
 
 		if friendly:
-
 			return_list = []
 
 			for element in regionID:
-
-				for i,border in enumerate(self.static_borders[element]):
+				for i, border in enumerate(self.static_borders[element]):
 
 					if border == "B" and (self.regions[i].blocks_present[0].allegiance == self.regions[regionID].blocks_present[0].allegiance or not self.regions[i].blocks_present):
-
 						return_list.append(i)
 
 			return return_list
 
 		else:
-
 			return_list = []
 
 			for element in regionID:
-
 				for i,border in enumerate(self.static_borders[element]):
 
 					if border == "B":
-
 						return_list.append(i)
 
 			return return_list
@@ -186,7 +249,6 @@ class Board(object):
 
 
 	def check_path(self,num_moves,startID,endID):
-
 		'''
 		takes a block's movement points, starting location ID, ending location ID, and a board object and
 		checks to see if it can move from one location to another
@@ -197,16 +259,12 @@ class Board(object):
 		for i in range(num_moves):
 
 			if endID in find_black_borders(self,check_list):
-
 				return True
 
 			else:
-
 				check_list = find_black_borders(self,check_list,True)
 
-		else:
-
-			return False
+		return False
 
 	def move_block(self,block, start, end):
 		'''
@@ -220,75 +278,64 @@ class Board(object):
 		if self.static_borders[start][end] == 'R':
 
 			if self.regions[end].is_contested():
-
 				self.regions[start].blocks_present.pop(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
-
 					self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
-
 					self.regions[end].blocks_present.append(block)
 
 				else:
-
 					self.regions[end].combact_dict['Defending Reinforcements'].append(block)
-
 					self.regions[end].blocks_present.append(block)
 
 			else:
-
 				self.regions[start].blocks_present.pop(block)
 
 				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
-					
+          
 					for block in self.regions[end].blocks_present:
-						
 						self.regions[end].combat_dict['Defending'].append(block)
 
 					self.regions[end].combat_dict['Attacking'].append(block)
-
 					self.regions[end].blocks_present.append(block)
 
 				else:
-
 					self.regions[end].blocks_present.append(block)
 
 		
 		elif check_path(self,block.movement_points,start,end):
 
 			if self.regions[end].is_contested():
-
 				self.regions[start].blocks_present.pop(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
-
 					self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
-
 					self.regions[end].blocks_present.append(block)
 
 				else:
-
 					self.regions[end].combact_dict['Defending Reinforcements'].append(block)
-
 					self.regions[end].blocks_present.append(block)
 
 			else:
-
 				self.regions[start].blocks_present.pop(block)
 
 				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
-					
+          
 					for block in self.regions[end].blocks_present:
-						
 						self.regions[end].combat_dict['Defending'].append(block)
 
 					self.regions[end].combat_dict['Attacking'].append(block)
-
 					self.regions[end].blocks_present.append(block)
 
 				else:
-
 					self.regions[end].blocks_present.append(block)
+
+	def __repr__(self):
+		'''
+		Terminal representation of the board
+		'''
+		output = str(self.regions)
+		return output
 
 class Region(object):
 
@@ -299,6 +346,7 @@ class Region(object):
 		and int castle_point
 		The function also initializes other values
 		'''
+
 		self.name = name
 		self.regionID = regionID
 		self.cathedral = cathedral
@@ -309,14 +357,38 @@ class Region(object):
 
 	def __str__(self):
 		'''
-		Prints a region object as the string 'name-ID'
+		Prints a region object, its characteristics, and blocks
 		'''
-		return self.name + '-' + str(self.regionID)
+		output = ''
+		output += '-'*20 + '\n'
+		output += self.name + ' - ' + str(self.regionID) + '\n'
+		
+		if self.cathedral:
+			output += '\t*Cathedral\n'
+		if self.coast:
+			output += '\t*Coastal\n'
+
+		block_string = ''
+		for block in self.blocks_present:
+			block_string += block.name + ' '
+		if block_string != '':
+			output += '\t' + block_string + '\n'
+		output += '-'*20
+
+		return output
+
 	def __repr__(self):
 		'''
 		same as __str__
 		'''
-		return self.name + '-' + str(self.regionID)
+		return str(self)
+
+	def add_block(self, block):
+		'''
+		Add block to blocks_present - used in game initialization
+		block:  Block object to be added to the list of 
+		'''
+		self.blocks_present.append(block)
 	
 	def is_contested(self):
 

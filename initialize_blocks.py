@@ -14,7 +14,7 @@ import blocks
 
 def read_file(file_name):
 	'''
-
+  
 	'''
 
 	# Open the file
@@ -35,56 +35,74 @@ def read_file(file_name):
 
 
 def initialize_blocks():
-    '''
-    Initialized all blocks into one list
-    Returns:  List of all blocks in the game, with no alliegance
-    '''
-    block_list = []
-    block_stats = read_file('block_stats.txt')
+	'''
+	Initialized all blocks into one list
+	Returns:  List of all blocks in the game, with no alliegance
+	'''
+	block_list = []
+	block_stats = read_file('block_stats.txt')
 
-    # Read in information about each block
-    for info_line in block_stats:
-        name = info_line[0]
-        movement_points = int(info_line[1])
-        attack_letter = info_line[2]
-        attack_number = int(info_line[3])
-        attack_strength = int(info_line[4])
-        block_type = info_line[5]
-        cross = info_line[6]
-        block_id = int(info_line[7])
+	# Read in information about each block
+	for line_num, line in enumerate(block_stats):
 
-        # Check if it's a noble
-        if block_type == 'BRUCE' or block_type == 'COMYN':
-            is_noble = True
+		#Convert to ints, bools, and tuples
+		for index, info in enumerate(line):
 
-            # Set up noble homes
-            home = info_line[8]
-            if home.isdigit():
-                home = int(home)
-            else: #For Bruce and Comyn, home is a tuple - must convert
-                home = home.strip('()')
-                home = home.split(',')
-                for index, region in enumerate(home):
-                    home[index]= int(region)
+			#Ints
+			if info.isdigit():
+				block_stats[line_num][index] = int(info)
 
-            # Assign noble loyalty
-            loyalty = block_type
-            temp_block = blocks.Noble(name, movement_points, attack_letter, attack_number, attack_strength, cross, block_id, home, loyalty)
+			#Booleans
+			elif info == 'T':
+				block_stats[line_num][index] = True
 
-        else:
-            is_noble = False
-            temp_block = blocks.Block(name, movement_points, attack_letter, attack_number, attack_strength, cross, block_type, block_id)
+			elif info == 'F':
+				block_stats[line_num][index] = False
+			
+			#Tuples
+			elif info[0] == '(':    #For Bruce and Comyn
+				temp = info
+				temp = temp.strip('()').split(',')
+				for i, element in enumerate(temp): #Should be tuple of integers
+					temp[i] = int(element)
+				block_stats[line_num][index] = tuple(temp)
 
-        #Finished block - no alliegence yet
-        block_list.append(temp_block)
 
-    return block_list
+		#store information from line
+		name = line[0]
+		movement_points = line[1]
+		attack_letter = line[2]
+		attack_number = line[3]
+		attack_strength = line[4]
+		block_type = line[5]
+		cross = line[6]
+		block_id = line[7]
+
+		# Check if it's a noble
+		if block_type == 'BRUCE' or block_type == 'COMYN':
+			is_noble = True
+
+			# Set up noble homes
+			home = line[8]
+
+			# Assign noble loyalty
+			loyalty = block_type
+			temp_block = blocks.Noble(name, movement_points, attack_letter, attack_number, attack_strength, cross, block_id, home, loyalty)
+
+		else:
+			is_noble = False
+			temp_block = blocks.Block(name, movement_points, attack_letter, attack_number, attack_strength, cross, block_type, block_id)
+
+		#Finished block - no alliegence yet
+		block_list.append(temp_block)
+
+	return block_list
 
 def main():
-    initialize_blocks()
+	initialize_blocks()
 
 if __name__ == '__main__':
-    main()	
+	main()	
 						
 
 

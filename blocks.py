@@ -74,13 +74,36 @@ class Block(object):
         supposed to move block to a adjacent location and take away a movement point
         """
         pass
+
+    def __str__(self):
+        '''
+        Returns a string representing the block
+        '''
+        output = '-'*20 + '\n'
+
+        output += self.name + ' - '
+        if type(self) == Noble:
+            output += self.loyalty
+        else:
+            output += self.type
+
+        if self.has_cross:
+            output += ' - †'
+        output += '\n'
+
+        output += '\tMoves:' + str(self.movement_points) + '\n'
+        output += '\tStrength:' + str(self.current_strength) + '/' + str(self.attack_strength) + '\n'
+        output += '\tCombat:' + str(self.attack_letter) + str(self.attack_number) + '\n'
+        output += '-'*20
+        return output
       
     def __repr__(self):
-        """
-        prints name
-        """
-        return('name: ' + str(self.name))
-      
+        '''
+        Returns a terminal representation of the block - same as __str__
+        '''
+        output = str(self)
+        return output
+
     def __len__(self):
         return 1
       
@@ -122,3 +145,7 @@ class Noble(Block):
                     print('changed from ENGLAND to SCOTLAND')
             else:
                 self.allegiance = allegiance
+                
+                
+                
+            

@@ -4,45 +4,64 @@ import location_prob
 import blocks_occupied
 import board
 
-"""
-stuff
-"""
-def play_game():
+def prompt_scenario():
     '''
-    David write a good function header here
+    Ask the user for a scenario and return the string
+    'BRAVEHEART' or 'BRUCE'
     '''
-
-    #Take input from the user for the scenario and which side to play
     flag = False
     while not flag:
         game_type = input("Enter whether you are playing BraveHeart (1), The Bruce (2), or Campaign (3): ")
-        #Error message for incorrect input
+        #Invalid input error message
         if game_type not in '123':
-            print('Invalid input, try again.')
+            print('Invalid input, try again')
         else:
-            #Convert from string input to int
-            game_type = int(game_type)
-            if game_type == 3:
-                game_type = 1   #Campaign setup is the same as braveheart setup
-            block_list = initialize_blocks.initialize_blocks(game_type)
             flag = True
 
+    #Convert to int
+    game_type = int(game_type)
+
+    #Campaign setup is same as braveheart
+    if game_type == 1 or game_type == 3:
+        scenario = 'BRAVEHEART'
+    else:   #2
+        scenario = 'BRUCE'
+    
+    return scenario
+
+
+def prompt_ai_side():
+    '''
+    Ask the user for which side the computer should play
+    return the computer's role ('ENGLAND' or 'SCOTLAND')
+    '''
     flag = False
     while not flag:
         computer_role = input("Enter which side you want the computer to play (England or Scotland): ")
-        if computer_role.lower() == 'england' or computer_role.lower() == 'scotland':
+        computer_role = computer_role.upper()
+        if computer_role == 'ENGLAND' or computer_role == 'SCOTLAND':
             flag = True
         else:
             print("Invalid input, try again")
 
-    #IDK what this does lol
+    return computer_role
+
+def play_game():
+    #Determine scenario
+    #scenario = prompt_scenario()
+    scenario = 'BRAVEHEART'
+
+    #Determine which side the computer plays:
+    #computer_role = prompt_ai_side()
+    computer_role = 'ENGLAND'
+
     stc_locations = location_prob.create_static_locations()
     dyn_locations = location_prob.create_static_locations()
 
-    #Initialize the deck of cards
+    #Initialize card stuff
     deck = cards.Deck()
     deck.shuffle()
-    #deal hands of 5
+    #deal hands
     computer_hand = list()
     opp_hand = list()
     for i in range(5):
@@ -53,14 +72,27 @@ def play_game():
 
     #probabilites of cards
     probability_cards = deck.count_probabilities(known_cards)
-    print(probability_cards)
+    #print(probability_cards)
 
+    #Create list of blocks
+    block_list = initialize_blocks.initialize_blocks()
+    
     #Initialize board
     current_board = board.Board()
 
-    add_starting_blocks(current_board, nobles, other_blocks)
+    #Fill board with pieces
+    current_board.fill_board(block_list, scenario)
+    
+    #Print blocks for testing
+    #for block in block_list:
+    #    print(block)
 
-    comp_roster, comp_pool = board.get_comp_blocks(current_board, computer_role)
+    for region in current_board.regions:
+        print(region)
+    
+    #add_starting_blocks(current_board, nobles, other_blocks)
+
+    #comp_roster, comp_pool = board.get_comp_blocks(current_board, computer_role)
 
 
 def main():
