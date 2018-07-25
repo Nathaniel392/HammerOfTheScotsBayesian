@@ -21,7 +21,7 @@ def update_roster(all_blocks_lst = None, current_board = None):
 		elif block.is_dead() and block.has_cross:
 			if block.type == 'EDWARD':
 				block.type = 'KING'
-				current_board.eng_pool.append(current_board.remove_from_region(lock, \
+				current_board.eng_pool.append(current_board.remove_from_region(block, \
 					find_location(current_board, block).regionID))
 			else:
 
@@ -40,6 +40,7 @@ def update_roster(all_blocks_lst = None, current_board = None):
 					for i, block2 in enumerate(current_board.eng_roster):
 						if block is block2:
 							current_board.scot_roster.append(current_board.eng_roster.pop(i))
+
 							break
 			elif block.allegiance == 'ENGLAND':
 				block_found_bool = False
