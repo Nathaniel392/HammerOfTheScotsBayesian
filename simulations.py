@@ -2,7 +2,7 @@ import combat
 import blocks
 import copy
 import random
-import initialize_blocks
+
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
 	'''
 	Manages combat
@@ -164,9 +164,7 @@ def print_situation(attack,defense):
 		print(block.current_strength, end = ' ')
 	print('\n')
 
-nobles, non_nobles, nobles2, non_nobles2 = initialize_blocks.initialize_blocks()
 
-print(simulation([non_nobles[27]], [non_nobles[26]], 1000))
 
 
 
