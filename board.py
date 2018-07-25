@@ -313,6 +313,20 @@ class Region(object):
 		same as __str__
 		'''
 		return self.name + '-' + str(self.regionID)
+	
+	def is_contested(self):
+
+		allegiance = self.blocks_present[0].allegiance 
+
+		for block in self.blocks_present:
+
+			if block.allegiance != allegiance:
+
+				return True
+
+		else:
+
+			return False
 
 	def activate_movement(self):
 		'''
