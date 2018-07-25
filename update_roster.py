@@ -10,13 +10,16 @@ def update_roster(all_blocks_lst, current_board):
 	
 	for block in all_blocks_lst:
 		
-		if block.is_dead():	
+		if block.is_dead() and not block.has_cross:	
 			if block.allegiance == 'SCOTLAND':
 				current_board.scot_roster.append(current_board.remove_from_region(block, \
 					find_location(current_board, block).regionID))
 			elif block.allegiance == 'ENGLAND':
 				current_board.eng_roster.append(current_board.remove_from_region(block, \
 					find_location(current_board, block).regionID))
+		elif block.is_dead() and block.has_cross:
+			current_board.remove_from_region(block, find_location(current_board, block).regionID)
+
 
 		if block.allegiance == 'SCOTLAND':
 			block_found_bool = False

@@ -377,7 +377,7 @@ def add_starting_blocks(board, nobles, other_blocks):
 				board.eng_pool.append(x)
 
 def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
-	combat_letter = A, combat_round = 0):
+	combat_letter = 'A', combat_round = 0):
 	'''
 	This function takes in all the group that are involved in a battle and a boolean about whether the computer is attacking or not. 
 	The should_retreat function will return either False, meaning the computer should not retreat, or a location in which the computer should
@@ -408,7 +408,7 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 		for x, border in enumerate(board.static_borders[current_location.regionID]):
 			if is_attacking == False and attacking[0].allegiance != board.regions[x].blocks_present.allegiance and border != 'X':
 				possible_locations.append(board.regions[x])
-			elif is_attacking == True annd defending[0].allegiance != board.regions[x].blocks_present.allegiance and border != 'X':
+			elif is_attacking == True and defending[0].allegiance != board.regions[x].blocks_present.allegiance and border != 'X':
 				possible_locations.append(board.regions[x])
 
 
