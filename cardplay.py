@@ -76,3 +76,19 @@ def dumb_go_first(computer_hand): # plays highest card
 def random_card(computer_hand): #return random card in computer deck
     random_index = random.randint(0,len(computer_hand)-1)
     return computer_hand[random_index]
+
+def compare_cards(opp_card, computer_card, computer_role):
+    
+    # true for computer going going first
+    # false for opp going first
+    
+    if get_card_val(opp_card) > get_card_val(computer_card):
+        return False
+    elif get_card_val(opp_card) > get_card_val(computer_card):
+        return True
+    elif get_card_val(opp_card) == get_card_val(computer_card):
+        if computer_role.lower() == 'england':
+            return True
+        elif computer_role.lower() == 'scotland':
+            return False
+        
