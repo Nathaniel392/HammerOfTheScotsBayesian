@@ -2,7 +2,7 @@ import combat
 import blocks
 import copy
 import random
-
+import initialize_blocks
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
 	'''
 	Manages combat
@@ -43,7 +43,6 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 			if combat_round >= 1:
 				
-			
 
 				attack += attack_reinforcements
 				defense += defense_reinforcements
@@ -77,12 +76,11 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 									combat.attack_block(attacking_block, attack)
 
-								
 
 
-									
+					
 									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
-								
+							
 									if attacker_is_dead and combat_round != 0:
 										
 										return 'defender wins'
@@ -97,12 +95,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
 										if random.randint(0,2) == 0:
 											attacking_block.current_strength = 0
-									
+
 									combat.attack_block(attacking_block, defense)
 
-							
+				
 									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
-								
+			
 									if defender_is_dead and combat_round != 0:
 
 										return 'attacker wins'
@@ -123,7 +121,7 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 
 	totals_dict = {'attacker wins':0, 'defender wins':0, 'attacker retreats':0}
 	for j in range(num_times):
-	
+
 
 	
 		for i, element in enumerate(attack):
@@ -157,9 +155,6 @@ def pick_random_block(block_tuple):
 	return block_tuple[random.randint(0, len(block_tuple) - 1)]
 
 def print_situation(attack,defense):
-	"""
-	for debugging
-	"""
 	print('attack:')
 	for block in attack:
 		print(block.current_strength, end = ' ')
@@ -169,7 +164,9 @@ def print_situation(attack,defense):
 		print(block.current_strength, end = ' ')
 	print('\n')
 
+nobles, non_nobles, nobles2, non_nobles2 = initialize_blocks.initialize_blocks()
 
+print(simulation([non_nobles[27]], [non_nobles[26]], 1000))
 
 
 
