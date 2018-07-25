@@ -14,7 +14,7 @@ import blocks
 
 def read_file(file_name):
 	'''
-	
+  
 	'''
 
 	# Open the file

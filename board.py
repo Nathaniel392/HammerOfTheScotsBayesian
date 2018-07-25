@@ -292,6 +292,10 @@ class Board(object):
 				self.regions[start].blocks_present.pop(block)
 
 				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
+          
+					for block in self.regions[end].blocks_present:
+						self.regions[end].combat_dict['Defending'].append(block)
+
 					self.regions[end].combat_dict['Attacking'].append(block)
 					self.regions[end].blocks_present.append(block)
 
@@ -316,6 +320,10 @@ class Board(object):
 				self.regions[start].blocks_present.pop(block)
 
 				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
+          
+					for block in self.regions[end].blocks_present:
+						self.regions[end].combat_dict['Defending'].append(block)
+
 					self.regions[end].combat_dict['Attacking'].append(block)
 					self.regions[end].blocks_present.append(block)
 
@@ -381,6 +389,20 @@ class Region(object):
 		block:  Block object to be added to the list of 
 		'''
 		self.blocks_present.append(block)
+	
+	def is_contested(self):
+
+		allegiance = self.blocks_present[0].allegiance 
+
+		for block in self.blocks_present:
+
+			if block.allegiance != allegiance:
+
+				return True
+
+		else:
+
+			return False
 
 	def activate_movement(self):
 		'''
@@ -426,8 +448,45 @@ def add_starting_blocks(board, nobles, other_blocks):
 			elif x.allegiance == "ENGLAND":
 				board.eng_pool.append(x)
 
-def should_retreat(attacking, defending, attacking_reinforcement):
-	pass
+def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
+	combat_letter = 'A', combat_round = 0):
+	'''
+	This function takes in all the group that are involved in a battle and a boolean about whether the computer is attacking or not. 
+	The should_retreat function will return either False, meaning the computer should not retreat, or a location in which the computer should
+	retreat its blocks to.
+	'''
+	attacking_copy = copy.deepcopy(attacking)
+	defending_copy = copy.deepcopy(defending)
+	attacking_rein_copy = copy.deepcopy(attacking_reinforcement)
+	defending_rein_copy = copy.deepcopy(defending_reinforcement)
+
+	simulation_dict = simulations.simulation(attacking_copy, defending_copy, 1000, attacking_reinforcement, defending_reinforcement, combat_letter, combat_round)
+	win_percentage = 0
+	#Calculate the win percentage based on if you are attacking or defending in the simulation
+	if is_attacking:
+		win_percentage = float(simulation_dict['attacker wins'])/1000
+	else:
+		win_percentage = float(simulation_dict['defender wins'])/1000
+
+	retreat_constant = .3	
+	#Insert code to check to see if it should retreat
+	if win_percentage > retreat_constant:
+		return False
+	else:
+	#Check to see where the blocks should retreat to
+		current_location = find_location(attacking[0])
+		possible_locations = []
+		#Create list of possible locations to retreat to
+		for x, border in enumerate(board.static_borders[current_location.regionID]):
+			if is_attacking == False and attacking[0].allegiance != board.regions[x].blocks_present.allegiance and border != 'X':
+				possible_locations.append(board.regions[x])
+			elif is_attacking == True and defending[0].allegiance != board.regions[x].blocks_present.allegiance and border != 'X':
+				possible_locations.append(board.regions[x])
+
+
+		num = random.randint(0, len(possible_locations)-1)
+		return possible_locations[num]
+
 
 def main():
 	#Create board object

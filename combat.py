@@ -45,12 +45,14 @@ def attack_block(attack_block_block, defending_blocks):
 	"""
 	attacks blocks
 	uses random in case where everyone same health
+	attack_block_block is the block attacking
+	defending_blocks is the list of all defending blocks to be attacked
 	"""
 
 	if defending_blocks == []:
 		return False
 	dice_lst = dice.roll(attack_block_block.current_strength)
-
+	
 
 
 
@@ -61,23 +63,25 @@ def attack_block(attack_block_block, defending_blocks):
 		if num <= attack_block_block.attack_number:
 			block_to_get_hurt = strong_blocks[random.randint(0, len(strong_blocks) - 1)]
 		  
-			
+
 			block_to_get_hurt.get_hurt(1)
+		
 			
-			
 
 
 
 
 
-def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_reinforcements, eng_roster = list(), scot_roster = list()):
+def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_reinforcements, eng_roster  = list(), scot_roster = list()):
 	"""
 	checkers if attackers and defenders are alive
+	moves nobles to different reinforcements
+	moves dead to the roster
+	if king dies then returns stuff
 	"""
 	attacker_is_dead = True
 	defender_is_dead = True
 	
-
 	for i, block in enumerate(attackers_lst):
 	
 
@@ -90,9 +94,9 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 		
 		elif type(block) == blocks.Noble and block.is_dead():
 			block.change_allegiance()
-			
+	
 			defense_reinforcements.append(attackers_lst.pop(i))
-		elif block.is_dead():
+		elif type(block) != blocks.Noble and block.is_dead():
 			if block.allegiance == 'ENGLAND':
 				eng_roster.append(attackers_lst.pop(i))
 			else:
@@ -108,7 +112,6 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 
 
 		
-
 		if block.type == 'KING' and block.is_dead():
 	
 			return False, True
@@ -121,27 +124,30 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 		elif type(block) == blocks.Noble and block.is_dead():
 			
 			block.change_allegiance()
-			
-			attack_reinforcements.append(defenders_lst.pop(i))
-		
-			
 
-		if not block.is_dead():
+			attack_reinforcements.append(defenders_lst.pop(i))
+		elif type(block) != blocks.Noble and block.is_dead():
 			if block.allegiance == 'ENGLAND':
 				eng_roster.append(defenders_lst.pop(i))
 			else:
 				scot_roster.append(defenders_lst.pop(i))
-			defender_is_dead = False
+			
+
+		if not block.is_dead():
 	
+			defender_is_dead = False
+
 	return attacker_is_dead, defender_is_dead
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), eng_roster = list(), scot_roster = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
 	'''
 	Manages combat
 	attack:  list of attacking blocks
 	defense:  list of defending blocks
+	can start battle in the middle
+	
 	returns what happens
 
-
+	
 	TAKES NO INPUT
 
 
@@ -174,7 +180,6 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 			if combat_round >= 1:
 				
-			
 
 				attack += attack_reinforcements
 				defense += defense_reinforcements
@@ -208,12 +213,11 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 									combat.attack_block(attacking_block, attack)
 
-								
 
 
-									
-									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
-								
+					
+									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, eng_roster, scot_roster)
+							
 									if attacker_is_dead and combat_round != 0:
 										
 										return 'defender wins'
@@ -228,12 +232,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
 										if random.randint(0,2) == 0:
 											attacking_block.current_strength = 0
-									
+
 									combat.attack_block(attacking_block, defense)
 
-							
-									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
-								
+				
+									attacker_is_dead, defender_is_dead = combat.check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, eng_roster, scot_roster)
+			
 									if defender_is_dead and combat_round != 0:
 
 										return 'attacker wins'
