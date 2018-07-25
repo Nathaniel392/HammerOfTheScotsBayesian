@@ -5,8 +5,7 @@ def update_roster(all_blocks_lst, current_board):
 	"""
 	updates allegiance roster after a battle
 	updates dead pool too
-	all_blocks_lst is all blocks want to be updated
-	current_board is the board
+	receives attacking and defending blocks as lists
 	"""
 	
 	for block in all_blocks_lst:
@@ -19,7 +18,13 @@ def update_roster(all_blocks_lst, current_board):
 				current_board.eng_roster.append(current_board.remove_from_region(block, \
 					find_location(current_board, block).regionID))
 		elif block.is_dead() and block.has_cross:
-			current_board.remove_from_region(block, find_location(current_board, block).regionID)
+			if block.type == 'EDWARD':
+				block.type = 'KING'
+				current_board.eng_roster.append(current_board.remove_from_region(lock, \
+					find_location(current_board, block).regionID))
+			else:
+
+				current_board.remove_from_region(block, find_location(current_board, block).regionID)
 
 
 		if block.allegiance == 'SCOTLAND':
