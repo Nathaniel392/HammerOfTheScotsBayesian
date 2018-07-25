@@ -241,7 +241,9 @@ class Board(object):
 
 				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
 					
-					self.regions[end].combat_dict['Defending'].append(block) for block in self.regions[end].blocks_present
+					for block in self.regions[end].blocks_present:
+						
+						self.regions[end].combat_dict['Defending'].append(block)
 
 					self.regions[end].combat_dict['Attacking'].append(block)
 
@@ -276,7 +278,9 @@ class Board(object):
 
 				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
 					
-					self.regions[end].combat_dict['Defending'].append(block) for block in self.regions[end].blocks_present
+					for block in self.regions[end].blocks_present:
+						
+						self.regions[end].combat_dict['Defending'].append(block)
 
 					self.regions[end].combat_dict['Attacking'].append(block)
 
