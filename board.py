@@ -283,11 +283,11 @@ class Board(object):
 
 		for i in range(num_moves):
 
-			if endID in find_black_borders(self,check_list):
+			if endID in self.find_black_borders(check_list):
 				return True
 
 			else:
-				check_list = find_black_borders(self,check_list,True)
+				check_list = self.find_black_borders(check_list,True)
 
 		return False
 
@@ -303,18 +303,18 @@ class Board(object):
 		if self.static_borders[start][end] == 'R':
 
 			if self.regions[end].is_contested():
-				self.regions[start].blocks_present.pop(block)
+				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
 					self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
 					self.regions[end].blocks_present.append(block)
 
 				else:
-					self.regions[end].combact_dict['Defending Reinforcements'].append(block)
+					self.regions[end].combat_dict['Defending Reinforcements'].append(block)
 					self.regions[end].blocks_present.append(block)
 
 			else:
-				self.regions[start].blocks_present.pop(block)
+				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
           
@@ -328,10 +328,10 @@ class Board(object):
 					self.regions[end].blocks_present.append(block)
 
 		
-		elif check_path(self,block.movement_points,start,end):
+		elif self.check_path(block.movement_points,start,end):
 
 			if self.regions[end].is_contested():
-				self.regions[start].blocks_present.pop(block)
+				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
 					self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
@@ -342,7 +342,7 @@ class Board(object):
 					self.regions[end].blocks_present.append(block)
 
 			else:
-				self.regions[start].blocks_present.pop(block)
+				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
           

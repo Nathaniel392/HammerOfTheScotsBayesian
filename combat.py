@@ -6,11 +6,13 @@ import copy
 import update_roster
 import simulations
 def find_location(board, blok):
+
 	for region in board.regions:
 		for bllock in region.blocks_present:
+			print(bllock.name, blok.name)
 			if bllock.name == blok.name:
 				return region
-	return False
+	raise Exception('cannot find block')
 
 def organize(blocks):
 	'''
@@ -175,13 +177,23 @@ def retreat_locations(board, attacking, defending, is_attacking):
 	if the computer is attacking and false if the computer is defending.
 	It returns a list of all the locations where a block can retreat to
 	'''
-	current_location = find_location(attacking[0])
+
+	current_location = find_location(board, attacking[0])
 	possible_locations = []
 	#Create list of possible locations to retreat to
 	for x, border in enumerate(board.static_borders[current_location.regionID]):
-		if is_attacking == False and attacking[0].allegiance != board.regions[x].blocks_present.allegiance and border != 'X':
+
+		
+		for i, block in enumerate(board.regions[x].blocks_present):
+			if i == 0:
+				region_allegiance = board.regions[x].blocks_present[i]
+			elif region_allegiance != board.regions[x].blocks_present[i]:
+				region_allegiance = 'fight is going on'
+				break
+
+		if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 'X':
 			possible_locations.append(board.regions[x])
-		elif is_attacking == True and defending[0].allegiance != board.regions[x].blocks_present.allegiance and border != 'X':
+		elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 'X':
 			possible_locations.append(board.regions[x])
 
 	return possible_locations
@@ -193,6 +205,7 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	The should_retreat function will return either False, meaning the computer should not retreat, or a location in which the computer should
 	retreat its blocks to.
 	'''
+
 	attacking_copy = copy.deepcopy(attacking)
 	defending_copy = copy.deepcopy(defending)
 	attacking_rein_copy = copy.deepcopy(attacking_reinforcement)
@@ -207,6 +220,7 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 		win_percentage = float(simulation_dict['defender wins'])/1000
 	
 	#Insert code to check to see if it should retreat
+
 	if win_percentage > retreat_constant:
 		return False
 	else:
@@ -221,19 +235,19 @@ def print_situation(attack, defense, attack_reinforcements, defense_reinforcemen
 	print('\n\n')
 	print('attack:', end = ' ')
 	for block in attack:
-		print(block.name, ':', block.current_health, end = '\t')
+		print(block.name, ':', block.current_strength, end = '\t')
 	print('\n\n')
 	print('defense:', end = ' ')
 	for block in defense:
-		print(block.name, ':', block.current_health, end = '\t')
+		print(block.name, ':', block.current_strength, end = '\t')
 	print('\n\n')
 	print('attacking reinforcements:', end = ' ')
 	for block in attack_reinforcements:
-		print(block.name, ':', block.current_health, end = '\t')
+		print(block.name, ':', block.current_strength, end = '\t')
 	print('\n\n')
 	print('defending reinforcements:', end = ' ')
-	for block in defending_reinforcements:
-		print(block.name, ':', block.current_health, end = '\t')
+	for block in defense_reinforcements:
+		print(block.name, ':', block.current_strength, end = '\t')
 
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), current_board = None, before_letter = 'A', before_number = 0, turn = 'defender', computer_role = 'ENGLAND'):
 	'''
@@ -250,7 +264,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 	'''
-
+	print(type(current_board))
 	# Divide each side into letter groups (dictionary)
 	letter_found = False
 	number_found = False
@@ -334,8 +348,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 															print('please type in a valid location')
 
 
-													current_board.move_block(attacking_block, find_location(current_board, block).regionID, regionID_to_retreat_to)
-													print(attacking_block, ' retreated to ', current_board.regions(regionID_to_retreat_to).name)
+													current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, regionID_to_retreat_to)
+													print(attacking_block, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
 												elif option != 'f':
 													attack_block(attacking_block, defense, computer_role)
@@ -343,11 +357,11 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 												bad_input = False
 										else:
 											option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, 'A', 0)
-	
+											regionID_to_retreat_to = option.regionID
 												
 											if option != False:
-												current_board.move_block(attacking_block, find_location(current_board, block).regionID, option[random.randint(0, len(option) - 1)])
-												print(attacking_block, ' retreated to ', current_board.regions(regionID_to_retreat_to).name)
+												current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, option.regionID)
+												print(attacking_block, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 											else:
 												attack_block(attacking_block, defense, computer_role)
 								
@@ -357,7 +371,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 					
-									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_borad.scot_pool, current_board)
+									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool)
 							
 									if attacker_is_dead and combat_round != 0:
 										update_roster(current_board = current_board)
@@ -397,24 +411,25 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 														if not valid_location:
 															print('please type in a valid location')
 													current_board.move_block(attacking_block, find_location(current_board, block).regionID, regionID_to_retreat_to)
-													print(attacking_block, ' retreated to ', current_board.regions(regionID_to_retreat_to).name)
+													print(attacking_block, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 												elif option != 'f':
 													attack_block(attacking_block, defense, computer_role)
 													
 												bad_input = False
 										else:
+
 											option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, True, 'A', 0)
-												
+											regionID_to_retreat_to = option.regionID
 											if option != False:
-												current_board.move_block(attacking_block, find_location(current_board, block).regionID, option[random.randint(0, len(option) - 1)])
-												print(attacking_block, ' retreated to ', current_board.regions(regionID_to_retreat_to).name)
+												current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, option.regionID)
+												print(attacking_block, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 											else:
 												attack_block(attacking_block, defense)
 									
 										attack_block(attacking_block, defense, computer_role)
 
 				
-									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool, current_board)
+									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool)
 			
 									if defender_is_dead and combat_round != 0:
 										update_roster(current_board = current_board)
