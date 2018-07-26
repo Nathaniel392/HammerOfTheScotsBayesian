@@ -79,14 +79,14 @@ def attack_block(attack_block_block, defending_blocks, computer_role = 'ENGLAND'
 					for i, block in enumerate(defending_blocks):
 						print(block.name, '[', i, ']', end = ' ')
 					index = input('>')
-			  		if type(index) != int:
-			  		
-			  			print('type in a number')
-			  		elif index not in range(len(defending_blocks) - 1):
-			  			print('not valid index')
-			  		else:
-			  			bad_input = False
-			  			block_to_get_hurt = defending_blocks[index]
+					if type(index) != int:
+					
+						print('type in a number')
+					elif index not in range(len(defending_blocks) - 1):
+						print('not valid index')
+					else:
+						bad_input = False
+						block_to_get_hurt = defending_blocks[index]
 
 
 			
@@ -335,7 +335,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 													current_board.move_block(attacking_block, find_location(current_board, block).regionID, regionID_to_retreat_to)
-
+													print(attacking_block, ' retreated to ', current_board.regions(regionID_to_retreat_to).name)
 
 												elif option != 'f':
 													attack_block(attacking_block, defense, computer_role)
@@ -347,6 +347,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 												
 											if option != False:
 												current_board.move_block(attacking_block, find_location(current_board, block).regionID, option[random.randint(0, len(option) - 1)])
+												print(attacking_block, ' retreated to ', current_board.regions(regionID_to_retreat_to).name)
 											else:
 												attack_block(attacking_block, defense, computer_role)
 								
@@ -395,6 +396,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 																break
 														if not valid_location:
 															print('please type in a valid location')
+													current_board.move_block(attacking_block, find_location(current_board, block).regionID, regionID_to_retreat_to)
+													print(attacking_block, ' retreated to ', current_board.regions(regionID_to_retreat_to).name)
 												elif option != 'f':
 													attack_block(attacking_block, defense, computer_role)
 													
@@ -404,6 +407,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 												
 											if option != False:
 												current_board.move_block(attacking_block, find_location(current_board, block).regionID, option[random.randint(0, len(option) - 1)])
+												print(attacking_block, ' retreated to ', current_board.regions(regionID_to_retreat_to).name)
 											else:
 												attack_block(attacking_block, defense)
 									
