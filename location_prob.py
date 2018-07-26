@@ -73,7 +73,7 @@ def init_probability_table(board, block_list):
 				prob = 4.0 / len(board.eng_pool)
 				loc_probabilities[blockID][regionID] = prob
 
-	print_table(board, block_list, loc_probabilities)
+	#print_table(board, block_list, loc_probabilities)
 
 
 def main():
