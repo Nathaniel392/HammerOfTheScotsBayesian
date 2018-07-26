@@ -9,10 +9,10 @@ def find_location(board, blok):
 
 	for region in board.regions:
 		for bllock in region.blocks_present:
-			print(bllock.name, blok.name, end = ' ')
+			
 			if bllock.name == blok.name:
 				return region
-		print('\n\n')
+		
 	raise Exception('cannot find block')
 
 def organize(blocks):
