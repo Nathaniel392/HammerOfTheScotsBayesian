@@ -41,8 +41,8 @@ class Block(object):
         self.has_cross = has_cross
         self.blockID = blockID
         
-        if type_men != None:
-            self.type = type_men
+        
+        self.type = type_men
 
     def get_hurt(self, damage):
         """
