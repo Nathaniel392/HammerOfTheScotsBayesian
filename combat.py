@@ -9,9 +9,10 @@ def find_location(board, blok):
 
 	for region in board.regions:
 		for bllock in region.blocks_present:
-			print(bllock.name, blok.name)
+			print(bllock.name, blok.name, end = ' ')
 			if bllock.name == blok.name:
 				return region
+		print('\n\n')
 	raise Exception('cannot find block')
 
 def organize(blocks):
@@ -374,7 +375,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool)
 							
 									if attacker_is_dead and combat_round != 0:
-										update_roster(current_board = current_board)
+										update_roster.update_roster(current_board = current_board)
 										return 'defender wins'
 								
 					if not turn_found and 'attacker' != turn:
@@ -432,9 +433,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool)
 			
 									if defender_is_dead and combat_round != 0:
-										update_roster(current_board = current_board)
+										update_roster.update_roster(current_board = current_board)
 										return 'attacker wins'
-	update_roster(current_board = current_board)
+	update_roster.update_roster(current_board = current_board)
 	return 'attacker retreats'
 
 

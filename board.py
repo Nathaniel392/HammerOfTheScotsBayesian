@@ -316,7 +316,7 @@ class Board(object):
 			else:
 				self.regions[start].blocks_present.remove(block)
 
-				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
+				if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
           
 					for block in self.regions[end].blocks_present:
 						self.regions[end].combat_dict['Defending'].append(block)
@@ -417,6 +417,9 @@ class Region(object):
 	
 	def is_contested(self):
 
+
+		if len(self.blocks_present) == 0:
+			return False
 		allegiance = self.blocks_present[0].allegiance 
 
 		for block in self.blocks_present:
