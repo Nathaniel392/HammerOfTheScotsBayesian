@@ -73,7 +73,7 @@ def attack_block(attack_block_block, defending_blocks, computer_role = 'ENGLAND'
 			if computer_role != attacking_allegiance:
 				block_to_get_hurt = strong_blocks[random.randint(0, len(strong_blocks) - 1)]
 			else:
-				bad_input = True:
+				bad_input = True
 				while bad_input:
 					print('Who do you want to get hurt? (Type number)')
 					for i, block in enumerate(defending_blocks):
