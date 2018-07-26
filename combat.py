@@ -70,7 +70,7 @@ def attack_block(attack_block_block, defending_blocks, computer_role = 'ENGLAND'
 		strong_blocks = find_max_strength(defending_blocks)
 
 		if num <= attack_block_block.attack_number:
-			if computer_role != attacking_allegiance
+			if computer_role != attacking_allegiance:
 				block_to_get_hurt = strong_blocks[random.randint(0, len(strong_blocks) - 1)]
 			else:
 				bad_input = True:
