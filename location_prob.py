@@ -6,7 +6,7 @@ import copy
 #each column of the array represents a region ID
 #the values of the matrix are the probability that a particular block is in a region
 
-def print_table(board, block_list, prob_table, names=False):
+def print_table(board, block_list, loc_probabilities, names=False):
 	'''
 	Prints the location probability table.
 	board:  the board
@@ -20,9 +20,9 @@ def print_table(board, block_list, prob_table, names=False):
 	title_row = ''
 	for regionID, region in enumerate(board.regions):
 		if names:
-			title_row += '\t' + region.name[:3]
+			title_row += '\t\t' + region.name[:3]
 		else:
-			title_row += '\t' + index
+			title_row += '\t\t' + str(regionID)
 
 	print(title_row)
 
@@ -30,9 +30,9 @@ def print_table(board, block_list, prob_table, names=False):
 	for row_num, row in enumerate(loc_probabilities):
 		#Format and print title
 		if names:
-			print(blocks[row_num].name[:3], end='\t')
+			print(block_list[row_num].name[:3], end='\t\t')
 		else:
-			print(row_num, end='\t')
+			print(row_num, end='\t\t')
 		#Print data
 		for data in row:
 			print('{:.2f}'.format(data), end='\t')
@@ -72,6 +72,8 @@ def init_probability_table(board, block_list):
 			elif block in board.eng_pool:
 				prob = 4.0 / len(board.eng_pool)
 				loc_probabilities[blockID][regionID] = prob
+
+	print_table(board, block_list, loc_probabilities)
 
 
 def main():
