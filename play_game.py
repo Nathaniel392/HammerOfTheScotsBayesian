@@ -108,9 +108,6 @@ def play_game():
     computer_role = 'ENGLAND'
     opp_role = 'SCOTLAND'
 
-    stc_locations = location_prob.create_static_locations()
-    dyn_locations = location_prob.create_static_locations()
-
     #Initialize card stuff
     deck = cards.Deck()
     deck.shuffle()
@@ -135,6 +132,9 @@ def play_game():
 
     #Fill board with pieces
     current_board.fill_board(block_list, scenario)
+
+    #Initialize table with known probabilities
+    location_prob_table = location_prob.init_probability_table(current_board, block_list)
     
     #Find out what card the human wants to play
 
