@@ -2,7 +2,7 @@
 import blocks
 import copy
 import random
-
+import dice
 def organize(blocks):
 	'''
 	Separates list of blocks into a, b, and c
