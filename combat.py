@@ -4,7 +4,6 @@ import blocks
 import initialize_blocks
 import copy
 import update_roster
-import find_block
 import simulations
 def find_location(board, blok):
 	for region in board.regions:
@@ -50,13 +49,14 @@ def find_max_strength(block_lst):
 	return strong_blocks
 
 
-def attack_block(attack_block_block, defending_blocks):
+def attack_block(attack_block_block, defending_blocks, computer_role = 'ENGLAND'):
 	"""
 	attacks blocks
 	uses random in case where everyone same health
 	attack_block_block is the block attacking
 	defending_blocks is the list of all defending blocks to be attacked
 	"""
+	attacking_allegiance = attack_block_block.allegiance
 
 	if defending_blocks == []:
 		return False
@@ -70,9 +70,26 @@ def attack_block(attack_block_block, defending_blocks):
 		strong_blocks = find_max_strength(defending_blocks)
 
 		if num <= attack_block_block.attack_number:
-			block_to_get_hurt = strong_blocks[random.randint(0, len(strong_blocks) - 1)]
-		  	
+			if computer_role != attacking_allegiance
+				block_to_get_hurt = strong_blocks[random.randint(0, len(strong_blocks) - 1)]
+			else:
+				bad_input = True:
+				while bad_input:
+					print('Who do you want to get hurt? (Type number)')
+					for i, block in enumerate(defending_blocks):
+						print(block.name, '[', i, ']', end = ' ')
 
+			  		index = input('>')
+			  		if type(index) != int:
+			  			print('type in a number')
+			  		elif index not in range(len(defending_blocks) - 1):
+			  			print('not valid index')
+			  		else:
+			  			bad_input = False
+			  			block_to_get_hurt = defending_blocks[index]
+
+
+			
 			block_to_get_hurt.get_hurt(1)
 			print(block_to_get_hurt.name, 'got hurt!')
 			
@@ -321,7 +338,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 												elif option != 'f':
-													attack_block(attacking_block, defense)
+													attack_block(attacking_block, defense, computer_role)
 													
 												bad_input = False
 										else:
@@ -331,7 +348,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 											if option != False:
 												current_board.move_block(attacking_block, find_location(current_board, block).regionID, option[random.randint(0, len(option) - 1)])
 											else:
-												attack_block(attacking_block, defense)
+												attack_block(attacking_block, defense, computer_role)
 								
 										
 										
@@ -379,7 +396,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 														if not valid_location:
 															print('please type in a valid location')
 												elif option != 'f':
-													attack_block(attacking_block, defense)
+													attack_block(attacking_block, defense, computer_role)
 													
 												bad_input = False
 										else:
@@ -390,7 +407,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 											else:
 												attack_block(attacking_block, defense)
 									
-										attack_block(attacking_block, defense)
+										attack_block(attacking_block, defense, computer_role)
 
 				
 									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool, current_board)
@@ -402,8 +419,13 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	return 'attacker retreats'
 
 
+def main():
+	blocks1 = initialize_blocks.initialize_blocks()
 
+	print(simulations.simulation([blocks.Block(attack_number = 2, attack_letter = 'A', initial_attack_strength = 4)], [blocks.Block(attack_number = 2, attack_letter = 'A', initial_attack_strength = 4)], 1000))
 
+if __name__ == '__main__':
+	main()
 
 
 
