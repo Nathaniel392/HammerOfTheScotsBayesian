@@ -141,7 +141,17 @@ class Board(object):
 		'''
 		self.regions[regionID].blocks_present.append(block_to_add)
 
-
+	def remove_from_region(self, block, regionID):
+		"""
+		removes block from region with regionID (pops off)
+		returns True if block found in that region
+		returns False if block not found in that region
+		"""
+		for i, bllock in enumerate(self.regions[regionID].blocks_present):
+			if bllock is block:
+				self.regions[regionID].blocks_present.pop(i)
+				return True
+		return False
 	def fill_board(self, block_list, scenario):
 		'''
 		Initialize the location and alligiance of blocks
