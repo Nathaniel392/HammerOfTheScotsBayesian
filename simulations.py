@@ -41,11 +41,13 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 		else:
 			number_found = True
 
+
 			if combat_round >= 1:
 				
 
 				attack += attack_reinforcements
 				defense += defense_reinforcements
+
 
 				attack_reinforcements = list()
 				defense_reinforcements = list()
@@ -178,7 +180,6 @@ def pick_random_block(block_tuple, attack, defense, attack_reinforcements, defen
 					break
 
 	return block_to_be_attacked
-
 
 def print_situation(attack,defense):
 	print('attack:')
