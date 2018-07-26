@@ -174,6 +174,8 @@ def play_game():
 
             combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], current_board, computer_role= computer_role)
 
+            contested_regions.remove(battle_region)
+            
     #Print blocks for testing
     #for block in block_list:
     #    print(block)
