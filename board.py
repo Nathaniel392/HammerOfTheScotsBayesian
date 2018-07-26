@@ -255,7 +255,7 @@ class Board(object):
 			for element in regionID:
 				for i, border in enumerate(self.static_borders[element]):
 
-					if border == "B" and (self.regions[i].blocks_present[0].allegiance == self.regions[regionID].blocks_present[0].allegiance or not self.regions[i].blocks_present):
+					if border == "B" and (self.regions[i].blocks_present[0].allegiance == self.regions[element].blocks_present[0].allegiance or not self.regions[i].blocks_present):
 						return_list.append(i)
 
 			return return_list
