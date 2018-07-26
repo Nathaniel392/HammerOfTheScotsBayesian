@@ -78,9 +78,12 @@ def random_card(computer_hand): #return random card in computer deck
     return computer_hand[random_index]
 
 def compare_cards(opp_card, computer_card, computer_role):
-    
-    # true for computer going going first
-    # false for opp going first
+    """
+    takes the opponent card, computer card, and computer allegiance (england/scotland)
+    compares cards for which side plays their turn first
+    returns true for computer going first, false for opponent first
+    """
+
     
     if get_card_val(opp_card) > get_card_val(computer_card):
         return False
@@ -91,3 +94,4 @@ def compare_cards(opp_card, computer_card, computer_role):
             return True
         elif computer_role.lower() == 'scotland':
             return False
+

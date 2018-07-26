@@ -117,6 +117,7 @@ class Board(object):
 				elif self.dynamic_borders[row][col] == 'B':
 					self.dynamic_borders[row][col] = 6
 
+
 	def get_contested_regions(self):
 		'''
 		This function is meant to loop through all the regions in 
@@ -130,6 +131,7 @@ class Board(object):
 				contested_regions.append(region)
 
 		return contested_regions
+
 
 	def add_to_region(self, block_to_add, regionID):
 		'''
@@ -461,48 +463,6 @@ def add_starting_blocks(board, nobles, other_blocks):
 			elif x.allegiance == "ENGLAND":
 				board.eng_pool.append(x)
 
-
-def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
-	combat_letter = A, combat_round = 0):
-	'''
-	This function takes in all the group that are involved in a battle and a boolean about whether the computer is attacking or not. 
-	The should_retreat function will return either False, meaning the computer should not retreat, or a location in which the computer should
-	retreat its blocks to.
-	'''
-	attacking_copy = copy.deepcopy(attacking)
-	defending_copy = copy.deepcopy(defending)
-	attacking_rein_copy = copy.deepcopy(attacking_reinforcement)
-	defending_rein_copy = copy.deepcopy(defending_reinforcement)
-
-	simulation_dict = simulations.simulation(attacking_copy, defending_copy, 1000, attacking_reinforcement, defending_reinforcement, combat_letter, combat_round)
-	win_percentage = 0
-	#Calculate the win percentage based on if you are attacking or defending in the simulation
-	if is_attacking:
-		win_percentage = float(simulation_dict['attacker wins'])/1000
-	else:
-		win_percentage = float(simulation_dict['defender wins'])/1000
-
-	retreat_constant = .3	
-	#Insert code to check to see if it should retreat
-	if win_percentage > retreat_constant:
-		return False
-	else:
-		possible_locations = retreat_locations(board, attacking, defending, is_attacking)
-		num = random.randint(0, len(possible_locations)-1)
-		return possible_locations[num]
-
-def retreat_locations(board, attacking, defending, is_attacking):
-		
-	current_location = find_location(attacking[0])
-	possible_locations = []
-	#Create list of possible locations to retreat to
-	for x, border in enumerate(board.static_borders[current_location.regionID]):
-		if is_attacking == False and attacking[0].allegiance != board.regions[x].blocks_present.allegiance and border != 'X':
-			possible_locations.append(board.regions[x])
-		elif is_attacking == True annd defending[0].allegiance != board.regions[x].blocks_present.allegiance and border != 'X':
-			possible_locations.append(board.regions[x])
-
-	return possible_locations
 
 def main():
 	#Create board object
