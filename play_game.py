@@ -80,6 +80,23 @@ def opp_card_choice(cards):
             if card == choice:
                 return(i)
 
+def opp_battle_choice(contested_regions):
+    '''
+    Print out all the contested regions
+    Return the index of the region that they want
+    to do the first battle in
+    '''
+    choice = " "
+    print('Contested Regions: ', end = " ")
+    for region in contested_regions:
+        print(region.name, end = " ")
+    
+    while choice not in contested_regions:
+        choice = input('Enter name of region you want to resolve the battle in: ')
+        for i,reg in enumerate(contested_regions):
+            if reg == choice:
+                return(i)
+
 def resolve_card_opp(card, opp_role):
     '''
     This function takes two parameters. One is the card itself and
@@ -137,15 +154,17 @@ def play_game():
     current_board.fill_board(block_list, scenario)
     
     #Find out what card the human wants to play
-    opp_card = opp_hand(opp_card_choice(opp_hand))
+    opp_card = opp_hand[opp_card_choice(opp_hand)]
     #Remove card from human hand
     opp_hand.remove(opp_card)
     #Get card for computer
     computer_card = cardplay.random_card(computer_hand)
     #Remove card from computer hand
     computer_hand.remove(computer_card)
+    #Figure out who goes first, if it is true then Computer goes first
+    who_goes_first = cardplay.compare_cards(opp_card, computer_card, computer_role)
 
-    if compare_cards(opp_card, computer_card, computer_role):
+    if who_goes_first:
         #Enter code to resolve computer card first
         resolve_card_computer(computer_card, computer_role)
         resolve_card_opp(opp_card, opp_role)
@@ -155,7 +174,19 @@ def play_game():
         resolve_card_opp(opp_card, opp_role)
         resolve_card_computer(computer_card, computer_role)
 
-    
+    #Get a list all the regions that are contested
+    contested_regions = current_board.get_contested_regions()
+
+    #If the human goes first find out what region they want to battle in
+    while len(contested_regions) > 0:
+
+        if who_goes_first == False:
+
+            battle_region = contested_regions[opp_battle_choice(contested_regions)]
+
+            combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], current_board, computer_role= computer_role)
+
+
     #Print blocks for testing
     #for block in block_list:
     #    print(block)
