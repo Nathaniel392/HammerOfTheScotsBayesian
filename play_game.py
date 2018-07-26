@@ -98,25 +98,6 @@ def opp_battle_choice(contested_regions):
             if reg == choice:
                 return(i)
 
-
-def resolve_card_opp(card, opp_role):
-    '''
-    This function takes two parameters. One is the card itself and
-    the other is the side in which the opponent is on. The function
-    determines which card is being played and calls functions accordingly
-    to resolve the card
-    '''
-    pass
-
-def resolve_card_computer(card, comp_role):
-    '''
-    This function takes two parameters. One is the card itself and the
-    other is the side in which the computer is playing. The function determines
-    which card is being played and calls functions accordingly to resolve
-    the card
-    '''
-    pass
-
 def play_game():
     #Determine scenario
     #scenario = prompt_scenario()
