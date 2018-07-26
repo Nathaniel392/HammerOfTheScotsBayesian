@@ -4,7 +4,7 @@ import blocks
 import initialize_blocks
 import copy
 import update_roster
-
+import simulations
 
 def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
 	combat_letter = A, combat_round = 0):
