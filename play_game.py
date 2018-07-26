@@ -153,13 +153,14 @@ def play_game():
     if who_goes_first:
 
         #Enter code to resolve computer card first
-        resolve_card_computer(computer_card, computer_role)
-        resolve_card_opp(opp_card, opp_role)
+        resolve_card('comp', computer_card, computer_role)
+        resolve_card('opp', opp_card, opp_role)
 
     else:
+        
         #Enter code to resolve human card first
-        resolve_card_opp(opp_card, opp_role)
-        resolve_card_computer(computer_card, computer_role)
+        resolve_card('opp', opp_card, opp_role)
+        resolve_card('comp', computer_card, computer_role)
 
 
     #Get a list all the regions that are contested
