@@ -78,9 +78,9 @@ def attack_block(attack_block_block, defending_blocks, computer_role = 'ENGLAND'
 					print('Who do you want to get hurt? (Type number)')
 					for i, block in enumerate(defending_blocks):
 						print(block.name, '[', i, ']', end = ' ')
-
-			  		index = input('>')
+					index = input('>')
 			  		if type(index) != int:
+			  		
 			  			print('type in a number')
 			  		elif index not in range(len(defending_blocks) - 1):
 			  			print('not valid index')
