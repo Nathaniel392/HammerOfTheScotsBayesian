@@ -6,6 +6,12 @@ import copy
 import update_roster
 import simulations
 
+def find_location(board, blok):
+	for region in board.regions:
+		for bllock in region.blocks_present:
+			if bllock.name == blok.name:
+				return region
+	return False
 def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
 	combat_letter = A, combat_round = 0):
 	'''
@@ -41,7 +47,7 @@ def retreat_locations(board, attacking, defending, is_attacking):
 	if the computer is attacking and false if the computer is defending.
 	It returns a list of all the locations where a block can retreat to
 	'''
-	current_location = find_location(attacking[0])
+	current_location = find_location(board, attacking[0])
 	possible_locations = []
 	#Create list of possible locations to retreat to
 	for x, border in enumerate(board.static_borders[current_location.regionID]):
