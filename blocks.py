@@ -139,10 +139,10 @@ class Noble(Block):
             if allegiance == None:
                 if self.allegiance == 'SCOTLAND':
                     self.allegiance = 'ENGLAND'
-                    print('changed from SCOTLAND to ENGLAND')
+                    
                 else:
                     self.allegiance == 'SCOTLAND'
-                    print('changed from ENGLAND to SCOTLAND')
+                    
             else:
                 self.allegiance = allegiance
                 
