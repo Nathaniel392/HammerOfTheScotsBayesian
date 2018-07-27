@@ -101,7 +101,11 @@ class Board(object):
 		
 		#fills self.regions
 		self.initialize_regions()
-		#print(self.regions)
+
+		#Create dictionary referencing region names to regionsIDs
+		self.regionID_dict = {}
+		for regionID, region in enumerate(self.regions):
+			self.regionID_dict[region.name] = regionID
 
 	def reset_borders(self):
 		'''
@@ -152,6 +156,7 @@ class Board(object):
 				self.regions[regionID].blocks_present.pop(i)
 				return True
 		return False
+
 	def fill_board(self, block_list, scenario):
 		'''
 		Initialize the location and alligiance of blocks
@@ -318,8 +323,8 @@ class Board(object):
 
 				if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
           
-					for blck in self.regions[end].blocks_present:
-						self.regions[end].combat_dict['Defending'].append(blck)
+					for block in self.regions[end].blocks_present:
+						self.regions[end].combat_dict['Defending'].append(block)
 
 					self.regions[end].combat_dict['Attacking'].append(block)
 					self.regions[end].blocks_present.append(block)
@@ -346,8 +351,8 @@ class Board(object):
 
 				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
           
-					for blck in self.regions[end].blocks_present:
-						self.regions[end].combat_dict['Defending'].append(blck)
+					for block in self.regions[end].blocks_present:
+						self.regions[end].combat_dict['Defending'].append(block)
 
 					self.regions[end].combat_dict['Attacking'].append(block)
 					self.regions[end].blocks_present.append(block)
