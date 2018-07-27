@@ -5,14 +5,15 @@ import initialize_blocks
 import copy
 import update_roster
 import simulations
-def find_location(board, blok):
+
+def find_location(board, block_name):
 	'''
-	This function takes a board object and the name of a block
+	This function takes a board object and a block name
 	and returns a region object where the block is
 	'''
 	for region in board.regions:
-		for bllock in region.blocks_present:
-			if bllock.name.lower() == blok.lower():
+		for block in region.blocks_present:
+			if block.name == block_name:
 				return region
 	raise Exception('cannot find block')
 

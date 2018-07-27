@@ -311,7 +311,7 @@ class Board(object):
 
 		return False
 
-	def move_block(self,block, start, end):
+	def move_block(self, block, start, end):
 		'''
 		Changes a block's location on the board, assuming that all conditions are legal. 
 		Adds them to appropriate dictionaries if in a combat or attack scenario
