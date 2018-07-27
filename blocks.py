@@ -108,8 +108,7 @@ class Block(object):
         output = str(self)
         return output
 
-    def __len__(self):
-        return 1
+
       
     def is_dead(self):
         return self.current_strength == 0
