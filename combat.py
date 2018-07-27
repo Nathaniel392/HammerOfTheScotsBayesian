@@ -355,8 +355,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				
 			for attacking_block in defenders[letter]:
 				
+				#check wales loyalty
 				if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
-			
+				
 					if random.randint(0,2) == 0:
 						attacking_block.current_strength = 0
 						print(attacking_block.name, 'has run away!')
@@ -373,6 +374,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						bad_input = True
 
 						while bad_input:
+							#attack or retreat
 							print('What does ', attacking_block.name, 'do? (r) retreat (f) fight')
 							option = input('>')
 							if option == 'r':
@@ -380,6 +382,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								valid_location = False
 
 								while not valid_location:
+
 									try:
 										regionID_to_retreat_to = int(input('What regionID to retreat to: '))
 									except ValueError:
@@ -403,7 +406,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							
 
 							elif option == 'f':
-							
+								#fight
 								attack_block(attacking_block, attack, computer_role)
 							
 								bad_input = False
