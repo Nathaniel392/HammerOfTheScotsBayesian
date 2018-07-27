@@ -31,7 +31,7 @@ id alliegance start
 29  ENGLAND     10
 30  ENGLAND     9
 31  ENGLAND     6
-32  SCOTLAND    10
+32  SCOTLAND    20
 33  ENGLAND     13
 34  ENGLAND     0
 35  ENGLAND     8
