@@ -158,7 +158,7 @@ def play_game():
             computer_hand.remove(computer_card)
 
             #Figure out who goes first, if it is true then Computer goes first - also resolves cards
-            who_goes_first = cardplay.compare_cards(opp_card, computer_card, computer_role)
+            who_goes_first, year_cut_short = cardplay.compare_cards(opp_card, computer_card, computer_role)
 
             #Get a list all the regions that are contested
             contested_regions = current_board.get_contested_regions()
@@ -173,7 +173,7 @@ def play_game():
                     combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], current_board, computer_role= computer_role)
 
                     contested_regions.remove(battle_region)
-
+            
             if year_cut_short or turn_counter >= 5:
                 play_turn = False
 
