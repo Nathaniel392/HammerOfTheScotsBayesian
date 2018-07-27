@@ -59,15 +59,17 @@ class Block(object):
           
     def heal(self, health_points):
         """
-        returns False if cannot heal by that many points
-        otherwise returns True and heals block
+        heals block as much as possible with health_points sent
+        returns number of health_points left
         """
+        while health_points > 0:
         
-        if self.current_strength + health_points > self.attack_strength:
-            return False
-        else:
-            self.current_strength = self.attack_strength + health_points
-            return True
+            if self.current_strength + 1 > self.attack_strength:
+                return health_points
+            else:
+                self.current_strength = self.attack_strength + 1
+                health_points -=1
+        return health_points
           
     def move(self, region, block):
         """
