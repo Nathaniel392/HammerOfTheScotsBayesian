@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Jul 24 15:05:44 2018
+Created on Tue Jul 24 15:05:44 2018
 
 @author: amylvaganam
 """
@@ -30,8 +31,24 @@ print(card)
 """
 
 import random
+import board
     
 #ultimately: return card that the computer decides to play
+
+
+def pick_random_region(board, role):
+    '''
+    Picks a random region that the computer controls, returns its regionID.
+    role:  'ENGLAND' or 'SCOTLAND'
+    '''
+    friendly_regions = board.get_controlled_regions(role)
+
+    num_regions = len(friendly_regions)
+    rand_selection = random.randint(num_regions)
+    selected_region = friendly_regions[rand_selection]
+
+    return selected_region
+
      
 def order(): #returns randomly for now whether play one or two goes first
     if random.randint(0,2) == 1:
@@ -102,8 +119,12 @@ def sea_execution(board, position):
                     block_name = input("Invalid block. Please re-enter.\n>")
 
     
-def her_execution(position):
-    pass
+def her_execution(position, board):
+    '''
+    
+    '''
+
+
 def vic_execution(position):
     pass
 def pil_execution(position):
@@ -114,7 +135,7 @@ def tru_execution(position):
 def resolve_card(board, which_side, card, role):
     
     """
-    Takes in a string that lists side (comp/opp), the card for that side, and the role (england/scotland)
+    Takes in a string that lists side (comp/opp), the card for that side, and the role (ENGLAND/SCOTLAND)
     based on string value of card, calls a function to execute the card itself
     
     """
@@ -138,26 +159,26 @@ def resolve_card(board, which_side, card, role):
             
 def compare_cards(board, opp_card, comp_card, comp_role):
     """
-    takes the opponent card, computer card, and computer allegiance (england/scotland)
+    takes the opponent card, computer card, and computer allegiance (ENGLAND/SCOTLAND)
     compares cards for which side plays their turn first
     returns True for computer going first, False for opponent first
     """
     
     year_ends_early = False
     
-    if comp_role.lower() == 'scotland':
-        opp_role = 'england'
-    elif comp_role.lower() == 'england':
-        opp_role = 'scotland'
+    if comp_role.lower() == 'SCOTLAND':
+        opp_role = 'ENGLAND'
+    elif comp_role.lower() == 'ENGLAND':
+        opp_role = 'SCOTLAND'
     
     if get_card_val(opp_card) > get_card_val(comp_card):
         who_goes_first = False
     elif get_card_val(opp_card) > get_card_val(comp_card):
         who_goes_first = True
     elif get_card_val(opp_card) == get_card_val(comp_card):
-        if comp_role.lower() == 'england':
+        if comp_role.lower() == 'ENGLAND':
             who_goes_first = True
-        elif comp_role.lower() == 'scotland':
+        elif comp_role.lower() == 'SCOTLAND':
             who_goes_first = False
         if get_card_val(opp_card) == 4 and get_card_val(comp_card) == 4:
             year_ends_early = True
