@@ -218,7 +218,7 @@ def retreat_locations(board, attacking, defending, is_attacking):
 	return possible_locations
 
 def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
-	combat_letter = 'A', combat_round = 0, retreat_constant = -1):
+	combat_letter = 'A', combat_round = 0, retreat_constant = .3):
 	'''
 	This function takes in all the group that are involved in a battle and a boolean about whether the computer is attacking or not. 
 	The should_retreat function will return either False, meaning the computer should not retreat, or a location in which the computer should
@@ -300,7 +300,7 @@ def regroup(winner_blocks, current_board, computer_role):
 						bad_input = False
 						break
 				if place_to_go_to == -1:
-					bad_input = True
+					bad_input = False
 				if not bad_input:
 					if place_to_go_to != -1:
 						current_board.move_block(block, find_location(current_board, block).regionID, place_to_go_to)
