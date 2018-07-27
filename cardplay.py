@@ -32,6 +32,7 @@ print(card)
 
 import random
 import board
+import dice
     
 #ultimately: return card that the computer decides to play
 
@@ -122,10 +123,67 @@ def sea_execution(board, position):
                     block_name = input("Invalid block. Please re-enter.\n>")
 
     
-def her_execution(position, board):
+def her_execution(board, position, role):
     '''
-    
+    Activates the HERALD card.
+    position:  'opp' or 'comp' - ai or player
+    board:  Board object
     '''
+
+    #List of available nobles to steal
+    enemy_nobles = []
+
+    for enemy_region in board.get_controlled_regions(role):
+        for block in enemy_region.blocks_present:
+
+            if type(block) == blocks.Noble and block.name != 'MORAY':
+                enemy_nobles.append(block)
+
+    if position == 'opp':
+
+        #Print out available nobles
+        for noble in enemy_nobles:
+            print(noble.name)
+
+        #Take input
+        valid_input = False
+        while not valid_input:
+            name_input = input('Which noble will you try to take?: ').strip()
+
+            #Check if the input is valid
+            for noble in enemy_nobles:
+
+                if name_input == noble.name:
+                    valid_input = True
+                    noble_to_steal = noble
+
+                else:
+                    print('Invalid input. Please try again.')
+
+    elif position == 'comp':
+        #PICK A RANDOM NOBLE - TEMPORARY
+        num_nobles = len(enemy_nobles)
+        rand_selection = random.randint(num_nobles)
+        noble_to_steal = enemy_nobles[rand_selection]
+
+    #Roll the die and take the number from the list
+    print('Roll a die to take the noble. 1-4 = success, 5-6 = failure.\n>')
+
+    rand_num = dice.roll(1)[0]
+    if rand_num <= 4:
+        #STEAL NOBLE
+        noble_to_steal.change_allegiance()
+
+        #Find the noble's region
+        for region in board.regions:
+            if noble_to_steal in region.blocks_present:
+                noble_region = region
+
+        #Move the noble to its own region - will sort it into attacker/defender
+        board.move_block(noble_to_steal, noble_region, noble_region)
+        print('Success')
+    else:
+        print('Failure')
 
 
 def vic_execution(position):
@@ -143,21 +201,21 @@ def resolve_card(board, which_side, card, role):
     
     """
     if card == '1':
-        one_execution(board, which_side, role)
+        one_execution(board, which_side)
     elif card == '2':
-        two_execution(board, which_side, role)
+        two_execution(board, which_side)
     elif card == '3':
-        three_execution(board, which_side, role)
+        three_execution(board, which_side)
     elif card == 'SEA':
-        sea_execution(board, which_side, role)
+        sea_execution(board, which_side)
     elif card == 'HER':
-        her_execution(board, which_side, role)
+        her_execution(board, which_side)
     elif card == 'VIC':
-        vic_execution(board, which_side, role)
+        vic_execution(board, which_side)
     elif card == 'PIL':
-        pil_execution(board, which_side, role)
+        pil_execution(board, which_side)
     elif card == 'TRU':
-        tru_execution(board, which_side, role)
+        tru_execution(board, which_side)
         
             
 def compare_cards(board, opp_card, comp_card, comp_role):
@@ -165,14 +223,13 @@ def compare_cards(board, opp_card, comp_card, comp_role):
     takes the opponent card, computer card, and computer allegiance (ENGLAND/SCOTLAND)
     compares cards for which side plays their turn first
     returns True for computer going first, False for opponent first
-    returns year_ends_early if two event cards are played and winter comes early
     """
     
     year_ends_early = False
     
-    if comp_role == 'SCOTLAND':
+    if comp_role.lower() == 'SCOTLAND':
         opp_role = 'ENGLAND'
-    elif comp_role == 'ENGLAND':
+    elif comp_role.lower() == 'ENGLAND':
         opp_role = 'SCOTLAND'
     
     if get_card_val(opp_card) > get_card_val(comp_card):
