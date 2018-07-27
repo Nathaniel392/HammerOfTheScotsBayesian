@@ -6,13 +6,14 @@ import copy
 import update_roster
 import simulations
 def find_location(board, blok):
-
+	'''
+	This function takes a board object and the name of a block
+	and returns a region object where the block is
+	'''
 	for region in board.regions:
 		for bllock in region.blocks_present:
-			
-			if bllock.name == blok.name:
+			if bllock.name.lower() == blok.lower():
 				return region
-		
 	raise Exception('cannot find block')
 
 def organize(blocks):
