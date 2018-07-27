@@ -5,15 +5,15 @@ import initialize_blocks
 import copy
 import update_roster
 import simulations
-
-def find_location(board, block_name):
+def find_location(board, blok):
 	'''
-	This function takes a board object and a block name
+	This function takes a board object and the name of a block
 	and returns a region object where the block is
 	'''
 	for region in board.regions:
-		for block in region.blocks_present:
-			if block.name == block_name:
+		for bllock in region.blocks_present:
+			
+			if bllock.name == blok.name:
 				return region
 		
 	raise Exception('cannot find block')
@@ -230,7 +230,7 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	attacking_rein_copy = copy.deepcopy(attacking_reinforcement)
 	defending_rein_copy = copy.deepcopy(defending_reinforcement)
 
-	simulation_dict = simulations.simulation(attacking_copy, defending_copy, 1000, attacking_reinforcement, defending_reinforcement, combat_letter, combat_round)
+	simulation_dict = simulations.simulation(attacking_copy, defending_copy, 1000, attacking_rein_copy, defending_rein_copy, combat_letter, combat_round)
 	win_percentage = 0
 	#Calculate the win percentage based on if you are attacking or defending in the simulation
 	if is_attacking:
@@ -268,6 +268,45 @@ def print_situation(attack, defense, attack_reinforcements, defense_reinforcemen
 	for block in defense_reinforcements:
 		print(block.name, '-', block.current_strength, end = '\t')
 	print()
+
+def regroup(winner_blocks, current_board, computer_role):
+	"""
+	regroups after someone wins
+	winner_blocks is a list of winning blocks
+	current_board is board
+	"""
+	possible_locations = retreat_locations(current_board, winner_blocks, [], False)
+	if computer_role == winner_blocks[0].allegiance:
+		for block in winner_blocks:
+			
+			place_to_go_to = random.randint(0, len(possible_locations))
+			if place_to_go_to == len(possible_locations):
+				print(block.name, ' stays')
+				continue
+			else:
+				current_board.move_block(block, find_location(current_board, block).regionID, place_to_go_to)
+				print(block.name, ' moved to ', place_to_go_to)
+	else:
+		for block in winner_blocks:
+			bad_input = True
+			while bad_input:
+				try:
+					print('Where will ', block.name, ' go to? (region id)\n (type -1 for stay): ')
+					place_to_go_to = int(input('>'))
+				except ValueError:
+					print('type a number')
+				for location in possible_locations:
+					if location.regionID == place_to_go_to:
+						bad_input = False
+						break
+				if place_to_go_to == -1:
+					bad_input = True
+				if not bad_input:
+					if place_to_go_to != -1:
+						current_board.move_block(block, find_location(current_board, block).regionID, place_to_go_to)
+						print(block.name, ' moved to ', place_to_go_to)
+				if bad_input:
+					print('not valid location')
 
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), current_board = None, computer_role = 'ENGLAND'):
 	'''
@@ -322,8 +361,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						attacking_block.current_strength = 0
 						print(attacking_block.name, 'has run away!')
 				
-
-				print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
+				if combat_round == 0 and letter == 'A':
+					print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
 
 
 				if not attacking_block.is_dead():
@@ -403,10 +442,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 					update_roster.update_roster(current_board = current_board)
 		
 					print('defender wins')
+					regroup(defense + defense_reinforcements, current_board, computer_role)
 					return 'defender wins'
 				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
 					update_roster.update_roster(current_board = current_board)
 					print('attacker wins')
+					regroup(attack + attack_reinforcements, current_board, computer_role)
 					return 'attacker wins'
 						
 			
@@ -485,16 +526,23 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
 					update_roster.update_roster(current_board = current_board)
 					print('attacker wins')
+					regroup(attack + attack_reinforcements, current_board, computer_role)
 					return 'attacker wins'
 				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
 					update_roster.update_roster(current_board = current_board)
 		
 					print('defender wins')
+					regroup(defense + defense_reinforcements, current_board, computer_role)
 					return 'defender wins'
 
 	update_roster.update_roster(current_board = current_board)
 	print('attacker retreats')
+	regroup(defense + defense_reinforcements, current_board, computer_role)
 	return 'attacker retreats'
+
+
+
+
 
 
 def main():
