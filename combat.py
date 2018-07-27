@@ -5,6 +5,7 @@ import initialize_blocks
 import copy
 import update_roster
 import simulations
+import search
 def find_location(board, blok):
 	'''
 	This function takes a board object and the name of a block
@@ -132,9 +133,11 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 	
 
 		if block.type == 'KING' and block.is_dead():
-		
+			print(block.name , ' has died and the game is over')
 			return True, False
 		elif block.has_cross and block.is_dead():
+
+			print(block.name, ' has died and will never come back')
 			if current_board == None:
 				attackers_lst.pop(i)
 			else:
@@ -145,14 +148,18 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 			block.change_allegiance()
 	
 			defense_reinforcements.append(attackers_lst.pop(i))
+
+			print(block.name, ' has changed sides and has been added to defense reinforcements')
 		elif type(block) != blocks.Noble and block.is_dead():
+
+			print(block.name, ' has changed sides and goes to the pool')
 			if block.allegiance == 'ENGLAND':
 				eng_pool.append(attackers_lst.pop(i))
 			else:
 				scot_pool.append(attackers_lst.pop(i))
 		
 			
-		if not block.is_dead():
+		elif not block.is_dead():
 	
 			attacker_is_dead = False
 
@@ -162,11 +169,12 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 
 		
 		if block.type == 'KING' and block.is_dead():
-	
+			print(block.name , ' has died and the game is over')
 			return False, True
 
 		elif block.has_cross and block.is_dead():
 
+			print(block.name, ' has died and will never come back')
 			defenders_lst.pop(i)
 			
 
@@ -175,16 +183,20 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 			block.change_allegiance()
 
 			attack_reinforcements.append(defenders_lst.pop(i))
+
+			print(block.name, ' has changed sides and has been added to attack reinforcements')
 		
 		elif type(block) != blocks.Noble and block.is_dead():
+
+			print(block.name, ' has changed sides and goes to the pool')
 			if block.allegiance == 'ENGLAND':
 				eng_pool.append(defenders_lst.pop(i))
 			else:
 				scot_pool.append(defenders_lst.pop(i))
 			
 
-		if not block.is_dead():
-	
+		elif not block.is_dead():
+			
 			defender_is_dead = False
 
 	return attacker_is_dead, defender_is_dead
@@ -284,16 +296,17 @@ def regroup(winner_blocks, current_board, computer_role):
 				print(block.name, ' stays')
 				continue
 			else:
+				place_to_go_to = possible_locations[place_to_go_to].regionID
 				current_board.move_block(block, find_location(current_board, block).regionID, place_to_go_to)
-				print(block.name, ' moved to ', place_to_go_to)
+				print(block.name, ' moved to ', search.region_id_to_name(current_board, place_to_go_to))
 	else:
 		for block in winner_blocks:
 			bad_input = True
 			while bad_input:
 				try:
-					
+					print('possible locations:', end = ' ')
 					for region in possible_locations:
-						print('possible locations: ', region.name , '[', region.regionID, ']', end = '\t')
+						print(region.name , '[', region.regionID, ']', end = '\t')
 					print()
 					print('Where will ', block.name, ' go to? (region id)\n (type -1 for stay): ')
 					place_to_go_to = int(input('>'))
@@ -309,7 +322,7 @@ def regroup(winner_blocks, current_board, computer_role):
 				if not bad_input:
 					if place_to_go_to != -1:
 						current_board.move_block(block, find_location(current_board, block).regionID, place_to_go_to)
-						print(block.name, ' moved to ', place_to_go_to)
+						print(block.name, ' moved to ', search.region_id_to_name(current_board, place_to_go_to))
 				if bad_input:
 					print('not valid location')
 
@@ -389,8 +402,10 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								while not valid_location:
 
 									try:
+										print('possible locations:', end = ' ')
 										for region in possible_locations:
-											print('possible locations: ', region.name , '[', region.regionID, ']', end = '\t')
+
+											print(region.name , '[', region.regionID, ']', end = '\t')
 										print()
 										regionID_to_retreat_to = int(input('What regionID to retreat to: '))
 									except ValueError:
@@ -444,7 +459,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 
-				
+			
 				attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool)
 
 				print_situation(attack,defense,attack_reinforcements,defense_reinforcements)
@@ -456,6 +471,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 					regroup(defense + defense_reinforcements, current_board, computer_role)
 					return 'defender wins'
 				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
+				
 					update_roster.update_roster(current_board = current_board)
 					print('attacker wins')
 					regroup(attack + attack_reinforcements, current_board, computer_role)
@@ -492,8 +508,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								while not valid_location:
 									possible_locations = retreat_locations(current_board, attack, defense, True)
 									try:
+										print('possible locations:', end = ' ')
 										for region in possible_locations:
-											print('possible locations: ', region.name , '[', region.regionID, ']', end = '\t')
+											print(region.name , '[', region.regionID, ']', end = '\t')
 										print()
 										regionID_to_retreat_to = int(input('What regionID to retreat to: '))
 										
@@ -514,10 +531,11 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								attack.remove(attacking_block)
 								print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
-							elif option != 'f':
+							elif option == 'f':
+								print(1)
 								attack_block(attacking_block, defense, computer_role)
 								
-							bad_input = False
+								bad_input = False
 					else:
 
 						option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, True, 'A', 0)
@@ -541,6 +559,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
 				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
 					update_roster.update_roster(current_board = current_board)
+					
 					print('attacker wins')
 					regroup(attack + attack_reinforcements, current_board, computer_role)
 					return 'attacker wins'
