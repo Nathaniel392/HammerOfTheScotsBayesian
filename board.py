@@ -151,7 +151,12 @@ class Board(object):
 
 		return contested_regions
 
-
+	def get_block(block_name, region):
+		list_of_blocks = region.blocks_present
+		for block in list_of_blocks:
+			if block.name.lower() == block_name.lower():
+				return block
+	
 	def add_to_region(self, block_to_add, regionID):
 		'''
 		This function takes a block object and adds it to a particular region
