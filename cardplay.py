@@ -146,9 +146,9 @@ def compare_cards(board, opp_card, comp_card, comp_role):
     
     year_ends_early = False
     
-    if comp_role.lower() == 'scotland':
+    if comp_role == 'SCOTLAND':
         opp_role = 'ENGLAND'
-    elif comp_role.lower() == 'england':
+    elif comp_role == 'ENGLAND':
         opp_role = 'SCOTLAND'
     
     if get_card_val(opp_card) > get_card_val(comp_card):
