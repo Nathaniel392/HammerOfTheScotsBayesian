@@ -124,6 +124,9 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 	"""
 	attacker_is_dead = True
 	defender_is_dead = True
+
+
+
 	
 	for i, block in enumerate(attackers_lst):
 	
@@ -338,8 +341,13 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								valid_location = False
 
 								while not valid_location:
-									regionID_to_retreat_to = input('What regionID to retreat to: ')
-									possible_locations = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, 'A', 0, -1.0)
+									try:
+										regionID_to_retreat_to = int(input('What regionID to retreat to: '))
+									except ValueError:
+										print('type in a number please')
+										continue
+
+									possible_locations = retreat_locations(current_board, attack, defense, False)
 									
 									for location in possible_locations:
 										if location.regionID == regionID_to_retreat_to:
@@ -351,7 +359,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 								current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, regionID_to_retreat_to)
+								defense.remove(attacking_block)
 								print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
+							
 
 							elif option == 'f':
 							
@@ -371,6 +381,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						if option != False:
 							regionID_to_retreat_to = option.regionID
 							current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, option.regionID)
+							defense.remove(attacking_block)
 							print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
 						else:
@@ -383,13 +394,20 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 
-
+				
 				attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool)
+
 				print_situation(attack,defense,attack_reinforcements,defense_reinforcements)
+
 				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
 					update_roster.update_roster(current_board = current_board)
+		
 					print('defender wins')
 					return 'defender wins'
+				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
+					update_roster.update_roster(current_board = current_board)
+					print('attacker wins')
+					return 'attacker wins'
 						
 			
 		
@@ -420,8 +438,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								valid_location = False
 
 								while not valid_location:
-									regionID_to_retreat_to = input('What regionID to retreat to: ')
-									possible_locations = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, 'A', 0, -1.0)
+									try:
+										regionID_to_retreat_to = int(input('What regionID to retreat to: '))
+									except ValueError:
+										print('type in a number please')
+										continue
+									possible_locations = retreat_locations(current_board, attack, defense, True)
 									
 									for location in possible_locations:
 										if location.regionID == regionID_to_retreat_to:
@@ -432,6 +454,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 										print('please type in a valid location')
 
 								current_board.move_block(attacking_block, find_location(current_board, block).regionID, regionID_to_retreat_to)
+								attack.remove(attacking_block)
 								print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
 							elif option != 'f':
@@ -445,6 +468,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						if option != False:
 							regionID_to_retreat_to = option.regionID
 							current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, option.regionID)
+							attack.remove(attacking_block)
 							print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
 						else:
@@ -462,6 +486,11 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 					update_roster.update_roster(current_board = current_board)
 					print('attacker wins')
 					return 'attacker wins'
+				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
+					update_roster.update_roster(current_board = current_board)
+		
+					print('defender wins')
+					return 'defender wins'
 
 	update_roster.update_roster(current_board = current_board)
 	print('attacker retreats')
