@@ -92,7 +92,10 @@ def dumb_go_first(computer_hand): # plays highest card
 
 
 def random_card(computer_hand): #return random card in computer deck
-    random_index = random.randint(0,len(computer_hand)-1)
+    if len(computer_hand) != 1:
+        random_index = random.randint(0,len(computer_hand)-1)
+    else:
+        random_index = 0
     return computer_hand[random_index]
 
 def one_execution(position):

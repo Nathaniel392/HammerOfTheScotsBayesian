@@ -123,6 +123,7 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 			block.change_allegiance()
 
 			attack_reinforcements.append(defenders_lst.pop(i))
+
 		elif type(block) != blocks.Noble and block.is_dead():
 			if block.allegiance == 'ENGLAND':
 				eng_pool.append(defenders_lst.pop(i))
@@ -214,7 +215,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 					
 									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
 							
-									if attacker_is_dead and combat_round != 0:
+									if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
 										
 										return 'defender wins'
 								
@@ -234,7 +235,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				
 									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
 			
-									if defender_is_dead and combat_round != 0:
+									if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
 
 										return 'attacker wins'
 
