@@ -85,21 +85,21 @@ def attack_block(attack_block_block, defending_blocks, computer_role):
 				bad_input = True
 				index = 0
 				while bad_input:
-					print('Who do you want to get hurt? (Type index in defending_blocks)')
-					print(defending_blocks)
+					print('Who do you want to get hurt? (Type index in list below:)')
+					print(strong_blocks)
 					try:
 						index = int(input('>'))
 					except ValueError:
 						print('type a number')
 						
 					
-					if index not in range(len(defending_blocks)):
+					if index not in range(len(strong_blocks)):
 						print('not valid index')
 					else:
 						bad_input = False
 
 
-				block_to_get_hurt = defending_blocks[index]
+				block_to_get_hurt = strong_blocks[index]
 				block_to_get_hurt.get_hurt(1)
 				print(block_to_get_hurt.name, 'got hurt!')
 
@@ -291,8 +291,13 @@ def regroup(winner_blocks, current_board, computer_role):
 			bad_input = True
 			while bad_input:
 				try:
+					
+					for region in possible_locations:
+						print('possible locations: ', region.name , '[', region.regionID, ']', end = '\t')
+					print()
 					print('Where will ', block.name, ' go to? (region id)\n (type -1 for stay): ')
 					place_to_go_to = int(input('>'))
+					
 				except ValueError:
 					print('type a number')
 				for location in possible_locations:
@@ -384,6 +389,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								while not valid_location:
 
 									try:
+										for region in possible_locations:
+											print('possible locations: ', region.name , '[', region.regionID, ']', end = '\t')
+										print()
 										regionID_to_retreat_to = int(input('What regionID to retreat to: '))
 									except ValueError:
 										print('type in a number please')
@@ -482,12 +490,17 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								valid_location = False
 
 								while not valid_location:
+									possible_locations = retreat_locations(current_board, attack, defense, True)
 									try:
+										for region in possible_locations:
+											print('possible locations: ', region.name , '[', region.regionID, ']', end = '\t')
+										print()
 										regionID_to_retreat_to = int(input('What regionID to retreat to: '))
+										
 									except ValueError:
 										print('type in a number please')
 										continue
-									possible_locations = retreat_locations(current_board, attack, defense, True)
+									
 									
 									for location in possible_locations:
 										if location.regionID == regionID_to_retreat_to:
