@@ -231,7 +231,7 @@ def retreat_locations(board, attacking, defending, is_attacking):
 	return possible_locations
 
 def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
-	combat_letter = 'A', combat_round = 0, retreat_constant = .3):
+	combat_letter = 'A', combat_round = 0, turn = 'defender', retreat_constant = 0.3):
 	'''
 	This function takes in all the group that are involved in a battle and a boolean about whether the computer is attacking or not. 
 	The should_retreat function will return either False, meaning the computer should not retreat, or a location in which the computer should
@@ -243,7 +243,7 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	attacking_rein_copy = copy.deepcopy(attacking_reinforcement)
 	defending_rein_copy = copy.deepcopy(defending_reinforcement)
 
-	simulation_dict = simulations.simulation(attacking_copy, defending_copy, 1000, attacking_rein_copy, defending_rein_copy, combat_letter, combat_round)
+	simulation_dict = simulations.simulation(attacking_copy, defending_copy, 1000, attacking_rein_copy, defending_rein_copy, combat_letter, combat_round, turn)
 	win_percentage = 0
 	#Calculate the win percentage based on if you are attacking or defending in the simulation
 	if is_attacking:
@@ -441,7 +441,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 					else:
 
 
-						option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, 'A', 0)
+						option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, letter, combat_round)
 					
 							
 						if option != False:
@@ -539,7 +539,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								bad_input = False
 					else:
 
-						option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, True, 'A', 0)
+						option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, True, letter, combat_round, 'attacker')
 						
 						if option != False:
 							regionID_to_retreat_to = option.regionID
