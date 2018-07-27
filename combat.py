@@ -87,7 +87,8 @@ def attack_block(attack_block_block, defending_blocks, computer_role):
 				index = 0
 				while bad_input:
 					print('Who do you want to get hurt? (Type index in list below:)')
-					print(strong_blocks)
+					for i, block in enumerate(strong_blocks):
+						print(block.name, '[', i, ']', end = '\t')
 					try:
 						index = int(input('>'))
 					except ValueError:
@@ -133,11 +134,11 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 	
 
 		if block.type == 'KING' and block.is_dead():
-			print(block.name , ' has died and the game is over')
+			print('\n', block.name , ' has died and the game is over')
 			return True, False
 		elif block.has_cross and block.is_dead():
 
-			print(block.name, ' has died and will never come back')
+			print('\n', block.name, ' has died and will never come back')
 			if current_board == None:
 				attackers_lst.pop(i)
 			else:
@@ -149,10 +150,10 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 	
 			defense_reinforcements.append(attackers_lst.pop(i))
 
-			print(block.name, ' has changed sides and has been added to defense reinforcements')
+			print('\n', block.name, ' has changed sides and has been added to defense reinforcements')
 		elif type(block) != blocks.Noble and block.is_dead():
 
-			print(block.name, ' has changed sides and goes to the pool')
+			print('\n', block.name, ' has changed sides and goes to the pool')
 			if block.allegiance == 'ENGLAND':
 				eng_pool.append(attackers_lst.pop(i))
 			else:
@@ -169,12 +170,12 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 
 		
 		if block.type == 'KING' and block.is_dead():
-			print(block.name , ' has died and the game is over')
+			print('\n', block.name , ' has died and the game is over')
 			return False, True
 
 		elif block.has_cross and block.is_dead():
 
-			print(block.name, ' has died and will never come back')
+			print('\n', block.name, ' has died and will never come back')
 			defenders_lst.pop(i)
 			
 
@@ -184,11 +185,11 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 
 			attack_reinforcements.append(defenders_lst.pop(i))
 
-			print(block.name, ' has changed sides and has been added to attack reinforcements')
+			print('\n', block.name, ' has changed sides and has been added to attack reinforcements')
 		
 		elif type(block) != blocks.Noble and block.is_dead():
 
-			print(block.name, ' has changed sides and goes to the pool')
+			print('\n', block.name, ' has changed sides and goes to the pool')
 			if block.allegiance == 'ENGLAND':
 				eng_pool.append(defenders_lst.pop(i))
 			else:
@@ -279,7 +280,7 @@ def print_situation(attack, defense, attack_reinforcements, defense_reinforcemen
 	print('defending reinforcements:', end = ' ')
 	for block in defense_reinforcements:
 		print(block.name, '-', block.current_strength, end = '\t')
-	print()
+	print('\n')
 
 def regroup(winner_blocks, current_board, computer_role):
 	"""
