@@ -121,6 +121,21 @@ class Board(object):
 				elif self.dynamic_borders[row][col] == 'B':
 					self.dynamic_borders[row][col] = 6
 
+	def get_controlled_regions(self, role):
+		'''
+		role:  'SCOTLAND' or 'ENGLAND'
+		Returns a list of Region objects that belong to the given role
+		'''
+
+	    region_list = []
+
+	    for region in board.regions:
+
+	        #Fill the list with IDs of friendly regions
+	        if region.is_friendly():
+	            region_list.append(region)
+
+	    return region_list
 
 	def get_contested_regions(self):
 		'''
@@ -408,9 +423,6 @@ class Region(object):
 		return output
 
 	def __repr__(self):
-		'''
-		same as __str__
-		'''
 		return str(self)
 
 	def add_block(self, block):
@@ -419,9 +431,24 @@ class Region(object):
 		block:  Block object to be added to the list of 
 		'''
 		self.blocks_present.append(block)
+
+	def is_friendly(self, role):
+		'''
+		role is 'ENGLAND' or 'SCOTLAND'
+		Returns True if the region only contains troops of that side
+		'''
+        return len(self.blocks_present) > 0 and self.blocks_present[0].allegiance == role
+
+    def is_neutral(self):
+    	'''
+    	Returns True if the region is empty
+    	'''
+    	return len(self.blocks_present) == 0
 	
 	def is_contested(self):
-
+		'''
+		Returns True if the region is contested - has blocks of both sides
+		'''
 
 		if len(self.blocks_present) == 0:
 			return False
@@ -434,7 +461,6 @@ class Region(object):
 				return True
 
 		else:
-
 			return False
 
 	def activate_movement(self):
