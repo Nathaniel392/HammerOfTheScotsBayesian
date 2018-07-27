@@ -52,7 +52,7 @@ class Block(object):
         if self.current_strength == 0:
             return False
         else:
-            self.current_strength -= 1
+            self.current_strength -= damage
             if self.current_strength < 0:
                 self.current_strength = 0
             return True
