@@ -12,8 +12,10 @@ def find_location(board, blok):
 	'''
 	for region in board.regions:
 		for bllock in region.blocks_present:
-			if bllock.name.lower() == blok.lower():
+			
+			if bllock.name == blok.name:
 				return region
+		
 	raise Exception('cannot find block')
 
 def organize(blocks):
@@ -53,7 +55,7 @@ def find_max_strength(block_lst):
 	return strong_blocks
 
 
-def attack_block(attack_block_block, defending_blocks, computer_role = 'ENGLAND'):
+def attack_block(attack_block_block, defending_blocks, computer_role):
 	"""
 	attacks blocks
 	uses random in case where everyone same health
@@ -61,7 +63,7 @@ def attack_block(attack_block_block, defending_blocks, computer_role = 'ENGLAND'
 	defending_blocks is the list of all defending blocks to be attacked
 	"""
 	attacking_allegiance = attack_block_block.allegiance
-
+	
 	if defending_blocks == []:
 		return False
 	dice_lst = dice.roll(attack_block_block.current_strength)
@@ -75,27 +77,38 @@ def attack_block(attack_block_block, defending_blocks, computer_role = 'ENGLAND'
 
 		if num <= attack_block_block.attack_number:
 			if computer_role != attacking_allegiance:
+
 				block_to_get_hurt = strong_blocks[random.randint(0, len(strong_blocks) - 1)]
+				block_to_get_hurt.get_hurt(1)
+				print(block_to_get_hurt.name, 'got hurt!')
 			else:
 				bad_input = True
+				index = 0
 				while bad_input:
-					print('Who do you want to get hurt? (Type number)')
-					for i, block in enumerate(defending_blocks):
-						print(block.name, '[', i, ']', end = ' ')
-					index = input('>')
-					if type(index) != int:
+					print('Who do you want to get hurt? (Type index in defending_blocks)')
+					print(defending_blocks)
+					try:
+						index = int(input('>'))
+					except ValueError:
+						print('type a number')
+						
 					
-						print('type in a number')
-					elif index not in range(len(defending_blocks) - 1):
+					if index not in range(len(defending_blocks)):
 						print('not valid index')
 					else:
 						bad_input = False
-						block_to_get_hurt = defending_blocks[index]
+
+
+				block_to_get_hurt = defending_blocks[index]
+				block_to_get_hurt.get_hurt(1)
+				print(block_to_get_hurt.name, 'got hurt!')
+
+
 
 
 			
-			block_to_get_hurt.get_hurt(1)
-			print(block_to_get_hurt.name, 'got hurt!')
+			
+	
 			
 
 
@@ -159,6 +172,7 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 			block.change_allegiance()
 
 			attack_reinforcements.append(defenders_lst.pop(i))
+		
 		elif type(block) != blocks.Noble and block.is_dead():
 			if block.allegiance == 'ENGLAND':
 				eng_pool.append(defenders_lst.pop(i))
@@ -201,7 +215,7 @@ def retreat_locations(board, attacking, defending, is_attacking):
 	return possible_locations
 
 def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
-	combat_letter = 'A', combat_round = 0, retreat_constant = .3):
+	combat_letter = 'A', combat_round = 0, retreat_constant = -1):
 	'''
 	This function takes in all the group that are involved in a battle and a boolean about whether the computer is attacking or not. 
 	The should_retreat function will return either False, meaning the computer should not retreat, or a location in which the computer should
@@ -234,24 +248,25 @@ def print_situation(attack, defense, attack_reinforcements, defense_reinforcemen
 	"""
 	does nothing but print stuff
 	"""
-	print('\n\n')
+	print()
 	print('attack:', end = ' ')
 	for block in attack:
-		print(block.name, ':', block.current_strength, end = '\t')
-	print('\n\n')
+		print(block.name, '-', block.current_strength, end = '\t')
+	print()
 	print('defense:', end = ' ')
 	for block in defense:
-		print(block.name, ':', block.current_strength, end = '\t')
-	print('\n\n')
+		print(block.name, '-', block.current_strength, end = '\t')
+	print()
 	print('attacking reinforcements:', end = ' ')
 	for block in attack_reinforcements:
-		print(block.name, ':', block.current_strength, end = '\t')
-	print('\n\n')
+		print(block.name, '-', block.current_strength, end = '\t')
+	print()
 	print('defending reinforcements:', end = ' ')
 	for block in defense_reinforcements:
-		print(block.name, ':', block.current_strength, end = '\t')
+		print(block.name, '-', block.current_strength, end = '\t')
+	print()
 
-def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), current_board = None, before_letter = 'A', before_number = 0, turn = 'defender', computer_role = 'ENGLAND'):
+def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), current_board = None, computer_role = 'ENGLAND'):
 	'''
 	Manages combat
 	attack:  list of attacking blocks
@@ -264,9 +279,10 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	TAKES NO INPUT
 
 
-
+	
 	'''
-	print(type(current_board))
+
+	
 	# Divide each side into letter groups (dictionary)
 	letter_found = False
 	number_found = False
@@ -282,161 +298,173 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	attacker_is_dead = False
 	defender_is_dead = False
 
+
+	
+
 #run through the combat rounds
 
 	for combat_round in range(3):
 
-		if not number_found and combat_round != before_number:
-	
-			pass
-		else:
-			number_found = True
-
-			if combat_round >= 1:
-				
-
-				attack += attack_reinforcements
-				defense += defense_reinforcements
-
-				attack_reinforcements = list()
-				defense_reinforcements = list()
-				
+		
+		for letter in 'ABC':
+		
 			
+					
 				
-				attackers = organize(attack)
-				defenders = organize(defense)
+			for attacking_block in defenders[letter]:
+				
+				if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
+			
+					if random.randint(0,2) == 0:
+						attacking_block.current_strength = 0
+						print(attacking_block.name, 'has run away!')
+				
+
+				print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
 
 
-			for letter in 'ABC':
-				if not letter_found and letter != before_letter:
-					
-					pass
-				else:
-					letter_found = True
-					#defenders first
-					if not turn_found and 'defender' != turn:
-						pass
-					else:
-						turn_found = True
-						for letter2 in defenders:
-							if letter2 == letter:
-								for attacking_block in defenders[letter2]:
-									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
-										if random.randint(0,2) == 0:
-											attacking_block.current_strength = 0
-											print(attacking_block.name, 'has run away!')
-											
+				if not attacking_block.is_dead():
+
+					if computer_role != defenders_allegiance:
+
+						
+						bad_input = True
+
+						while bad_input:
+							print('What does ', attacking_block.name, 'do? (r) retreat (f) fight')
+							option = input('>')
+							if option == 'r':
+								bad_input = False
+								valid_location = False
+
+								while not valid_location:
+									regionID_to_retreat_to = input('What regionID to retreat to: ')
+									possible_locations = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, 'A', 0, -1.0)
+									
+									for location in possible_locations:
+										if location.regionID == regionID_to_retreat_to:
+											valid_location = True
+											break
+
+									if not valid_location:
+										print('please type in a valid location')
 
 
-									print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
-									if not attacking_block.is_dead():
-										if computer_role != defenders_allegiance:
-											print('What does ', attacking_block.name, 'do? (r) retreat (f) fight')
-											option = input('>')
-											bad_input = True
-											while bad_input:
-												if option == 'r':
-													bad_input = False
-													valid_location = False
-													while not valid_location:
-														regionID_to_retreat_to = input('What regionID to retreat to: ')
-														possible_locations = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, 'A', 0, -1.0)
-														
-														for location in possible_locations:
-															if location.regionID == regionID_to_retreat_to:
-																valid_location = True
-																break
-														if not valid_location:
-															print('please type in a valid location')
+								current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, regionID_to_retreat_to)
+								print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
-
-													current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, regionID_to_retreat_to)
-													print(attacking_block, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
-
-												elif option != 'f':
-													attack_block(attacking_block, defense, computer_role)
-													
-												bad_input = False
-										else:
-											option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, 'A', 0)
-											regionID_to_retreat_to = option.regionID
-												
-											if option != False:
-												current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, option.regionID)
-												print(attacking_block, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
-											else:
-												attack_block(attacking_block, defense, computer_role)
-								
-										
-										
-
-
-
-					
-									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool)
+							elif option == 'f':
 							
-									if attacker_is_dead and combat_round != 0:
-										update_roster.update_roster(current_board = current_board)
-										return 'defender wins'
-								
-					if not turn_found and 'attacker' != turn:
-						pass
-					else:
-						turn_found = True
-						for letter2 in attackers:
-							if letter2 == letter:
-								for attacking_block in attackers[letter2]:
-									if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
-										if random.randint(0,2) == 0:
-											attacking_block.current_strength = 0
-											print(attacking_block.name, 'has run away!')
-											
-									
-									print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
-									if not attacking_block.is_dead():
-										if computer_role != defenders_allegiance:
-											print('What does ', attacking_block.name, 'do? (r) retreat (f) fight')
-											option = input('>')
-											bad_input = True
-											while bad_input:
-												if option == 'r':
-													bad_input = False
-													valid_location = False
-													while not valid_location:
-														regionID_to_retreat_to = input('What regionID to retreat to: ')
-														possible_locations = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, 'A', 0, -1.0)
-														
-														for location in possible_locations:
-															if location.regionID == regionID_to_retreat_to:
-																valid_location = True
-																break
-														if not valid_location:
-															print('please type in a valid location')
-													current_board.move_block(attacking_block, find_location(current_board, block).regionID, regionID_to_retreat_to)
-													print(attacking_block, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
-												elif option != 'f':
-													attack_block(attacking_block, defense, computer_role)
-													
-												bad_input = False
-										else:
+								attack_block(attacking_block, attack, computer_role)
+							
+								bad_input = False
 
-											option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, True, 'A', 0)
-											regionID_to_retreat_to = option.regionID
-											if option != False:
-												current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, option.regionID)
-												print(attacking_block, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
-											else:
-												attack_block(attacking_block, defense)
+							else:
+								print('type in a proper letter (r) or (f)')
+								bad_input = True
+					else:
+
+
+						option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, 'A', 0)
+					
+							
+						if option != False:
+							regionID_to_retreat_to = option.regionID
+							current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, option.regionID)
+							print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
+
+						else:
+							attack_block(attacking_block, attack, computer_role)
+
+
+			
+					
+					
+
+
+
+
+				attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool)
+				print_situation(attack,defense,attack_reinforcements,defense_reinforcements)
+				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
+					update_roster.update_roster(current_board = current_board)
+					print('defender wins')
+					return 'defender wins'
+						
+			
+		
+			for attacking_block in attackers[letter]:
+
+				if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
+
+					if random.randint(0,2) == 0:
+						attacking_block.current_strength = 0
+						print(attacking_block.name, 'has run away!')
+						
+				
+
+				print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
+
+				if not attacking_block.is_dead():
+					
+					if computer_role != attackers_allegiance:
+
+						print('What does ', attacking_block.name, 'do? (r) retreat (f) fight')
+						option = input('>')
+						bad_input = True
+
+						while bad_input:
+
+							if option == 'r':
+								bad_input = False
+								valid_location = False
+
+								while not valid_location:
+									regionID_to_retreat_to = input('What regionID to retreat to: ')
+									possible_locations = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, 'A', 0, -1.0)
 									
-										attack_block(attacking_block, defense, computer_role)
+									for location in possible_locations:
+										if location.regionID == regionID_to_retreat_to:
+											valid_location = True
+											break
+
+									if not valid_location:
+										print('please type in a valid location')
+
+								current_board.move_block(attacking_block, find_location(current_board, block).regionID, regionID_to_retreat_to)
+								print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
+
+							elif option != 'f':
+								attack_block(attacking_block, defense, computer_role)
+								
+							bad_input = False
+					else:
+
+						option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, True, 'A', 0)
+						
+						if option != False:
+							regionID_to_retreat_to = option.regionID
+							current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, option.regionID)
+							print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
+
+						else:
+						
+							attack_block(attacking_block, defense, computer_role)
 
 				
-									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool)
-			
-									if defender_is_dead and combat_round != 0:
-										update_roster.update_roster(current_board = current_board)
-										return 'attacker wins'
+					
+					
+
+				attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements, current_board.eng_pool, current_board.scot_pool)
+				
+				print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
+				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
+					update_roster.update_roster(current_board = current_board)
+					print('attacker wins')
+					return 'attacker wins'
+
 	update_roster.update_roster(current_board = current_board)
+	print('attacker retreats')
 	return 'attacker retreats'
 
 
