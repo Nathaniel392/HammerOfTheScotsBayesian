@@ -344,8 +344,8 @@ class Board(object):
 
 				if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
           			
-          			if is_truce:
-          				return False
+          				if is_truce:
+          					return False
 
 					for block in self.regions[end].blocks_present:
 						self.regions[end].combat_dict['Defending'].append(block)
@@ -400,7 +400,7 @@ class Board(object):
 
 class Region(object):
 
-	def __init__(self, name, regionID, cathedral, coast, castle_points,):
+	def __init__(self, name, regionID, cathedral, coast, castle_points):
 		'''
 		This function creates a Region object with characteristics given to it
 		The parameters are a string name, int regionID, boolean cathedral, boolean coast,
@@ -455,11 +455,11 @@ class Region(object):
 		'''
         return len(self.blocks_present) > 0 and self.blocks_present[0].allegiance == role
 
-    def is_neutral(self):
-    	'''
-    	Returns True if the region is empty
-    	'''
-    	return len(self.blocks_present) == 0
+	def is_neutral(self):
+		'''
+		Returns True if the region is empty
+		'''
+		return len(self.blocks_present) == 0
 	
 	def is_contested(self):
 		'''
@@ -490,38 +490,6 @@ class Region(object):
 			pass
 		
 
-def add_starting_blocks(board, nobles, other_blocks):
-	'''
-	Adds the blocks that should be present at the beginning of the game
-	to the board object in its region list at the specific region that each
-	block is located.
-	'''
-	#Add nobles 
-	for x in nobles:
-		if x.location != 23:
-			#Add to region
-			board.add_to_region(x, x.location)
-			#Add to roster based on allegiance
-			if x.allegiance == "SCOTLAND":
-				board.scot_roster.append(x)
-			elif x.allegiance == "ENGLAND":
-				board.eng_roster.append(x)
-	#Add other blocks
-	for x in other_blocks:
-		if x.location != 23:
-			#Add to region
-			board.add_to_region(x, x.location)
-			#Add to roster based on allegiance
-			if x.allegiance == "SCOTLAND":
-				board.scot_roster.append(x)
-			elif x.allegiance == "ENGLAND":
-				board.eng_roster.append(x)
-		else:
-			#Add to pool based on allegiance
-			if x.allegiance == "SCOTLAND":
-				board.scot_pool.append(x)
-			elif x.allegiance == "ENGLAND":
-				board.eng_pool.append(x)
 
 
 def main():
