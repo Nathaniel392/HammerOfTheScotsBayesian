@@ -258,7 +258,7 @@ class Board(object):
 		returns a list of all bordering regions of a particular regionID
 		'''
 
-		return_list = []
+		return_list = [self.regions[regionID]]
 		for element in regionID:
 			for i,border in enumerate(self.static_borders[element]):
 
@@ -275,7 +275,7 @@ class Board(object):
 		'''
 
 		if friendly:
-			return_list = []
+			return_list = [self.regions[regionID]]
 
 			for element in regionID:
 				for i, border in enumerate(self.static_borders[element]):
@@ -316,7 +316,7 @@ class Board(object):
 
 		return False
 
-	def move_block(self, block, start, end):
+	def move_block(self, block, start, end, is_truce = False):
 		'''
 		Changes a block's location on the board, assuming that all conditions are legal. 
 		Adds them to appropriate dictionaries if in a combat or attack scenario
@@ -328,6 +328,7 @@ class Board(object):
 		if self.static_borders[start][end] == 'R':
 
 			if self.regions[end].is_contested():
+
 				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
@@ -342,7 +343,10 @@ class Board(object):
 				self.regions[start].blocks_present.remove(block)
 
 				if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
-          
+          			
+          			if is_truce:
+          				return False
+
 					for block in self.regions[end].blocks_present:
 						self.regions[end].combat_dict['Defending'].append(block)
 
@@ -356,6 +360,7 @@ class Board(object):
 		elif self.check_path(block.movement_points,start,end):
 
 			if self.regions[end].is_contested():
+
 				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
@@ -369,7 +374,10 @@ class Board(object):
 			else:
 				self.regions[start].blocks_present.remove(block)
 
-				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
+				if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
+
+					if is_truce:
+						return False
           
 					for block in self.regions[end].blocks_present:
 						self.regions[end].combat_dict['Defending'].append(block)
@@ -379,6 +387,9 @@ class Board(object):
 
 				else:
 					self.regions[end].blocks_present.append(block)
+
+		else:
+			return False
 
 	def __repr__(self):
 		'''
