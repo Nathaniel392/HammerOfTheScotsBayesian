@@ -119,22 +119,21 @@ def resolve_card(board, which_side, card, role):
     
     """
     if card == '1':
-        one_execution(which_side)
+        one_execution(board, which_side)
     elif card == '2':
-        two_execution(which_side)
+        two_execution(board, which_side)
     elif card == '3':
-        three_execution(which_side)
+        three_execution(board, which_side)
     elif card == 'SEA':
         sea_execution(board, which_side)
     elif card == 'HER':
-        her_execution(which_side)
+        her_execution(board, which_side)
     elif card == 'VIC':
-        vic_execution(which_side)
+        vic_execution(board, which_side)
     elif card == 'PIL':
-        pil_execution(which_side)
+        pil_execution(board, which_side)
     elif card == 'TRU':
-        tru_execution(which_side)
-        
+        tru_execution(board, which_side)
         
             
 def compare_cards(board, opp_card, comp_card, comp_role):
