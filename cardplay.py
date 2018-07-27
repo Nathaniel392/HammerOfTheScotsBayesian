@@ -141,14 +141,15 @@ def compare_cards(board, opp_card, comp_card, comp_role):
     takes the opponent card, computer card, and computer allegiance (england/scotland)
     compares cards for which side plays their turn first
     returns True for computer going first, False for opponent first
+    returns year_ends_early if two event cards are played and winter comes early
     """
     
     year_ends_early = False
     
     if comp_role.lower() == 'scotland':
-        opp_role = 'england'
+        opp_role = 'ENGLAND'
     elif comp_role.lower() == 'england':
-        opp_role = 'scotland'
+        opp_role = 'SCOTLAND'
     
     if get_card_val(opp_card) > get_card_val(comp_card):
         who_goes_first = False
