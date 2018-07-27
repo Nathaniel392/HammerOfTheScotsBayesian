@@ -160,19 +160,6 @@ def play_game():
             #Figure out who goes first, if it is true then Computer goes first
             who_goes_first = cardplay.compare_cards(opp_card, computer_card, computer_role)
 
-            if who_goes_first:
-
-                #Enter code to resolve computer card first
-                resolve_card(current_board, 'comp', computer_card, computer_role)
-                resolve_card(current_board, 'opp', opp_card, opp_role)
-
-            else:
-                 
-                #Enter code to resolve human card first
-                resolve_card(current_board, 'opp', opp_card, opp_role)
-                resolve_card(current_board, 'comp', computer_card, computer_role)
-
-
             #Get a list all the regions that are contested
             contested_regions = current_board.get_contested_regions()
 
