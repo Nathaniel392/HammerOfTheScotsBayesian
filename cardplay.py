@@ -77,21 +77,99 @@ def random_card(computer_hand): #return random card in computer deck
     random_index = random.randint(0,len(computer_hand)-1)
     return computer_hand[random_index]
 
-def compare_cards(opp_card, computer_card, computer_role):
+def one_execution(position):
+    pass
+def two_execution(position):
+    pass
+def three_execution(position):
+    pass
+
+def sea_execution(board, position):
+        
+        if position == 'comp':
+            pass
+            
+        elif position == 'opp':
+            
+            valid_block = False
+            
+            while valid_block == False:    
+                block_name = input("which block would you like to move?\n>")
+                if combat.find_location(board, block_name).coast : #is on the coast
+                    print('yes, ' + block_name + ' is on the coast')
+                    valid_block = True
+                else:
+                    block_name = input("Invalid block. Please re-enter.\n>")
+
+    
+def her_execution(position):
+    pass
+def vic_execution(position):
+    pass
+def pil_execution(position):
+    pass
+def tru_execution(position):
+    pass
+
+def resolve_card(board, which_side, card, role):
+    
+    """
+    Takes in a string that lists side (comp/opp), the card for that side, and the role (england/scotland)
+    based on string value of card, calls a function to execute the card itself
+    
+    """
+    if card == '1':
+        one_execution(which_side)
+    elif card == '2':
+        two_execution(which_side)
+    elif card == '3':
+        three_execution(which_side)
+    elif card == 'SEA':
+        sea_execution(board, which_side)
+    elif card == 'HER':
+        her_execution(which_side)
+    elif card == 'VIC':
+        vic_execution(which_side)
+    elif card == 'PIL':
+        pil_execution(which_side)
+    elif card == 'TRU':
+        tru_execution(which_side)
+        
+        
+            
+def compare_cards(board, opp_card, comp_card, comp_role):
     """
     takes the opponent card, computer card, and computer allegiance (england/scotland)
     compares cards for which side plays their turn first
-    returns true for computer going first, false for opponent first
+    returns True for computer going first, False for opponent first
     """
-
     
-    if get_card_val(opp_card) > get_card_val(computer_card):
-        return False
-    elif get_card_val(opp_card) > get_card_val(computer_card):
-        return True
-    elif get_card_val(opp_card) == get_card_val(computer_card):
-        if computer_role.lower() == 'england':
-            return True
-        elif computer_role.lower() == 'scotland':
-            return False
-
+    year_ends_early = False
+    
+    if comp_role.lower() == 'scotland':
+        opp_role = 'england'
+    elif comp_role.lower() == 'england':
+        opp_role = 'scotland'
+    
+    if get_card_val(opp_card) > get_card_val(comp_card):
+        who_goes_first = False
+    elif get_card_val(opp_card) > get_card_val(comp_card):
+        who_goes_first = True
+    elif get_card_val(opp_card) == get_card_val(comp_card):
+        if comp_role.lower() == 'england':
+            who_goes_first = True
+        elif comp_role.lower() == 'scotland':
+            who_goes_first = False
+        if get_card_val(opp_card) == 4 and get_card_val(comp_card) == 4:
+            year_ends_early = True
+        
+        
+    if who_goes_first: #if computer goes first
+        resolve_card(board, 'comp', comp_card, comp_role)
+        resolve_card(board, 'opp', opp_card, opp_role)
+        
+    elif not who_goes_first: #if opponent goes first
+        resolve_card(board, 'opp', opp_card, opp_role)
+        resolve_card(board, 'comp', comp_card, comp_role)
+        
+    return who_goes_first, year_ends_early
