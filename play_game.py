@@ -133,7 +133,7 @@ def play_game():
         deck.reset()
         computer_hand, opp_hand = deck.deal_hands()
 
-        #When this gets to 5, cut the year short
+        #When this gets to 5, end the year
         turn_counter = 0
         play_turn = True
 
@@ -163,13 +163,14 @@ def play_game():
             if who_goes_first:
 
                 #Enter code to resolve computer card first
-                resolve_card_computer(computer_card, computer_role)
-                resolve_card_opp(opp_card, opp_role)
+                resolve_card(current_board, 'comp', computer_card, computer_role)
+                resolve_card(current_board, 'opp', opp_card, opp_role)
 
             else:
+                 
                 #Enter code to resolve human card first
-                resolve_card_opp(opp_card, opp_role)
-                resolve_card_computer(computer_card, computer_role)
+                resolve_card(current_board, 'opp', opp_card, opp_role)
+                resolve_card(current_board, 'comp', computer_card, computer_role)
 
 
             #Get a list all the regions that are contested
@@ -186,11 +187,7 @@ def play_game():
 
                     contested_regions.remove(battle_region)
 
-
-
-
-
-
+            #Boolean - set this True when 2 event cards are played
             year_cut_short = False
 
             if year_cut_short or turn_counter >= 5:
