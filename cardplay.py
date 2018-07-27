@@ -169,7 +169,7 @@ def one_execution(board, position, role):
                     #Get the region object from the region name
                     end_region = board.regions[regionID_dict[end_region_name.upper()]]
                     #Make sure that the move is a valid move
-                    if board.check_path(block_choice.movement_points, focus_region.regionID, end_region.regionID) = False:
+                    if not board.check_path(block_choice.movement_points, focus_region.regionID, end_region.regionID):
                         print('That is an invalid move')
                         end_region = ''
             #Move the block to its location
@@ -189,13 +189,13 @@ def one_execution(board, position, role):
         for block in start_region:
             #50% chance that the computer will move block
             if random.randint(0,2) == 0:
-                 while flag:
+                while flag:
                     #Get random region to move the block to
                     end_ID = random.randint(0,23)
                     if end_ID != start_region.regionID:
                         flag = False
                 #Make sure that the move to random region is legal
-                while board.check_path(block, block.movement_points, start_region.regionID, end_ID) = False
+                while not board.check_path(block, block.movement_points, start_region.regionID, end_ID):
                     flag = True
                     while flag:
                         #Get new random region
@@ -267,7 +267,7 @@ def two_execution(position):
 
                     if end_region_name.upper() in board.regionID_dict:
                         end_region = board.regions[regionID_dict[end_region_name.upper()]]
-                        if board.check_path(block_choice.movement_points, focus_region.regionID, end_region.regionID) = False:
+                        if not board.check_path(block_choice.movement_points, focus_region.regionID, end_region.regionID):
                             print('That is an invalid move')
                             end_region = ''
 
@@ -287,11 +287,11 @@ def two_execution(position):
             for block in start_region:
                 if block not in moved_blocks:
                     if random.randint(0,2) == 0:
-                         while flag:
+                        while flag:
                             end_ID = random.randint(0,23)
                             if end_ID != start_region.regionID:
                                 flag = False
-                        while board.check_path(block, block.movement_points, start_region.regionID, end_ID) = False
+                        while not board.check_path(block, block.movement_points, start_region.regionID, end_ID):
                             flag = True
                             while flag:
                                 end_ID = random.randint(0,23)
@@ -357,7 +357,7 @@ def three_execution(position):
 
                     if end_region_name.upper() in board.regionID_dict:
                         end_region = board.regions[regionID_dict[end_region_name.upper()]]
-                        if board.check_path(block_choice.movement_points, focus_region.regionID, end_region.regionID) = False:
+                        if not board.check_path(block_choice.movement_points, focus_region.regionID, end_region.regionID):
                             print('That is an invalid move')
                             end_region = ''
 
@@ -374,13 +374,13 @@ def three_execution(position):
             start_region = start_regions[rand_startID]
 
             for block in start_region:
-                if block not in moved_blocks
+                if block not in moved_blocks:
                     if random.randint(0,2) == 0:
-                         while flag:
+                        while flag:
                             end_ID = random.randint(0,23)
                             if end_ID != start_region.regionID:
                                 flag = False
-                        while board.check_path(block, block.movement_points, start_region.regionID, end_ID) = False
+                        while not board.check_path(block, block.movement_points, start_region.regionID, end_ID):
                             flag = True
                             while flag:
                                 end_ID = random.randint(0,23)
