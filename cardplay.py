@@ -161,7 +161,7 @@ def sea_execution(board, position, role):
             else:
                 print('Invalid region.')
                 
-        winter.add_to_location(board, block, board.regions(board.regionID_dict[region_name.upper()]))
+        board.add_to_location(board, block, board.regions(board.regionID_dict[region_name.upper()]))
         
         print(block_name + ' moved from ' + combat.find_location(board, block_name).name + ' to ' + region_name)
 
