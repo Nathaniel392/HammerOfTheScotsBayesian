@@ -177,7 +177,7 @@ def her_execution(board, position, role):
                 noble_region = region
 
         #Move the noble to its own region - will sort it into attacker/defender
-        board.move_block(noble_to_steal, noble_region, noble_region)
+        board.move_block(noble_to_steal, noble_region.regionID, noble_region.regionID)
         print('Success')
     else:
         print('Failure')
