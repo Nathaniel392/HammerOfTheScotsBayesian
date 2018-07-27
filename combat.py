@@ -236,7 +236,7 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	if is_attacking:
 		win_percentage = float(simulation_dict['attacker wins'])/1000
 	else:
-		win_percentage = float(simulation_dict['defender wins'])/1000
+		win_percentage = float(simulation_dict['defender wins'])/1000 + float(simulation_dict['attacker retreats'])/1000
 	
 	#Insert code to check to see if it should retreat
 
