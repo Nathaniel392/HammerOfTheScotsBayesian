@@ -3,7 +3,7 @@ import random
 class Deck( object ):
 
   def __init__ ( self ):    
-    '''initializes at the start of the game a deck of cards with 7 '1's', 10 '2's', 3 '3's' and 5 event cards'''
+    """ initializes at the start of the game a deck of cards with 7 '1's', 10 '2's', 3 '3's' and 5 event cards """
     
     self.__deck = []
     
@@ -46,6 +46,19 @@ class Deck( object ):
   
   def __str__( self ):
     return self.__deck
+
+  def deal_hands( self ):
+  	""" Shuffle deck and return two 5-card hands. Used at the start of a turn. """
+  	self.shuffle()
+  	hand_one = []
+  	hand_two = []
+
+  	for counter in range(5):
+  		hand_one.append(self.deal())
+  		hand_two.append(self.deal())
+
+  	return hand_one, hand_two
+
   
   def count_probabilities(self, known):
     '''returns probabilities of each type of card being picked after each turn depeneding on the other cards that have 
@@ -78,7 +91,7 @@ class Deck( object ):
     probabilities_lst.append(PIL_probability)
     
     return probabilities_lst
-                                        
+    
   def reset(self):
     '''resets the deck after each year so that all the cards are accounted for in the following year'''
     
