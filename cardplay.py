@@ -105,22 +105,65 @@ def two_execution(position):
 def three_execution(position):
     pass
 
-def sea_execution(board, position):
+def sea_execution(board, position, role):
+"""
+Receives current board, opp/comp, and scotland/england
+For computer:
+    Finds a block in a friendly, coastal region and moves to a randomized friendly, coastal region
+For human:
+    Receives input name of block, loops until valid block (in friendly, coastal territory)
+    Receives input name of region, loops until valid region (friendly, coastal territory that block is not already in)
+    
+Prints executed action
+"""
         
         if position == 'comp':
-            pass
+            #temporary for dumb AI
+            #loops through list of blocks until it finds one it owns that's in a friendly region
+            #loops through list of its regions until it finds coastal friendly region
+                    
+            for block in board.blocks:
+                # if block in coastal, friendly region
+                if combat.find_location(board, block.name).coast and combat.find_location(board, block.name) in board.get_controlled_regions(role):
+                    chosen_block = block
+            
+            while not region_found:
+                regio = pick_random_region(board, role)
+                if combat.find_location(board, chosen_block) != board.regions(board.regionID_dict[regio.upper()]) and regio.coast and regio in board.get_controlled_regions(role):
+                    end_region = regio
+                    region_found = True
+
+                    
+            winter.add_to_location(board, block, end_region)
+            
+                
+            print(chosen_block.name + ' was moved from ' + combat.find_location(board, chosen_block.name).name + ' to ' + end_region.name)
             
         elif position == 'opp':
             
-            valid_block = False
+            valid_block = False # true if block is in a coastal, friendly region
             
             while valid_block == False:    
-                block_name = input("which block would you like to move?\n>")
-                if combat.find_location(board, block_name).coast : #is on the coast
-                    print('yes, ' + block_name + ' is on the coast')
+                block_name = input('Which block would you like to move?\n>')
+                # is on the coast and in friendly territory (ie player owns block)
+                if combat.find_location(board, block_name).coast and combat.find_location(board, block_name) in board.get_controlled_regions(role): 
                     valid_block = True
                 else:
-                    block_name = input("Invalid block. Please re-enter.\n>")
+                    print('Invalid block.')
+                    
+            valid_end_region = False # true if ending location for block is coastal and friendly
+            
+            while valid_end_region == False:    
+                region_name = input('Where would you like to move ' + block_name + '?\n>')
+                # if it's not the same as the starting region, it's coastal, and it's friendly
+                if combat.find_location(board, block_name) != board.regions(board.regionID_dict[region_name.upper()]) and board.regions(board.regionID_dict[region_name.upper()]).coast and combat.find_location(board, block_name) in board.get_controlled_regions(role):
+                    valid_end_region = True
+                    
+                else:
+                    print('Invalid region.')
+                    
+            #move block
+            print(block_name + ' moved from ' + combat.find_location(board, block_name).name + ' to ' + region_name)
 
     
 def her_execution(board, position, role):
