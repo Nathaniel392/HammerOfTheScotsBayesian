@@ -355,7 +355,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				
 			for attacking_block in defenders[letter]:
 				
-				if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
+				if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
 			
 					if random.randint(0,2) == 0:
 						attacking_block.current_strength = 0
@@ -454,7 +454,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 		
 			for attacking_block in attackers[letter]:
 
-				if attacking_block.name == 'WALES' or attacking_block.name == 'ULSTER':
+				if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
 
 					if random.randint(0,2) == 0:
 						attacking_block.current_strength = 0
