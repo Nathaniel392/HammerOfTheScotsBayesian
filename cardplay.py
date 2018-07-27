@@ -57,7 +57,10 @@ def order(): #returns randomly for now whether play one or two goes first
     return 2
 
 def get_card_val(card):
-    
+    """
+    receives a card
+    returns 1, 2, or 3 for card values or 4 for event cards
+    """
 
     if card == '1':
         return 1
@@ -91,9 +94,18 @@ def dumb_go_first(computer_hand): # plays highest card
     return ret_card
 
 
-def random_card(computer_hand): #return random card in computer deck
-    random_index = random.randint(0,len(computer_hand)-1)
+def random_card(computer_hand):
+    """
+    receives computer_hand
+    returns a random card from computer hand
+    """
+    
+    if len(computer_hand) != 1:
+        random_index = random.randint(0,len(computer_hand)-1)
+    else:
+        random_index = 0
     return computer_hand[random_index]
+
 
 def one_execution(position):
     pass
@@ -121,13 +133,37 @@ def sea_execution(board, position, role):
                     
         for block in board.blocks:
             # if block in coastal, friendly region
-            if combat.find_location(board, block.name).coast and combat.find_location(board, block.name) in board.get_controlled_regions(role):
+            coastal = False
+            friendly = False
+            
+            if combat.find_location(board, block.name).coast:
+                coastal = True
+                
+            if combat.find_location(board, block.name) in board.get_controlled_regions(role):
+                friendly = True
+            
+            if coastal and friendly:
                 chosen_block = block
             
         region_found = False
+        
         while not region_found:
+            
             regio = pick_random_region(board, role)
-            if combat.find_location(board, chosen_block) != board.regions(board.regionID_dict[regio.name.upper()]) and regio.coast and regio in board.get_controlled_regions(role):
+            not_same = False
+            coastal = False
+            friendly = False
+            
+            if combat.find_location(board, chosen_block) != board.regions(board.regionID_dict[regio.name.upper()]):
+                not_same = True
+                
+            if regio.coast:
+                coastal = True
+                
+            if regio in board.get_controlled_regions(role):
+                friendly = True
+                
+            if not_same and coastal and friendly:
                 end_region = regio
                 region_found = True
 
