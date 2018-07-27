@@ -259,12 +259,12 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 
 	
 		for i, element in enumerate(attack):
-			if len(element) != 1:
+			if type(element) == tuple:
 				attack[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
 
 
 		for i, element in enumerate(defense):
-			if len(element) != 1:
+			if type(element) == tuple:
 				defense[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
 
 
