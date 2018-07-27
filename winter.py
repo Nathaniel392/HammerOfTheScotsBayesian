@@ -1,10 +1,6 @@
-import board
-import blocks
-import random
+
 
 def go_home(board,noble):
-
-	homeless_nobles = []
 
 	'''
 	takes a noble from the location that they are at and then transports them
@@ -56,8 +52,6 @@ def go_home(board,noble):
 
 				board.regions[random.choice(possible_locations)].blocks_present.append(noble)
 
-	return homeless_nobles
-
 
 def add_to_location(board,block,location):
 
@@ -89,21 +83,21 @@ def choose_location(location_list,allegiance,computer_role):
 
 		new_bool = True
 
-			while new_bool:
+		while new_bool:
 
-				user_input = input("Where would you like " + str(block) + " to go? ")
+			user_input = input("Where would you like " + str(block) + " to go? ")
 
-				region_choice = board.regionID_dict[user_input.upper()]
+			region_choice = board.regionID_dict[user_input.upper()]
 
-				if int(region_choice) in location_list:
+			if int(region_choice) in location_list:
 
-					new_bool = False
+				new_bool = False
 
-					return region_choice
+				return region_choice
 
-				else:
+			else:
 
-					print ("Not valid!")
+				print ("Not valid!")
 
 def disband(board,block):
 
@@ -139,7 +133,7 @@ def initialize_winter(board,block_list,computer_role):
 
 						int1 = random.randint(1)
 
-						if int1 = 1:
+						if int1 == 1:
 
 							if len(board.regions[find_location(board,block.blockID).regionID].blocks_present) <= board.regions[find_location(board,block.blockID).regionID].castle_points:
 
@@ -280,21 +274,102 @@ def initialize_winter(board,block_list,computer_role):
 
 def distribute_rp(board,rp,region,computer_role):
 
+	'''
+	takes a board object, a given rp, a region object, and the side the computer plays
+	helper function for winter_builds
+	assigns rp randomly based on side for computer
+	asks for appropriate inputs from the user based on side 
+	'''
+
 	if computer_role == "SCOTLAND":
 
-		for i in range(rp):
+		if region.blocks_present[0].allegiance == "SCOTLAND":
 
-			computer_choice = random.randint(2)
+			points = rp
 
-			if computer_choice == 0:
+			while points > 0:
 
-				if len(region.blocks_present) < rp:
+				computer_choice = random.randint(2)
 
-					add_to_location(board,random.choice(board.regions[23].blocks_present),region)
+				if computer_choice == 0:
 
-			elif computer_choice == 1:
+					if len(region.blocks_present) < rp:
 
-				potential_blocks = []
+						draw_block = random.choice(board.regions[23].blocks_present)
+
+						draw_block.current_strength = 1 
+
+						add_to_location(board,draw_block,region)
+
+						points -= 1
+
+				elif computer_choice == 1:
+
+					potential_blocks = []
+
+					for block in region.blocks_present:
+
+						if block.current_strength < block.attack_strength:
+
+							potential_blocks.append(block)
+
+					if potential_blocks:
+
+						bump_block = random.choice(potential_blocks)
+
+						bump_block.current_strength += 1
+
+						points -= 1
+
+					elif not potential_blocks and len(region.blocks_present) >= rp:
+
+						points = 0
+
+		else:
+
+			potential_blocks = []
+
+			for block in region.blocks_present:
+
+				if block.current_strength < block.attack_strength:
+
+					potential_blocks.append(block)
+
+			points = rp
+
+			while points > 0 or potential_blocks:
+
+				try:
+
+					for index,name in enumerate(potential_blocks):
+
+						print (str(index) + ":" + " "*5 + str(name))
+
+					user_choice = input("Which block would you like to bump in " + str(region) + "? \n Type 'done' if you are finished ")
+
+					if user_choice.lower() == 'done':
+
+						points = 0
+
+					else:
+
+						potential_blocks[int(user_choice)].current_strength += 1
+
+						points -= 1
+
+				except (IndexError,ValueError):
+
+					print ("Not a valid option!")
+
+	else:
+
+		if computer_role == "ENGLAND":
+
+			potential_blocks = []
+
+			points = rp
+
+			while points > 0 or potential_blocks:
 
 				for block in region.blocks_present:
 
@@ -302,38 +377,107 @@ def distribute_rp(board,rp,region,computer_role):
 
 						potential_blocks.append(block)
 
-				if potential_blocks:
+				computer_choice = random.choice(potential_blocks)
 
-					bump_block = random.choice(potential_blocks)
+				computer_choice.current_strength += 1 
 
-					bump_block.current_strength += 1
+				points -= 1
 
-		
+		else:
 
+			points = rp
 
-def winter_builds(board,computer_role)
+			while points > 0:
 
-		scottish_rp = 0
-		english_rp = 0
+				user_choice = input("Strengthen a troop (t) or bring in reinforcements (r)? type 'd' for done ")
 
-		for region in board.regions:
+				if user_choice.lower() == "d":
 
-			if region.blocks_present[0].allegiance == 'SCOTLAND':
+					points = 0
 
-				if region.cathedral:
+				elif user_choice.lower() == "r":
 
-					scottish_rp = region.castle_points + 1
+					if len(region.blocks_present) < rp:
+
+						draw_block = random.choice(board.regions[23].blocks_present)
+
+						draw_block.current_strength = 1 
+
+						add_to_location(board,draw_block,region)
+
+						points -= 1
+
+					else:
+
+						print ("Can't put reinforcements here!")
+
+				elif user_choice.lower() == "t":
+
+					potential_blocks = []
+
+					for block in region.blocks_present:
+
+						if block.current_strength < block.attack_strength:
+
+							potential_blocks.append(block)
+
+					if potential_blocks:
+
+						try:
+
+							for index,name in enumerate(potential_blocks):
+
+								print (str(index) + ":" + " "*5 + str(name))
+
+							user_choice2 = input("Which block would you like to bump in " + str(region) + "? ")
+
+							potential_blocks[int(user_choice2)].current_strength += 1
+
+							points -= 1
+
+						except (IndexError,ValueError):
+
+							print ("Not a valid option!")
 
 				else:
 
-					scottish_rp = region.castle_points
-
-			elif region.blocks_present[0].allegiance == 'ENGLAND':
-
-				english_rp = region.castle_points
+					print ("Please type a valid choice!")
 
 
 
-#threat to wallace
+def winter_builds(board,computer_role):
+
+	'''
+	takes a board object and the side the computer is playing
+	assigns rp to each region and then uses the rp
+	computer rp is assigned randomly
+	human rp is inputed
+	'''
+
+	scottish_rp = 0
+	english_rp = 0
+
+	for region in board.regions:
+
+		if region.blocks_present[0].allegiance == 'SCOTLAND':
+
+			if region.cathedral:
+
+				scottish_rp = region.castle_points + 1
+
+			else:
+
+				scottish_rp = region.castle_points
+
+			distribute_rp(board,scottish_rp,region,computer_role)
+
+		elif region.blocks_present[0].allegiance == 'ENGLAND':
+
+			english_rp = region.castle_points
+
+			distribute_rp(board,english_rp,region,computer_role)
+
+
+
 
 
