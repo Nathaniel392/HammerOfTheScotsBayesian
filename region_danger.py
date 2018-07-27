@@ -5,7 +5,9 @@ def table(current_board, role):
 	This function creates a table which stores the number of 
 	enemy strength points that are within 1 movement of each region
 	on the board. The table is arranged by region ID.
-	The parameter role is the side in which the computer is playing
+	The parameter role is the side in which the computer is playing.
+	If the region is not controlled by the computer then its danger value
+	is -1
 	'''
 	danger_values = list()
 	role = role.upper()
