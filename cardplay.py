@@ -171,7 +171,7 @@ def one_execution(board, position, role,truce=False):
                     #Get the region object from the region name
                     end_region = board.regions[regionID_dict[end_region_name.upper()]]
                     #Make sure that the move is a valid move
-                    if board.move_block(block_choice.movement_points, focus_region.regionID, end_region.regionID,truce):
+                    if board.move_block(block_choice.movement_points, focus_region.regionID, end_region.regionID,truce) == False:
                         print('That is an invalid move')
                         end_region = ''
             #Move the block to its location
@@ -226,6 +226,9 @@ def two_execution(board,position,role,truce=False):
 
 
     ####HELLO
+
+    prev_paths = []
+
     if position == 'opp':
         region_regions = []
         for j in range(2):
@@ -277,7 +280,7 @@ def two_execution(board,position,role,truce=False):
 
                         if end_region_name.upper() in board.regionID_dict:
                             end_region = board.regions[regionID_dict[end_region_name.upper()]]
-                            if board.move_block(block_choice.movement_points, region_name_region.regionID, end_region.regionID,truce) == False:
+                            if board.move_block(block_choice.movement_points, region_name_region.regionID, end_region.regionID,position,prev_paths,truce) == False:
                                 print('That is an invalid move')
                                 end_region = ''
 
@@ -300,13 +303,13 @@ def two_execution(board,position,role,truce=False):
                             end_ID = random.randint(0,22)
                             if end_ID != start_region.regionID:
                                 flag = False
-                        while not board.check_path(block, block.movement_points, start_region.regionID, end_ID):
+                        while not board.check_path(block.movement_points, start_region.regionID, end_ID,role,):
                             flag = True
                             while flag:
                                 end_ID = random.randint(0,22)
                                 if end_ID != start_region.regionID:
                                     flag = False
-                        board.move_block(block, start_region.regionID, end_ID)
+                        board.move_block(block, start_region.regionID, end_ID,position,prev_paths,truce)
                         moved_blocks.append(block)
                         print('Computer moves ' + block.name + ' from ' + start_region.name + " to " + board.regions[end_ID].name)
 
@@ -326,7 +329,7 @@ def three_execution(board, position,role,truce = False):
 
 
 
-
+    prev_paths = []
     ####HELLO
     if position == 'opp':
         region_regions = []
@@ -379,7 +382,7 @@ def three_execution(board, position,role,truce = False):
 
                         if end_region_name.upper() in board.regionID_dict:
                             end_region = board.regions[regionID_dict[end_region_name.upper()]]
-                            if board.move_block(block_choice.movement_points, region_name_region.regionID, end_region.regionID) == False:
+                            if board.move_block(block_choice.movement_points, region_name_region.regionID, end_region.regionID,position,prev_paths,truce) == False:
                                 print('That is an invalid move')
                                 end_region = ''
 
@@ -407,7 +410,7 @@ def three_execution(board, position,role,truce = False):
                                 end_ID = random.randint(0,22)
                                 if end_ID != start_region.regionID:
                                     flag = False
-                        board.move_block(block, start_region.regionID, end_ID,truce)
+                        board.move_block(block, start_region.regionID, end_ID,position,prev_paths,truce)
                         moved_blocks.append(block)
                         print('Computer moves ' + block.name + ' from ' + start_region.name + " to " + board.regions[end_ID].name)
 def sea_execution(board, position, role):
