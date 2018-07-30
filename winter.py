@@ -272,6 +272,8 @@ def initialize_winter(board,block_list,computer_role):
 
 						print ("Not valid!")
 
+	levy(board)
+
 def distribute_rp(board,rp,region,computer_role):
 
 	'''
@@ -477,7 +479,7 @@ def winter_builds(board,computer_role):
 
 			distribute_rp(board,english_rp,region,computer_role)
 
-	levy(board)
+
 def levy(board, num_people = None):
 	"""
 	send 'start' if start
