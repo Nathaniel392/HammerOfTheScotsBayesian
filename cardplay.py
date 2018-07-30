@@ -441,9 +441,13 @@ def sea_execution(board, position, role):
             if combat.find_location(board, block.name) in board.get_controlled_regions(role):
                 friendly = True
             
-            if coastal and friendly:
+            if block.name.lower() != 'norse':
+            not_norse = True
+            
+            if coastal and friendly and not_norse:
                 chosen_block = block
             
+        
         region_found = False
         
         while not region_found:
@@ -465,11 +469,14 @@ def sea_execution(board, position, role):
             if not_same and coastal and friendly:
                 end_region = regio
                 region_found = True
-
+                
+        
+        
+        old_region_name = combat.find_location(board, chosen_block.name).name
                     
         board.add_to_location(board, chosen_block, end_region)
                 
-        print(chosen_block.name + ' was moved from ' + combat.find_location(board, chosen_block.name).name + ' to ' + end_region.name)
+        print(chosen_block.name + ' was moved from ' + old_region_name + ' to ' + end_region.name)
             
         
     elif position == 'opp':
@@ -490,7 +497,7 @@ def sea_execution(board, position, role):
             if block:
             
                 # is on the coast and in friendly territory (ie player owns block)
-                if combat.find_location(board, block_name).coast and combat.find_location(board, block_name) in board.get_controlled_regions(role): 
+                if combat.find_location(board, block_name).coast and combat.find_location(board, block_name) in board.get_controlled_regions(role) and block.name.lower() != 'norse': 
                     valid_block = True
                     chosen_block = block
                     
@@ -515,10 +522,11 @@ def sea_execution(board, position, role):
             else:
                 print('Invalid region.')
                 
+        old_region_name = combat.find_location(board, block.name).name
+        
         board.add_to_location(board, block, region)
         
-        print(block_name + ' moved from ' + combat.find_location(board, block.name).name + ' to ' + region.name)
-
+        print(block_name + ' moved from ' + old_region_name + ' to ' + region.name)
 def her_execution(board, position, role):
     '''
     Activates the HERALD card.
