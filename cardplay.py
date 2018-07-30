@@ -612,7 +612,8 @@ def vic_execution(board, position, role):
                     print('type in a number')
                     continue
                 health_points -= selected_region.blocks_present[ID_to_heal].heal_until_full(healing_points)
-
+                
+                print(search.block_id_to_name(selected_region.blocks_present, ID_to_heal), ' got healed')
 
 
 
@@ -630,6 +631,7 @@ def vic_execution(board, position, role):
         for i in range(3):
             rand_block_selection = random.randint(0, len(selected_region.blocks_present) - 1)
             selected_region.blocks_present[rand_block_selection].heal_until_full()
+            print(selected_region.blocks_present[rand_block_selection].name, ' healed one point')
 
 def pil_execution(board, position, role):
     pass
