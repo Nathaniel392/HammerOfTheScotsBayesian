@@ -213,6 +213,7 @@ def retreat_locations(board, attacking, defending, is_attacking):
 	current_location = find_location(board, attacking[0])
 	possible_locations = []
 	#Create list of possible locations to retreat to
+
 	for x, border in enumerate(board.dynamic_borders[current_location.regionID]):
 
 		
@@ -223,7 +224,7 @@ def retreat_locations(board, attacking, defending, is_attacking):
 				region_allegiance = 'fight is going on'
 				break
 
-		if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0:
+		if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0 and (not board.attacked_borders[x][current_location.regionID]):
 			possible_locations.append(board.regions[x])
 		elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 0:
 			possible_locations.append(board.regions[x])
