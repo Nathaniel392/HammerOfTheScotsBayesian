@@ -127,7 +127,7 @@ class Board(object):
 		Returns a list of Region objects that belong to the given role
 		'''
 
-	    region_list = []
+		region_list = []
 
 	    for region in board.regions:
 
@@ -344,8 +344,8 @@ class Board(object):
 
 				if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
           			
-          				if is_truce:
-          					return False
+          			if is_truce:
+          				return False
 
 					for block in self.regions[end].blocks_present:
 						self.regions[end].combat_dict['Defending'].append(block)
