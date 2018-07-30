@@ -108,6 +108,11 @@ class Board(object):
 		for regionID, region in enumerate(self.regions):
 			self.regionID_dict[region.name] = regionID
 
+		#Create dictionary referencing region names to regionsIDs
+		self.regionID_dict = {}
+		for regionID, region in enumerate(self.regions):
+			self.regionID_dict[region.name] = regionID
+
 	def reset_borders(self):
 		'''
 		Reset the max moves over each border in self.dynamic_borders (6, 2, 0)
@@ -254,11 +259,23 @@ class Board(object):
 
 		#print(self.regions)
 
-	def find_all_borders(self,regionID):
+	def find_adjacent_regions(self, regionID):
 		'''
-		returns a list of all bordering regions of a particular regionID
+		Returns a list of all bordering regionIDs of a region, given its regionID
 		'''
+		
+		return_list = []
+		for i, border in enumerate(self.static_borders[regionID]):
 
+			if border == "B" or border == "R":
+				return_list.append(i)
+
+		return return_list
+  
+	def find_all_borders(self, regionID_list):
+		'''
+		returns a list of all bordering regionIDs in a list of regionIDs
+		'''
 		return_list = [self.regions[regionID]]
 		for element in regionID:
 			for i,border in enumerate(self.static_borders[element]):
@@ -268,55 +285,57 @@ class Board(object):
 
 		return return_list
 
-	def find_black_borders(self,regionID,friendly = False):
+	def check_path(self, num_moves, startID, endID, path=[], stop=False, all_paths=[]):
 		'''
-		regionID:  ID of a region to be checked
-		friendly:  
-		Returns a list of regionIDs of regions that share a black border with the given region
-		'''
-
-		if friendly:
-			return_list = [self.regions[regionID]]
-
-			for element in regionID:
-				for i, border in enumerate(self.static_borders[element]):
-
-					if border == "B" and (self.regions[i].blocks_present[0].allegiance == self.regions[element].blocks_present[0].allegiance or not self.regions[i].blocks_present):
-						return_list.append(i)
-
-			return return_list
-
-		else:
-			return_list = []
-
-			for element in regionID:
-				for i,border in enumerate(self.static_borders[element]):
-
-					if border == "B":
-						return_list.append(i)
-
-			return return_list
-
-
-
-	def check_path(self,num_moves,startID,endID):
-		'''
-		takes a block's movement points, starting location ID, ending location ID, and a board object and
-		checks to see if it can move from one location to another
+		Finds all legal paths between two regions
+		num_moves:  a block's movement points (int)
+		startID:  regionID of the starting region (int)
+		endID:  regionID of the ending region (int)
+		path:  temporary stored path for the recursive function - keeps track of where it's been
+		stop:  boolean for if the previous move causes the "block" to stop - used in recursion
+		all_paths:  list of lists of all legal paths from start to finish - final output.
+			stored as the function processes
 		'''
 
-		check_list = [startID]
+		path.append(startID)
+		#print('\ncurrent region is ' + str(startID))
+		#print(str(num_moves) + ' moves left')
+		#print('current path is ' + str(path))
 
-		for i in range(num_moves):
+		#Destination reached
+		if startID == endID:
+			#print('ending')
+			#print('legal path found: ' + str(path))
+			all_paths.append(copy.deepcopy(path))
+			path.pop()
+			return
+		if stop:
+			#print('has to stop')
+			path.pop()
+			return
 
-			if endID in self.find_black_borders(check_list):
-				return True
+		borders = self.find_all_borders(startID)
+		#print('borders of ' + str(startID) + ' are ' + str(borders))
 
-			else:
-				check_list = self.find_black_borders(check_list,True)
+		for borderID in borders:
+			if borderID not in path:
 
-		return False
+				stop = False
+				#print('now working on ' + str(borderID))
+				#print('border between ' + str(startID) + ' and ' + str(borderID) + ' is ' + self.static_borders[startID][borderID])
 
+				if self.static_borders[startID][borderID] == 'R' \
+				or self.regions[borderID].is_contested() \
+				or num_moves == 1:
+					stop = True
+
+				self.check_path(num_moves-1, borderID, endID, path, stop, all_paths)
+
+		if path:
+			path.pop()
+
+		return all_paths
+  
 	def move_block(self, block, start, end, is_truce = False):
 		'''
 		Changes a block's location on the board, assuming that all conditions are legal. 
@@ -329,7 +348,6 @@ class Board(object):
 		if self.static_borders[start][end] == 'R':
 
 			if self.regions[end].is_contested():
-
 				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
@@ -344,10 +362,10 @@ class Board(object):
 				self.regions[start].blocks_present.remove(block)
 
 				if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
-					
+          
 					if is_truce:
 						return False
-
+          
 					for block in self.regions[end].blocks_present:
 						self.regions[end].combat_dict['Defending'].append(block)
 
@@ -361,7 +379,7 @@ class Board(object):
 		elif self.check_path(block.movement_points,start,end):
 
 			if self.regions[end].is_contested():
-
+        
 				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
@@ -489,9 +507,6 @@ class Region(object):
 		#Loop through blocks in the region
 		for index, block in enumerate(self.blocks_present):
 			pass
-		
-
-
 
 def main():
 	#Create board object
