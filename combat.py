@@ -210,6 +210,8 @@ def retreat_locations(board, attacking, defending, is_attacking):
 	It returns a list of all the locations where a block can retreat to
 	'''
 
+
+
 	current_location = find_location(board, attacking[0])
 	possible_locations = []
 	#Create list of possible locations to retreat to
@@ -218,6 +220,10 @@ def retreat_locations(board, attacking, defending, is_attacking):
 
 		
 		for i, block in enumerate(board.regions[x].blocks_present):
+
+			if block.name == 'FRENCH':
+				block.movement_points = 1
+
 			if i == 0:
 				region_allegiance = board.regions[x].blocks_present[i]
 			elif region_allegiance != board.regions[x].blocks_present[i]:
@@ -248,6 +254,11 @@ def regroup_locations(board, attacking, defending, is_attacking):
 
 		
 		for i, block in enumerate(board.regions[x].blocks_present):
+
+			if block.name == 'FRENCH':
+				block.movement_points = 1
+
+
 			if i == 0:
 				region_allegiance = board.regions[x].blocks_present[i]
 			elif region_allegiance != board.regions[x].blocks_present[i]:
@@ -331,6 +342,9 @@ def regroup(winner_blocks, current_board, computer_role):
 			else:
 				place_to_go_to = possible_locations[place_to_go_to].regionID
 				current_board.move_block(block, find_location(current_board, block).regionID, place_to_go_to)
+
+				if block.name == 'FRENCH':
+					block.movement_points = 0
 				print(block.name, ' moved to ', search.region_id_to_name(current_board, place_to_go_to))
 	else:
 		for block in winner_blocks:
@@ -355,6 +369,9 @@ def regroup(winner_blocks, current_board, computer_role):
 				if not bad_input:
 					if place_to_go_to != -1:
 						current_board.move_block(block, find_location(current_board, block).regionID, place_to_go_to)
+
+					if block.name == 'FRENCH':
+						block.movement_points = 0
 						print(block.name, ' moved to ', search.region_id_to_name(current_board, place_to_go_to))
 				if bad_input:
 					print('not valid location')
@@ -459,6 +476,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 								current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, regionID_to_retreat_to)
 								defense.remove(attacking_block)
+
+								if block.name == 'FRENCH':
+									block.movement_points = 0
 								print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 							
 
@@ -480,6 +500,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						if option != False:
 							regionID_to_retreat_to = option.regionID
 							current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, option.regionID)
+
+							if block.name == 'FRENCH':
+								block.movement_points = 0
 							defense.remove(attacking_block)
 							print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
@@ -562,6 +585,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 										print('please type in a valid location')
 
 								current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, regionID_to_retreat_to)
+
+								if block.name == 'FRENCH':
+									block.movement_points = 0
 								attack.remove(attacking_block)
 								print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
@@ -577,6 +603,10 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						if option != False:
 							regionID_to_retreat_to = option.regionID
 							current_board.move_block(attacking_block, find_location(current_board, attacking_block).regionID, option.regionID)
+
+
+							if block.name == 'FRENCH':
+								block.movement_points = 0
 							attack.remove(attacking_block)
 							print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
