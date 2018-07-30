@@ -487,7 +487,10 @@ def levy(board, num_people = None):
 		num_people = math.ceil(len(board.eng_pool) / 2)
 
 	for i in range(num_people):
-		board.regions[22].add_block(board.eng_pool.pop(random.randint(0, len(board.eng_pool) - 1)))
+		block_to_get_put_in = random.randint(0, len(board.eng_pool) - 1)
+		board.regions[22].add_block(board.eng_pool.pop(block_to_get_put_in))
+		print(block_to_get_put_in.name , ' has moved to levy')
+
 
 
 
