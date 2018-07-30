@@ -112,6 +112,7 @@ class Board(object):
 		self.regionID_dict = {}
 		for regionID, region in enumerate(self.regions):
 			self.regionID_dict[region.name] = regionID
+		self.attacked_borders = attacked_borders.make_attacked_borders()
 
 	def reset_borders(self):
 		'''
