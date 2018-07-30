@@ -1,5 +1,5 @@
 import math
-
+import random
 def go_home(board,noble):
 
 	'''
