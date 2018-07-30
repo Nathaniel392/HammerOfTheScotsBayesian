@@ -565,18 +565,7 @@ def vic_execution(board, position, role):
     friendly_list = board.get_controlled_regions(role)
 
     #Remove regions with all blocks at full health
-    for region in friendly_list:
-
-        #Check if all blocks in the region are at full health
-        all_full_health = True
-        for block in region:
-
-            if block.current_strength != block.attack_strength:
-                all_full_health = False
-
-        #Take that region out of the list
-        if not all_full_health:
-            friendly_list.remove(region)
+   
 
     #Human player
     if position == 'opp':
@@ -587,6 +576,7 @@ def vic_execution(board, position, role):
 
         #Prompt for a region to select
         valid_input = False
+        selected_region = None
         while not valid_input:
 
             #Take a name input and convert it to a region object
@@ -596,8 +586,35 @@ def vic_execution(board, position, role):
                 selected_region = search.region_name_to_object(friendly_list, selected_region_name)
                 valid_input = True
 
+
             else:
                 print('Invalid input. Please try again.')
+
+        health_points = 3
+        print('Possible blocks: ')
+        for i, block in enumerate(selected_region.blocks_present):
+
+            print(block.name, '[', i, ']', end = '\t')
+        while health_points > 0:
+            bad_input = True
+            while bad_input:
+                try:
+                    print('You have ', health_points, ' health points remaining')
+                    ID_to_heal = int(input('Which block index would you like to heal: '))
+                    if ID_to_heal not in range(len(selected_region.blocks_present)):
+                        print('Type in a valid block index')
+                        continue
+                    healing_points = int(input('How many health points would you like to heal it: '))
+                    if healing_points <= 0 or healing_points > health_points:
+                        print('You do not have that many healing points left')
+                        continue
+                except ValueError:
+                    print('type in a number')
+                health_points -= selected_region.blocks_present[ID_to_heal].heal_until_full(healing_points)
+
+
+
+
     #Computer
     elif position == 'comp':
         ###
@@ -606,8 +623,14 @@ def vic_execution(board, position, role):
         ###
         ###
         num_regions = len(friendly_list)
-        rand_selection = random.randint(num_regions)
+        rand_selection = random.randint(0, num_regions - 1)
         selected_region = friendly_list[rand_selection]
+
+        for i in range(3):
+            rand_block_selection = random.randint(0, len(selected_region.blocks_present) - 1)
+            selected_region.blocks_present[rand_block_selection].heal_until_full()
+            
+
 
     #Execute the healing
 
@@ -620,51 +643,26 @@ def tru_execution(board, position, role):
 def resolve_card(board, which_side, card, role):
     
     """
-    Takes in a string that lists side (comp/opp), the card for that side, and the role (england/scotland)
+    Takes in a string that lists side (comp/opp), the card for that side, and the role (ENGLAND/SCOTLAND)
     based on string value of card, calls a function to execute the card itself
     
     """
     if card == '1':
-        one_execution(board, which_side, role)
+        one_execution(board, which_side)
     elif card == '2':
-        two_execution(board, which_side, role)
+        two_execution(board, which_side)
     elif card == '3':
-        three_execution(board, which_side, role)
-        
+        three_execution(board, which_side)
     elif card == 'SEA':
-        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-        if play_pass.lower() == 'play'
-            sea_execution(board, which_side, role)
-        else:
-            pass
-        
+        sea_execution(board, which_side)
     elif card == 'HER':
-        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-        if play_pass.lower() == 'play'
-            her_execution(board, which_side, role)
-        else:
-            pass
-        
+        her_execution(board, which_side)
     elif card == 'VIC':
-        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-        if play_pass.lower() == 'play'
-            vic_execution(board, which_side, role)
-        else:
-            pass
-        
+        vic_execution(board, which_side)
     elif card == 'PIL':
-        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-        if play_pass.lower() == 'play'
-            pil_execution(board, which_side, role)
-        else:
-            pass
-        
+        pil_execution(board, which_side)
     elif card == 'TRU':
-        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-        if play_pass.lower() == 'play'
-            tru_execution(board, which_side, role)
-        else:
-            pass
+        tru_execution(board, which_side)
         
             
 def compare_cards(board, opp_card, comp_card, comp_role):
