@@ -26,7 +26,7 @@
 
 import copy
 import initialize_blocks
-
+import attacked_borders
 NUM_REGIONS = 23
 
 def border_chars(border_array):
