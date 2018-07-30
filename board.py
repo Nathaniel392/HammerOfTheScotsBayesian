@@ -129,13 +129,13 @@ class Board(object):
 
 		region_list = []
 
-	    for region in board.regions:
+		for region in board.regions:
 
 	        #Fill the list with IDs of friendly regions
 	        if region.is_friendly():
 	            region_list.append(region)
 
-	    return region_list
+	        return region_list
 
 	def get_contested_regions(self):
 		'''
