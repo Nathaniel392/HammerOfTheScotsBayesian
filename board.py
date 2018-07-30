@@ -141,10 +141,10 @@ class Board(object):
 
 		region_list = []
 
-		for region in board.regions:
+		for region in self.regions:
 
 			#Fill the list with IDs of friendly regions
-			if region.is_friendly():
+			if region.is_friendly(role):
 				region_list.append(region)
 
 		return region_list
@@ -282,8 +282,8 @@ class Board(object):
 		'''
 		returns a list of all bordering regionIDs in a list of regionIDs
 		'''
-		return_list = [self.regions[regionID]]
-		for element in regionID:
+		return_list = [self.regions[regionID_list]]
+		for element in regionID_list:
 			for i,border in enumerate(self.static_borders[element]):
 
 				if border == "B" or border == "R":
@@ -291,7 +291,7 @@ class Board(object):
 
 		return return_list
 
-	def check_path(self, num_moves, startID, endID, path=[], stop=False, all_paths=[]):
+	def check_path(self, num_moves, startID, endID, role, path=[], stop=False, all_paths=[]):
 		'''
 		Finds all legal paths between two regions
 		num_moves:  a block's movement points (int)
@@ -304,43 +304,36 @@ class Board(object):
 		'''
 
 		path.append(startID)
-		#print('\ncurrent region is ' + str(startID))
-		#print(str(num_moves) + ' moves left')
-		#print('current path is ' + str(path))
 
 		#Destination reached
 		if startID == endID:
-			#print('ending')
-			#print('legal path found: ' + str(path))
 			all_paths.append(copy.deepcopy(path))
 			path.pop()
 			return
 		if stop:
-			#print('has to stop')
 			path.pop()
 			return
 
 		borders = self.find_adjacent_regions(startID)
-		#print('borders of ' + str(startID) + ' are ' + str(borders))
 
 		for borderID in borders:
-			if borderID not in path:
+			if borderID not in path and self.dynamic_borders[startID][borderID] > 0:
 
 				stop = False
-				#print('now working on ' + str(borderID))
-				#print('border between ' + str(startID) + ' and ' + str(borderID) + ' is ' + self.static_borders[startID][borderID])
 
 				if self.static_borders[startID][borderID] == 'R' \
 				or self.regions[borderID].is_contested() \
+        or not self.regions[borderID].is_neutral() and not self.regions[borderID].is_friendly(role) \
 				or num_moves == 1:
 					stop = True
 
-				self.check_path(num_moves-1, borderID, endID, path, stop, all_paths)
+				self.check_path(num_moves-1, borderID, endID, role, path, stop, all_paths)
 
 		if path:
 			path.pop()
 
 		return all_paths
+
   
 	def move_block(self, block, start, end, position, prev_paths = [], is_truce = False):
 		'''
@@ -357,9 +350,9 @@ class Board(object):
 		
 		if position == 'comp':
 
-			if self.check_path(block.movement_points,start,end):
+			if self.check_path(block.movement_points,start,end, block.allegiance):
 
-				computer_path = random.choice(self.check_path(block.movement_points,start,end))
+				computer_path = random.choice(self.check_path(block.movement_points,start,end, block.allegiance))
 
 				bool1 = False
 
@@ -450,7 +443,7 @@ class Board(object):
 
 					print ("Not a valid location!")
 
-			if user_path in self.check_path(block.movement_points,user_path[0],user_path[-1]):
+			if user_path in self.check_path(block.movement_points,user_path[0],user_path[-1], block.allegiance):
 
 				bool1 = False
 

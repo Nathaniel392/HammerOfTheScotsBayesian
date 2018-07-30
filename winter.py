@@ -102,7 +102,7 @@ def choose_location(location_list,allegiance,computer_role):
 			print('Type pool to disband')
 			user_input = input('>')
 			if user_input == 'pool' and user_input in location_list:
-				if allegiance = 'SCOTLAND':
+				if allegiance == 'SCOTLAND':
 					return 'scottish pool'
 				else:
 					return 'english pool'

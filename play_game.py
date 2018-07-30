@@ -61,19 +61,21 @@ def opp_card_choice(cards):
     '''
     choice = ''
     #Print out all the card possibilities
+    print('opp hand: ')
     for card in cards:
         if card == '1' or card == '2' or card == '3':
             print(card, end = " ")
         elif card == 'SEA':
             print('SEA', end = " ")
         elif card == 'HER':
-            print('HER')
+            print('HER', end = ' ')
         elif card == 'PIL':
-            print('PIL')
+            print('PIL', end = ' ')
         elif card == 'TRU':
-            print('TRU')
+            print('TRU', end = ' ')
         elif card == 'VIC':
-            print('VIC')
+            print('VIC', end = ' ')
+    print()
     #Input and error check what card the user wants to play
     while choice not in cards:
         choice = input('Enter the card you want to play: ')
@@ -118,7 +120,7 @@ def win(block_list, year, scenario):
             scot_noble_count += 1
         elif type(block) == blocks.Noble and block.allegiance == 'ENGLAND':
             eng_noble_count += 1
-        if block.name == 'WALLACE' and block.current_health != 0:
+        if block.name == 'WALLACE' and block.current_strength != 0:
             wallace_is_dead = False
 
     if scot_noble_count == 0:
@@ -170,6 +172,11 @@ def play_game():
     """GAME START"""
     game_playing = True
 
+    if scenario == 'BRUCE':
+        year = 1305
+    else:
+        year = 1297
+
     while game_playing:
 
         """INITIALIZE YEAR - deal, etc"""
@@ -180,6 +187,8 @@ def play_game():
         #When this gets to 5, end the year
         turn_counter = 0
         play_turn = True
+
+
 
         while play_turn:
 
@@ -202,7 +211,7 @@ def play_game():
             computer_hand.remove(computer_card)
 
             #Figure out who goes first, if it is true then Computer goes first - also resolves cards
-            who_goes_first, year_cut_short = cardplay.compare_cards(opp_card, computer_card, computer_role)
+            who_goes_first, year_cut_short = cardplay.compare_cards(current_board, opp_card, computer_card, computer_role)
 
             #Get a list all the regions that are contested
             contested_regions = current_board.get_contested_regions()
@@ -220,6 +229,7 @@ def play_game():
             
             if year_cut_short or turn_counter >= 5:
                 play_turn = False
+                year += 1
             if win(block_list, year, scenario):
                 print(win(block_list, year, scenario))
                 return 'game over'
