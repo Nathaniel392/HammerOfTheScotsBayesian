@@ -1,4 +1,4 @@
-
+import math
 
 def go_home(board,noble):
 
@@ -476,6 +476,14 @@ def winter_builds(board,computer_role):
 			english_rp = region.castle_points
 
 			distribute_rp(board,english_rp,region,computer_role)
+def levy(board, num_people = 'start'):
+	if num_people == 'start':
+		num_people = 4
+	else:
+		num_people = math.ceil(len(board.eng_pool) / 2)
+
+	for i in range(num_people):
+		board.regions[22].add_block(board.eng_pool.pop(random.randint(0, len(board.eng_pool) - 1)))
 
 
 
