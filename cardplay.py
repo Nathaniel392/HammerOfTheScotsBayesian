@@ -652,35 +652,35 @@ def resolve_card(board, which_side, card, role):
         
     elif card == 'SEA':
         play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-        if play_pass.lower() == 'play'
+        if play_pass.lower() == 'play':
             sea_execution(board, which_side, role)
         else:
             pass
         
     elif card == 'HER':
         play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-        if play_pass.lower() == 'play'
+        if play_pass.lower() == 'play':
             her_execution(board, which_side, role)
         else:
             pass
         
     elif card == 'VIC':
         play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-        if play_pass.lower() == 'play'
+        if play_pass.lower() == 'play':
             vic_execution(board, which_side, role)
         else:
             pass
         
     elif card == 'PIL':
         play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-        if play_pass.lower() == 'play'
+        if play_pass.lower() == 'play':
             pil_execution(board, which_side, role)
         else:
             pass
         
     elif card == 'TRU':
         play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-        if play_pass.lower() == 'play'
+        if play_pass.lower() == 'play':
             tru_execution(board, which_side, role)
         else:
             pass
