@@ -757,35 +757,73 @@ def resolve_card(board, which_side, card, role,truce=False):
         three_execution(board, which_side, role,truce)
             
     elif card == 'SEA':
-        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+
+        if which_side == 'opp':
+
+            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+
+        else:
+
+            play_pass == 'play'
+        
         if play_pass.lower() == 'play':
             sea_execution(board, which_side, role)
         else:
             pass
         
     elif card == 'HER':
-        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+        if which_side == 'opp':
+
+            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+
+        else:
+
+            play_pass == 'play'
+        
         if play_pass.lower() == 'play':
             her_execution(board, which_side, role)
         else:
             pass
         
     elif card == 'VIC':
-        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+        if which_side == 'opp':
+
+            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+
+        else:
+
+            play_pass = 'play'
+        
         if play_pass.lower() == 'play':
             vic_execution(board, which_side, role)
         else:
             pass
         
     elif card == 'PIL':
-        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+        
+        if which_side == 'opp':
+
+            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+
+        else:
+
+            play_pass = 'play'
+        
         if play_pass.lower() == 'play':
             pil_execution(board, which_side, role)
         else:
             pass
         
     elif card == 'TRU':
-        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+        
+        if which_side == 'opp':
+
+            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+
+        else:
+
+            play_pass = 'play'
+        
         if play_pass.lower() == 'play':
             return True
         else:
@@ -821,10 +859,27 @@ def compare_cards(board, opp_card, comp_card, comp_role):
         
     if who_goes_first: #if computer goes first
         resolve_card(board, 'comp', comp_card, comp_role)
-        resolve_card(board, 'opp', opp_card, opp_role)
+
+        if resolve_card(board, 'comp',comp_card,comp_role) == True:
+
+            resolve_card(board, 'opp', opp_card, opp_role,True)
+
+        else:
+
+            resolve_card(board, 'opp', opp_card, opp_role)
+
         
     elif not who_goes_first: #if opponent goes first
+        
         resolve_card(board, 'opp', opp_card, opp_role)
-        resolve_card(board, 'comp', comp_card, comp_role)
+
+        if resolve_card(board, 'opp', opp_card, opp_role) == True:
+
+            resolve_card(board, 'comp', comp_card, comp_role,True)
+
+        else:
+
+            resolve_card(board, 'comp', comp_card, comp_role)
+
         
     return who_goes_first, year_ends_early
