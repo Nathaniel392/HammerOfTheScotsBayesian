@@ -101,7 +101,7 @@ class Board(object):
 		
 		#fills self.regions
 		self.initialize_regions()
-		self.reset_borders()
+
 		#Create dictionary referencing region names to regionsIDs
 		self.regionID_dict = {}
 		for regionID, region in enumerate(self.regions):
@@ -131,11 +131,11 @@ class Board(object):
 
 		for region in board.regions:
 
-	        #Fill the list with IDs of friendly regions
-	        if region.is_friendly():
-	            region_list.append(region)
+			#Fill the list with IDs of friendly regions
+			if region.is_friendly():
+				region_list.append(region)
 
-	        return region_list
+		return region_list
 
 	def get_contested_regions(self):
 		'''
@@ -151,12 +151,7 @@ class Board(object):
 
 		return contested_regions
 
-	def get_block(block_name, region):
-		list_of_blocks = region.blocks_present
-		for block in list_of_blocks:
-			if block.name.lower() == block_name.lower():
-				return block
-	
+
 	def add_to_region(self, block_to_add, regionID):
 		'''
 		This function takes a block object and adds it to a particular region
@@ -253,21 +248,34 @@ class Board(object):
 
 		#print(self.regions)
 
-	def find_all_borders(self,regionID):
+	def find_all_borders(self, regionID):
 		'''
 		returns a list of all bordering regions of a particular regionID
 		'''
 
-		return_list = [self.regions[regionID]]
-		for element in regionID:
-			for i,border in enumerate(self.static_borders[element]):
+		return_list = []
+		for i, border in enumerate(self.static_borders[regionID]):
 
-				if border == "B" or border == "R":
-					return_list.append(i)
+			if border == "B" or border == "R":
+				return_list.append(i)
 
 		return return_list
 
-	def find_black_borders(self,regionID,friendly = False):
+	def find_adjacent_regions(self, regionID):
+		'''
+		Returns a list of all bordering regionIDs of a region, given its regionID
+		'''
+		
+		return_list = []
+		for i, border in enumerate(self.static_borders[regionID]):
+
+			if border == "B" or border == "R":
+				return_list.append(i)
+
+		return return_list
+
+
+	def find_black_borders(self, regionID, friendly = False):
 		'''
 		regionID:  ID of a region to be checked
 		friendly:  
@@ -275,7 +283,7 @@ class Board(object):
 		'''
 
 		if friendly:
-			return_list = [self.regions[regionID]]
+			return_list = []
 
 			for element in regionID:
 				for i, border in enumerate(self.static_borders[element]):
@@ -298,25 +306,60 @@ class Board(object):
 
 
 
-	def check_path(self,num_moves,startID,endID):
+	def check_path(self, num_moves, startID, endID, path=[], stop=False, all_paths=[]):
 		'''
-		takes a block's movement points, starting location ID, ending location ID, and a board object and
-		checks to see if it can move from one location to another
+		Finds all legal paths between two regions
+		num_moves:  a block's movement points (int)
+		startID:  regionID of the starting region (int)
+		endID:  regionID of the ending region (int)
+		path:  temporary stored path for the recursive function - keeps track of where it's been
+		stop:  boolean for if the previous move causes the "block" to stop - used in recursion
+		all_paths:  list of lists of all legal paths from start to finish - final output.
+			stored as the function processes
 		'''
 
-		check_list = [startID]
+		path.append(startID)
+		#print('\ncurrent region is ' + str(startID))
+		#print(str(num_moves) + ' moves left')
+		#print('current path is ' + str(path))
 
-		for i in range(num_moves):
+		#Destination reached
+		if startID == endID:
+			#print('ending')
+			#print('legal path found: ' + str(path))
+			all_paths.append(copy.deepcopy(path))
+			path.pop()
+			return
+		if stop:
+			#print('has to stop')
+			path.pop()
+			return
 
-			if endID in self.find_black_borders(check_list):
-				return True
+		borders = self.find_all_borders(startID)
+		#print('borders of ' + str(startID) + ' are ' + str(borders))
 
-			else:
-				check_list = self.find_black_borders(check_list,True)
+		for borderID in borders:
+			if borderID not in path:
 
-		return False
+				stop = False
+				#print('now working on ' + str(borderID))
+				#print('border between ' + str(startID) + ' and ' + str(borderID) + ' is ' + self.static_borders[startID][borderID])
 
-	def move_block(self, block, start, end, is_truce = False):
+				if self.static_borders[startID][borderID] == 'R' \
+				or self.regions[borderID].is_contested() \
+				or num_moves == 1:
+					stop = True
+
+				self.check_path(num_moves-1, borderID, endID, path, stop, all_paths)
+
+		if path:
+			path.pop()
+
+		return all_paths
+
+
+
+	def move_block(self, block, start, end):
 		'''
 		Changes a block's location on the board, assuming that all conditions are legal. 
 		Adds them to appropriate dictionaries if in a combat or attack scenario
@@ -328,7 +371,6 @@ class Board(object):
 		if self.static_borders[start][end] == 'R':
 
 			if self.regions[end].is_contested():
-
 				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
@@ -343,10 +385,7 @@ class Board(object):
 				self.regions[start].blocks_present.remove(block)
 
 				if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
-          			
-          			if is_truce:
-          				return False
-
+		  
 					for block in self.regions[end].blocks_present:
 						self.regions[end].combat_dict['Defending'].append(block)
 
@@ -360,7 +399,6 @@ class Board(object):
 		elif self.check_path(block.movement_points,start,end):
 
 			if self.regions[end].is_contested():
-
 				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
@@ -374,11 +412,8 @@ class Board(object):
 			else:
 				self.regions[start].blocks_present.remove(block)
 
-				if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
-
-					if is_truce:
-						return False
-          
+				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
+		  
 					for block in self.regions[end].blocks_present:
 						self.regions[end].combat_dict['Defending'].append(block)
 
@@ -387,9 +422,6 @@ class Board(object):
 
 				else:
 					self.regions[end].blocks_present.append(block)
-
-		else:
-			return False
 
 	def __repr__(self):
 		'''
@@ -400,7 +432,7 @@ class Board(object):
 
 class Region(object):
 
-	def __init__(self, name, regionID, cathedral, coast, castle_points):
+	def __init__(self, name, regionID, cathedral, coast, castle_points,):
 		'''
 		This function creates a Region object with characteristics given to it
 		The parameters are a string name, int regionID, boolean cathedral, boolean coast,
@@ -453,7 +485,7 @@ class Region(object):
 		role is 'ENGLAND' or 'SCOTLAND'
 		Returns True if the region only contains troops of that side
 		'''
-        return len(self.blocks_present) > 0 and self.blocks_present[0].allegiance == role
+		return len(self.blocks_present) > 0 and self.blocks_present[0].allegiance == role
 
 	def is_neutral(self):
 		'''
@@ -490,6 +522,38 @@ class Region(object):
 			pass
 		
 
+def add_starting_blocks(board, nobles, other_blocks):
+	'''
+	Adds the blocks that should be present at the beginning of the game
+	to the board object in its region list at the specific region that each
+	block is located.
+	'''
+	#Add nobles 
+	for x in nobles:
+		if x.location != 23:
+			#Add to region
+			board.add_to_region(x, x.location)
+			#Add to roster based on allegiance
+			if x.allegiance == "SCOTLAND":
+				board.scot_roster.append(x)
+			elif x.allegiance == "ENGLAND":
+				board.eng_roster.append(x)
+	#Add other blocks
+	for x in other_blocks:
+		if x.location != 23:
+			#Add to region
+			board.add_to_region(x, x.location)
+			#Add to roster based on allegiance
+			if x.allegiance == "SCOTLAND":
+				board.scot_roster.append(x)
+			elif x.allegiance == "ENGLAND":
+				board.eng_roster.append(x)
+		else:
+			#Add to pool based on allegiance
+			if x.allegiance == "SCOTLAND":
+				board.scot_pool.append(x)
+			elif x.allegiance == "ENGLAND":
+				board.eng_pool.append(x)
 
 
 def main():
