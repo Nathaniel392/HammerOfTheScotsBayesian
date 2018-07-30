@@ -286,7 +286,7 @@ class Board(object):
 
 		return return_list
 
-	def check_path(self, num_moves, startID, endID, role path=[], stop=False, all_paths=[]):
+	def check_path(self, num_moves, startID, endID, role, path=[], stop=False, all_paths=[]):
 		'''
 		Finds all legal paths between two regions
 		num_moves:  a block's movement points (int)
