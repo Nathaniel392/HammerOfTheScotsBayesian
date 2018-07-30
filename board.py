@@ -314,7 +314,7 @@ class Board(object):
 			path.pop()
 			return
 
-		borders = self.find_all_borders(startID)
+		borders = self.find_adjacent_regions(startID)
 		#print('borders of ' + str(startID) + ' are ' + str(borders))
 
 		for borderID in borders:
