@@ -11,7 +11,7 @@ Created on Tue Jul 24 15:05:44 2018
 
 """
 HOW TO UTILIZE:
-    
+
 deck = Deck()
 deck.shuffle()
 computer_hand = list()
@@ -33,6 +33,7 @@ print(card)
 import random
 import board
 import dice
+import search
     
 #ultimately: return card that the computer decides to play
 
@@ -50,11 +51,12 @@ def pick_random_region(board, role):
 
     return selected_region
 
-     
+
 def order(): #returns randomly for now whether play one or two goes first
     if random.randint(0,2) == 1:
         return 1
     return 2
+
 
 def get_card_val(card):
     """
@@ -477,7 +479,7 @@ def sea_execution(board, position, role):
         
         print(block_name + ' moved from ' + combat.find_location(board, block_name).name + ' to ' + region_name)
 
-    
+
 def her_execution(board, position, role):
     '''
     Activates the HERALD card.
@@ -503,7 +505,7 @@ def her_execution(board, position, role):
         #Take input
         valid_input = False
         while not valid_input:
-            name_input = input('Which noble will you try to take?: ').strip()
+            name_input = input('Which noble will you try to take?: ').strip().upper()
 
             #Check if the input is valid
             for noble in enemy_nobles:
@@ -516,15 +518,26 @@ def her_execution(board, position, role):
                     print('Invalid input. Please try again.')
 
     elif position == 'comp':
-        #PICK A RANDOM NOBLE - TEMPORARY
+        ###
+        ###
+        ### PICK A RANDOM NOBLE - TEMPORARY
+        ###
+        ###
         num_nobles = len(enemy_nobles)
         rand_selection = random.randint(num_nobles)
         noble_to_steal = enemy_nobles[rand_selection]
+        ###
+        ###
+        ###
+        ###
+        ###
 
     #Roll the die and take the number from the list
     print('Roll a die to take the noble. 1-4 = success, 5-6 = failure.\n>')
 
     rand_num = dice.roll(1)[0]
+    print('DIE ROLL: ' + str(rand_num))
+
     if rand_num <= 4:
         #STEAL NOBLE
         noble_to_steal.change_allegiance()
@@ -541,11 +554,67 @@ def her_execution(board, position, role):
         print('Failure')
 
 
-def vic_execution(position):
+def vic_execution(board, position, role):
+    '''
+    Pick a friendly region and distribute 3 health points to them.
+    position = 'ENGLAND' or 'SCOTLAND'
+    role = 'comp' or 'opp'
+    '''
+
+    #List of all friendly regions
+    friendly_list = board.get_controlled_regions(role)
+
+    #Remove regions with all blocks at full health
+    for region in friendly_list:
+
+        #Check if all blocks in the region are at full health
+        all_full_health = True
+        for block in region:
+
+            if block.current_strength != block.attack_strength:
+                all_full_health = False
+
+        #Take that region out of the list
+        if not all_full_health:
+            friendly_list.remove(region)
+
+    #Human player
+    if position == 'opp':
+
+        #Print all available regions to select
+        for region in friendly_list:
+            print(region.name)
+
+        #Prompt for a region to select
+        valid_input = False
+        while not valid_input:
+
+            #Take a name input and convert it to a region object
+            selected_region_name = input('Which region do you want to heal?: ').strip().upper()
+
+            if search.region_name_to_object(friendly_list, selected_region_name):
+                selected_region = search.region_name_to_object(friendly_list, selected_region_name)
+                valid_input = True
+
+            else:
+                print('Invalid input. Please try again.')
+    #Computer
+    elif position == 'comp':
+        ###
+        ###
+        ### RANDOM DECISION - TEMPORARY
+        ###
+        ###
+        num_regions = len(friendly_list)
+        rand_selection = random.randint(num_regions)
+        selected_region = friendly_list[rand_selection]
+
+    #Execute the healing
+
+
+def pil_execution(board, position, role):
     pass
-def pil_execution(position):
-    pass
-def tru_execution(position):
+def tru_execution(board, position, role):
     pass
 
 def resolve_card(board, which_side, card, role):
