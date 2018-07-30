@@ -5,6 +5,7 @@ import blocks_occupied
 import board
 import cardplay
 import blocks
+import winter
 
 def prompt_scenario():
     '''
@@ -222,6 +223,8 @@ def play_game():
             if win(block_list, year, scenario):
                 print(win(block_list, year, scenario))
                 return 'game over'
+        winter.intialize_winter(current_board, block_list, computer_role)
+        winter.winter_builds(current_board, computer_role)
 
 
 def main():
