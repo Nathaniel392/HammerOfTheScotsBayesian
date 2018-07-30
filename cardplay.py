@@ -736,10 +736,6 @@ def pil_execution(board, position, role):
         
         else:
             print('There are no possible regions in which to play this card.')
-    
-    
-def tru_execution(board, position, role):
-    pass
 
 def resolve_card(board, which_side, card, role,truce=False):
     
