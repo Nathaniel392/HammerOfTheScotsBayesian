@@ -57,6 +57,7 @@ class Block(object):
                 self.current_strength = 0
             return True
           
+         
     def heal(self, health_points):
         """
         heals block as much as possible with health_points sent
@@ -70,6 +71,7 @@ class Block(object):
                 self.current_strength = self.attack_strength + 1
                 health_points -=1
         return health_points
+   
           
     def move(self, region, block):
         """
@@ -106,8 +108,7 @@ class Block(object):
         output = str(self)
         return output
 
-    def __len__(self):
-        return 1
+
       
     def is_dead(self):
         return self.current_strength == 0
@@ -146,8 +147,7 @@ class Noble(Block):
                     self.allegiance == 'SCOTLAND'
                     
             else:
-                self.allegiance = allegiance
-                
-                
-                
+                self.allegiance = allegiance   
+        if self.current_strength == 0:
+                self.current_strength = 1
             

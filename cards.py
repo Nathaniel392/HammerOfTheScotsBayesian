@@ -45,7 +45,7 @@ class Deck( object ):
     return len(self.__deck)
   
   def __str__( self ):
-    return self.__deck
+    return str(self.__deck)
 
   def deal_hands( self ):
   	""" Shuffle deck and return two 5-card hands. Used at the start of a turn. """

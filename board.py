@@ -151,7 +151,12 @@ class Board(object):
 
 		return contested_regions
 
-
+	def get_block(block_name, region):
+		list_of_blocks = region.blocks_present
+		for block in list_of_blocks:
+			if block.name.lower() == block_name.lower():
+				return block
+	
 	def add_to_region(self, block_to_add, regionID):
 		'''
 		This function takes a block object and adds it to a particular region
@@ -253,7 +258,7 @@ class Board(object):
 		returns a list of all bordering regions of a particular regionID
 		'''
 
-		return_list = []
+		return_list = [self.regions[regionID]]
 		for element in regionID:
 			for i,border in enumerate(self.static_borders[element]):
 
@@ -270,7 +275,7 @@ class Board(object):
 		'''
 
 		if friendly:
-			return_list = []
+			return_list = [self.regions[regionID]]
 
 			for element in regionID:
 				for i, border in enumerate(self.static_borders[element]):
@@ -311,7 +316,7 @@ class Board(object):
 
 		return False
 
-	def move_block(self, block, start, end):
+	def move_block(self, block, start, end, is_truce = False):
 		'''
 		Changes a block's location on the board, assuming that all conditions are legal. 
 		Adds them to appropriate dictionaries if in a combat or attack scenario
@@ -323,6 +328,7 @@ class Board(object):
 		if self.static_borders[start][end] == 'R':
 
 			if self.regions[end].is_contested():
+
 				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
@@ -337,7 +343,10 @@ class Board(object):
 				self.regions[start].blocks_present.remove(block)
 
 				if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
-          
+          			
+          				if is_truce:
+          					return False
+
 					for block in self.regions[end].blocks_present:
 						self.regions[end].combat_dict['Defending'].append(block)
 
@@ -351,6 +360,7 @@ class Board(object):
 		elif self.check_path(block.movement_points,start,end):
 
 			if self.regions[end].is_contested():
+
 				self.regions[start].blocks_present.remove(block)
 
 				if self.regions[end].blocks_present[0].allegiance == block.allegiance:
@@ -364,7 +374,10 @@ class Board(object):
 			else:
 				self.regions[start].blocks_present.remove(block)
 
-				if self.regions[end].blocks_present[0].allegiance != block.allegiance:
+				if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
+
+					if is_truce:
+						return False
           
 					for block in self.regions[end].blocks_present:
 						self.regions[end].combat_dict['Defending'].append(block)
@@ -375,6 +388,9 @@ class Board(object):
 				else:
 					self.regions[end].blocks_present.append(block)
 
+		else:
+			return False
+
 	def __repr__(self):
 		'''
 		Terminal representation of the board
@@ -384,7 +400,7 @@ class Board(object):
 
 class Region(object):
 
-	def __init__(self, name, regionID, cathedral, coast, castle_points,):
+	def __init__(self, name, regionID, cathedral, coast, castle_points):
 		'''
 		This function creates a Region object with characteristics given to it
 		The parameters are a string name, int regionID, boolean cathedral, boolean coast,
@@ -439,11 +455,11 @@ class Region(object):
 		'''
         return len(self.blocks_present) > 0 and self.blocks_present[0].allegiance == role
 
-    def is_neutral(self):
-    	'''
-    	Returns True if the region is empty
-    	'''
-    	return len(self.blocks_present) == 0
+	def is_neutral(self):
+		'''
+		Returns True if the region is empty
+		'''
+		return len(self.blocks_present) == 0
 	
 	def is_contested(self):
 		'''
@@ -474,38 +490,6 @@ class Region(object):
 			pass
 		
 
-def add_starting_blocks(board, nobles, other_blocks):
-	'''
-	Adds the blocks that should be present at the beginning of the game
-	to the board object in its region list at the specific region that each
-	block is located.
-	'''
-	#Add nobles 
-	for x in nobles:
-		if x.location != 23:
-			#Add to region
-			board.add_to_region(x, x.location)
-			#Add to roster based on allegiance
-			if x.allegiance == "SCOTLAND":
-				board.scot_roster.append(x)
-			elif x.allegiance == "ENGLAND":
-				board.eng_roster.append(x)
-	#Add other blocks
-	for x in other_blocks:
-		if x.location != 23:
-			#Add to region
-			board.add_to_region(x, x.location)
-			#Add to roster based on allegiance
-			if x.allegiance == "SCOTLAND":
-				board.scot_roster.append(x)
-			elif x.allegiance == "ENGLAND":
-				board.eng_roster.append(x)
-		else:
-			#Add to pool based on allegiance
-			if x.allegiance == "SCOTLAND":
-				board.scot_pool.append(x)
-			elif x.allegiance == "ENGLAND":
-				board.eng_pool.append(x)
 
 
 def main():
