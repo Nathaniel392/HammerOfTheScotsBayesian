@@ -13,7 +13,7 @@ def go_home(board,noble):
 		
 		if not board.regions[noble.home_location].blocks_present or board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
 
-			board.regions[find_location(board,noble.blockID).regionID].blocks_present.pop(noble)
+			board.regions[find_location(board,noble.blockID).regionID].blocks_present.remove(noble)
 
 			board.regions[noble.home_location].blocks_present.append(noble)
 
@@ -21,7 +21,7 @@ def go_home(board,noble):
 
 			noble.allegiance = board_regions[noble.home_location].blocks_present[0].allegiance
 
-			board.regions[find_location(board,noble.blockID).regionID].blocks_present.pop(noble)
+			board.regions[find_location(board,noble.blockID).regionID].blocks_present.remove(noble)
 
 			board.regions[noble.home_location].blocks_present.append(noble)
 
@@ -40,7 +40,7 @@ def go_home(board,noble):
 
 			if not possible_locations:
 
-				board.regions[home].blocks_present.pop(noble)
+				board.regions[home].blocks_present.remove(noble)
 
 				homeless_nobles.append(noble)
 
@@ -48,7 +48,7 @@ def go_home(board,noble):
 
 			else:
 
-				board.regions[find_location(board,noble.blockID).regionID].blocks_present.pop(noble)
+				board.regions[find_location(board,noble.blockID).regionID].blocks_present.remove(noble)
 
 				board.regions[random.choice(possible_locations)].blocks_present.append(noble)
 
@@ -61,11 +61,22 @@ def add_to_location(board,block,location):
 	puts it into the new location
 	'''
 
-	board.regions[find_location(board,block.blockID).regionID].blocks_present.pop(block)
+	if location == 'scottish pool':
+		board.regions[find_location(board, block.blockID).regionID].blocks_present.remove(block)
 
-	board.regions[location.regionID].blocks_present.append(block)
+		board.scot_pool.append(block)
+	elif location == 'english pool':
+		board.regions[find_location(board, block.blockID).regionID].blocks_present.remove(block)
+		board.eng_pool.append(block)
+		print("Sent" + block.name + ' to ' + location.name)
 
-	print ("Sent " + str(block) + " to " + str(location))	
+	else:
+
+		board.regions[find_location(board,block.blockID).regionID].blocks_present.remove(block)
+
+		board.regions[location.regionID].blocks_present.append(block)
+
+		print ("Sent " + block.name + " to " + location.name)	
 
 def choose_location(location_list,allegiance,computer_role):
 
@@ -87,19 +98,30 @@ def choose_location(location_list,allegiance,computer_role):
 
 		while new_bool:
 
-			user_input = input("Where would you like " + str(block) + " to go? ")
+			print("Where would you like " + block.name + " to go? ")
+			print('Type pool to disband')
+			user_input = input('>')
+			if user_input == 'pool' and user_input in location_list:
+				if allegiance = 'SCOTLAND':
+					return 'scottish pool'
+				else:
+					return 'english pool'
+			try:
+				region_choice = board.regionID_dict[user_input.upper()]
 
-			region_choice = board.regionID_dict[user_input.upper()]
+				if int(region_choice) in location_list:
 
-			if int(region_choice) in location_list:
+					new_bool = False
 
-				new_bool = False
+					return region_choice
 
-				return region_choice
 
-			else:
+				else:
 
-				print ("Not valid!")
+					print ("Not valid!")
+
+			except ValueError:
+				print('Not valid')
 
 def disband(board,block):
 
@@ -108,11 +130,15 @@ def disband(board,block):
 	sends the block to the board's draw pool
 	'''
 
-	board.regions[find_location(board,block.blockID).regionID].blocks_present.pop(block)
+	board.regions[find_location(board,block.blockID).regionID].blocks_present.remove(block)
 
-	board.scot_pool.blocks_present.append(block)
 
-	print ("Disbanded " + str(block) + "!")	
+	if block.allegiance == 'SCOTLAND':
+		board.scot_pool.blocks_present.append(block)
+	else:
+		board.eng_pool.blocks_present.append(block)
+
+	print ("Disbanded " + block.name + "!")	
 
 def initialize_winter(board,block_list,computer_role):
 
@@ -161,7 +187,7 @@ def initialize_winter(board,block_list,computer_role):
 
 						go_home(board,noble)
 
-						print ("Sent " + str(noble) + " home!")
+						print ("Sent " + noble.name + " home!")
 
 				elif block.type_men == "KING":
 
@@ -185,12 +211,12 @@ def initialize_winter(board,block_list,computer_role):
 
 				elif block.type_men == "EDWARD":
 
-					add_to_location(board,block,choose_location([find_location(board,block.blockID), board.scot_pool]))
+					add_to_location(board,block,choose_location([find_location(board,block.blockID), 'english pool']))
 
 				
 				elif block.type_men == "WALLACE":
 
-					wallace_possible_locations = [board.scot_pool]
+					wallace_possible_locations = ['scottish pool']
 
 					if find_location(board,block.blockID).cathedral:
 
@@ -272,7 +298,7 @@ def initialize_winter(board,block_list,computer_role):
 
 				while new_bool:
 
-					user_input = input("Where would you like " + str(block) + " to go? ")
+					user_input = input("Where would you like " + block.name + " to go? ")
 
 					region_choice = board.regionID_dict[user_input.upper()]
 
@@ -335,7 +361,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 						bump_block.current_strength += 1
 
-						print ("Bumped " + str(bump_block) + " up!")
+						print ("Bumped " + bump_block.name + " up!")
 
 						points -= 1
 
@@ -363,7 +389,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 						print (str(index) + ":" + " "*5 + str(name))
 
-					user_choice = input("Which block would you like to bump in " + str(region) + "? \n Type 'done' if you are finished ")
+					user_choice = input("Which block would you like to bump in " + region.name + "? \n Type 'done' if you are finished ")
 
 					if user_choice.lower() == 'done':
 
@@ -399,7 +425,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 				computer_choice.current_strength += 1 
 
-				print ("Bumped " + str(computer_choice) + " up!")
+				print ("Bumped " + computer_choice.name + " up!")
 
 				points -= 1
 
@@ -449,7 +475,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 								print (str(index) + ":" + " "*5 + str(name))
 
-							user_choice2 = input("Which block would you like to bump in " + str(region) + "? ")
+							user_choice2 = input("Which block would you like to bump in " + region.name + "? ")
 
 							potential_blocks[int(user_choice2)].current_strength += 1
 
