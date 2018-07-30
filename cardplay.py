@@ -443,7 +443,7 @@ def sea_execution(board, position, role):
                 friendly = True
             
             if block.name.lower() != 'norse':
-            not_norse = True
+                not_norse = True
             
             if coastal and friendly and not_norse:
                 chosen_block = block
@@ -481,53 +481,83 @@ def sea_execution(board, position, role):
             
         
     elif position == 'opp':
+          
             
-        valid_block = False # true if block is in a coastal, friendly region
-            
-        while valid_block == False:    
-            block_name = input('Which block would you like to move?\n>')
-            
-            #create a list of controlled blocks
-            controlled_blocks = []
-            for region in board.get_controlled_regions(role):
-                for block in region.blocks_present:
-                    controlled_blocks.append(block)
-                    
-            block = search.block_name_to_object(controlled_blocks, block_name)
-            
-            if block:
-            
-                # is on the coast and in friendly territory (ie player owns block)
-                if combat.find_location(board, block_name).coast and combat.find_location(board, block_name) in board.get_controlled_regions(role) and block.name.lower() != 'norse': 
-                    valid_block = True
-                    chosen_block = block
-                    
-                else:
-                    print('Invalid block.')
-                    
-            else:
-                print('Invalid block.')
-                    
-        valid_end_region = False # true if ending location for block is coastal and friendly
+        #create and print a list of coastal, friendly regions where norse is not the ONLY one
         
-        while valid_end_region == False:    
-            region_name = input('Where would you like to move ' + block.name + '?\n>')
-            # if it's not the same as the starting region, it's coastal, and it's friendly
-            region = search.region_name_to_object(board, region_name)
-            if region:
-                if combat.find_location(board, block.name) != region and region.coast and region in board.get_controlled_regions(role):
-                    valid_end_region = True
-                    
+        possible_region_list = []
+        
+        for region in board.regions():
+            if region.coast:
+                coast = True
+            if region in board.get_controlled_regions(role):
+                friendly = True
+            if len(region.blocks_present()) == 1 and region.blocks_present[0].name.upper() == 'NORSE':
+                just_norse = True
+            
+            if coast and friendly and not just_norse:
+                possible_region_list.append(region)
+        
+        
+        original_region_name = input('Which region would you like to move block(s) from? Enter a name or \'none\'.\n>')
+        
+        if original_region_name.lower() != 'none':
+            
+            original_region = search.region_name_to_object(board, original_region_name)
+        
+            valid_region = False
+            while not valid_region:
+                
+                if original_region in possible_region_list:
+                    valid_region = True
                 else:
                     print('Invalid region.')
-            else:
-                print('Invalid region.')
                 
-        old_region_name = combat.find_location(board, block.name).name
+            
+            for x in range(0,2):
+                #list of possible blocks to move (present in region)
+                possible_block_list = []
+                for block in original_region.blocks_present:
+                    possible_block_list.append(block)
+                
+                block_name = input('Which block would you like to move? Enter a name.\n>')
+                
+                block_move_list = []
+                
+                block_to_move = search.block_name_to_object(possible_block_list, block_name)
+            
+                valid_block = False
+                
+                while not valid_block:
+                    if block_to_move:
+                        if block_to_move.name.upper() != 'NORSE':
+                            valid_block = True
+                            block_move_list.append(block_to_move)
+                    else:
+                        print('Invalid block.')
+                        
+                    
+            new_region_name = input('Which region would you like to move block(s) to? Enter a name.\n>')
+
+                
+            new_region = search.region_name_to_object(board, new_region_name)
         
-        board.add_to_location(board, block, region)
+            valid_region = False
+            
+            while not valid_region:
+                
+                if original_region in possible_region_list:
+                    valid_region = True
+                else:
+                    print('Invalid region.')
+                
+            for block in block_move_list:
         
-        print(block_name + ' moved from ' + old_region_name + ' to ' + region.name)
+                board.add_to_location(board, block, new_region)
+        
+                print(block.name + ' moved from ' + original_region.name + ' to ' + new_region.name)
+            
+            
 def her_execution(board, position, role):
     '''
     Activates the HERALD card.
