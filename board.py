@@ -261,6 +261,20 @@ class Board(object):
 
 		return return_list
 
+	def find_adjacent_regions(self, regionID):
+		'''
+		Returns a list of all bordering regionIDs of a region, given its regionID
+		'''
+		
+		return_list = []
+		for i, border in enumerate(self.static_borders[regionID]):
+
+			if border == "B" or border == "R":
+				return_list.append(i)
+
+		return return_list
+
+
 	def find_black_borders(self, regionID, friendly = False):
 		'''
 		regionID:  ID of a region to be checked
