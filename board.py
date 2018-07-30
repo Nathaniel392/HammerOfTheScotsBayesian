@@ -29,6 +29,7 @@ import initialize_blocks
 import attacked_borders
 import random
 import search
+
 NUM_REGIONS = 23
 
 def border_chars(border_array):
@@ -291,7 +292,7 @@ class Board(object):
 
 		return return_list
 
-	def check_path(self, num_moves, startID, endID, path=[], stop=False, all_paths=[]):
+	def check_path(self, num_moves, startID, endID, role, path=[], stop=False, all_paths=[]):
 		'''
 		Finds all legal paths between two regions
 		num_moves:  a block's movement points (int)
@@ -303,43 +304,92 @@ class Board(object):
 			stored as the function processes
 		'''
 
+		#path is a list of regions the algorithm has traversed to reach its current locaiton
+		#store the current location into the path
 		path.append(startID)
-		#print('\ncurrent region is ' + str(startID))
-		#print(str(num_moves) + ' moves left')
-		#print('current path is ' + str(path))
 
-		#Destination reached
+		#Destination reached - store the path
 		if startID == endID:
-			#print('ending')
-			#print('legal path found: ' + str(path))
 			all_paths.append(copy.deepcopy(path))
 			path.pop()
 			return
+		#Can't go further - don't search for more borders
 		if stop:
-			#print('has to stop')
 			path.pop()
 			return
 
+		#Find borders to search for
 		borders = self.find_adjacent_regions(startID)
-		#print('borders of ' + str(startID) + ' are ' + str(borders))
 
 		for borderID in borders:
-			if borderID not in path:
+			#Don't search regions already traversed
+			if borderID not in path and self.dynamic_borders[startID][borderID] > 0:
 
+				#Set a boolean if this should be the last move in a path
 				stop = False
-				#print('now working on ' + str(borderID))
-				#print('border between ' + str(startID) + ' and ' + str(borderID) + ' is ' + self.static_borders[startID][borderID])
-
 				if self.static_borders[startID][borderID] == 'R' \
 				or self.regions[borderID].is_contested() \
+				or not self.regions[borderID].is_neutral() and not self.regions[borderID].is_friendly(role) \
 				or num_moves == 1:
 					stop = True
 
-				self.check_path(num_moves-1, borderID, endID, path, stop, all_paths)
+				#Take the adjacent border and keep searching
+				self.check_path(num_moves-1, borderID, endID, role, path, stop, all_paths)
 
+		#After exhausting all borders, delete the region from memory (path) and move onto the next region
 		if path:
 			path.pop()
 
+		#Final output
+		return all_paths
+
+	def check_all_paths(self, num_moves, startID, role, path=[], stop=False, all_paths=[]):
+		'''
+		Finds all legal paths from a region - modified version of check_path
+		num_moves:  a block's movement points (int)
+		startID:  regionID of the starting region (int)
+		path:  temporary stored path for the recursive function - keeps track of where it's been
+		stop:  boolean for if the previous move causes the "block" to stop - used in recursion
+		all_paths:  list of lists of all legal paths from start - final output.
+			stored as the function processes
+		'''
+
+		#path is a list of regions the algorithm has traversed to reach its current locaiton
+		#store the current location into the path
+		path.append(startID)
+		
+		#Store the algorithm's current path if it's unique
+		if path not in all_paths:
+			all_paths.append(copy.deepcopy(path))
+
+		#Can't go further - don't look for more borders
+		if stop:
+			path.pop()
+			return
+
+		#Find borders to search through
+		borders = self.find_adjacent_regions(startID)
+
+		for borderID in borders:
+			#Don't search regions already traversed
+			if borderID not in path and self.dynamic_borders[startID][borderID] > 0:
+
+				#Set a boolean if this should be the last move in a path
+				stop = False
+				if self.static_borders[startID][borderID] == 'R'	\
+				or self.regions[borderID].is_contested()	\
+				or not self.regions[borderID].is_neutral() and not self.regions[borderID].is_friendly(role)	\
+				or num_moves == 1:
+					stop = True
+
+				#Take the adjacent border and keep searching
+				self.check_all_paths(num_moves-1, borderID, role, path, stop, all_paths)
+
+		#After exhausting all borders, delete the region from memory (path) and move onto the next region
+		if path:
+			path.pop()
+
+		#Final output
 		return all_paths
   
 	def move_block(self, block, start, end, position, prev_paths = [], is_truce = False):
@@ -355,6 +405,8 @@ class Board(object):
 		end:  end location (Region ID)
 		'''
 		
+
+
 		if position == 'comp':
 
 			if self.check_path(block.movement_points,start,end):
