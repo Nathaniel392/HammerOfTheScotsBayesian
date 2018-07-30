@@ -557,26 +557,15 @@ def her_execution(board, position, role):
 def vic_execution(board, position, role):
     '''
     Pick a friendly region and distribute 3 health points to them.
-    position = 'ENGLAND' or 'SCOTLAND'
-    role = 'comp' or 'opp'
+    role = 'ENGLAND' or 'SCOTLAND'
+    position = 'comp' or 'opp'
     '''
 
     #List of all friendly regions
     friendly_list = board.get_controlled_regions(role)
 
     #Remove regions with all blocks at full health
-    for region in friendly_list:
-
-        #Check if all blocks in the region are at full health
-        all_full_health = True
-        for block in region:
-
-            if block.current_strength != block.attack_strength:
-                all_full_health = False
-
-        #Take that region out of the list
-        if not all_full_health:
-            friendly_list.remove(region)
+   
 
     #Human player
     if position == 'opp':
@@ -587,6 +576,7 @@ def vic_execution(board, position, role):
 
         #Prompt for a region to select
         valid_input = False
+        selected_region = None
         while not valid_input:
 
             #Take a name input and convert it to a region object
@@ -596,8 +586,35 @@ def vic_execution(board, position, role):
                 selected_region = search.region_name_to_object(friendly_list, selected_region_name)
                 valid_input = True
 
+
             else:
                 print('Invalid input. Please try again.')
+
+        health_points = 3
+        print('Possible blocks: ')
+        for i, block in enumerate(selected_region.blocks_present):
+
+            print(block.name, '[', i, ']', end = '\t')
+        while health_points > 0:
+            bad_input = True
+            while bad_input:
+                try:
+                    print('You have ', health_points, ' health points remaining')
+                    ID_to_heal = int(input('Which block index would you like to heal: '))
+                    if ID_to_heal not in range(len(selected_region.blocks_present)):
+                        print('Type in a valid block index')
+                        continue
+                    healing_points = int(input('How many health points would you like to heal it: '))
+                    if healing_points <= 0 or healing_points > health_points:
+                        print('You do not have that many healing points left')
+                        continue
+                except ValueError:
+                    print('type in a number')
+                health_points -= selected_region.blocks_present[ID_to_heal].heal_until_full(healing_points)
+
+
+
+
     #Computer
     elif position == 'comp':
         ###
@@ -606,11 +623,12 @@ def vic_execution(board, position, role):
         ###
         ###
         num_regions = len(friendly_list)
-        rand_selection = random.randint(num_regions)
+        rand_selection = random.randint(0, num_regions - 1)
         selected_region = friendly_list[rand_selection]
 
-    #Execute the healing
-
+        for i in range(3):
+            rand_block_selection = random.randint(0, len(selected_region.blocks_present) - 1)
+            selected_region.blocks_present[rand_block_selection].heal_until_full()
 
 def pil_execution(board, position, role):
     pass
