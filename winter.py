@@ -476,6 +476,8 @@ def winter_builds(board,computer_role):
 			english_rp = region.castle_points
 
 			distribute_rp(board,english_rp,region,computer_role)
+
+	levy(board)
 def levy(board, num_people = None):
 	"""
 	send 'start' if start
