@@ -109,7 +109,7 @@ def random_card(computer_hand):
     return computer_hand[random_index]
 
 
-def one_execution(board, position, role):
+def one_execution(board, position, role,truce=False):
     '''
     This function takes three parameters, a board object, a string
     position which is whether the computer or opponent is playing, and role
@@ -171,11 +171,10 @@ def one_execution(board, position, role):
                     #Get the region object from the region name
                     end_region = board.regions[regionID_dict[end_region_name.upper()]]
                     #Make sure that the move is a valid move
-                    if not board.check_path(block_choice.movement_points, focus_region.regionID, end_region.regionID):
+                    if board.move_block(block_choice.movement_points, focus_region.regionID, end_region.regionID,truce):
                         print('That is an invalid move')
                         end_region = ''
             #Move the block to its location
-            current_board.move_block(block, focus_region.regionID, end_region.regionID)
             #Add the block to the moved blocks list
             blocks_moved.append(block.name)
             print(block.name + " was moved from " + focus_region.name + ' to ' + end_region.name)
@@ -185,15 +184,15 @@ def one_execution(board, position, role):
         
         #Get a random starting region
         start_regions = current_board.get_controlled_regions(role)
-        rand_startID = random.randint(0, len(start_regions))
+        rand_startID = random.randint(0, len(start_regions) - 1)
         start_region = start_regions[rand_startID]
         #Loop through blocks in random region
         for block in start_region:
             #50% chance that the computer will move block
-            if random.randint(0,2) == 0:
+            if random.randint(0,1) == 0:
                 while flag:
                     #Get random region to move the block to
-                    end_ID = random.randint(0,23)
+                    end_ID = random.randint(0,22)
                     if end_ID != start_region.regionID:
                         flag = False
                 #Make sure that the move to random region is legal
@@ -201,7 +200,7 @@ def one_execution(board, position, role):
                     flag = True
                     while flag:
                         #Get new random region
-                        end_ID = random.randint(0,23)
+                        end_ID = random.randint(0,22)
                         if end_ID != start_region.regionID:
                             flag = False
                 #Move block
@@ -214,14 +213,21 @@ def one_execution(board, position, role):
 
 
 
-def two_execution(position):
+def two_execution(board,position,role,truce=False):
     '''
     This function takes three parameters, a board object, a string
     position which is whether the computer or opponent is playing, and role
     that the player is playing (england or scotland). Then the function
     executes a 2 move card.
     '''
+
+    #region_regions is a list of focus regions!!!!
+
+
+
+    ####HELLO
     if position == 'opp':
+        region_regions = []
         for j in range(2):
             blocks_moved = list()
             region_name = ''
@@ -243,39 +249,40 @@ def two_execution(position):
             else:
                 moveable_count = len(focus_region.blocks_present)
 
-            
+            region_regions.append(focus_region)
 
-            for i in range(moveable_count):
+            for region_name_region in region_regions:
 
-                check_lst = list()
-                for block in focus_region:
-                    check_lst.append(block.name.lower())
+                for i in range(moveable_count):
 
-                block_name = ""
-                block = ''
-                end_region_name = ''
-                end_region = ''
-                while block_name not in check_lst:
-                    block_name = input("Which block would you like to move from " + focus_region.name + "?\n>")
-                    block = find_block(block_name.lower(), board.blocks)
-                    if block_name not in check_lst:
-                        print("That block in not in the focus region!")
-                    if block.name in blocks_moved:
-                        print("You have already moved that block this turn!")
-                        block_name = ''
+                    check_lst = list()
+                    for block in focus_region:
+                        check_lst.append(block.name.lower())
 
-                while end_region not in board.get_controlled_regions(role):
-                    end_region_name = input("What region would you like to move to?\n>")
+                    block_name = ""
+                    block = ''
+                    end_region_name = ''
+                    end_region = ''
+                    while block_name not in check_lst:
+                        block_name = input("Which block would you like to move from " + region_name_region.name + "?\n>")
+                        block = find_block(block_name.lower(), board.blocks)
+                        if block_name not in check_lst:
+                            print("That block in not in the focus region!")
+                        if block.name in blocks_moved:
+                            print("You have already moved that block this turn!")
+                            block_name = ''
 
-                    if end_region_name.upper() in board.regionID_dict:
-                        end_region = board.regions[regionID_dict[end_region_name.upper()]]
-                        if not board.check_path(block_choice.movement_points, focus_region.regionID, end_region.regionID):
-                            print('That is an invalid move')
-                            end_region = ''
+                    while end_region not in board.get_controlled_regions(role):
+                        end_region_name = input("What region would you like to move to?\n>")
 
-                current_board.move_block(block, focus_region.regionID, end_region.regionID)
-                blocks_moved.append(block.name)
-                print(block.name + " was moved from " + focus_region.name + ' to ' + end_region.name)
+                        if end_region_name.upper() in board.regionID_dict:
+                            end_region = board.regions[regionID_dict[end_region_name.upper()]]
+                            if board.move_block(block_choice.movement_points, region_name_region.regionID, end_region.regionID,truce) == False:
+                                print('That is an invalid move')
+                                end_region = ''
+
+                    blocks_moved.append(block.name)
+                    print(block.name + " was moved from " + region_name_region.name + ' to ' + end_region.name)
 
     if position == 'comp':
         #Get a random starting region
@@ -283,20 +290,20 @@ def two_execution(position):
         moved_blocks = list()
         for i in range(2):
             start_regions = current_board.get_controlled_regions(role)
-            rand_startID = random.randint(0, len(start_regions))
+            rand_startID = random.randint(0, len(start_regions) - 1)
             start_region = start_regions[rand_startID]
         
             for block in start_region:
                 if block not in moved_blocks:
-                    if random.randint(0,2) == 0:
+                    if random.randint(0,1) == 0:
                         while flag:
-                            end_ID = random.randint(0,23)
+                            end_ID = random.randint(0,22)
                             if end_ID != start_region.regionID:
                                 flag = False
                         while not board.check_path(block, block.movement_points, start_region.regionID, end_ID):
                             flag = True
                             while flag:
-                                end_ID = random.randint(0,23)
+                                end_ID = random.randint(0,22)
                                 if end_ID != start_region.regionID:
                                     flag = False
                         board.move_block(block, start_region.regionID, end_ID)
@@ -304,14 +311,25 @@ def two_execution(position):
                         print('Computer moves ' + block.name + ' from ' + start_region.name + " to " + board.regions[end_ID].name)
 
 
-def three_execution(position):
+def three_execution(board, position,role,truce = False):
     '''
     This function takes three parameters, a board object, a string
     position which is whether the computer or opponent is playing, and role
     that the player is playing (england or scotland). Then the function
     executes a 3 move card.
     '''
+
+
+    #region_regions is a list of focus regions!!!!
+    
+
+
+
+
+
+    ####HELLO
     if position == 'opp':
+        region_regions = []
         for j in range(3):
             blocks_moved = list()
             region_name = ''
@@ -333,65 +351,65 @@ def three_execution(position):
             else:
                 moveable_count = len(focus_region.blocks_present)
 
-            
+            region_regions.append(focus_region)
 
-            for i in range(moveable_count):
+            for region_name_region in region_regions:
 
-                check_lst = list()
-                for block in focus_region:
-                    check_lst.append(block.name.lower())
+                for i in range(moveable_count):
 
-                block_name = ""
-                block = ''
-                end_region_name = ''
-                end_region = ''
-                while block_name not in check_lst:
-                    block_name = input("Which block would you like to move from " + focus_region.name + "?\n>")
-                    block = find_block(block_name.lower(), board.blocks)
-                    if block_name not in check_lst:
-                        print("That block in not in the focus region!")
-                    if block.name in blocks_moved:
-                        print("You have already moved that block this turn!")
-                        block_name = ''
+                    check_lst = list()
+                    for block in focus_region:
+                        check_lst.append(block.name.lower())
 
-                while end_region not in board.get_controlled_regions(role):
-                    end_region_name = input("What region would you like to move to?\n>")
+                    block_name = ""
+                    block = ''
+                    end_region_name = ''
+                    end_region = ''
+                    while block_name not in check_lst:
+                        block_name = input("Which block would you like to move from " + region_name_region.name + "?\n>")
+                        block = find_block(block_name.lower(), board.blocks)
+                        if block_name not in check_lst:
+                            print("That block in not in the focus region!")
+                        if block.name in blocks_moved:
+                            print("You have already moved that block this turn!")
+                            block_name = ''
 
-                    if end_region_name.upper() in board.regionID_dict:
-                        end_region = board.regions[regionID_dict[end_region_name.upper()]]
-                        if not board.check_path(block_choice.movement_points, focus_region.regionID, end_region.regionID):
-                            print('That is an invalid move')
-                            end_region = ''
+                    while end_region not in board.get_controlled_regions(role):
+                        end_region_name = input("What region would you like to move to?\n>")
 
-                current_board.move_block(block, focus_region.regionID, end_region.regionID)
-                blocks_moved.append(block.name)
-                print(block.name + " was moved from " + focus_region.name + ' to ' + end_region.name)
+                        if end_region_name.upper() in board.regionID_dict:
+                            end_region = board.regions[regionID_dict[end_region_name.upper()]]
+                            if board.move_block(block_choice.movement_points, region_name_region.regionID, end_region.regionID) == False:
+                                print('That is an invalid move')
+                                end_region = ''
+
+                    blocks_moved.append(block.name)
+                    print(block.name + " was moved from " + region_name_region.name + ' to ' + end_region.name)
 
     if position == 'comp':
         #Get a random starting region
         moved_blocks = list()
         for i in range(3):
             start_regions = current_board.get_controlled_regions(role)
-            rand_startID = random.randint(0, len(start_regions))
+            rand_startID = random.randint(0, len(start_regions) - 1)
             start_region = start_regions[rand_startID]
 
             for block in start_region:
                 if block not in moved_blocks:
                     if random.randint(0,2) == 0:
                         while flag:
-                            end_ID = random.randint(0,23)
+                            end_ID = random.randint(0,22)
                             if end_ID != start_region.regionID:
                                 flag = False
                         while not board.check_path(block, block.movement_points, start_region.regionID, end_ID):
                             flag = True
                             while flag:
-                                end_ID = random.randint(0,23)
+                                end_ID = random.randint(0,22)
                                 if end_ID != start_region.regionID:
                                     flag = False
-                        board.move_block(block, start_region.regionID, end_ID)
+                        board.move_block(block, start_region.regionID, end_ID,truce)
                         moved_blocks.append(block)
                         print('Computer moves ' + block.name + ' from ' + start_region.name + " to " + board.regions[end_ID].name)
-
 def sea_execution(board, position, role):
     """
     Receives current board, opp/comp, and scotland/england
