@@ -19,7 +19,7 @@ as well as king
 
 class Block(object):
     def __init__(self, name = None, movement_points = None, attack_letter = None , attack_number = None, initial_attack_strength = None, \
-        allegiance = None, location = None, has_cross = None, type_men = None):
+        has_cross = False, type_men = None, blockID = None, allegiance = None):
         """
         name is name of object
         movement_points is movement points
@@ -37,11 +37,13 @@ class Block(object):
         self.attack_number = attack_number
         self.attack_strength = initial_attack_strength
         self.current_strength = initial_attack_strength
-        self.location = location
         self.allegiance = allegiance
         self.has_cross = has_cross
-        if type_men != None:
-            self.type = type_men
+        self.blockID = blockID
+        
+        
+        self.type = type_men
+
     def get_hurt(self, damage):
         """
         returns False if block is dead
@@ -50,111 +52,104 @@ class Block(object):
         if self.current_strength == 0:
             return False
         else:
-            self.current_strength -=1
-            return True
-    def heal(self, health_points):
-        """
-        returns False if cannot heal by that many points
-        otherwise returns True and heals block
-        """
-        
-        if self.current_strength + health_points > self.attack_strength:
-            return False
-        else:
-            self.current_strength = self.attack_strength + health_points
+            self.current_strength -= damage
+            if self.current_strength < 0:
+                self.current_strength = 0
             return True
           
-    def move(self, region, block):
+         
+    def heal(self, health_points):
         """
-        supposed to move block to a adjacent location and take away a movement point
+        heals block as much as possible with health_points sent
+        returns number of health_points left
         """
-        pass
-    def __repr__(self):
+        while health_points > 0:
+        
+            if self.current_strength + 1 > self.attack_strength:
+                return health_points
+            else:
+                self.current_strength = self.attack_strength + 1
+                health_points -=1
+        return health_points
+    
+    def heal_until_full(self, health_points = 1):
         """
-        prints name
+        heals block until full
         """
-        return('name: ' + str(self.name))
-    def __len__(self):
-        return 1
+        self.current_strength += health_points
+        if self.current_strength > self.attack_strength:
+            self.current_strength = self.attack_strength
+        return health_points
+
+    def __str__(self):
+        '''
+        Returns a string representing the block
+        '''
+        output = '-'*20 + '\n'
+
+        output += self.name + ' - '
+        if type(self) == Noble:
+            output += self.loyalty
+        else:
+            output += self.type
+
+        if self.has_cross:
+            output += ' - †'
+        output += '\n'
+
+        output += '\tMoves:' + str(self.movement_points) + '\n'
+        output += '\tStrength:' + str(self.current_strength) + '/' + str(self.attack_strength) + '\n'
+        output += '\tCombat:' + str(self.attack_letter) + str(self.attack_number) + '\n'
+        output += '-'*20
+        return output
       
-class Edward(Block):
-    """
-    english king block
-    """
+    def __repr__(self):
+        '''
+        Returns a terminal representation of the block - same as __str__
+        '''
+        output = str(self)
+        return output
 
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
-        super(Edward, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross)
-class Edward2(Block):
-    """
-    english king block in bruce
-    """
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
-        super(Edward2, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross)
 
-class Wallace(Block):
-    """
-    wallace block
-    """
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
-        super(Wallace, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross)
-
-class ScottishKing(Block):
-    """
-    Scottish King
-    """
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross):
-        super(ScottishKing, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross)
-
+      
+    def is_dead(self):
+        return self.current_strength == 0
+ 
 
 class Noble(Block):
     """
     adds extra attribute home_location on top of Block
     """
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                 allegiance, location, has_cross, home_location, loyalty):
-        super(Noble, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength, \
-                 allegiance, location, has_cross)
-        self.home_location = home_location
+    
+    def __init__(self, name = None, movement_points = None, attack_letter = None, attack_number = None, max_attack_strength = None,\
+                 has_cross = None, blockID = None, home_location = None, loyalty = None, allegiance = None):
+
+        super(Noble, self).__init__(name, movement_points, attack_letter, attack_number, max_attack_strength, \
+                 has_cross, blockID, allegiance)
+
+        #self.home_location = home_location
         self.loyalty = loyalty
-    def go_home(self):
-        self.location = self.home_location
+       
+    #def go_home(self):
+        #self.location = self.home_location
+        
     def change_allegiance(self, allegiance = None):
         """
-        if no allegiance passed, changes 
-        allegiance is allegiance to change to
-        whether it is changed or not
+        No parameter: flips noble's alliegance
+        Parameter ('SCOTLAND' or 'ENGLAND'): sets alliegance to that side
         """
         if self.has_cross:
-            raise Exception("Moray can't change sides")
-        if allegiance == None:
-            if self.allegiance == 'SCOTLAND':
-                self.allegiance = 'ENGLAND'
+            raise Exception('Moray can\'t change sides')
+        else:
+            if allegiance == None:
+                if self.allegiance == 'SCOTLAND':
+                    self.allegiance = 'ENGLAND'
+                    
+                else:
+                    self.allegiance == 'SCOTLAND'
+                    
             else:
-                self.allegiance == 'SCOTLAND'
-        self.allegiance = allegiance
-
-
-class Norse(Block):
-    """
-    norse block
-    """
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                 allegiance, location, has_cross):
-        super(Norse, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                         allegiance, location, has_cross)
-class Celtic(Block):
-    """
-    celtic block
-    """
-    def __init__(self, name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                 allegiance, location, has_cross, type_men):
-        super(Celtic, self).__init__(name, movement_points, attack_letter, attack_number, initial_attack_strength,\
-                         allegiance, location, has_cross, type_men)
+                self.allegiance = allegiance   
+        if self.current_strength == 0:
+                self.current_strength = 1
+            

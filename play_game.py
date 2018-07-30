@@ -80,23 +80,23 @@ def opp_card_choice(cards):
             if card == choice:
                 return(i)
 
-def resolve_card_opp(card, opp_role):
-    '''
-    This function takes two parameters. One is the card itself and
-    the other is the side in which the opponent is on. The function
-    determines which card is being played and calls functions accordingly
-    to resolve the card
-    '''
-    pass
 
-def resolve_card_computer(card, comp_role):
+def opp_battle_choice(contested_regions):
     '''
-    This function takes two parameters. One is the card itself and the
-    other is the side in which the computer is playing. The function determines
-    which card is being played and calls functions accordingly to resolve
-    the card
+    Print out all the contested regions
+    Return the index of the region that they want
+    to do the first battle in
     '''
-    pass
+    choice = " "
+    print('Contested Regions: ', end = " ")
+    for region in contested_regions:
+        print(region.name, end = " ")
+    
+    while choice not in contested_regions:
+        choice = input('Enter name of region you want to resolve the battle in: ')
+        for i,reg in enumerate(contested_regions):
+            if reg == choice:
+                return(i)
 
 def play_game():
     #Determine scenario
@@ -108,25 +108,6 @@ def play_game():
     computer_role = 'ENGLAND'
     opp_role = 'SCOTLAND'
 
-    stc_locations = location_prob.create_static_locations()
-    dyn_locations = location_prob.create_static_locations()
-
-    #Initialize card stuff
-    deck = cards.Deck()
-    deck.shuffle()
-    #deal hands
-    computer_hand = list()
-    opp_hand = list()
-    for i in range(5):
-        computer_hand.append(deck.deal())
-        opp_hand.append(deck.deal())
-
-    known_cards = computer_hand
-
-    #probabilites of cards
-    probability_cards = deck.count_probabilities(known_cards)
-    #print(probability_cards)
-
     #Create list of blocks
     block_list = initialize_blocks.initialize_blocks()
     
@@ -135,38 +116,66 @@ def play_game():
 
     #Fill board with pieces
     current_board.fill_board(block_list, scenario)
-    
-    #Find out what card the human wants to play
-    opp_card = opp_hand(opp_card_choice(opp_hand))
-    #Remove card from human hand
-    opp_hand.remove(opp_card)
-    #Get card for computer
-    computer_card = cardplay.random_card(computer_hand)
-    #Remove card from computer hand
-    computer_hand.remove(computer_card)
 
-    if compare_cards(opp_card, computer_card, computer_role):
-        #Enter code to resolve computer card first
-        resolve_card_computer(computer_card, computer_role)
-        resolve_card_opp(opp_card, opp_role)
+    #Initialize table with known probabilities
+    location_prob_table = location_prob.init_probability_table(current_board, block_list)
 
-    else:
-        #Enter code to resolve human card first
-        resolve_card_opp(opp_card, opp_role)
-        resolve_card_computer(computer_card, computer_role)
+    #Initialize card deck
+    deck = cards.Deck()
 
-    
-    #Print blocks for testing
-    #for block in block_list:
-    #    print(block)
+    """GAME START"""
+    game_playing = True
 
-    #for region in current_board.regions:
-        #print(region)
-    
-    #add_starting_blocks(current_board, nobles, other_blocks)
+    while game_playing:
 
-    #comp_roster, comp_pool = board.get_comp_blocks(current_board, computer_role)
+        """INITIALIZE YEAR - deal, etc"""
 
+        deck.reset()
+        computer_hand, opp_hand = deck.deal_hands()
+
+        #When this gets to 5, end the year
+        turn_counter = 0
+        play_turn = True
+
+        while play_turn:
+
+            turn_counter += 1
+
+            #Reference to cards visible to the computer
+            #known_cards = computer_hand
+
+            #probabilites of cards
+            #probability_cards = deck.count_probabilities(known_cards)
+
+            #Find out what card the human wants to play
+            opp_card = opp_hand[opp_card_choice(opp_hand)]
+
+            #Remove card from human hand
+            opp_hand.remove(opp_card)
+            #Get card for computer
+            computer_card = cardplay.random_card(computer_hand)
+            #Remove card from computer hand
+            computer_hand.remove(computer_card)
+
+            #Figure out who goes first, if it is true then Computer goes first - also resolves cards
+            who_goes_first, year_cut_short = cardplay.compare_cards(opp_card, computer_card, computer_role)
+
+            #Get a list all the regions that are contested
+            contested_regions = current_board.get_contested_regions()
+
+            #If the human goes first find out what region they want to battle in
+            while len(contested_regions) > 0:
+
+                if who_goes_first == False:
+
+                    battle_region = contested_regions[opp_battle_choice(contested_regions)]
+
+                    combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], current_board, computer_role= computer_role)
+
+                    contested_regions.remove(battle_region)
+            
+            if year_cut_short or turn_counter >= 5:
+                play_turn = False
 
 def main():
     play_game()
