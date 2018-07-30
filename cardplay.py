@@ -620,26 +620,51 @@ def tru_execution(board, position, role):
 def resolve_card(board, which_side, card, role):
     
     """
-    Takes in a string that lists side (comp/opp), the card for that side, and the role (ENGLAND/SCOTLAND)
+    Takes in a string that lists side (comp/opp), the card for that side, and the role (england/scotland)
     based on string value of card, calls a function to execute the card itself
     
     """
     if card == '1':
-        one_execution(board, which_side)
+        one_execution(board, which_side, role)
     elif card == '2':
-        two_execution(board, which_side)
+        two_execution(board, which_side, role)
     elif card == '3':
-        three_execution(board, which_side)
+        three_execution(board, which_side, role)
+        
     elif card == 'SEA':
-        sea_execution(board, which_side)
+        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+        if play_pass.lower() == 'play'
+            sea_execution(board, which_side, role)
+        else:
+            pass
+        
     elif card == 'HER':
-        her_execution(board, which_side)
+        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+        if play_pass.lower() == 'play'
+            her_execution(board, which_side, role)
+        else:
+            pass
+        
     elif card == 'VIC':
-        vic_execution(board, which_side)
+        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+        if play_pass.lower() == 'play'
+            vic_execution(board, which_side, role)
+        else:
+            pass
+        
     elif card == 'PIL':
-        pil_execution(board, which_side)
+        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+        if play_pass.lower() == 'play'
+            pil_execution(board, which_side, role)
+        else:
+            pass
+        
     elif card == 'TRU':
-        tru_execution(board, which_side)
+        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+        if play_pass.lower() == 'play'
+            tru_execution(board, which_side, role)
+        else:
+            pass
         
             
 def compare_cards(board, opp_card, comp_card, comp_role):
