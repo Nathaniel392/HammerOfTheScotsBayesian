@@ -4,6 +4,7 @@ import location_prob
 import blocks_occupied
 import board
 import cardplay
+import blocks
 
 def prompt_scenario():
     '''
@@ -98,6 +99,48 @@ def opp_battle_choice(contested_regions):
             if reg == choice:
                 return(i)
 
+def win(block_list, year, scenario):
+    """
+    returns string of who wins
+    or false
+    """
+    scot_noble_count = 0
+    eng_noble_count = 0
+    wallace_is_dead = True
+    for block in block_list:
+        if block.type == 'KING' and block.name == 'KING':
+            return 'ENGLAND WINS'
+        elif block.type == 'KING':
+            return 'SCOTLAND WINS'
+
+        if type(block) == blocks.Noble and block.allegiance == 'SCOTLAND':
+            scot_noble_count += 1
+        elif type(block) == blocks.Noble and block.allegiance == 'ENGLAND':
+            eng_noble_count += 1
+        if block.name == 'WALLACE' and block.current_health != 0:
+            wallace_is_dead = False
+
+    if scot_noble_count == 0:
+        return 'ENGLAND WINS'
+    elif eng_noble_count == 0:
+        return 'SCOTLAND WINS'
+
+    if year == 1305 and scenario == 'BRAVEHEART':
+        if scot_noble_count == eng_noble_count:
+            if wallace_is_dead:
+                return 'ENGLAND WINS'
+            else:
+                return 'SCOTLAND WINS'
+        else:
+            if scot_noble_count > eng_noble_count:
+                return 'SCOTLAND WINS'
+            else:
+                return 'ENGLAND WINS'
+    return False
+
+
+
+
 def play_game():
     #Determine scenario
     #scenario = prompt_scenario()
@@ -176,6 +219,10 @@ def play_game():
             
             if year_cut_short or turn_counter >= 5:
                 play_turn = False
+            if win(block_list, year, scenario):
+                print(win(block_list, year, scenario))
+                return 'game over'
+
 
 def main():
     play_game()
