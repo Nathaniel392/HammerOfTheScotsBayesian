@@ -71,7 +71,15 @@ class Block(object):
                 self.current_strength = self.attack_strength + 1
                 health_points -=1
         return health_points
-
+    
+    def heal_until_full(self, health_points = 1):
+        """
+        heals block until full
+        """
+        self.current_strength += health_points
+        if self.current_strength > self.attack_strength:
+            self.current_strength = self.attack_strength
+        return health_points
 
     def __str__(self):
         '''
