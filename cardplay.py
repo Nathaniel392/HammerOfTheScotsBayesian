@@ -610,6 +610,7 @@ def vic_execution(board, position, role):
                         continue
                 except ValueError:
                     print('type in a number')
+                    continue
                 health_points -= selected_region.blocks_present[ID_to_heal].heal_until_full(healing_points)
 
 
