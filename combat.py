@@ -213,7 +213,7 @@ def retreat_locations(board, attacking, defending, is_attacking):
 	current_location = find_location(board, attacking[0])
 	possible_locations = []
 	#Create list of possible locations to retreat to
-	for x, border in enumerate(board.static_borders[current_location.regionID]):
+	for x, border in enumerate(board.dynamic_borders[current_location.regionID]):
 
 		
 		for i, block in enumerate(board.regions[x].blocks_present):
@@ -223,9 +223,39 @@ def retreat_locations(board, attacking, defending, is_attacking):
 				region_allegiance = 'fight is going on'
 				break
 
-		if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 'X':
+		if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0:
 			possible_locations.append(board.regions[x])
-		elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 'X':
+		elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 0:
+			possible_locations.append(board.regions[x])
+
+	return possible_locations
+
+def regroup_locations(board, attacking, defending, is_attacking):
+	'''
+	This function is passed a board object, list of attackers, list of defenders and a boolean that is true
+	if the computer is attacking and false if the computer is defending.
+	It returns a list of all the locations where a block can retreat to
+
+
+	THIS FUNCTION WAS ORIGINALLY RETREAT LOCATIONS SO IT'S WRITTEN VERY BADLY BUT SHOULD WORK IN THEORY
+	'''
+
+	current_location = find_location(board, attacking[0])
+	possible_locations = []
+	#Create list of possible locations to retreat to
+	for x, border in enumerate(board.dynamic_borders[current_location.regionID]):
+
+		
+		for i, block in enumerate(board.regions[x].blocks_present):
+			if i == 0:
+				region_allegiance = board.regions[x].blocks_present[i]
+			elif region_allegiance != board.regions[x].blocks_present[i]:
+				region_allegiance = 'fight is going on'
+				break
+
+		if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0:
+			possible_locations.append(board.regions[x])
+		elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 0:
 			possible_locations.append(board.regions[x])
 
 	return possible_locations
@@ -289,7 +319,7 @@ def regroup(winner_blocks, current_board, computer_role):
 	winner_blocks is a list of winning blocks
 	current_board is board
 	"""
-	possible_locations = retreat_locations(current_board, winner_blocks, [], False)
+	possible_locations = regroup_locations(current_board, winner_blocks, [], False)
 	if computer_role == winner_blocks[0].allegiance:
 		for block in winner_blocks:
 			
