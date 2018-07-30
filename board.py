@@ -101,7 +101,7 @@ class Board(object):
 		
 		#fills self.regions
 		self.initialize_regions()
-
+		self.reset_borders()
 		#Create dictionary referencing region names to regionsIDs
 		self.regionID_dict = {}
 		for regionID, region in enumerate(self.regions):
