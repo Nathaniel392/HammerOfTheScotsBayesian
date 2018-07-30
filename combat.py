@@ -253,10 +253,11 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	
 	#Insert code to check to see if it should retreat
 
-	if win_percentage > retreat_constant:
+	possible_locations = retreat_locations(board, attacking, defending, is_attacking)
+	if win_percentage > retreat_constant or len(possible_locations) < 1:
 		return False
 	else:
-		possible_locations = retreat_locations(board, attacking, defending, is_attacking)
+		
 		num = random.randint(0, len(possible_locations)-1)
 		return possible_locations[num]
 
