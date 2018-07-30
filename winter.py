@@ -63,7 +63,9 @@ def add_to_location(board,block,location):
 
 	board.regions[find_location(board,block.blockID).regionID].blocks_present.pop(block)
 
-	board.regions[location.regionID].blocks_present.append(block)	
+	board.regions[location.regionID].blocks_present.append(block)
+
+	print ("Sent " + str(block) + " to " + str(location))	
 
 def choose_location(location_list,allegiance,computer_role):
 
@@ -108,7 +110,9 @@ def disband(board,block):
 
 	board.regions[find_location(board,block.blockID).regionID].blocks_present.pop(block)
 
-	board.regions[23].blocks_present.append(block)	
+	board.scot_pool.blocks_present.append(block)
+
+	print ("Disbanded " + str(block) + "!")	
 
 def initialize_winter(board,block_list,computer_role):
 
@@ -139,17 +143,25 @@ def initialize_winter(board,block_list,computer_role):
 
 								pass
 
+								print ("Moray stayed!")
+
 							else:
 
-								go_home(board,block)	
+								go_home(board,block)
+
+								print ("Sent Moray Home!")	
 
 						else:
 
-							go_home(board,block)			 
+							go_home(board,block)
+
+							print ("Sent Moray Home!")			 
 
 					else:
 
 						go_home(board,noble)
+
+						print ("Sent " + str(noble) + " home!")
 
 				elif block.type_men == "KING":
 
@@ -163,7 +175,9 @@ def initialize_winter(board,block_list,computer_role):
 
 								region.append(possible_locations)
 
-						add_to_location(board,block,choose_location(possible_locations,block.allegiance,computer_role))
+						place = choose_location(possible_locations,block.allegiance,computer_role)
+
+						add_to_location(board,block,place)
 
 					elif block.allegiance == "ENGLAND":
 
@@ -171,12 +185,12 @@ def initialize_winter(board,block_list,computer_role):
 
 				elif block.type_men == "EDWARD":
 
-					add_to_location(board,block,choose_location([find_location(board,block.blockID), board.regions[23]]))
+					add_to_location(board,block,choose_location([find_location(board,block.blockID), board.scot_pool]))
 
 				
 				elif block.type_men == "WALLACE":
 
-					wallace_possible_locations = [board.regions[23]]
+					wallace_possible_locations = [board.scot_pool]
 
 					if find_location(board,block.blockID).cathedral:
 
@@ -291,13 +305,13 @@ def distribute_rp(board,rp,region,computer_role):
 
 			while points > 0:
 
-				computer_choice = random.randint(2)
+				computer_choice = random.randint(1)
 
 				if computer_choice == 0:
 
 					if len(region.blocks_present) < rp:
 
-						draw_block = random.choice(board.regions[23].blocks_present)
+						draw_block = random.choice(board.scot_pool.blocks_present)
 
 						draw_block.current_strength = 1 
 
@@ -320,6 +334,8 @@ def distribute_rp(board,rp,region,computer_role):
 						bump_block = random.choice(potential_blocks)
 
 						bump_block.current_strength += 1
+
+						print ("Bumped " + str(bump_block) + " up!")
 
 						points -= 1
 
@@ -383,6 +399,8 @@ def distribute_rp(board,rp,region,computer_role):
 
 				computer_choice.current_strength += 1 
 
+				print ("Bumped " + str(computer_choice) + " up!")
+
 				points -= 1
 
 		else:
@@ -401,7 +419,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 					if len(region.blocks_present) < rp:
 
-						draw_block = random.choice(board.regions[23].blocks_present)
+						draw_block = random.choice(board.scot_pool.blocks_present)
 
 						draw_block.current_strength = 1 
 
