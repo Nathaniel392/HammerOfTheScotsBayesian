@@ -46,14 +46,14 @@ def pick_random_region(board, role):
     friendly_regions = board.get_controlled_regions(role)
 
     num_regions = len(friendly_regions)
-    rand_selection = random.randint(num_regions)
+    rand_selection = random.randint(0, num_regions-1)
     selected_region = friendly_regions[rand_selection]
 
     return selected_region
 
 
 def order(): #returns randomly for now whether play one or two goes first
-    if random.randint(0,2) == 1:
+    if random.randint(1, 2) == 1:
         return 1
     return 2
 
@@ -81,6 +81,7 @@ def dumb_go_second(computer_hand): #plays lowest card
         if get_card_val(card) < min_val:
             min_val = get_card_val(card)
             ret_card = card
+            
     return ret_card
 
 
@@ -573,6 +574,7 @@ def her_execution(board, position, role):
         num_nobles = len(enemy_nobles)
         rand_selection = random.randint(num_nobles)
         noble_to_steal = enemy_nobles[rand_selection]
+        print('Computer picked ' + noble_to_steal.name)
         ###
         ###
         ###
