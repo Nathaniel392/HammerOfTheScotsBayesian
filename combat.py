@@ -358,6 +358,7 @@ def regroup(winner_blocks, current_board, computer_role):
 						print(block.name, ' moved to ', search.region_id_to_name(current_board, place_to_go_to))
 				if bad_input:
 					print('not valid location')
+	current_board.reset_attacked_locations()
 
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), current_board = None, computer_role = 'ENGLAND'):
 	'''
