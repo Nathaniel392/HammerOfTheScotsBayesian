@@ -656,20 +656,22 @@ def pil_execution(board, position, role):
 def tru_execution(board, position, role):
     pass
 
-def resolve_card(board, which_side, card, role):
+def resolve_card(board, which_side, card, role,truce=False):
     
     """
     Takes in a string that lists side (comp/opp), the card for that side, and the role (england/scotland)
     based on string value of card, calls a function to execute the card itself
     
     """
+
+
     if card == '1':
-        one_execution(board, which_side, role)
+        one_execution(board, which_side, role,truce)
     elif card == '2':
-        two_execution(board, which_side, role)
+        two_execution(board, which_side, role,truce)
     elif card == '3':
-        three_execution(board, which_side, role)
-        
+        three_execution(board, which_side, role,truce)
+            
     elif card == 'SEA':
         play_pass = input('Would you like to play the event card or pass it? (play/pass)')
         if play_pass.lower() == 'play':
@@ -701,7 +703,7 @@ def resolve_card(board, which_side, card, role):
     elif card == 'TRU':
         play_pass = input('Would you like to play the event card or pass it? (play/pass)')
         if play_pass.lower() == 'play':
-            tru_execution(board, which_side, role)
+            return True
         else:
             pass
         
