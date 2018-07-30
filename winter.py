@@ -477,6 +477,10 @@ def winter_builds(board,computer_role):
 
 			distribute_rp(board,english_rp,region,computer_role)
 def levy(board, num_people = None):
+	"""
+	send 'start' if start
+	otherwise it does levy
+	"""
 	if num_people == 'start':
 		num_people = 4
 	else:
