@@ -527,7 +527,7 @@ class Board(object):
 
 					print ("Not a valid location!")
 
-			if user_path in self.check_path(block.movement_points,user_path[0],user_path[-1]):
+			if user_path in self.check_path(block.movement_points,user_path[0],user_path[-1], block):
 
 				bool1 = False
 
