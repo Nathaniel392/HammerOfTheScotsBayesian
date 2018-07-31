@@ -142,10 +142,10 @@ class Board(object):
 
 		region_list = []
 
-		for region in board.regions:
+		for region in self.regions:
 
 			#Fill the list with IDs of friendly regions
-			if region.is_friendly():
+			if region.is_friendly(role):
 				region_list.append(region)
 
 		return region_list
@@ -283,8 +283,8 @@ class Board(object):
 		'''
 		returns a list of all bordering regionIDs in a list of regionIDs
 		'''
-		return_list = [self.regions[regionID]]
-		for element in regionID:
+		return_list = [self.regions[regionID_list]]
+		for element in regionID_list:
 			for i,border in enumerate(self.static_borders[element]):
 
 				if border == "B" or border == "R":
@@ -391,6 +391,7 @@ class Board(object):
 
 		#Final output
 		return all_paths
+
   
 	def move_block(self, block, start, end, position, prev_paths = [], is_truce = False):
 		'''
@@ -409,9 +410,9 @@ class Board(object):
 
 		if position == 'comp':
 
-			if self.check_path(block.movement_points,start,end):
+			if self.check_path(block.movement_points,start,end, block.allegiance):
 
-				computer_path = random.choice(self.check_path(block.movement_points,start,end))
+				computer_path = random.choice(self.check_path(block.movement_points,start,end, block.allegiance))
 
 				bool1 = False
 
@@ -502,7 +503,7 @@ class Board(object):
 
 					print ("Not a valid location!")
 
-			if user_path in self.check_path(block.movement_points,user_path[0],user_path[-1]):
+			if user_path in self.check_path(block.movement_points,user_path[0],user_path[-1], block.allegiance):
 
 				bool1 = False
 
