@@ -177,6 +177,7 @@ def play_game():
     else:
         year = 1297
 
+    winter.levy(current_board, 'start')
     while game_playing:
 
         """INITIALIZE YEAR - deal, etc"""
