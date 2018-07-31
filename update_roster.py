@@ -1,6 +1,6 @@
 import blocks
 import board
-
+import attacked_borders
 def find_location(board, blok):
 	for region in board.regions:
 		for bllock in region.blocks_present:
@@ -66,6 +66,7 @@ def update_roster(all_blocks_lst = None, current_board = None):
 					current_board.eng_roster.remove(block)
 				elif block.allegiance == 'SCOTLAND':
 					current_board.scot_roster.remove(block)
+	attacked_borders.reset_attacked_borders()
 
 
 
