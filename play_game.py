@@ -111,9 +111,9 @@ def win(block_list, year, scenario):
     eng_noble_count = 0
     wallace_is_dead = True
     for block in block_list:
-        if block.type == 'KING' and block.name == 'KING':
+        if block.type == 'KING' and block.name == 'KING' and block.current_strength == 0:
             return 'ENGLAND WINS'
-        elif block.type == 'KING':
+        elif block.type == 'KING' and block.current_strength == 0:
             return 'SCOTLAND WINS'
 
         if type(block) == blocks.Noble and block.allegiance == 'SCOTLAND':
@@ -139,6 +139,13 @@ def win(block_list, year, scenario):
                 return 'SCOTLAND WINS'
             else:
                 return 'ENGLAND WINS'
+    elif year == 1314 and scenario == 'BRUCE':
+        if scot_noble_count > eng_noble_count:
+            return 'SCOTLAND WINS'
+        else:
+            return 'ENGLAND WINS'
+        
+            
     return False
 
 
