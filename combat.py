@@ -6,6 +6,9 @@ import copy
 import update_roster
 import simulations
 import search
+
+
+
 def find_location(board, blok):
 	'''
 	This function takes a board object and the name of a block

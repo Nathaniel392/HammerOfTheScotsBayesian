@@ -66,7 +66,7 @@ def update_roster(all_blocks_lst = None, current_board = None):
 					current_board.eng_roster.remove(block)
 				elif block.allegiance == 'SCOTLAND':
 					current_board.scot_roster.remove(block)
-	attacked_borders.reset_attacked_borders()
+	current_board.reset_attacked_borders()
 
 
 
