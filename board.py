@@ -145,7 +145,7 @@ class Board(object):
 		for region in self.regions:
 
 			#Fill the list with IDs of friendly regions
-			if region.is_friendly():
+			if region.is_friendly(role):
 				region_list.append(region)
 
 		return region_list
