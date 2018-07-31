@@ -1,11 +1,12 @@
 import math
 import random
 import search
-def go_home(board,noble):
+def go_home(board,noble,computer_role):
 
 	'''
 	takes a noble from the location that they are at and then transports them
-	home. if there is more than 1 home location, it randomly picks one.
+	home. also takes board object and the side that the computer is playing
+	if there is more than 1 home location, it randomly picks one.
 	changes allegiance based on who controls home area
 	'''
 
@@ -30,8 +31,12 @@ def go_home(board,noble):
 	else:
 
 		possible_locations = []
+
+		new_locations = []
 		
 		for home in noble.home_location:
+
+			new_locations.append(home)
 
 			if not board.regions[home].blocks_present or board.regions[home].blocks_present[0].allegiance == noble.allegiance:
 
@@ -43,9 +48,15 @@ def go_home(board,noble):
 
 				board.regions[home].blocks_present.remove(noble)
 
-				homeless_nobles.append(noble)
+				if noble.allegiance == "SCOTLAND":
 
-				noble.allegiance = board.regions[find_location(board,noble.blockID).regionID].blocks_present[0].allegiance
+					noble.allegiance == "ENGLAND"
+
+				else:
+
+					noble.allegiance == "SCOTLAND"
+
+				add_to_location(board,noble,choose_location(new_locations,noble.allegiance,computer_role))
 
 			else:
 
@@ -147,6 +158,11 @@ def initialize_winter(board,block_list,computer_role):
 	takes a board object, list of all blocks in game, and which side the computer is playing
 	moves every block to correct location -- random for computer, user input for human
 	'''
+	eng_nobles = []
+	scot_nobles = []
+	eng_king = []
+	scot_king = []
+	eng_edward = []
 
 	for block in block_list:
 
@@ -160,92 +176,154 @@ def initialize_winter(board,block_list,computer_role):
 
 				if type(block) == blocks.Noble():
 
-					if block.name == "MORAY":
+					if block.allegiance == "ENGLAND":
 
-						int1 = random.randint(1)
+						eng_nobles.append(block)
 
-						if int1 == 1:
+					elif block.allegiance == "SCOTLAND":
 
-							if len(board.regions[find_location(board,block.blockID).regionID].blocks_present) <= board.regions[find_location(board,block.blockID).regionID].castle_points:
+						scot_nobles.append(block)
 
-								pass
+				elif block.type == "KING":
 
-								print ("Moray stayed!")
+					if block.allegiance == "ENGLAND":
 
-							else:
-
-								go_home(board,block)
-
-								print ("Sent Moray Home!")	
-
-						else:
-
-							go_home(board,block)
-
-							print ("Sent Moray Home!")			 
-
-					else:
-
-						go_home(board,noble)
-
-						print ("Sent " + noble.name + " home!")
-
-				elif block.type_men == "KING":
+						eng_king.append(block)
 
 					if block.allegiance == "SCOTLAND":
 
-						possible_locations = []
+						scot_king.append(block)
 
-						for region in board.regions:
+				elif block.type == "EDWARD":
 
-							if (not region.blocks_present or region.blocks_present[0].allegiance == "SCOTLAND") and region.cathedral and len(region.blocks_present) <= region.castle_points:
+					eng_edward.append(block)
 
-								region.append(possible_locations)
 
-						place = choose_location(possible_locations,block.allegiance,computer_role)
+	for noble in eng_nobles:
+		
+		go_home(board,noble,computer_role)
 
-						add_to_location(board,block,place)
+		print ("Sent " + noble.name + " home!")
 
-					elif block.allegiance == "ENGLAND":
+	for noble in scot_nobles:
 
-						disband(board,block)
+		if block.name == "MORAY":
 
-				elif block.type_men == "EDWARD":
+			int1 = random.randint(0,1)
 
-					add_to_location(board,block,choose_location([find_location(board,block.blockID), 'english pool']))
+			if int1 == 1:
 
-				
-				elif block.type_men == "WALLACE":
+				if len(board.regions[find_location(board,block.blockID).regionID].blocks_present) <= board.regions[find_location(board,block.blockID).regionID].castle_points:
 
-					wallace_possible_locations = ['scottish pool']
+					print ("Moray stayed!")
 
-					if find_location(board,block.blockID).cathedral:
+				else:
 
-						castle_points = find_location(board,block.blockID).castle_points + 1
+					go_home(board,block)
 
-					if len(find_location(board,block.blockID).blocks_present) >= castle_points:
+					print ("Sent Moray Home!")	
 
-						wallace_possible_locations.append(find_location(board,block.blockID))
+			else:
 
-					if not board.regions[18].blocks_present or board.regions[18].blocks_present[0].allegiance == block.allegiance:
+				go_home(board,block)
 
-						wallace_possible_locations.append(board.regions[18])
+				print ("Sent Moray Home!")			 
 
-					add_to_location(board,block,choose_location(wallace_possible_locations,block.allegiance,computer_role))
+		else:
 
-				elif block.type_men == "INFANTRY":
+			go_home(board,noble,computer_role)
 
-					if find_location(board,27) == find_location(board,block.blockID):
+			print ("Sent " + noble.name + " home!")
 
-						castle_points = 100
+	if eng_edward:
 
-					elif block.allegiance == "SCOTLAND" and find_location(board,block.blockID).cathedral:
+		add_to_location(board,eng_edward[0],choose_location([find_location(board,block.blockID), 'english pool'],'ENGLAND',computer_role))
 
-						castle_points = find_location(board,block.blockID).castle_points + 1
+	if eng_king:
 
-					else:
+		disband(board,eng_king[0])
 
-						castle_points = find_location(board,block.blockID).castle_points + 1
+	if scot_king:
+
+		possible_locations = []
+
+		block = scot_king[0]
+
+		for region in board.regions:
+
+			if (region.blocks_present[0].allegiance == "SCOTLAND") and region.cathedral and len(region.blocks_present) <= region.castle_points:
+
+				region.append(possible_locations)
+
+		place = choose_location(possible_locations,block.allegiance,computer_role)
+
+		add_to_location(board,block,place)
+
+	for region in board.regions:
+
+		for block in region.blocks_present:
+
+			if block.type == "WALLACE":
+
+				wallace_possible_locations = ['scottish pool']
+
+				if find_location(board,block.blockID).cathedral:
+
+					castle_points = find_location(board,block.blockID).castle_points + 1
+
+				if len(find_location(board,block.blockID).blocks_present) >= castle_points:
+
+					wallace_possible_locations.append(find_location(board,block.blockID))
+
+				if not board.regions[18].blocks_present or board.regions[18].blocks_present[0].allegiance == block.allegiance:
+
+					wallace_possible_locations.append(board.regions[18])
+
+				add_to_location(board,block,choose_location(wallace_possible_locations,block.allegiance,computer_role))
+
+			elif block.type == "INFANTRY":
+
+				if find_location(board,27) == find_location(board,block.blockID):
+
+					castle_points = 100
+
+				elif block.allegiance == "SCOTLAND" and find_location(board,block.blockID).cathedral:
+
+					castle_points = find_location(board,block.blockID).castle_points + 1
+
+				else:
+
+					castle_points = find_location(board,block.blockID).castle_points + 1
+
+				if len(find_location(board,block.blockID).blocks_present) > castle_points:
+
+					add_to_location(board,block,choose_location([23,find_location(board,block.blockID)],block.allegiance,computer_role))
+
+				else:
+
+					disband(board,block) 
+
+			else:
+
+				if find_location(board,27) == find_location(board,block.blockID):
+
+					castle_points = 100
+
+				elif block.allegiance == "SCOTLAND" and find_location(board,block.blockID).cathedral:
+
+					castle_points = find_location(board,block.blockID).castle_points + 1
+
+				else:
+
+					castle_points = find_location(board,block.blockID).castle_points + 1
+
+				if block.allegiance == "ENGLAND":
+
+					if castle_points < 100:
+
+						disband(block,board)
+
+				else:
 
 					if len(find_location(board,block.blockID).blocks_present) > castle_points:
 
@@ -253,65 +331,8 @@ def initialize_winter(board,block_list,computer_role):
 
 					else:
 
-						disband(board,block) 
+						disband(board,block)
 
-				else:
-
-					if find_location(board,27) == find_location(board,block.blockID):
-
-						castle_points = 100
-
-					elif block.allegiance == "SCOTLAND" and find_location(board,block.blockID).cathedral:
-
-						castle_points = find_location(board,block.blockID).castle_points + 1
-
-					else:
-
-						castle_points = find_location(board,block.blockID).castle_points + 1
-
-					if block.allegiance == "ENGLAND":
-
-						if castle_points < 100:
-
-							disband(block,board)
-
-					else:
-
-						if len(find_location(board,block.blockID).blocks_present) > castle_points:
-
-							add_to_location(board,block,choose_location([23,find_location(board,block.blockID)],block.allegiance,computer_role))
-
-						else:
-
-							disband(board,block)
-
-	for block in block_list:
-
-		if find_location(board,block.blockID) == None:
-
-			if block.allegiance == computer_role:
-
-				go_home(block)
-
-			else:
-
-				new_bool = True
-
-				while new_bool:
-
-					user_input = input("Where would you like " + block.name + " to go? ")
-
-					region_choice = board.regionID_dict[user_input.upper()]
-
-					if int(region_choice) in block.home_location:
-
-						new_bool = False
-
-						add_to_location(board,block,region_choice)
-
-					else:
-
-						print ("Not valid!")
 
 	levy(board)
 
