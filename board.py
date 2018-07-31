@@ -345,7 +345,7 @@ class Board(object):
 						stop = True
 
 					#Take the adjacent border and keep searching
-					self.check_path(num_moves-1, borderID, endID, role, path, stop, all_paths)
+					self.check_path(num_moves-1, borderID, endID, block, path, stop, all_paths)
 
 			#After exhausting all borders, delete the region from memory (path) and move onto the next region
 			if path:
