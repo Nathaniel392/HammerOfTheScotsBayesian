@@ -237,9 +237,9 @@ def retreat_locations(board, attacking, defending, is_attacking):
 					region_allegiance = 'fight is going on'
 					break
 
-			if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0 and (not board.attacked_borders[x][current_location.regionID]):
+			if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0 and (not board.attacked_borders[x][current_location.regionID]) and (block.name != 'NORSE' or board.regions[x].coast):
 				possible_locations.append(board.regions[x])
-			elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 0:
+			elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 0 and (block.name != 'NORSE' or board.regions[x].coast):
 				possible_locations.append(board.regions[x])
 
 	return possible_locations
@@ -264,12 +264,8 @@ def regroup_locations(board, attacking, defending, is_attacking):
 
 			if block.name == 'FRENCH':
 				block.movement_points = 1
-			if block.name == 'NORSE':
-				for region in board.regions:
-					if region.coast and region.is_friendly('SCOTLAND'):
-						possible_locations.append(region)
-				return possible_locations
-			else:
+		
+			
 
 
 
@@ -280,9 +276,9 @@ def regroup_locations(board, attacking, defending, is_attacking):
 					region_allegiance = 'fight is going on'
 					break
 
-			if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0:
+			if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0 and (block.name != 'NORSE' or board.regions[x].coast):
 				possible_locations.append(board.regions[x])
-			elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 0:
+			elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 0 and (block.name != 'NORSE' or board.regions[x].coast):
 				possible_locations.append(board.regions[x])
 
 	return possible_locations
