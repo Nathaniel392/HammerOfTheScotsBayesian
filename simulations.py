@@ -83,10 +83,8 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 		
 			return True, False
 		elif block.has_cross and block.is_dead():
-			if current_board == None:
-				attackers_lst.pop(i)
-			else:
-				attackers_lst.pop(i)
+			
+			attackers_lst.pop(i)
 				
 		
 		elif type(block) == blocks.Noble and block.is_dead():

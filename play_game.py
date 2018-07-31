@@ -8,6 +8,8 @@ import blocks
 import winter
 import border_raids
 import update_roster
+import random
+import combat
 
 def prompt_scenario():
     '''
@@ -101,7 +103,7 @@ def opp_battle_choice(contested_regions):
     while choice not in contested_regions:
         choice = input('Enter name of region you want to resolve the battle in: ')
         for i,reg in enumerate(contested_regions):
-            if reg == choice:
+            if reg.name == choice:
                 return(i)
 
 def win(block_list, year, scenario):
@@ -222,9 +224,10 @@ def play_game():
             #Remove card from computer hand
             computer_hand.remove(computer_card)
 
+
             #Figure out who goes first, if it is true then Computer goes first - also resolves cards
             who_goes_first, year_cut_short = cardplay.compare_cards(current_board, opp_card, computer_card, computer_role)
-
+            
             #Get a list all the regions that are contested
             contested_regions = current_board.get_contested_regions()
 
@@ -235,14 +238,22 @@ def play_game():
 
                     battle_region = contested_regions[opp_battle_choice(contested_regions)]
 
-                    combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], current_board, computer_role= computer_role)
+                    combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], battle_region.combat_dict['Defending Reinfrocements'],current_board, computer_role= computer_role)
 
                     contested_regions.remove(battle_region)
-                    border_raids.border_raid(current_board, computer_role)
-                    update_roster.update_roster(block_list, current_board)
+                    
 
 
-            
+                else:
+
+                    battle_region = contested_regions[random.randint(0, len(contested_regions)-1)]
+                    combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], battle_region.combat_dict['Defending Reinforcements'],current_board, computer_role= computer_role)
+
+                    contested_regions.remove(battle_region)
+                    
+            border_raids.border_raid(current_board, computer_role)
+            update_roster.update_roster(block_list, current_board)
+
             if year_cut_short or turn_counter >= 5:
                 play_turn = False
                 year += 1
@@ -250,7 +261,7 @@ def play_game():
                 print(win(block_list, year, scenario))
                 return 'game over'
 
-        winter.intialize_winter(current_board, block_list, computer_role, edward_prev_winter)
+        winter.initialize_winter(current_board, block_list, computer_role, edward_prev_winter)
         winter.winter_builds(current_board, computer_role)
 
 

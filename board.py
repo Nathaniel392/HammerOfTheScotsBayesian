@@ -30,8 +30,20 @@ import attacked_borders
 import random
 import search
 
-NUM_REGIONS = 23
 
+NUM_REGIONS = 23
+def find_location(board, blok):
+	'''
+	This function takes a board object and the name of a block
+	and returns a region object where the block is
+	'''
+	for region in board.regions:
+		for bllock in region.blocks_present:
+			
+			if bllock.name == blok.name:
+				return region
+		
+	raise Exception('cannot find block')
 def border_chars(border_array):
 	'''
 	function header here
@@ -283,12 +295,12 @@ class Board(object):
 		'''
 		returns a list of all bordering regionIDs in a list of regionIDs
 		'''
-		return_list = [self.regions[regionID_list]]
+		return_list = list()
 		for element in regionID_list:
 			for i,border in enumerate(self.static_borders[element]):
 
 				if border == "B" or border == "R":
-					return_list.append(i)
+					return_list.append(search.region_id_to_object(self, i))
 
 		return return_list
 
@@ -417,7 +429,7 @@ class Board(object):
 		#Final output
 		return all_paths
   
-	def move_block(self, block, start, end, position, prev_paths = [], is_truce = False):
+	def move_block(self, block, start, end = -1, position = 'comp', prev_paths = [], is_truce = False):
 		'''
 		Changes a block's location on the board, assuming that all conditions are legal. 
 		Adds them to appropriate dictionaries if in a combat or attack scenario
@@ -434,8 +446,8 @@ class Board(object):
 
 		if position == 'comp':
 
-			if self.check_path(block.movement_points,start,end, block):
-
+			if self.check_path(block.movement_points,start,end, block, all_paths = list()):
+				print(self.check_path(block.movement_points,start,end,block, all_paths = list()))
 				computer_path = random.choice(self.check_path(block.movement_points,start,end,block))
 
 				bool1 = False
@@ -467,26 +479,34 @@ class Board(object):
 					else:
 						self.regions[end].combact_dict['Defending Reinforcements'].append(block)
 						self.regions[end].blocks_present.append(block)
-
+					print('Print1')
+					print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 				else:
-					
+					if is_truce:
+						print("You can't move there fool, issa truce")
+						return False
+
 					self.regions[start].blocks_present.remove(block)
 
 					if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
 
 						if is_truce:
+							print("You can't move there fool, issa truce")
 							return False
 			  
-						for block in self.regions[end].blocks_present:
-							self.regions[end].combat_dict['Defending'].append(block)
+						for blck in self.regions[end].blocks_present:
+							self.regions[end].combat_dict['Defending'].append(blck)
 
 						self.regions[end].combat_dict['Attacking'].append(block)
 						self.regions[end].blocks_present.append(block)
-
+						print('Print2')
+						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 						self.attacked_borders[start][end] = True
 
 					else:
 						self.regions[end].blocks_present.append(block)
+						print('Print3')
+						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 				for i in range(len(computer_path)-2):
 
@@ -526,18 +546,22 @@ class Board(object):
 				else:
 
 					print ("Not a valid location!")
-
+			end = user_path[-1]
 			if user_path in self.check_path(block.movement_points,user_path[0],user_path[-1], block):
 
 				bool1 = False
 
 				for path in prev_paths:
 
-					if path == computer_path:
+					if path == user_path:
 
 						bool1 = True
 
 						break
+
+				if not bool1:
+
+					prev_paths.append(user_path)
 
 				if self.regions[end].is_contested():
 	        
@@ -552,13 +576,11 @@ class Board(object):
 						self.regions[end].blocks_present.append(block)
 
 					else:
-						self.regions[end].combact_dict['Defending Reinforcements'].append(block)
+						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
 						self.regions[end].blocks_present.append(block)
-
+					print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 				else:
-					print(start)
-					print(self.regions[start].blocks_present)
-					print(block)
+	
 					self.regions[start].blocks_present.remove(block)
 
 					if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
@@ -566,16 +588,17 @@ class Board(object):
 						if is_truce:
 							return False
 			  
-						for block in self.regions[end].blocks_present:
-							self.regions[end].combat_dict['Defending'].append(block)
+						for blck in self.regions[end].blocks_present:
+							self.regions[end].combat_dict['Defending'].append(blck)
 
 						self.regions[end].combat_dict['Attacking'].append(block)
 						self.regions[end].blocks_present.append(block)
-
+						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 						self.attacked_borders[start][end] = True
 
 					else:
 						self.regions[end].blocks_present.append(block)
+						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 				for i in range(len(user_path)-2):
 
@@ -595,6 +618,36 @@ class Board(object):
 		'''
 		output = str(self.regions)
 		return output
+
+	def add_to_location(self,block,location):
+
+		'''
+		takes a board, block, and region object
+		removes block from its current region 
+		puts it into the new location
+		'''
+
+		if type(location) == int:
+			location = search.region_id_to_object(self, location)
+
+
+		if location == 'scottish pool':
+			self.regions[find_location(self,block).regionID].blocks_present.remove(block)
+
+			self.scot_pool.append(block)
+		elif location == 'english pool':
+			self.regions[find_location(self, block).regionID].blocks_present.remove(block)
+			self.eng_pool.append(block)
+			print("Sent" + block.name + ' to ' + location.name)
+
+		else:
+
+			self.regions[find_location(self,block).regionID].blocks_present.remove(block)
+
+			self.regions[location.regionID].blocks_present.append(block)
+
+			print ("Sent " + block.name + " to " + location.name)
+
 
 class Region(object):
 

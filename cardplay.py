@@ -36,7 +36,8 @@ import dice
 import search
 import find_block
 import blocks
-import copy
+import combat
+
     
 #ultimately: return card that the computer decides to play
 
@@ -123,8 +124,10 @@ def one_execution(board, position, role,truce=False):
     that the player is playing (england or scotland). Then the function
     executes a 1 move card.
     '''
-
+    prev_paths = []
     if position == 'opp':
+
+        blocks_moved = []
         region_name = ''
         focus_region = ''
         while focus_region not in board.get_controlled_regions(role):
@@ -153,44 +156,71 @@ def one_execution(board, position, role,truce=False):
 
         
         #Start moving specific blocks with user input
+        end = False
         for i in range(moveable_count):
+            if end == False:
+                check_lst = list()
+                #Go through blocks in focus region and put their names in a list
+                for block in focus_region.blocks_present:
+                    check_lst.append(block.name)
 
-            check_lst = list()
-            #Go through blocks in focus region and put their names in a list
-            for block in focus_region.blocks_present:
-                check_lst.append(block.name)
-            block_name = ''
-            block = ""
-            end_region_name = ''
-            end_region = ''
-            #Get user input as to which block they want to move
-            while block_name not in check_lst:
-                    #Input block name
-                    block_name = input("Which block would you like to move from " + focus_region.name + "?\n>")
-                    #Get block object
-                    block = find_block.find_block(block_name, focus_region.blocks_present)
-                    #Make sure block is in region
-                    if block_name not in check_lst:
-                        print("That block in not in the focus region!")
-                    #Make sure block has not already been moved this turn
-                    if block.name in blocks_moved:
-                        print("You have already moved that block this turn!")
-                        block_name = ''
-            #Figure out where user wants to move block to
-            while end_region not in board.get_controlled_regions(role):
-                end_region_name = input("What region would you like to move to?\n>")
-                #Make sure that the region name is actually a region name
-                if end_region_name.upper() in board.regionID_dict:
-                    #Get the region object from the region name
-                    end_region = board.regions[board.regionID_dict[end_region_name.upper()]]
-                    #Make sure that the move is a valid move
-                    if board.move_block(block_choice.movement_points, focus_region.regionID, end_region.regionID,truce) == False:
-                        print('That is an invalid move')
-                        end_region = ''
-            #Move the block to its location
-            #Add the block to the moved blocks list
-            blocks_moved.append(block.name)
-            print(block.name + " was moved from " + focus_region.name + ' to ' + end_region.name)
+                block_name = ''
+                block = ""
+                end_region_name = ''
+                end_region = ''
+                end = False
+                focus_blocks = []
+                for x in focus_region.blocks_present:
+                    focus_blocks.append(x.name)
+                #Get user input as to which block they want to move
+                while end == False and block_name not in check_lst:
+                        #Input block name
+                        block_name = input("Which block would you like to move from " + focus_region.name + " (Enter 'done' if done)?\n>").upper()
+                        if block_name == 'DONE':
+                            end = True
+                        elif block_name in focus_blocks:
+                        #Get block object
+                            block = find_block.find_block(block_name, focus_region.blocks_present)
+                            #Make sure block is in region
+                            if block_name not in check_lst:
+                                print("That block in not in the focus region!")
+                            #Make sure block has not already been moved this turn
+                            if block.name in blocks_moved:
+                                print("You have already moved that block this turn!")
+                                block_name = ''
+                
+                #Figure out where user wants to move block to
+                '''
+                check = False
+                if block_name == 'DONE':
+                    check = True
+                while check == False:
+                    
+                    end_region_name = input("What region would you like to move to?\n>")
+
+                    if end_region_name.upper() in board.regionID_dict:
+                        end_region = board.regions[board.regionID_dict[end_region_name.upper()]]
+                        check = True
+                prev_paths = []
+
+                while end == False and not board.check_path(block.movement_points,focus_region.regionID, end_region.regionID, block):
+
+                    end_region_name = input("What region would you like to move to?\n>")
+                    #Make sure that the region name is actually a region name
+                    if end_region_name.upper() in board.regionID_dict:
+                        #Get the region object from the region name
+                        end_region = board.regions[board.regionID_dict[end_region_name.upper()]]
+                        #Make sure that the move is a valid move
+                        
+                        '''
+                #if board.move_block(block, focus_region.regionID, end_region.regionID,prev_paths, truce):
+                        
+                #Move the block to its location
+                #Add the block to the moved blocks list
+                if block_name != 'DONE':
+                    blocks_moved.append(block.name)
+                    board.move_block(block,focus_region.regionID, -1, position,prev_paths,truce)
+                    #print(block.name + " was moved from " + focus_region.name + ' to ' + end_region.name)
 
     if position == 'comp':
 
@@ -201,8 +231,8 @@ def one_execution(board, position, role,truce=False):
         start_region = start_regions[rand_startID]
         #Loop through blocks in random region
         for block in start_region.blocks_present:
-            #50% chance that the computer will move block
-            if random.randint(0,1) == 0:
+            #75% chance that the computer will move block
+            if random.randint(0,3) != 0:
                 flag = True
                 while flag:
                     #Get random region to move the block to
@@ -210,7 +240,7 @@ def one_execution(board, position, role,truce=False):
                     if end_ID != start_region.regionID:
                         flag = False
                 #Make sure that the move to random region is legal
-                while not board.check_path(block, block.movement_points, start_region.regionID, end_ID):
+                while not board.check_path(block.movement_points, start_region.regionID, end_ID, block):
                     flag = True
                     while flag:
                         #Get new random region
@@ -218,10 +248,12 @@ def one_execution(board, position, role,truce=False):
                         if end_ID != start_region.regionID:
                             flag = False
                 #Move block
-                board.move_block(block, start_region.regionID, end_ID)
-                print('Computer moves ' + block.name + ' from ' + start_region.name + " to " + board.regions[end_ID].name)
+                print('Comp makes a move')
+                board.move_block(block, start_region.regionID, end_ID, position)
+                #print('Computer moves ' + block.name + ' from ' + start_region.name + " to " + board.regions[end_ID].name)
 
-
+            else:
+                print("Computer passes")
 
 
 
@@ -245,6 +277,7 @@ def two_execution(board,position,role,truce=False):
 
     if position == 'opp':
         region_regions = []
+        blocks_moved = []
         for j in range(2):
             blocks_moved = list()
             region_name = ''
@@ -271,13 +304,13 @@ def two_execution(board,position,role,truce=False):
             else:
                 moveable_count = len(focus_region.blocks_present)
          
-            region_regions.append(focus_region)
+            
             
 
-            for region_name_region in region_regions:
-                
-                for i in range(moveable_count):
-                 
+            
+            end = False
+            for i in range(moveable_count):
+                if end == False:
                     check_lst = list()
                     for block in focus_region.blocks_present:
                         check_lst.append(block.name)
@@ -286,26 +319,54 @@ def two_execution(board,position,role,truce=False):
                     block = ''
                     end_region_name = ''
                     end_region = ''
-                    while block_name not in check_lst:
-                        block_name = input("Which block would you like to move from " + region_name_region.name + "?\n>")
-                        block = find_block.find_block(block_name, focus_region.blocks_present)
-                        if block_name not in check_lst:
-                            print("That block in not in the focus region!")
-                        if block.name in blocks_moved:
-                            print("You have already moved that block this turn!")
-                            block_name = ''
+                    end = False
+                    focus_blocks = []
+                    for x in focus_region.blocks_present:
+                        focus_blocks.append(x.name)
+                    while end == False and block_name not in check_lst:
+                        block_name = input("Which block would you like to move from " + focus_region.name + " (Enter 'done' if done)?\n>").upper()
+                        if block_name == 'DONE':
+                            end = True
+                        elif block_name in focus_blocks:
+                            block = find_block.find_block(block_name, focus_region.blocks_present)
 
-                    while end_region not in board.get_controlled_regions(role):
-                        end_region_name = input("What region would you like to move to?\n>")
+                            if block_name not in check_lst:
+                                print("That block in not in the focus region!")
+                            if block.name in blocks_moved:
+                                print("You have already moved that block this turn!")
+                                block_name = ''
+                
+                '''
+                check = False
+                if block_name == 'DONE':
+                    check = True
+                while check == False:
+                    
+                    end_region_name = input("What region would you like to move to?\n>")
 
-                        if end_region_name.upper() in board.regionID_dict:
-                            end_region = board.regions[board.regionID_dict[end_region_name.upper()]]
-                            if board.move_block(block_choice.movement_points, region_name_region.regionID, end_region.regionID,position,prev_paths,truce) == False:
-                                print('That is an invalid move')
-                                end_region = ''
+                    if end_region_name.upper() in board.regionID_dict:
+                        end_region = board.regions[board.regionID_dict[end_region_name.upper()]]
+                        check = True
+                prev_paths = []
 
+                while end == False and not board.check_path(block.movement_points,focus_region.regionID, end_region.regionID, block):
+
+                    end_region_name = input("What region would you like to move to?\n>")
+                    #Make sure that the region name is actually a region name
+                    if end_region_name.upper() in board.regionID_dict:
+                        #Get the region object from the region name
+                        end_region = board.regions[board.regionID_dict[end_region_name.upper()]]
+                        #Make sure that the move is a valid move
+                        
+                '''
+                #if board.move_block(block, focus_region.regionID, end_region.regionID,prev_paths, truce):
+                        
+                #Move the block to its location
+                #Add the block to the moved blocks list
+                if block_name != 'DONE':
                     blocks_moved.append(block.name)
-                    print(block.name + " was moved from " + region_name_region.name + ' to ' + end_region.name)
+                    board.move_block(block,focus_region.regionID, -1,position,prev_paths,truce)
+                    #print(block.name + " was moved from " + focus_region.name + ' to ' + end_region.name)
 
     if position == 'comp':
         #Get a random starting region
@@ -318,21 +379,25 @@ def two_execution(board,position,role,truce=False):
         
             for block in start_region.blocks_present:
                 if block not in moved_blocks:
-                    if random.randint(0,1) == 0:
+                    if random.randint(0,3) != 0:
                         flag = True
                         while flag:
                             end_ID = random.randint(0,22)
                             if end_ID != start_region.regionID:
                                 flag = False
-                        while not board.check_path(block.movement_points, start_region.regionID, end_ID,role,):
+                        while not board.check_path(block.movement_points, start_region.regionID, end_ID,block):
                             flag = True
                             while flag:
                                 end_ID = random.randint(0,22)
                                 if end_ID != start_region.regionID:
                                     flag = False
-                        board.move_block(block, start_region.regionID, end_ID,position,prev_paths,truce)
+                            
+                        print('Computer should move')
+                        board.move_block(block, start_region.regionID, end_ID,position, prev_paths,truce)
                         moved_blocks.append(block)
-                        print('Computer moves ' + block.name + ' from ' + start_region.name + " to " + board.regions[end_ID].name)
+                        #print('Computer moves ' + block.name + ' from ' + start_region.name + " to " + board.regions[end_ID].name)
+                    else:
+                        print('Computer passes')
 
 
 def three_execution(board, position,role,truce = False):
@@ -353,6 +418,7 @@ def three_execution(board, position,role,truce = False):
     prev_paths = []
     ####HELLO
     if position == 'opp':
+        blocks_moved = []
         region_regions = []
         for j in range(3):
             blocks_moved = list()
@@ -380,12 +446,9 @@ def three_execution(board, position,role,truce = False):
             else:
                 moveable_count = len(focus_region.blocks_present)
             
-            region_regions.append(focus_region)
-           
-            for region_name_region in region_regions:
-              
-                for i in range(moveable_count):
-                   
+            end = False
+            for i in range(moveable_count):
+                if end == False:
                     check_lst = list()
                     for block in focus_region.blocks_present:
                         check_lst.append(block.name)
@@ -394,26 +457,53 @@ def three_execution(board, position,role,truce = False):
                     block = ''
                     end_region_name = ''
                     end_region = ''
-                    while block_name not in check_lst:
-                        block_name = input("Which block would you like to move from " + region_name_region.name + "?\n>")
-                        block = find_block.find_block(block_name, focus_region.blocks_present)
-                        if block_name not in check_lst:
-                            print("That block in not in the focus region!")
-                        if block.name in blocks_moved:
-                            print("You have already moved that block this turn!")
-                            block_name = ''
+                    end = False
+                    focus_blocks = []
+                    for x in focus_region.blocks_present:
+                        focus_blocks.append(x.name)
+                    while end == False and block_name not in check_lst:
+                        block_name = input("Which block would you like to move from " + focus_region.name + " (Enter 'done' if done)?\n>").upper()
+                        if block_name == 'DONE':
+                            end = True
+                        elif block_name in focus_blocks:
+                            block = find_block.find_block(block_name, focus_region.blocks_present)
+                            if block_name not in check_lst:
+                                print("That block in not in the focus region!")
+                            if block.name in blocks_moved:
+                                print("You have already moved that block this turn!")
+                                block_name = ''
+                
+                '''
+                check = False
+                if block_name == 'DONE':
+                    check = True
+                while check == False:
+                    
+                    end_region_name = input("What region would you like to move to?\n>")
 
-                    while end_region not in board.get_controlled_regions(role):
-                        end_region_name = input("What region would you like to move to?\n>")
+                    if end_region_name.upper() in board.regionID_dict:
+                        end_region = board.regions[board.regionID_dict[end_region_name.upper()]]
+                        check = True
+                prev_paths = []
 
-                        if end_region_name.upper() in board.regionID_dict:
-                            end_region = board.regions[board.regionID_dict[end_region_name.upper()]]
-                            if board.move_block(block_choice.movement_points, region_name_region.regionID, end_region.regionID,position,prev_paths,truce) == False:
-                                print('That is an invalid move')
-                                end_region = ''
+                while end == False and not board.check_path(block.movement_points,focus_region.regionID, end_region.regionID, block):
 
+                    end_region_name = input("What region would you like to move to?\n>")
+                    #Make sure that the region name is actually a region name
+                    if end_region_name.upper() in board.regionID_dict:
+                        #Get the region object from the region name
+                        end_region = board.regions[board.regionID_dict[end_region_name.upper()]]
+                        #Make sure that the move is a valid move
+                        
+                        '''
+                #if board.move_block(block, focus_region.regionID, end_region.regionID,prev_paths, truce):
+                        
+                #Move the block to its location
+                #Add the block to the moved blocks list
+                if block_name != 'DONE':
                     blocks_moved.append(block.name)
-                    print(block.name + " was moved from " + region_name_region.name + ' to ' + end_region.name)
+                    board.move_block(block,focus_region.regionID, -1,position,prev_paths,truce)
+                    #print(block.name + " was moved from " + focus_region.name + ' to ' + end_region.name)
 
     if position == 'comp':
         #Get a random starting region
@@ -425,21 +515,24 @@ def three_execution(board, position,role,truce = False):
 
             for block in start_region.blocks_present:
                 if block not in moved_blocks:
-                    if random.randint(0,2) == 0:
+                    if random.randint(0,3) != 0:
                         flag = True
                         while flag:
                             end_ID = random.randint(0,22)
                             if end_ID != start_region.regionID:
                                 flag = False
-                        while not board.check_path(block.movement_points, start_region.regionID, end_ID, role):
+                        while not board.check_path(block.movement_points, start_region.regionID, end_ID, block):
                             flag = True
                             while flag:
                                 end_ID = random.randint(0,22)
                                 if end_ID != start_region.regionID:
                                     flag = False
+                        print('Computer should move')
                         board.move_block(block, start_region.regionID, end_ID,position,prev_paths,truce)
                         moved_blocks.append(block)
-                        print('Computer moves ' + block.name + ' from ' + start_region.name + " to " + board.regions[end_ID].name)
+                        #print('Computer moves ' + block.name + ' from ' + start_region.name + " to " + board.regions[end_ID].name)
+                    else:
+                        print("Computer passes")
 def sea_execution(board, position, role):
     """
     Receives current board, opp/comp, and scotland/england
@@ -456,16 +549,22 @@ def sea_execution(board, position, role):
             #temporary for dumb AI
             #loops through list of blocks until it finds one it owns that's in a friendly region
             #continually chooses random friendly region until it finds coastal friendly region
-                    
-        for block in board.blocks:
+        
+        #list of all blocks present in friendly areas
+        friendly_blocks = []
+        for region in board.get_controlled_regions(role):
+            for block in region.blocks_present:
+                friendly_blocks.append(block)
+
+        for block in friendly_blocks:
             # if block in coastal, friendly region
             coastal = False
             friendly = False
             
-            if combat.find_location(board, block.name).coast:
+            if combat.find_location(board, block).coast:
                 coastal = True
                 
-            if combat.find_location(board, block.name) in board.get_controlled_regions(role):
+            if combat.find_location(board, block) in board.get_controlled_regions(role):
                 friendly = True
             
             if block.name.lower() != 'norse':
@@ -477,35 +576,33 @@ def sea_execution(board, position, role):
         
         region_found = False
         
-        for region in board.regions:
+        while not region_found:
             
+            regio = pick_random_region(board, role)
             not_same = False
             coastal = False
             friendly = False
             
-            if combat.find_location(board, chosen_block) != region:
+            if combat.find_location(board, chosen_block) != board.regions[board.regionID_dict[region.name.upper()]]:
                 not_same = True
                 
-            if region.coast:
+            if regio.coast:
                 coastal = True
                 
-            if region in board.get_controlled_regions(role):
+            if regio in board.get_controlled_regions(role):
                 friendly = True
                 
             if not_same and coastal and friendly:
-                end_region = region
+                end_region = regio
                 region_found = True
-        
-        if region_found:
-            old_region_name = combat.find_location(board, chosen_block.name).name
-                    
-            board.add_to_location(board, chosen_block, end_region)
                 
-            print(chosen_block.name + ' was moved from ' + old_region_name + ' to ' + end_region.name)
         
         
-        elif not region_found:
-            print('There are no regions with which to play this card.')
+        old_region_name = combat.find_location(board, chosen_block).name
+                    
+        board.add_to_location(board, chosen_block, end_region)
+                
+        print(chosen_block.name + ' was moved from ' + old_region_name + ' to ' + end_region.name)
             
         
     elif position == 'opp':
@@ -515,12 +612,12 @@ def sea_execution(board, position, role):
         
         possible_region_list = []
         
-        for region in board.regions():
+        for region in board.regions:
             if region.coast:
                 coast = True
             if region in board.get_controlled_regions(role):
                 friendly = True
-            if len(region.blocks_present()) == 1 and region.blocks_present[0].name.upper() == 'NORSE':
+            if len(region.blocks_present) == 1 and region.blocks_present[0].name.upper() == 'NORSE':
                 just_norse = True
             
             if coast and friendly and not just_norse:
@@ -595,11 +692,15 @@ def her_execution(board, position, role):
 
     #List of available nobles to steal
     enemy_nobles = []
+    if role == 'SCOTLAND':
+        rolle = 'ENGLAND'
+    else:
+        rolle = 'SCOTLAND'
 
-    for enemy_region in board.get_controlled_regions(role):
+    for enemy_region in board.get_controlled_regions(rolle):
         for block in enemy_region.blocks_present:
 
-            if type(block) == blocks.Noble and block.name != 'MORAY':
+            if type(block) == blocks.Noble and block.name != 'MORAY' and block.allegiance != role:
                 enemy_nobles.append(block)
 
     if position == 'opp':
@@ -630,7 +731,7 @@ def her_execution(board, position, role):
         ###
         ###
         num_nobles = len(enemy_nobles)
-        rand_selection = random.randint(num_nobles)
+        rand_selection = random.randint(0,num_nobles-1)
         noble_to_steal = enemy_nobles[rand_selection]
         print('Computer picked ' + noble_to_steal.name)
         ###
@@ -655,7 +756,7 @@ def her_execution(board, position, role):
                 noble_region = region
 
         #Move the noble to its own region - will sort it into attacker/defender
-        board.move_block(noble_to_steal, noble_region.regionID, noble_region.regionID)
+        board.move_block(noble_to_steal, noble_region.regionID, noble_region.regionID, position)
         print('Success')
     else:
         print('Failure')
@@ -746,7 +847,9 @@ def pil_execution(board, position, role):
         
         #loop through regions to make sure there is a region that it works in
         for region_controlled in board.get_controlled_regions(role):
-            for neighbor_region in board.find_adjacent_regions(region_controlled.regionID):
+            new_list = []
+            new_list.append(region_controlled.regionID)
+            for neighbor_region in board.find_all_borders(new_list):
                 if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
                     possible = True
         
@@ -755,18 +858,22 @@ def pil_execution(board, position, role):
             #make a list of possible opponent regions to be pillaged 
             possible_pill_lst = []
             for region in board.get_controlled_regions(role):
-                for neighbor_region in board.find_adjacent_regions(region_controlled.regionID):
+                new_list = []
+                new_list.append(region_controlled.regionID)
+                for neighbor_region in board.find_all_borders(new_list):
                     if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
                         possible_pill_lst.append(neighbor_region)
             
             valid_region = False
             while not valid_region:
+
                 if role == 'SCOTLAND':
                     random_region = pick_random_region(board, 'ENGLAND')
-                elif role == 'SCOTLAND':
+                elif role == 'ENGLAND':
                     random_region = pick_random_region(board, 'SCOTLAND')
                 
-                if board.regions(board.regionID_dict[random_region.upper()]) in possible_pill_lst:
+
+                if random_region in possible_pill_lst:
                     valid_region = True
                     chosen_subtract_region = random_region
             
@@ -800,7 +907,9 @@ def pil_execution(board, position, role):
             while not valid_region:
                 #adding points to your own
                 rand_region = pick_random_region(board, role)  
-                if rand_region in board.find_adjacent_regions(chosen_subtract_region.regionID):
+                new_list = []
+                new_list.append(chosen_subtract_region.regionID)
+                if rand_region in board.find_all_borders(new_list):
                     neighbour = True
                 if rand_region.is_friendly(role):
                     friendly = True
@@ -838,7 +947,9 @@ def pil_execution(board, position, role):
     elif position == 'opp':
         #loop through regions to make sure there is a region that it works in
         for region_controlled in board.get_controlled_regions(role):
-            for neighbor_region in board.find_adjacent_regions(region_controlled.regionID):
+            new_list = []
+            new_list.append(region_controlled.regionID)
+            for neighbor_region in board.find_all_borders(new_list):
                 if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
                     possible = True
         
@@ -847,13 +958,15 @@ def pil_execution(board, position, role):
             #make a list of possible opponent regions to be pillaged 
             possible_pill_lst = []
             for region in board.get_controlled_regions(role):
-                for neighbor_region in board.find_adjacent_regions(region_controlled.regionID):
+                new_list = []
+                new_list.append(region.regionID)
+                for neighbor_region in board.find_all_borders(new_list):
                     if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
                         possible_pill_lst.append(neighbor_region)
             
             valid_region = False
             while not valid_region:
-                chosen_region_name = input('Which of your opponent\'s regions would you like to remove points from?')
+                chosen_region_name = input('Which of your opponent\'s regions would you like to remove points from?').upper()
                 #region = board.regions(board.regionID_dict[chosen_region_name.upper()])
                 chosen_region = search.region_name_to_object(board, chosen_region_name)
                     
@@ -867,7 +980,7 @@ def pil_execution(board, position, role):
             
             # pillage combat-style
             for x in range (0,2):
-                highest_strength_block = blocks.Block(intial_attack_strength = 0)
+                highest_strength_block = blocks.Block(initial_attack_strength = 0)
                 #loop through and find the max strength block in the region
                 #repeat twice for 2 hits total
                 for block in chosen_subtract_region.blocks_present:
@@ -889,15 +1002,16 @@ def pil_execution(board, position, role):
             
             while not valid_region:
                 #adding points to your own
-                chosen_add_region_name = input('Which of your neighbouring regions would you like to add points to? If none, enter \'none\'')    
-                #region itself = board.regions(board.regionID_dict[chosen_add_region_name.upper()])
-                
+                chosen_add_region_name = input('Which of your neighbouring regions would you like to add points to? If none, enter \'none\'').upper()    
+
                 if chosen_add_region_name.lower() != 'none':
                     
                     chosen_add_region = search.region_name_to_object(board, chosen_add_region_name)
                     
                     #nested so that no error if chosen_add_region is False
-                    if chosen_add_region in board.find_adjacent_regions(chosen_subtract_region.regionID):
+                    new_list = []
+                    new_list.append(chosen_subtract_region.regionID)
+                    if chosen_add_region in board.find_all_borders(new_list):
                         neighbour = True
                         if chosen_add_region.is_friendly(role):
                             friendly = True
@@ -914,11 +1028,10 @@ def pil_execution(board, position, role):
                 valid_input = False
                 while not valid_input:
                     print('You have ', health_points, ' health points.')
-                    block_name = int(input('Which block would you like to heal?\n>'))
+                    block_name = int(input('Which block would you like to heal?\n>')).upper()
                     block = search.block_name_to_object(chosen_add_region.blocks_present, block_name)
                 valid_block_name = False
                 while not valid_block_name:
-                    #block itself = board.get_block(block_name, combat.find_location(board, block_name))
                     
                     #if the block is in the chosen region
                     if block in chosen_add_region_name.blocks_present:
@@ -929,7 +1042,7 @@ def pil_execution(board, position, role):
                                 print('You do not have that many healing points left.')
                             else:
                                 health_points -= healing_points
-                                print(board.get_block(block_name, combat.find_location(board, block_name)).name + ' was healed ' + healing_points + ' points.')
+                                print(board.get_block(block_name, combat.find_location(board, block)).name + ' was healed ' + healing_points + ' points.')
                         else:
                             print('Invalid healing points.')
         else:
@@ -1058,7 +1171,6 @@ def compare_cards(board, opp_card, comp_card, comp_role):
         
         
     if who_goes_first: #if computer goes first
-   
 
         if resolve_card(board, 'comp',comp_card,comp_role) == True:
 
@@ -1071,7 +1183,6 @@ def compare_cards(board, opp_card, comp_card, comp_role):
         
     elif not who_goes_first: #if opponent goes first
         
- 
 
         if resolve_card(board, 'opp', opp_card, opp_role) == True:
 

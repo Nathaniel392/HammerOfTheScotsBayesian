@@ -36,8 +36,8 @@ MENTHIETH   2 B 2 3 BRUCE       F   33  13
 ROSS        2 B 2 3 COMYN       F   34  0
 ANGUS       2 B 2 3 COMYN       F   35  8
 GALLOWAY    2 B 2 3 COMYN       F   36  19
-MORAY       2 B 2 3 BRUCE       F   37  7
-STEWART     2 B 2 3 BRUCE       F   38  15
+MAR         2 B 2 3 BRUCE       F   37  7
+STEWARD     2 B 2 3 BRUCE       F   38  15
 DUNBAR      2 B 2 3 BRUCE       F   39  17
 LENNOX      2 B 2 3 BRUCE       F   40  12
 MORAY       2 B 2 3 COMYN       T   41  2
