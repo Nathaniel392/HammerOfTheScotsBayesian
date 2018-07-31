@@ -173,7 +173,7 @@ def play_game():
     game_playing = True
 
     if scenario == 'BRUCE':
-        year = 1305
+        year = 1306
     else:
         year = 1297
 
