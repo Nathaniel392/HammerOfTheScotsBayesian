@@ -750,7 +750,7 @@ def pil_execution(board, position, role):
         
         #loop through regions to make sure there is a region that it works in
         for region_controlled in board.get_controlled_regions(role):
-            for neighbor_region in region_controlled.find_all_borders(region_controlled.regionID):
+            for neighbor_region in board.find_adjacent_regions(region_controlled.regionID):
                 if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
                     possible = True
         
@@ -759,7 +759,7 @@ def pil_execution(board, position, role):
             #make a list of possible opponent regions to be pillaged 
             possible_pill_lst = []
             for region in board.get_controlled_regions(role):
-                for neighbor_region in region_controlled.find_all_borders(region_controlled.regionID):
+                for neighbor_region in board.find_adjacent_regions(region_controlled.regionID):
                     if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
                         possible_pill_lst.append(neighbor_region)
             
@@ -804,7 +804,7 @@ def pil_execution(board, position, role):
             while not valid_region:
                 #adding points to your own
                 rand_region = pick_random_region(board, role)  
-                if rand_region in chosen_subtract_region.find_all_borders(chosen_subtract_region.regionID):
+                if rand_region in board.find_adjacent_regions(chosen_subtract_region.regionID):
                     neighbour = True
                 if rand_region.is_friendly(role):
                     friendly = True
@@ -842,7 +842,7 @@ def pil_execution(board, position, role):
     elif position == 'opp':
         #loop through regions to make sure there is a region that it works in
         for region_controlled in board.get_controlled_regions(role):
-            for neighbor_region in region_controlled.find_all_borders(region_controlled.regionID):
+            for neighbor_region in board.find_adjacent_regions(region_controlled.regionID):
                 if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
                     possible = True
         
@@ -851,7 +851,7 @@ def pil_execution(board, position, role):
             #make a list of possible opponent regions to be pillaged 
             possible_pill_lst = []
             for region in board.get_controlled_regions(role):
-                for neighbor_region in region_controlled.find_all_borders(region_controlled.regionID):
+                for neighbor_region in board.find_adjacent_regions(region_controlled.regionID):
                     if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
                         possible_pill_lst.append(neighbor_region)
             
@@ -901,7 +901,7 @@ def pil_execution(board, position, role):
                     chosen_add_region = search.region_name_to_object(board, chosen_add_region_name)
                     
                     #nested so that no error if chosen_add_region is False
-                    if chosen_add_region in chosen_subtract_region.find_all_borders(chosen_subtract_region.regionID):
+                    if chosen_add_region in board.find_adjacent_regions(chosen_subtract_region.regionID):
                         neighbour = True
                         if chosen_add_region.is_friendly(role):
                             friendly = True
@@ -913,7 +913,6 @@ def pil_execution(board, position, role):
                         print('Invalid region.')
                 
             
-            # CHANGE SO THAT HEALTH_PTS IS BASED ON HOW MANY ARE TAKEN FROM THE OPP REGION
             health_points = taken_points
             while health_points > 0:
                 valid_input = False
