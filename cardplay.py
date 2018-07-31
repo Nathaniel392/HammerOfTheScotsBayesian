@@ -36,7 +36,7 @@ import dice
 import search
 import find_block
 import blocks
-
+import copy
     
 #ultimately: return card that the computer decides to play
 
@@ -1063,7 +1063,7 @@ def compare_cards(board, opp_card, comp_card, comp_role):
         
         
     if who_goes_first: #if computer goes first
-        resolve_card(board, 'comp', comp_card, comp_role)
+   
 
         if resolve_card(board, 'comp',comp_card,comp_role) == True:
 
@@ -1076,7 +1076,7 @@ def compare_cards(board, opp_card, comp_card, comp_role):
         
     elif not who_goes_first: #if opponent goes first
         
-        resolve_card(board, 'opp', opp_card, opp_role)
+ 
 
         if resolve_card(board, 'opp', opp_card, opp_role) == True:
 
