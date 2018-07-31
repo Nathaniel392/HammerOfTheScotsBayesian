@@ -434,7 +434,7 @@ class Board(object):
 
 		if position == 'comp':
 
-			if self.check_path(block.movement_points,start,end):
+			if self.check_path(block.movement_points,start,end, block):
 
 				computer_path = random.choice(self.check_path(block.movement_points,start,end))
 
