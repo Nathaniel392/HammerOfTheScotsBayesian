@@ -456,14 +456,8 @@ def sea_execution(board, position, role):
             #temporary for dumb AI
             #loops through list of blocks until it finds one it owns that's in a friendly region
             #continually chooses random friendly region until it finds coastal friendly region
-        
-        #list of all blocks present in friendly areas
-        friendly_blocks = []
-        for region in board.get_controlled_regions(role):
-            for block in region.blocks_present:
-                friendly_blocks.append(block)
-
-        for block in friendly_blocks:
+                    
+        for block in board.blocks:
             # if block in coastal, friendly region
             coastal = False
             friendly = False
@@ -483,33 +477,35 @@ def sea_execution(board, position, role):
         
         region_found = False
         
-        while not region_found:
+        for region in board.regions:
             
-            regio = pick_random_region(board, role)
             not_same = False
             coastal = False
             friendly = False
             
-            if combat.find_location(board, chosen_block) != board.regions(board.regionID_dict[regio.name.upper()]):
+            if combat.find_location(board, chosen_block) != region:
                 not_same = True
                 
-            if regio.coast:
+            if region.coast:
                 coastal = True
                 
-            if regio in board.get_controlled_regions(role):
+            if region in board.get_controlled_regions(role):
                 friendly = True
                 
             if not_same and coastal and friendly:
-                end_region = regio
+                end_region = region
                 region_found = True
-                
         
-        
-        old_region_name = combat.find_location(board, chosen_block.name).name
+        if region_found:
+            old_region_name = combat.find_location(board, chosen_block.name).name
                     
-        board.add_to_location(board, chosen_block, end_region)
+            board.add_to_location(board, chosen_block, end_region)
                 
-        print(chosen_block.name + ' was moved from ' + old_region_name + ' to ' + end_region.name)
+            print(chosen_block.name + ' was moved from ' + old_region_name + ' to ' + end_region.name)
+        
+        
+        elif not region_found:
+            print('There are no regions with which to play this card.')
             
         
     elif position == 'opp':
