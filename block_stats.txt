@@ -26,8 +26,8 @@ ULSTER             2 C 3 3 INFANTRY    F   23
 WALES-INFANTRY     2 B 3 3 ARCHER      T   24
 WALES-INFANTRY     2 C 3 3 INFANTRY    T   25
 WALLACE            3 A 3 4 WALLACE     F   26
-EDWARD             3 B 4 4 EDWARD      F   27
-KING               3 A 3 4 KING        F   28
+EDWARD             3 B 4 4 EDWARD      T   27
+KING               3 A 3 4 KING        T   28
 ATHOLL      2 B 2 3 BRUCE       F   29  10
 ARGYLL      2 B 2 3 COMYN       F   30  9
 COMYN       2 B 2 4 COMYN       F   31  (6,5)
