@@ -10,3 +10,4 @@ NORSE MOVEMENT DOES NOT WORK
 ENGLAND MOVEMENT TO AND FROM WON'T WORK
 output options before user input for user ease
 if scots have nobody in pool, program crashes (winter)
+attacking reinforcements not working if blocks come from same location (currently categorizing as reinforcements, but it shouldn't do that)
