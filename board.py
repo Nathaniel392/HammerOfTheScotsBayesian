@@ -283,8 +283,8 @@ class Board(object):
 		'''
 		returns a list of all bordering regionIDs in a list of regionIDs
 		'''
-		return_list = [self.regions[regionID_list]]
-		for element in regionID_list:
+		return_list = [self.regions[regionID]]
+		for element in regionID:
 			for i,border in enumerate(self.static_borders[element]):
 
 				if border == "B" or border == "R":
@@ -292,7 +292,7 @@ class Board(object):
 
 		return return_list
 
-	def check_path(self, num_moves, startID, endID, role, path=[], stop=False, all_paths=[]):
+	def check_path(self, num_moves, startID, endID, block, path=[], stop=False, all_paths=[]):
 		'''
 		Finds all legal paths between two regions
 		num_moves:  a block's movement points (int)
@@ -304,46 +304,57 @@ class Board(object):
 			stored as the function processes
 		'''
 
-		#path is a list of regions the algorithm has traversed to reach its current locaiton
-		#store the current location into the path
-		path.append(startID)
+		#Norse block has different movement rules - can move from friendly coastal to friendly coastal, but not england
+		if block.type == 'NORSE':
 
-		#Destination reached - store the path
-		if startID == endID:
-			all_paths.append(copy.deepcopy(path))
-			path.pop()
-			return
-		#Can't go further - don't search for more borders
-		if stop:
-			path.pop()
-			return
+			if self.regions[endID].coast and self.regions[endID].is_friendly(block.allegiance) and endID != 22:
+				path = [startID, endID]
+				return path
 
-		#Find borders to search for
-		borders = self.find_adjacent_regions(startID)
+		#Logic for every other block
+		else:
 
-		for borderID in borders:
-			#Don't search regions already traversed
-			if borderID not in path and self.dynamic_borders[startID][borderID] > 0:
+			#path is a list of regions the algorithm has traversed to reach its current locaiton
+			#store the current location into the path
+			path.append(startID)
 
-				#Set a boolean if this should be the last move in a path
-				stop = False
-				if self.static_borders[startID][borderID] == 'R' \
-				or self.regions[borderID].is_contested() \
-				or not self.regions[borderID].is_neutral() and not self.regions[borderID].is_friendly(role) \
-				or num_moves == 1:
-					stop = True
+			#Destination reached - store the path
+			if startID == endID:
+				all_paths.append(copy.deepcopy(path))
+				path.pop()
+				return
+			#Can't go further - don't search for more borders
+			if stop:
+				path.pop()
+				return
 
-				#Take the adjacent border and keep searching
-				self.check_path(num_moves-1, borderID, endID, role, path, stop, all_paths)
+			#Find borders to search for
+			borders = self.find_adjacent_regions(startID)
 
-		#After exhausting all borders, delete the region from memory (path) and move onto the next region
-		if path:
-			path.pop()
+			for borderID in borders:
+				#Don't search regions already traversed
+				if borderID not in path and self.dynamic_borders[startID][borderID] > 0:
+
+					#Set a boolean if this should be the last move in a path
+					stop = False
+					if self.static_borders[startID][borderID] == 'R' \
+					or self.regions[borderID].is_contested() \
+					or not self.regions[borderID].is_neutral() and not self.regions[borderID].is_friendly(block.allegiance) \
+					or borderID == 22	\
+					or num_moves == 1:
+						stop = True
+
+					#Take the adjacent border and keep searching
+					self.check_path(num_moves-1, borderID, endID, block, path, stop, all_paths)
+
+			#After exhausting all borders, delete the region from memory (path) and move onto the next region
+			if path:
+				path.pop()
 
 		#Final output
 		return all_paths
 
-	def check_all_paths(self, num_moves, startID, role, path=[], stop=False, all_paths=[]):
+	def check_all_paths(self, num_moves, startID, block, path=[], stop=False, all_paths=[]):
 		'''
 		Finds all legal paths from a region - modified version of check_path
 		num_moves:  a block's movement points (int)
@@ -354,44 +365,57 @@ class Board(object):
 			stored as the function processes
 		'''
 
-		#path is a list of regions the algorithm has traversed to reach its current locaiton
-		#store the current location into the path
-		path.append(startID)
-		
-		#Store the algorithm's current path if it's unique
-		if path not in all_paths:
-			all_paths.append(copy.deepcopy(path))
+		#Norse block has different movement rules
+		if block.type == 'NORSE':
+			
+			for region in self.regions:
+				if region.coast and region.is_friendly(block.allegiance) and region.regionID != 22:
 
-		#Can't go further - don't look for more borders
-		if stop:
-			path.pop()
-			return
+					path = [startID, region.regionID]
+					all_paths.append(path)
 
-		#Find borders to search through
-		borders = self.find_adjacent_regions(startID)
+			return all_paths
 
-		for borderID in borders:
-			#Don't search regions already traversed
-			if borderID not in path and self.dynamic_borders[startID][borderID] > 0:
+		else:
 
-				#Set a boolean if this should be the last move in a path
-				stop = False
-				if self.static_borders[startID][borderID] == 'R'	\
-				or self.regions[borderID].is_contested()	\
-				or not self.regions[borderID].is_neutral() and not self.regions[borderID].is_friendly(role)	\
-				or num_moves == 1:
-					stop = True
+			#path is a list of regions the algorithm has traversed to reach its current locaiton
+			#store the current location into the path
+			path.append(startID)
 
-				#Take the adjacent border and keep searching
-				self.check_all_paths(num_moves-1, borderID, role, path, stop, all_paths)
+			#Store the algorithm's current path if it's unique
+			if path not in all_paths:
+				all_paths.append(copy.deepcopy(path))
 
-		#After exhausting all borders, delete the region from memory (path) and move onto the next region
-		if path:
-			path.pop()
+			#Can't go further - don't look for more borders
+			if stop:
+				path.pop()
+				return
+
+			#Find borders to search through
+			borders = self.find_adjacent_regions(startID)
+
+			for borderID in borders:
+				#Don't search regions already traversed
+				if borderID not in path and self.dynamic_borders[startID][borderID] > 0:
+
+					#Set a boolean if this should be the last move in a path
+					stop = False
+					if self.static_borders[startID][borderID] == 'R'	\
+					or self.regions[borderID].is_contested()	\
+					or not self.regions[borderID].is_neutral() and not self.regions[borderID].is_friendly(block.alligiance)	\
+					or borderID == 22	\
+					or num_moves == 1:
+						stop = True
+
+					#Take the adjacent border and keep searching
+					self.check_all_paths(num_moves-1, borderID, role, path, stop, all_paths)
+
+			#After exhausting all borders, delete the region from memory (path) and move onto the next region
+			if path:
+				path.pop()
 
 		#Final output
 		return all_paths
-
   
 	def move_block(self, block, start, end, position, prev_paths = [], is_truce = False):
 		'''
@@ -410,9 +434,9 @@ class Board(object):
 
 		if position == 'comp':
 
-			if self.check_path(block.movement_points,start,end, block.allegiance):
+			if self.check_path(block.movement_points,start,end, block):
 
-				computer_path = random.choice(self.check_path(block.movement_points,start,end, block.allegiance))
+				computer_path = random.choice(self.check_path(block.movement_points,start,end,block))
 
 				bool1 = False
 
@@ -487,7 +511,7 @@ class Board(object):
 
 				print (user_path)
 
-				user_input = input("Location " + counter + ": ")
+				user_input = input("Location " + str(counter) + ": ")
 
 				if search.region_name_to_id(self,user_input.upper()):
 
@@ -503,7 +527,7 @@ class Board(object):
 
 					print ("Not a valid location!")
 
-			if user_path in self.check_path(block.movement_points,user_path[0],user_path[-1], block.allegiance):
+			if user_path in self.check_path(block.movement_points,user_path[0],user_path[-1], block):
 
 				bool1 = False
 
@@ -532,7 +556,9 @@ class Board(object):
 						self.regions[end].blocks_present.append(block)
 
 				else:
-					
+					print(start)
+					print(self.regions[start].blocks_present)
+					print(block)
 					self.regions[start].blocks_present.remove(block)
 
 					if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
