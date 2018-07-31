@@ -233,9 +233,14 @@ def retreat_locations(board, attacking, defending, is_attacking):
 				region_allegiance = 'fight is going on'
 				break
 
-			if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0 and (not board.attacked_borders[x][current_location.regionID]) and (block.name != 'NORSE' or board.regions[x].coast):
+			if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0 and \
+			(not board.attacked_borders[x][current_location.regionID]) and (block.name != 'NORSE' or board.regions[x].coast)\
+			and (block.allegiance == 'ENGLAND' or x != 22) and (block.allegiance == 'SCOTLAND' or x == 22 or board.find_location(block).regionID != 22):
 				possible_locations.append(board.regions[x])
-			elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 0 and (block.name != 'NORSE' or board.regions[x].coast):
+			elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 0 and \
+			(not board.attacked_borders[x][current_location.regionID])\
+			(block.name != 'NORSE' or board.regions[x].coast) and (block.allegiance == 'ENGLAND' or x != 22) \
+			and (block.allegiance == 'SCOTLAND' or x == 22 or board.find_location(block).regionID != 22):
 				possible_locations.append(board.regions[x])
 
 	return possible_locations
@@ -272,9 +277,13 @@ def regroup_locations(board, attacking, defending, is_attacking):
 				region_allegiance = 'fight is going on'
 				break
 
-			if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0 and (block.name != 'NORSE' or board.regions[x].coast):
+			if is_attacking == False and attacking[0].allegiance != region_allegiance and border != 0 \
+		    	and (block.name != 'NORSE' or board.regions[x].coast) \
+					and (block.allegiance == 'ENGLAND' or x != 22) and (block.allegiance == 'SCOTLAND' or x == 22 or board.find_location(block).regionID != 22):
 				possible_locations.append(board.regions[x])
-			elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 0 and (block.name != 'NORSE' or board.regions[x].coast):
+			elif is_attacking == True and defending[0].allegiance != region_allegiance and border != 0 and \
+			(block.name != 'NORSE' or board.regions[x].coast) and (block.allegiance == 'ENGLAND' or x != 22) \
+			and (block.allegiance == 'SCOTLAND' or x == 22 or board.find_location(block).regionID != 22):
 				possible_locations.append(board.regions[x])
 
 	return possible_locations
@@ -382,7 +391,7 @@ def regroup(winner_blocks, current_board, computer_role):
 						print(block.name, ' moved to ', search.region_id_to_name(current_board, place_to_go_to))
 				if bad_input:
 					print('not valid location')
-	current_board.reset_attacked_locations()
+	current_board.reset_attacked_borders()
 
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), current_board = None, computer_role = 'ENGLAND'):
 	'''
