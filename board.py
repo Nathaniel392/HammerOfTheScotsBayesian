@@ -283,8 +283,8 @@ class Board(object):
 		'''
 		returns a list of all bordering regionIDs in a list of regionIDs
 		'''
-		return_list = [self.regions[regionID]]
-		for element in regionID:
+		return_list = [self.regions[regionID_list]]
+		for element in regionID_list:
 			for i,border in enumerate(self.static_borders[element]):
 
 				if border == "B" or border == "R":
@@ -408,7 +408,7 @@ class Board(object):
 						stop = True
 
 					#Take the adjacent border and keep searching
-					self.check_all_paths(num_moves-1, borderID, role, path, stop, all_paths)
+					self.check_all_paths(num_moves-1, borderID, block, path, stop, all_paths)
 
 			#After exhausting all borders, delete the region from memory (path) and move onto the next region
 			if path:
