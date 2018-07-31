@@ -537,7 +537,7 @@ def levy(board, num_people = None):
 
 	for i in range(num_people):
 		block_to_get_put_in_id = random.randint(0, len(board.eng_pool) - 1)
-		block_to_get_put_in_id = block_id_to_object(board.eng_pool + board.scot_pool + board.eng_roster + board.scot_roster, block_to_get_put_in_id)
+		block_to_get_put_in_id = search.block_id_to_object(board.eng_pool + board.scot_pool + board.eng_roster + board.scot_roster, block_to_get_put_in_id)
 		board.regions[22].add_block(board.eng_pool.pop(block_to_get_put_in))
 		print(block_to_get_put_in.name , ' has moved to levy')
 
