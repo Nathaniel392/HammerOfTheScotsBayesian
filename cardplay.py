@@ -745,10 +745,87 @@ def vic_execution(board, position, role):
             print(selected_region.blocks_present[rand_block_selection].name, ' healed one point')
 
 def pil_execution(board, position, role):
-    pass
     possible = False
+    
     if position == 'comp':
-        pass
+        
+        #loop through regions to make sure there is a region that it works in
+        for region_controlled in board.get_controlled_regions(role):
+            for neighbor_region in region_controlled.find_all_borders(region_controlled.regionID):
+                if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
+                    possible = True
+        
+        if possible:
+            
+            #make a list of possible opponent regions to be pillaged 
+            possible_pill_lst = []
+            for region in board.get_controlled_regions(role):
+                for neighbor_region in region_controlled.find_all_borders(region_controlled.regionID):
+                    if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
+                        possible_pill_lst.append(neighbor_region)
+            
+            valid_region = False
+            while not valid_region:
+                if role == 'scotland':
+                    random_region = pick_random_region(board, 'ENGLAND')
+                elif role == 'england':
+                    random_region = pick_random_region(board, 'SCOTLAND')
+                
+                if board.regions(board.regionID_dict[random_region.upper()]) in possible_pill_lst:
+                    valid_region = True
+                    chosen_subtract_region = random_region
+            
+            
+            # pillage combat-style
+            for x in range (0,2):
+                highest_strength_block = blocks.Block(intial_attack_strength = 0)
+                #loop through and find the max strength block in the region
+                #repeat twice for 2 hits total
+                for block in chosen_subtract_region.blocks_present:
+                    if block.current_strength > highest_strength_block.current_strength:
+                        highest_strength_block = block
+                        #strike once
+                highest_strength_block.get_hurt(1)
+                print(highest_strength_block.name + ' took one hit.')
+            taken_points = 2 #temp until I add in code to do less than 2 hits
+            
+            while not valid_region:
+                #adding points to your own
+                rand_region = pick_random_region(board, role)  
+                if rand_region in chosen_subtract_region.find_all_borders(chosen_subtract_region.regionID):
+                    neighbour = True
+                if rand_region.is_friendly(role):
+                    friendly = True
+                if neighbour and friendly:
+                    valid_region = True
+            chosen_add_region = rand_region
+                
+            
+            # CHANGE SO THAT HEALTH_PTS IS BASED ON HOW MANY ARE TAKEN FROM THE OPP REGION
+            health_points = taken_points
+            while health_points > 0:
+                valid_input = False
+                while not valid_input:
+                    print('You have ', health_points, ' health points.')
+                    #just a line for a random block in the chosen region
+                    rand_block = chosen_add_region.blocks_present[0]
+                    
+                valid_block = False
+                while not valid_block:
+                    
+                    #if the block is in the chosen region
+                    if rand_block in chosen_add_region.blocks_present:
+                        healing_points = random.randint(1,2)
+                        if healing_points <= 0 or healing_points > health_points:
+                            pass
+                        else:
+                            health_points -= healing_points
+                            print(rand_block.name + ' was healed ' + healing_points + ' points.')
+        
+        else:
+            print('There are no regions in which to play this card.')
+            
+            
     elif position == 'opp':
         #loop through regions to make sure there is a region that it works in
         for region_controlled in board.get_controlled_regions(role):
