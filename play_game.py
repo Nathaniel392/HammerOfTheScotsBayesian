@@ -189,7 +189,7 @@ def play_game():
         play_turn = True
 
 
-
+        winter.levy(current_board, 'start')
         while play_turn:
 
             turn_counter += 1
