@@ -187,6 +187,8 @@ def play_game():
         year = 1297
 
     winter.levy(current_board, 'start')
+
+    edward_prev_winter = [False]
     while game_playing:
 
         """INITIALIZE YEAR - deal, etc"""
@@ -247,7 +249,8 @@ def play_game():
             if win(block_list, year, scenario):
                 print(win(block_list, year, scenario))
                 return 'game over'
-        winter.intialize_winter(current_board, block_list, computer_role)
+
+        winter.intialize_winter(current_board, block_list, computer_role, edward_prev_winter)
         winter.winter_builds(current_board, computer_role)
 
 

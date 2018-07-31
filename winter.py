@@ -152,7 +152,7 @@ def disband(board,block):
 
 	print ("Disbanded " + block.name + "!")	
 
-def initialize_winter(board,block_list,computer_role):
+def initialize_winter(board,block_list,computer_role, edward_prev_winter = [False]):
 
 	'''
 	takes a board object, list of all blocks in game, and which side the computer is playing
@@ -237,7 +237,11 @@ def initialize_winter(board,block_list,computer_role):
 
 	if eng_edward:
 
-		add_to_location(board,eng_edward[0],choose_location([find_location(board,block.blockID), 'english pool'],'ENGLAND',computer_role))
+		if not edward_prev_winter[0]:
+			add_to_location(board,eng_edward[0],choose_location([find_location(board,block.blockID), 'english pool'],'ENGLAND',computer_role))
+			edward_prev_winter[0] = True
+		else:
+			disband(board, eng_king[0])
 
 	if eng_king:
 
