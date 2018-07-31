@@ -6,6 +6,8 @@ import board
 import cardplay
 import blocks
 import winter
+import border_raids
+import update_roster
 
 def prompt_scenario():
     '''
@@ -234,6 +236,10 @@ def play_game():
                     combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], current_board, computer_role= computer_role)
 
                     contested_regions.remove(battle_region)
+                    border_raids.border_raid(current_board, computer_role)
+                    update_roster.update_roster(block_list, current_board)
+
+
             
             if year_cut_short or turn_counter >= 5:
                 play_turn = False
