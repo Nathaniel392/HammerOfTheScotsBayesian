@@ -369,7 +369,7 @@ class Board(object):
 		if block.type == 'NORSE':
 			
 			for region in self.regions:
-				if region.coast and region.is_friendly(block.allegiance) and region.regionID != 22
+				if region.coast and region.is_friendly(block.allegiance) and region.regionID != 22:
 
 					path = [startID, region.regionID]
 					all_paths.append(path)
