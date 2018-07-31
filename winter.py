@@ -301,7 +301,15 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 				if len(find_location(board,block.blockID).blocks_present) > castle_points:
 
-					add_to_location(board,block,choose_location([23,find_location(board,block.blockID)],block.allegiance,computer_role))
+					if block.allegiance == "SCOTLAND":
+
+						pool = 'scottish pool'
+
+					else:
+
+						pool = 'english pool'
+
+					add_to_location(board,block,choose_location([pool,find_location(board,block.blockID)],block.allegiance,computer_role))
 
 				else:
 
@@ -331,7 +339,15 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 					if len(find_location(board,block.blockID).blocks_present) > castle_points:
 
-						add_to_location(board,block,choose_location([23,find_location(board,block.blockID)],block.allegiance,computer_role))
+						if block.allegiance == "SCOTLAND":
+
+							pool = 'scottish pool'
+
+						else:
+
+							pool = 'english pool'
+
+							add_to_location(board,block,choose_location([pool,find_location(board,block.blockID)],block.allegiance,computer_role))
 
 					else:
 
