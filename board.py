@@ -142,7 +142,7 @@ class Board(object):
 
 		region_list = []
 
-		for region in board.regions:
+		for region in self.regions:
 
 			#Fill the list with IDs of friendly regions
 			if region.is_friendly():
