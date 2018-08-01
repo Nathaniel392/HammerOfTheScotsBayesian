@@ -1185,7 +1185,9 @@ def pil_execution(board, position, role):
                 new_list.append(region.regionID)
                 for neighbor_region in board.find_all_borders(new_list):
                     if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
-                        possible_pill_lst.append(neighbor_region)
+                        #if it's not already in it
+                        if neighbor_region not in possible_pill_lst:
+                            possible_pill_lst.append(neighbor_region)
             
             print('Possible pillaging regions: ')
             for region in possible_pill_lst:
@@ -1241,7 +1243,9 @@ def pil_execution(board, position, role):
                     
                     for neighbor_region in board.find_all_borders(new_list):
                         if neighbor_region.is_friendly(role):
-                            possible_add_lst.append(neighbor_region)
+                            #if it's not already in it
+                            if neighbor_region not in possible_add_lst:
+                                possible_add_lst.append(neighbor_region)
                     
                     print('Possible regions to add pillaged points to: ')
                     for region in possible_add_lst:
