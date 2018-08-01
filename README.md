@@ -9,3 +9,4 @@ account for difference in english border
 make sure it outputs 'computer passes' each time it passes
 Ross is invalid
 scottish king coronation
+grant was not put in reserves, instead was treated as a normal attacker
