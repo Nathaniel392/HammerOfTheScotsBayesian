@@ -590,6 +590,7 @@ def levy(board, num_people = None):
 		block_to_get_put_in_num = random.randint(0, len(board.eng_pool) - 1)
 		block_to_get_put_in = board.eng_pool[block_to_get_put_in_num]
 		board.eng_pool.remove(block_to_get_put_in)
+		board.eng_roster.append(block_to_get_put_in)
 		board.regions[22].blocks_present.append(block_to_get_put_in)
 		print(block_to_get_put_in.name , ' has moved to levy')
 
