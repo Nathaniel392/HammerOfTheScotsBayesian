@@ -82,11 +82,18 @@ def opp_card_choice(cards):
     print()
     #Input and error check what card the user wants to play
     while choice not in cards:
-        choice = input('Enter the card you want to play: ')
-        choice = choice.upper()
-        for i,card in enumerate(cards):
-            if card == choice:
-                return(i)
+        while True:
+            choice = input('Enter the card you want to play: ')
+            if choice.lower == 'quit':
+                raise Exception('You told me to quit')
+            choice = choice.upper()
+            for i,card in enumerate(cards):
+                if card == choice:
+                    return(i)
+            print('type a valid card')
+
+
+
 
 
 def opp_battle_choice(contested_regions):
