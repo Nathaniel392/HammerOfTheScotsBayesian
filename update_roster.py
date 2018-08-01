@@ -6,7 +6,7 @@ def find_location(board, blok):
 		for bllock in region.blocks_present:
 			if bllock.name == blok.name:
 				return region
-	return False
+	raise Exception('cannot find block')
 	
 def update_roster(all_blocks_lst = None, current_board = None):
 	"""

@@ -246,6 +246,11 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 	num_times is number of simulations
 	returns dictionary with estimated probabilities
 	"""
+
+
+
+
+
 	original_attack = copy.deepcopy(attack)
 	original_defense = copy.deepcopy(defense)
 	original_attack_reinforcements = copy.deepcopy(attack_reinforcements)
