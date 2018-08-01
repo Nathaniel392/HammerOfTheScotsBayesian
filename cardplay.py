@@ -789,7 +789,7 @@ def vic_execution(board, position, role):
             #Take a name input and convert it to a region object
             selected_region_name = input('Which region do you want to heal?: ').strip().upper()
 
-            if search.region_name_to_object(friendly_list, selected_region_name):
+            if search.region_name_to_object(board, selected_region_name):
                 selected_region = search.region_name_to_object(friendly_list, selected_region_name)
                 valid_input = True
 
