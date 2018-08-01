@@ -32,7 +32,7 @@ ATHOLL      2 B 2 3 BRUCE       F   29  10
 ARGYLL      2 B 2 3 COMYN       F   30  9
 COMYN       2 B 2 4 COMYN       F   31  (6,5)
 BRUCE       2 B 2 4 BRUCE       F   32  (20,14)
-MENTHIETH   2 B 2 3 BRUCE       F   33  13
+MENTIETH    2 B 2 3 BRUCE       F   33  13
 ROSS        2 B 2 3 COMYN       F   34  0
 ANGUS       2 B 2 3 COMYN       F   35  8
 GALLOWAY    2 B 2 3 COMYN       F   36  19

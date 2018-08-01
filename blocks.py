@@ -57,14 +57,6 @@ class Block(object):
                 self.current_strength = 0
             return True
           
-         
-    def heal_no_return(self, health_points):
-        """
-        heals block # health_points
-        """
-        self.current_strength += health_points
-        if self.current_strength > self.attack_strength:
-            self.current_strength = self.attack_strength
     
     def heal_until_full(self, health_points = 1):
         """
@@ -148,7 +140,7 @@ class Noble(Block):
 
                     
             else:
-                raise Exception('bad')
+                
                 self.allegiance = allegiance   
         if self.current_strength == 0:
                 self.current_strength = 1

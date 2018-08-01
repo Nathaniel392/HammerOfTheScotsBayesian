@@ -197,10 +197,10 @@ class Board(object):
 		returns False if block not found in that region
 		"""
 		for i, bllock in enumerate(self.regions[regionID].blocks_present):
-			if bllock is block:
+			if bllock == block:
 				self.regions[regionID].blocks_present.pop(i)
 				return True
-		return False
+		raise Exception('cannot find block to remove')
 
 	def fill_board(self, block_list, scenario):
 		'''
@@ -304,52 +304,48 @@ class Board(object):
 
 		return return_list
 
-	def check_path(self, num_moves, startID, endID, block, path=[], stop=False, all_paths=[], truce=False):
+	def check_path(self, num_moves, startID, endID, block, path=[], stop=False, all_paths=[]):
 		'''
 		Finds all legal paths between two regions
 		num_moves:  a block's movement points (int)
 		startID:  regionID of the starting region (int)
 		endID:  regionID of the ending region (int)
-		block:  Block object, for use with checking if the norse is being moved
 		path:  temporary stored path for the recursive function - keeps track of where it's been
 		stop:  boolean for if the previous move causes the "block" to stop - used in recursion
 		all_paths:  list of lists of all legal paths from start to finish - final output.
 			stored as the function processes
-		truce:  Boolean, if the TRU card was played - restricts movement
 		'''
 
 		#Norse block has different movement rules - can move from friendly coastal to friendly coastal, but not england
 		if block.type == 'NORSE':
 
 			if self.regions[endID].coast and self.regions[endID].is_friendly(block.allegiance) and endID != 22:
-				path = [endID]
+				path = [startID, endID]
 				return path
 
-		#Not NORSE block
+		#Logic for every other block
 		else:
 
 			#path is a list of regions the algorithm has traversed to reach its current locaiton
 			#store the current location into the path
 			path.append(startID)
 
-			#Destination reached - store the path, minus the first region (for convenience)
+			#Destination reached - store the path
 			if startID == endID:
-				all_paths.append(copy.deepcopy(path[1:]))
+				all_paths.append(copy.deepcopy(path))
 				path.pop()
-				return
+				return [startID, endID]
 			#Can't go further - don't search for more borders
 			if stop:
 				path.pop()
-				return
+				return 
 
 			#Find borders to search for
 			borders = self.find_adjacent_regions(startID)
 
 			for borderID in borders:
-
-				#Don't search regions already traversed or border limit is used up, or if it's enemy controlled and truce is True
-				if borderID not in path and self.dynamic_borders[startID][borderID] > 0 \
-				and not (truce and not self.regions[borderID].is_neutral() and not self.regions[borderID].is_friendly(role)):
+				#Don't search regions already traversed
+				if borderID not in path and self.dynamic_borders[startID][borderID] > 0:
 
 					#Set a boolean if this should be the last move in a path
 					stop = False
@@ -361,7 +357,7 @@ class Board(object):
 						stop = True
 
 					#Take the adjacent border and keep searching
-					self.check_path(num_moves-1, borderID, endID, block, path, stop, all_paths, truce)
+					self.check_path(num_moves-1, borderID, endID, block, path, stop, all_paths)
 
 			#After exhausting all borders, delete the region from memory (path) and move onto the next region
 			if path:
@@ -370,17 +366,15 @@ class Board(object):
 		#Final output
 		return all_paths
 
-	def check_all_paths(self, num_moves, startID, block, path=[], stop=False, all_paths=[], truce=False):
+	def check_all_paths(self, num_moves, startID, block, path=[], stop=False, all_paths=[]):
 		'''
 		Finds all legal paths from a region - modified version of check_path
 		num_moves:  a block's movement points (int)
 		startID:  regionID of the starting region (int)
 		path:  temporary stored path for the recursive function - keeps track of where it's been
-		block:  Block object, for use with checking if the norse is being moved
 		stop:  boolean for if the previous move causes the "block" to stop - used in recursion
 		all_paths:  list of lists of all legal paths from start - final output.
 			stored as the function processes
-		truce:  Boolean, if the TRU card was played - restricts movement
 		'''
 
 		#Norse block has different movement rules
@@ -389,12 +383,11 @@ class Board(object):
 			for region in self.regions:
 				if region.coast and region.is_friendly(block.allegiance) and region.regionID != 22:
 
-					path = [region.regionID]
+					path = [startID, region.regionID]
 					all_paths.append(path)
 
 			return all_paths
 
-		#Not NORSE block
 		else:
 
 			#path is a list of regions the algorithm has traversed to reach its current locaiton
@@ -415,8 +408,7 @@ class Board(object):
 
 			for borderID in borders:
 				#Don't search regions already traversed
-				if borderID not in path and self.dynamic_borders[startID][borderID] > 0 \
-				and not (truce and not self.regions[borderID].is_neutral() and not self.regions[borderID].is_friendly(role))::
+				if borderID not in path and self.dynamic_borders[startID][borderID] > 0:
 
 					#Set a boolean if this should be the last move in a path
 					stop = False
@@ -428,7 +420,7 @@ class Board(object):
 						stop = True
 
 					#Take the adjacent border and keep searching
-					self.check_all_paths(num_moves-1, borderID, block, path, stop, all_paths, truce)
+					self.check_all_paths(num_moves-1, borderID, block, path, stop, all_paths)
 
 			#After exhausting all borders, delete the region from memory (path) and move onto the next region
 			if path:
@@ -436,7 +428,7 @@ class Board(object):
 
 		#Final output
 		return all_paths
-	
+  
 	def move_block(self, block, start, end = -1, position = 'comp', prev_paths = [], is_truce = False):
 		'''
 		Changes a block's location on the board, assuming that all conditions are legal. 

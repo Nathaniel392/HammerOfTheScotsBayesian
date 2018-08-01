@@ -166,7 +166,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 	for block in block_list:
 
-		if block in board.english_roster or block in board.scot_roster:
+		if block in board.eng_roster or block in board.scot_roster:
 
 			if find_location(board,block.blockID).regionID == 22:
 

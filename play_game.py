@@ -84,7 +84,7 @@ def opp_card_choice(cards):
     while choice not in cards:
         while True:
             choice = input('Enter the card you want to play: ')
-            if choice.lower() == 'quit':
+            if choice.lower() == 'quit' or choice.lower() == 'q':
                 raise Exception('You told me to quit')
             choice = choice.upper()
             for i,card in enumerate(cards):
@@ -175,7 +175,7 @@ def play_game():
     #Create list of blocks
     block_list = initialize_blocks.initialize_blocks()
     
-    block_list[26].attack_number = 6
+    
     #Initialize board
     current_board = board.Board()
 
@@ -213,7 +213,7 @@ def play_game():
 
 
         while play_turn:
-
+            
             turn_counter += 1
 
             #Reference to cards visible to the computer

@@ -215,25 +215,20 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 def retreat_locations(board, attacking, defending, is_attacking):
 	'''
 	This function is passed a board object, list of attackers, list of defenders and a boolean that is true
-	if the computer is attacking and false if the computer is defending.
+	if the computer is attacking and false if the computer is defending. ####NOPE NOT ANYMORE
 	It returns a list of all the locations where a block can retreat to
 	'''
 
-
-	if is_attacking:
+	if len(attacking) != 0:
+		is_attacking = True
 		current_location = find_location(board, attacking[0])
-		norse_found = False
-		for block in attacking:
-			if block.name == 'NORSE':
-				norse_found = True
-				break
 	else:
+		is_attacking = False
 		current_location = find_location(board, defending[0])
-		norse_found = False
-		for block in defending:
-			if block.name == 'NORSE':
-				norse_found = True
-				break
+		attacking = defending
+
+	
+	
 	possible_locations = []
 	region_allegiance = None
 	#Create list of possible locations to retreat to
@@ -252,20 +247,17 @@ def retreat_locations(board, attacking, defending, is_attacking):
 			
 
 			if i == 0:
-				region_allegiance = board.regions[x].blocks_present[i]
-			elif region_allegiance != board.regions[x].blocks_present[i]:
+				region_allegiance = board.regions[x].blocks_present[i].allegiance
+			elif region_allegiance != board.regions[x].blocks_present[i].allegiance:
 				region_allegiance = 'fight is going on'
 				break
 
-
-			
 
 			if is_attacking == False and defending[0].allegiance == region_allegiance and border != 0 and \
 			(not board.attacked_borders[x][current_location.regionID]) and (defending[0].name != 'NORSE' or board.regions[x].coast)\
 			and (defending[0].allegiance == 'ENGLAND' or x != 22) and (defending[0].allegiance == 'SCOTLAND' or x == 22 or current_location.regionID):
 				possible_locations.append(board.regions[x])
 			elif is_attacking == True and attacking[0].allegiance == region_allegiance and border != 0 and \
-			(not board.attacked_borders[x][current_location.regionID]) and\
 			(attacking[0].name != 'NORSE' or board.regions[x].coast) and (attacking[0].allegiance == 'ENGLAND' or x != 22) \
 			and (attacking[0].allegiance == 'SCOTLAND' or x == 22 or current_location.regionID != 22):
 				possible_locations.append(board.regions[x])
@@ -290,8 +282,13 @@ def regroup_locations(board, attacking, defending, is_attacking):
 
 
 
-
-	current_location = find_location(board, attacking[0])
+	if len(attacking) != 0:
+		current_location = find_location(board, attacking[0])
+		is_attacking = True
+	else:
+		is_attacking = False
+		current_location = find_location(board, defending[0])
+		attacking = defending
 	possible_locations = []
 	#Create list of possible locations to retreat to
 	region_allegiance = None
@@ -336,7 +333,7 @@ def regroup_locations(board, attacking, defending, is_attacking):
 	return possible_locations
 
 def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
-	combat_letter = 'A', combat_round = 0, turn = 'defender', retreat_constant = 0.3):
+	combat_letter = 'A', combat_round = 0, turn = 'defender', retreat_constant = 0):
 	'''
 	This function takes in all the group that are involved in a battle and a boolean about whether the computer is attacking or not. 
 	The should_retreat function will return either False, meaning the computer should not retreat, or a location in which the computer should
@@ -360,8 +357,16 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	
 	#Insert code to check to see if it should retreat
 
-	possible_locations = retreat_locations(board, attacking, defending, is_attacking)
-	if win_percentage > retreat_constant or len(possible_locations) < 1:
+	possible_locations = []
+
+	if is_attacking:
+		for block in attacking:
+			possible_locations.append(retreat_locations(board, attacking, [], is_attacking))
+	else:
+		for block in defending:
+			possible_locations.append(retreat_locations(board, [], defending, is_attacking))
+
+	if win_percentage >= retreat_constant or len(possible_locations) < 1:
 		return False
 	else:
 		
@@ -409,7 +414,7 @@ def regroup(winner_blocks, current_board, computer_role):
 				continue
 			else:
 				place_to_go_to = possible_locations[place_to_go_to].regionID
-				current_board.add_to_location(attacking_block, place_to_go_to)
+				current_board.add_to_location(block, place_to_go_to)
 
 				current_board.dynamic_borders[original_location.regionID][place_to_go_to] -= 1
 
@@ -440,6 +445,7 @@ def regroup(winner_blocks, current_board, computer_role):
 						break
 				if place_to_go_to == -1:
 					bad_input = False
+					break
 				if not bad_input:
 					if place_to_go_to != -1:
 						current_board.add_to_location(block, place_to_go_to)
@@ -471,6 +477,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	'''
 
 	
+
 	# Divide each side into letter groups (dictionary)
 	letter_found = False
 	number_found = False
@@ -501,6 +508,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 		current_board.reset_borders()
 
+
+		attack += attack_reinforcements
+		defense += defense_reinforcements
+
+		attack_reinforcements = list()
+		defense_reinforcements = list()
 
 		for letter in 'ABC':
 		
@@ -548,7 +561,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 										print('type in a number please')
 										continue
 
-									possible_locations = retreat_locations(current_board, attack,[attacking_block], False)
+									possible_locations = retreat_locations(current_board, [],[attacking_block], False)
 									
 									for location in possible_locations:
 										if location.regionID == regionID_to_retreat_to:
@@ -653,7 +666,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								valid_location = False
 
 								while not valid_location:
-									possible_locations = retreat_locations(current_board, [attacking_block], defense, True)
+									possible_locations = retreat_locations(current_board, [attacking_block], [], True)
 									try:
 										print('possible locations:', end = ' ')
 										for region in possible_locations:

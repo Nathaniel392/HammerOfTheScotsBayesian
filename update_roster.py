@@ -14,8 +14,7 @@ def update_roster(all_blocks_lst = None, current_board = None):
 	updates dead pool too
 	receives attacking and defending blocks as lists
 	"""
-	if all_blocks_lst == None:
-		all_blocks_lst = current_board.scot_pool + current_board.scot_roster + current_board.eng_pool + current_board.eng_roster
+	all_blocks_lst = current_board.scot_roster + current_board.eng_roster
 	for block in all_blocks_lst:
 		if type(block) == blocks.Noble:
 

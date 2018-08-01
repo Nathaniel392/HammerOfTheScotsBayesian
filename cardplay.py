@@ -544,7 +544,7 @@ def sea_execution(board, position, role):
         
     Prints executed action
     """
-        
+    quitt = False
     if position == 'comp':
             #temporary for dumb AI
             #create and print a list of coastal, friendly regions where norse is not the ONLY one
@@ -589,7 +589,7 @@ def sea_execution(board, position, role):
             move_block_list = []
             blocks_moved = 0
             while blocks_moved < 2:
-                block = original_region.blocks_present[random.randint(0, len(original_region.blocks_present))]
+                block = original_region.blocks_present[random.randint(0, len(original_region.blocks_present)-1)]
                 #if it's not already on the list,append to move_block_list
                 if block not in move_block_list:
                     move_block_list.append(block)
@@ -603,7 +603,7 @@ def sea_execution(board, position, role):
                 
             for block in move_block_list:
         
-                board.add_to_location(board, block, new_region)
+                board.add_to_location(block, new_region)
                 print(block.name + ' moved from ' + original_region.name + ' to ' + new_region.name)
         
         else:
@@ -701,6 +701,7 @@ def sea_execution(board, position, role):
                                 
                             else:
                                 print('Invalid block.')
+                                continue
                         else:
                             valid_block = True
                             quitt = True
@@ -726,6 +727,7 @@ def sea_execution(board, position, role):
                                         valid_region = True
                                     else:
                                         print('Invalid region.')
+                                        continue
                                 else:
                                     valid_region = True
                                     quitt = True
@@ -734,7 +736,7 @@ def sea_execution(board, position, role):
                                         
                                 for block in move_block_list:
                             
-                                    board.add_to_location(board, block, new_region)
+                                    board.add_to_location(block, new_region)
                                     print(block.name + ' moved from ' + original_region.name + ' to ' + new_region.name)
                     
         else:
@@ -751,11 +753,11 @@ def her_execution(board, position, role):
     #List of available nobles to steal
     enemy_nobles = []
     if role == 'SCOTLAND':
-        rolle = 'ENGLAND'
+        enemy_role = 'ENGLAND'
     else:
-        rolle = 'SCOTLAND'
+        enemy_role = 'SCOTLAND'
 
-    for enemy_region in board.get_controlled_regions(rolle):
+    for enemy_region in board.get_controlled_regions(enemy_role):
         for block in enemy_region.blocks_present:
 
             if type(block) == blocks.Noble and block.name != 'MORAY' and block.allegiance != role:
@@ -813,8 +815,18 @@ def her_execution(board, position, role):
             if noble_to_steal in region.blocks_present:
                 noble_region = region
 
+        if len(noble_region.blocks_present) > 1:
+            for block in noble_region.blocks_present:
+                if block == noble_to_steal:
+                    noble_region.combat_dict['Attacking'].append(block)
+                else:
+                    noble_region.combat_dict['Defending'].append(block)
+
+            combat.battle(noble_region.combat_dict['Attacking'], noble_region.combat_dict['Defending'], list(), list(), board, role)
+
         #Move the noble to its own region - will sort it into attacker/defender
-        board.move_block(noble_to_steal, noble_region.regionID, noble_region.regionID, position)
+        #board.move_block(noble_to_steal, noble_region.regionID, noble_region.regionID, position)
+
         print('Success')
     else:
         print('Failure')
@@ -849,7 +861,7 @@ def vic_execution(board, position, role):
             selected_region_name = input('Which region do you want to heal?: ').strip().upper()
 
             if search.region_name_to_object(board, selected_region_name):
-                selected_region = search.region_name_to_object(friendly_list, selected_region_name)
+                selected_region = search.region_name_to_object(board, selected_region_name)
                 valid_input = True
 
 
@@ -857,8 +869,15 @@ def vic_execution(board, position, role):
                 print('Invalid input. Please try again.')
 
         health_points = 3
+
+        possible_blocks = list()
+
+        for block in selected_region.blocks_present:
+            if block.allegiance == role:
+                possible_blocks.append(block)
         print('Possible blocks: ')
-        for i, block in enumerate(selected_region.blocks_present):
+
+        for i, block in enumerate(possible_blocks):
 
             print(block.name, '[', i, ']', end = '\t')
         while health_points > 0:
@@ -867,7 +886,7 @@ def vic_execution(board, position, role):
                 try:
                     print('You have ', health_points, ' health points remaining')
                     ID_to_heal = int(input('Which block index would you like to heal: '))
-                    if ID_to_heal not in range(len(selected_region.blocks_present)):
+                    if ID_to_heal not in range(len(possible_blocks)):
                         print('Type in a valid block index')
                         continue
                     healing_points = int(input('How many health points would you like to heal it: '))
@@ -877,14 +896,20 @@ def vic_execution(board, position, role):
                 except ValueError:
                     print('type in a number')
                     continue
-                health_points -= selected_region.blocks_present[ID_to_heal].heal_until_full(healing_points)
+                block_to_heal = possible_blocks[ID_to_heal]
+                health_points -= block_to_heal.heal_until_full(healing_points)
                 
-                print(search.block_id_to_name(selected_region.blocks_present, ID_to_heal), ' got healed')
+                print(block_to_heal.name, ' got healed')
+                bad_input = False
 
 
 
     #Computer
     elif position == 'comp':
+
+        possible_blocks = list()
+
+        
         ###
         ###
         ### RANDOM DECISION - TEMPORARY
@@ -894,12 +919,15 @@ def vic_execution(board, position, role):
         rand_selection = random.randint(0, num_regions - 1)
         selected_region = friendly_list[rand_selection]
 
-        for i in range(3):
-            rand_block_selection = random.randint(0, len(selected_region.blocks_present) - 1)
-            selected_region.blocks_present[rand_block_selection].heal_until_full()
-            print(selected_region.blocks_present[rand_block_selection].name, ' healed one point')
+        for block in selected_region.blocks_present:
+            if block.allegiance == role:
+                possible_blocks.append(block)
 
-     
+        for i in range(3):
+            rand_block_selection = random.randint(0, len(possible_blocks) - 1)
+            possible_blocks[rand_block_selection].heal_until_full()
+            print(possible_blocks[rand_block_selection].name, ' healed one point')
+
 def pil_execution(board, position, role):
     
     if position == 'comp':
@@ -933,7 +961,7 @@ def pil_execution(board, position, role):
             for x in range (0,2):
                 highest_block_lst = combat.find_max_strength(chosen_subtract_region.blocks_present)
             
-                if len(highest_block_lst != 0):
+                if highest_block_lst:
                     block = highest_block_lst[0]
                     #strike once
                     block.get_hurt(1)
@@ -970,8 +998,7 @@ def pil_execution(board, position, role):
             
             #list for possible blocks to heal in chosen_add_region
             for block in chosen_add_region.blocks_present:
-                if block.current_strength != block.attack_strength:
-                    possible_add_block_list.append(block)
+                possible_add_block_list.append(block)
             
             while health_points > 0:
 
@@ -979,7 +1006,7 @@ def pil_execution(board, position, role):
                 healing_points = random.randint(0, block.attack_strength - block.current_strength)
                 block.heal_no_return(healing_points)
                 health_points -= healing_points
-                print(block.name + ' was healed ' + healing_points + ' points.')
+                print(block.name + ' was healed ' + str(healing_points) + ' points.')
    
         else:
             print('There are no possible regions in which to play this card.')
@@ -987,6 +1014,7 @@ def pil_execution(board, position, role):
             
         
     elif position == 'opp':
+        quitt = False
         #loop through regions to make sure there is a region that it works in
         for region_controlled in board.get_controlled_regions(role):
             new_list = []
@@ -1014,7 +1042,7 @@ def pil_execution(board, position, role):
             valid_region = False
             
             while not valid_region:
-                chosen_subtract_region_name = input('Which of your opponent\'s regions would you like to remove points from? Enter a name or \'none\'\n>.').upper()
+                chosen_subtract_region_name = input('Which of your opponent\'s regions would you like to remove points from? Enter a name or \'none\'\n>').upper()
                 
                 if chosen_subtract_region_name.lower() == 'none':
                     quitt = True
@@ -1027,7 +1055,7 @@ def pil_execution(board, position, role):
                         
                     else:
                         print('Invalid region.')
-            
+                        continue
             
                     # pillage combat-style
                     points_pillaged = 0
@@ -1035,7 +1063,7 @@ def pil_execution(board, position, role):
                     for x in range (0,2):
                         highest_block_lst = combat.find_max_strength(chosen_subtract_region.blocks_present)
                     
-                        if len(highest_block_lst != 0):
+                        if highest_block_lst:
                             block = highest_block_lst[0]
                             #strike once
                             block.get_hurt(1)
@@ -1070,7 +1098,7 @@ def pil_execution(board, position, role):
                     valid_region = False
                     
                     while not valid_region:
-                        chosen_add_region_name = input('Which of your regions would you like to add pillaged points to? Enter a name or \'none\'\n>.').upper()
+                        chosen_add_region_name = input('Which of your regions would you like to add pillaged points to? Enter a name or \'none\'\n>').upper()
                         
                         if chosen_add_region_name.lower() == 'none':
                             quitt = True
@@ -1083,6 +1111,7 @@ def pil_execution(board, position, role):
                                 
                             else:
                                 print('Invalid region.')
+                                continue
             
             
                 
@@ -1095,8 +1124,7 @@ def pil_execution(board, position, role):
                                 
                                 #list for possible blocks to heal in chosen_add_region
                                 for block in chosen_add_region.blocks_present:
-                                    if block.current_strength != block.attack_strength:
-                                        possible_add_block_list.append(block)
+                                    possible_add_block_list.append(block)
                                         
                                 print('Possible blocks to heal: ')
                                 for block in possible_add_block_list:
@@ -1108,7 +1136,7 @@ def pil_execution(board, position, role):
                                 while not valid_input:
                                     
                                     print('You have ', health_points, ' health points.')
-                                    block_name = input('Which block would you like to heal? Enter a name or \'none\'\n>.').upper()
+                                    block_name = input('Which block would you like to heal? Enter a name or \'none\'\n>').upper()
                                     
                                     if block_name.lower() == 'none':
                                         quitt = True
@@ -1120,28 +1148,32 @@ def pil_execution(board, position, role):
                                             valid_input = True
                                         else:
                                             print('Invalid block.')
+                                            continue
                                             
-                                        valid_input = False
-                                        while not valid_input:
+
+                                        valid_in = False
+                                        while not valid_in:
                 
-                                            healing_points = input('How many points would you like to heal it? Enter an integer or \'none\'\n>.')
+                                            healing_points = input('How many points would you like to heal it? Enter an integer or \'none\'\n>')
                                             if healing_points.lower() == 'none':
                                                 quitt = True
                                                 
                                             if not quitt:
                                                 if healing_points.isdigit():
+                                                    healing_points = int(healing_points)
                                                     if healing_points <= 0 or healing_points > health_points:
                                                         print('You do not have that many healing points.')
                                                     else:
-                                                        block.heal_no_return(healing_points)
+                                                        block.heal_until_full(healing_points)
                                                         health_points -= healing_points
-                                                        print(block.name + ' was healed ' + healing_points + ' points.')
+                                                        print(block.name + ' was healed ' + str(healing_points) + ' points.')
+                                                        valid_in = True
                                                 else:
                                                     print('Invalid input.')
+
        
         else:
             print('There are no possible regions in which to play this card.')
-    
 
 def resolve_card(board, which_side, card, role,truce=False):
     
