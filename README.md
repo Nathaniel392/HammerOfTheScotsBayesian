@@ -32,3 +32,9 @@ fix pillage output for healing
 
 seems like there's one less movement than card played ??
 
+change computer passing probability to something much lower
+
+sea move allowed it to move to a neutral region
+
+random_region might be wrong
+
