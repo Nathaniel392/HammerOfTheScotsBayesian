@@ -1027,8 +1027,13 @@ def pil_execution(board, position, role):
                 valid_input = False
                 while not valid_input:
                     print('You have ', health_points, ' health points.')
-                    block_name = int(input('Which block would you like to heal?\n>')).upper()
+                    block_name = input('Which block would you like to heal?\n>').upper()
                     block = search.block_name_to_object(chosen_add_region.blocks_present, block_name)
+                    if block:
+                        valid_input = True
+                    else:
+                        print('Invalid block.')
+
                 valid_block_name = False
                 while not valid_block_name:
                     
