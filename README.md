@@ -9,4 +9,4 @@ account for difference in english border
 make sure it outputs 'computer passes' each time it passes
 Ross is invalid
 scottish king coronation
-grant was not put in reserves, instead was treated as a normal attacker
+grant was outputted as normal attacker - something wrong in general, was not treated as reserve but also not treated as normal attacker (just not showing up)
