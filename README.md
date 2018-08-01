@@ -8,3 +8,7 @@ Before you make changes, check which branch you are on (right above the list of 
 CURRENTLY EDWARD CAN WINTER 2 YEARS IN A ROW
 NORSE MOVEMENT DOES NOT WORK
 ENGLAND MOVEMENT TO AND FROM WON'T WORK
+
+account for difference in english border
+make sure it outputs 'computer passes' each time it passes
+Ross is invalid
