@@ -15,13 +15,15 @@ def find_location(board, blok):
 	and returns a region object where the block is
 	'''
 
-	print('\n\n\n\n\n\n', blok.name)
+	
 	for region in board.regions:
 		for bllock in region.blocks_present:
 			
 			if bllock.name == blok.name:
 				return region
-		
+	
+
+	print('CANNOT FIND BLOCK WITH BLOCK NAME', block.name)
 	raise Exception('cannot find block')
 
 def organize(blocks):
@@ -344,10 +346,12 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	simulation_dict = simulations.simulation(attacking_copy, defending_copy, 1000, attacking_rein_copy, defending_rein_copy, combat_letter, combat_round, turn)
 	win_percentage = 0
 	#Calculate the win percentage based on if you are attacking or defending in the simulation
+
+	
 	if is_attacking:
-		win_percentage = float(simulation_dict['attacker wins'])/1000
+		win_percentage = simulation_dict['attacker wins']
 	else:
-		win_percentage = float(simulation_dict['defender wins'])/1000 + float(simulation_dict['attacker retreats'])/1000
+		win_percentage = simulation_dict['defender wins'] + simulation_dict['attacker retreats']
 	
 	#Insert code to check to see if it should retreat
 
