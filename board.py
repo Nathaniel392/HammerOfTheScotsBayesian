@@ -627,7 +627,7 @@ class Board(object):
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 						#Set the border between the last and second to last region in the path to attacked
-						self.attacked_borders[computer_path[-2]][end] = True
+						self.attacked_borders[user_path[-2]][end] = True
 
 					#Friendly or neutral
 					else:
