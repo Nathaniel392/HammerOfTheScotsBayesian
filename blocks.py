@@ -127,7 +127,7 @@ class Noble(Block):
         super(Noble, self).__init__(name, movement_points, attack_letter, attack_number, max_attack_strength, \
                  has_cross, blockID, allegiance)
 
-        #self.home_location = home_location
+        self.home_location = home_location
         self.loyalty = loyalty
        
     #def go_home(self):
