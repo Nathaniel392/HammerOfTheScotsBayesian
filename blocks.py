@@ -58,19 +58,13 @@ class Block(object):
             return True
           
          
-    def heal(self, health_points):
+    def heal_no_return(self, health_points):
         """
-        heals block as much as possible with health_points sent
-        returns number of health_points left
+        heals block # health_points
         """
-        while health_points > 0:
-        
-            if self.current_strength + 1 > self.attack_strength:
-                return health_points
-            else:
-                self.current_strength = self.attack_strength + 1
-                health_points -=1
-        return health_points
+        self.current_strength += health_points
+        if self.current_strength > self.attack_strength:
+            self.current_strength = self.attack_strength
     
     def heal_until_full(self, health_points = 1):
         """
