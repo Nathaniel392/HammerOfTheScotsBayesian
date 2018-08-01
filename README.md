@@ -30,3 +30,5 @@ fix pillage output for healing
     or, just fix output to do the actual # it was healed
 
 
+seems like there's one less movement than card played ??
+
