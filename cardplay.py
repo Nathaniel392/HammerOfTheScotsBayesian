@@ -899,8 +899,9 @@ def vic_execution(board, position, role):
             selected_region.blocks_present[rand_block_selection].heal_until_full()
             print(selected_region.blocks_present[rand_block_selection].name, ' healed one point')
 
+     
 def pil_execution(board, position, role):
-    possible = False
+    
     if position == 'comp':
         
         #loop through regions to make sure there is a region that it works in
@@ -917,88 +918,71 @@ def pil_execution(board, position, role):
             possible_pill_lst = []
             for region in board.get_controlled_regions(role):
                 new_list = []
-                new_list.append(region_controlled.regionID)
+                new_list.append(region.regionID)
                 for neighbor_region in board.find_all_borders(new_list):
                     if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
                         possible_pill_lst.append(neighbor_region)
             
-            valid_region = False
-            while not valid_region:
-
-                if role == 'SCOTLAND':
-                    random_region = pick_random_region(board, 'ENGLAND')
-                elif role == 'ENGLAND':
-                    random_region = pick_random_region(board, 'SCOTLAND')
-                
-
-                if random_region in possible_pill_lst:
-                    valid_region = True
-                    chosen_subtract_region = random_region
+            
+            chosen_subtract_region = possible_pill_lst[random.randint(0, len(possible_pill_lst) - 1)]
             
             
             # pillage combat-style
+            points_pillaged = 0
+            
             for x in range (0,2):
-                highest_strength_block = blocks.Block(intial_attack_strength = 0)
-                #loop through and find the max strength block in the region
-                #repeat twice for 2 hits total
-                for block in chosen_subtract_region.blocks_present:
-                    if block.current_strength > highest_strength_block.current_strength:
-                        highest_strength_block = block
-                        #strike once
-                highest_strength_block.get_hurt(1)
-                
-                print(highest_strength_block.name + ' took one hit.')
-                
-                if block.is_dead():
-                    if role == 'SCOTLAND':
-                        board.eng_pool.append(block)
-                        board.eng_roster.remove(block)
-                    elif role == 'SCOTLAND':
-                        board.scot_pool.append(block)
-                        board.scot_roster.remove(block)
-                
-                
-            taken_points = 2 #temp until I add in code to do less than 2 hits
+                highest_block_lst = combat.find_max_strength(chosen_subtract_region.blocks_present)
             
-            
-            
-            while not valid_region:
-                #adding points to your own
-                rand_region = pick_random_region(board, role)  
-                new_list = []
-                new_list.append(chosen_subtract_region.regionID)
-                if rand_region in board.find_all_borders(new_list):
-                    neighbour = True
-                if rand_region.is_friendly(role):
-                    friendly = True
-                if neighbour and friendly:
-                    valid_region = True
-            chosen_add_region = rand_region
-                
-            
-            # CHANGE SO THAT HEALTH_PTS IS BASED ON HOW MANY ARE TAKEN FROM THE OPP REGION
-            health_points = taken_points
-            while health_points > 0:
-                valid_input = False
-                while not valid_input:
-                    print('You have ', health_points, ' health points.')
-                    #just a line for a random block in the chosen region
-                    rand_block = chosen_add_region.blocks_present[0]
+                if len(highest_block_lst != 0):
+                    block = highest_block_lst[0]
+                    #strike once
+                    block.get_hurt(1)
+                    print(block.name + ' took one hit.')
+                    points_pillaged+=1
                     
-                valid_block = False
-                while not valid_block:
-                    
-                    #if the block is in the chosen region
-                    if rand_block in chosen_add_region.blocks_present:
-                        healing_points = random.randint(1,2)
-                        if healing_points <= 0 or healing_points > health_points:
-                            pass
-                        else:
-                            health_points -= healing_points
-                            print(rand_block.name + ' was healed ' + healing_points + ' points.')
+                    if block.is_dead():
+                        if role == 'SCOTLAND':
+                            board.eng_pool.append(block)
+                            board.eng_roster.remove(block)
+                        elif role == 'ENGLAND':
+                            board.scot_pool.append(block)
+                            board.scot_roster.remove(block)
+                        
+            
+            
+            
+            #make a list of possible owned regions to gain points
+            possible_add_lst = []
+            new_list = []
+            new_list.append(chosen_subtract_region.regionID)
+            
+            for neighbor_region in board.find_all_borders(new_list):
+                if neighbor_region.is_friendly(role):
+                    possible_add_lst.append(neighbor_region)
+    
+            #choose randomly from the list
+            chosen_add_region = possible_add_lst[random.randint(0, len(possible_add_lst) - 1)]
+
+
+            health_points = points_pillaged
         
+            possible_add_block_list = []
+            
+            #list for possible blocks to heal in chosen_add_region
+            for block in chosen_add_region.blocks_present:
+                if block.current_strength != block.attack_strength:
+                    possible_add_block_list.append(block)
+            
+            while health_points > 0:
+
+                block = possible_add_block_list[random.randint(0, len(possible_add_block_list) - 1)]
+                healing_points = random.randint(0, block.attack_strength - block.current_strength)
+                block.heal_no_return(healing_points)
+                health_points -= healing_points
+                print(block.name + ' was healed ' + healing_points + ' points.')
+   
         else:
-            print('There are no regions in which to play this card.')
+            print('There are no possible regions in which to play this card.')
             
             
         
@@ -1022,94 +1006,142 @@ def pil_execution(board, position, role):
                     if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
                         possible_pill_lst.append(neighbor_region)
             
+            print('Possible pillaging regions: ')
+            for region in possible_pill_lst:
+                print(region.name)
+            
+            
             valid_region = False
-            while not valid_region:
-                chosen_region_name = input('Which of your opponent\'s regions would you like to remove points from?').upper()
-                #region = board.regions(board.regionID_dict[chosen_region_name.upper()])
-                chosen_region = search.region_name_to_object(board, chosen_region_name)
-                    
-                if chosen_region in possible_pill_lst:
-                    valid_region = True
-                    chosen_subtract_region = chosen_region
-                    
-                else:
-                    print('Invalid region.')
-            
-            
-            # pillage combat-style
-            for x in range (0,2):
-                highest_strength_block = blocks.Block(initial_attack_strength = 0)
-                #loop through and find the max strength block in the region
-                #repeat twice for 2 hits total
-                for block in chosen_subtract_region.blocks_present:
-                    if block.current_strength > highest_strength_block.current_strength:
-                        highest_strength_block = block
-                        #strike once
-                highest_strength_block.get_hurt(1)
-                print(highest_strength_block.name + ' took one hit.')
-                
-                if block.is_dead():
-                    if role == 'SCOTLAND':
-                        board.eng_pool.append(block)
-                        board.eng_roster.remove(block)
-                    elif role == 'SCOTLAND':
-                        board.scot_pool.append(block)
-                        board.scot_roster.remove(block)
-                
-            taken_points = 2 #temp until I add in code to do less than 2 hits
             
             while not valid_region:
-                #adding points to your own
-                chosen_add_region_name = input('Which of your neighbouring regions would you like to add points to? If none, enter \'none\'').upper()    
-
-                if chosen_add_region_name.lower() != 'none':
-                    
-                    chosen_add_region = search.region_name_to_object(board, chosen_add_region_name)
-                    
-                    #nested so that no error if chosen_add_region is False
-                    new_list = []
-                    new_list.append(chosen_subtract_region.regionID)
-                    if chosen_add_region in board.find_all_borders(new_list):
-                        neighbour = True
-                        if chosen_add_region.is_friendly(role):
-                            friendly = True
+                chosen_subtract_region_name = input('Which of your opponent\'s regions would you like to remove points from? Enter a name or \'none\'\n>.').upper()
+                
+                if chosen_subtract_region_name.lower() == 'none':
+                    quitt = True
+                
+                if not quitt:
+                    chosen_subtract_region = search.region_name_to_object(board, chosen_subtract_region_name)
                         
-                    if neighbour and friendly:
+                    if chosen_subtract_region in possible_pill_lst:
                         valid_region = True
                         
                     else:
                         print('Invalid region.')
+            
+            
+                    # pillage combat-style
+                    points_pillaged = 0
+                    
+                    for x in range (0,2):
+                        highest_block_lst = combat.find_max_strength(chosen_subtract_region.blocks_present)
+                    
+                        if len(highest_block_lst != 0):
+                            block = highest_block_lst[0]
+                            #strike once
+                            block.get_hurt(1)
+                            print(block.name + ' took one hit.')
+                            points_pillaged+=1
+                            
+                            if block.is_dead():
+                                if role == 'SCOTLAND':
+                                    board.eng_pool.append(block)
+                                    board.eng_roster.remove(block)
+                                elif role == 'ENGLAND':
+                                    board.scot_pool.append(block)
+                                    board.scot_roster.remove(block)
+                        
+            
+            
+            
+                    #make a list of possible owned regions to gain points
+                    possible_add_lst = []
+                    new_list = []
+                    new_list.append(chosen_subtract_region.regionID)
+                    
+                    for neighbor_region in board.find_all_borders(new_list):
+                        if neighbor_region.is_friendly(role):
+                            possible_add_lst.append(neighbor_region)
+                    
+                    print('Possible regions to add pillaged points to: ')
+                    for region in possible_add_lst:
+                        print(region.name)
+            
+            
+                    valid_region = False
+                    
+                    while not valid_region:
+                        chosen_add_region_name = input('Which of your regions would you like to add pillaged points to? Enter a name or \'none\'\n>.').upper()
+                        
+                        if chosen_add_region_name.lower() == 'none':
+                            quitt = True
+                        
+                        if not quitt:
+                            chosen_add_region = search.region_name_to_object(board, chosen_add_region_name)
+                                
+                            if chosen_add_region in possible_add_lst:
+                                valid_region = True
+                                
+                            else:
+                                print('Invalid region.')
+            
+            
                 
             
-            health_points = taken_points
-            while health_points > 0:
-                valid_input = False
-                while not valid_input:
-                    print('You have ', health_points, ' health points.')
-                    block_name = input('Which block would you like to heal?\n>').upper()
-                    block = search.block_name_to_object(chosen_add_region.blocks_present, block_name)
-                    if block:
-                        valid_input = True
-                    else:
-                        print('Invalid block.')
-
-                valid_block_name = False
-                while not valid_block_name:
-                    
-                    #if the block is in the chosen region
-                    if block in chosen_add_region_name.blocks_present:
-                        healing_points = input('How many points would you like to heal it?\n>')
+                            health_points = points_pillaged
                         
-                        if healing_points.isdigit():
-                            if healing_points <= 0 or healing_points > health_points:
-                                print('You do not have that many healing points left.')
-                            else:
-                                health_points -= healing_points
-                                print(board.get_block(block_name, combat.find_location(board, block)).name + ' was healed ' + healing_points + ' points.')
-                        else:
-                            print('Invalid healing points.')
+                            possible_add_block_list = []
+                            
+                            while health_points > 0:
+                                
+                                #list for possible blocks to heal in chosen_add_region
+                                for block in chosen_add_region.blocks_present:
+                                    if block.current_strength != block.attack_strength:
+                                        possible_add_block_list.append(block)
+                                        
+                                print('Possible blocks to heal: ')
+                                for block in possible_add_block_list:
+                                    print(block.name)
+                                print()
+                                
+                                valid_input = False
+                                
+                                while not valid_input:
+                                    
+                                    print('You have ', health_points, ' health points.')
+                                    block_name = input('Which block would you like to heal? Enter a name or \'none\'\n>.').upper()
+                                    
+                                    if block_name.lower() == 'none':
+                                        quitt = True
+                                    #if player doesnt enter 'none'
+                                    if not quitt:
+                                        block = search.block_name_to_object(chosen_add_region.blocks_present, block_name)
+                                        
+                                        if block in possible_add_block_list:
+                                            valid_input = True
+                                        else:
+                                            print('Invalid block.')
+                                            
+                                        valid_input = False
+                                        while not valid_input:
+                
+                                            healing_points = input('How many points would you like to heal it? Enter an integer or \'none\'\n>.')
+                                            if healing_points.lower() == 'none':
+                                                quitt = True
+                                                
+                                            if not quitt:
+                                                if healing_points.isdigit():
+                                                    if healing_points <= 0 or healing_points > health_points:
+                                                        print('You do not have that many healing points.')
+                                                    else:
+                                                        block.heal_no_return(healing_points)
+                                                        health_points -= healing_points
+                                                        print(block.name + ' was healed ' + healing_points + ' points.')
+                                                else:
+                                                    print('Invalid input.')
+       
         else:
             print('There are no possible regions in which to play this card.')
+    
 
 def resolve_card(board, which_side, card, role,truce=False):
     
