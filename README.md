@@ -5,4 +5,6 @@ Before you make changes, check which branch you are on (right above the list of 
 
 
 
-CANNOT CROWN SCOTTISH KING
+CURRENTLY EDWARD CAN WINTER 2 YEARS IN A ROW
+NORSE MOVEMENT DOES NOT WORK
+ENGLAND MOVEMENT TO AND FROM WON'T WORK

@@ -476,10 +476,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	
 	'''
 
-	if len(attack) == 0:
-		raise Exception('starting battle with no attack')
-	elif len(defense) == 0:
-		raise Exception('starting battle with no defense')
+	
 
 	# Divide each side into letter groups (dictionary)
 	letter_found = False

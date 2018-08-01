@@ -1,5 +1,5 @@
 import random
-"""dice 
+"""dice class
 Dice.num_dice(num_dice) returns tuple of dice things
 """
 
