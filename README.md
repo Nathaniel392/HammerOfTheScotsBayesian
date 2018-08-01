@@ -11,7 +11,7 @@ make sure it outputs 'computer passes' each time it passes
 
 Ross is invalid
 
-scottish king coronation
+scottish king coronation*
 
 grant was outputted as normal attacker - something wrong in general, was not treated as reserve but also not treated as normal    attacker (just not showing up)
 ready for computer move? input
@@ -23,18 +23,18 @@ hobelars didn't move out with the rest of his friends from england
   check check_path because it tried to output None (returns None)
   
   
-everything outputting odd amount in pillaging options (because of method of adding to pssible list, make sure it's not already in there before adding it)
+everything outputting odd amount in pillaging options (because of method of adding to pssible list, make sure it's not already in there before adding it)*
 
-fix pillage output for healing
-  instead of sending the heal function the number of points it wants, start a loop that executes the # of times it wants the     healing points sent and outputs each time it's healed once
-    or, just fix output to do the actual # it was healed
+fix pillage output for healing*
+  instead of sending the heal function the number of points it wants, start a loop that executes the # of times it wants the     healing points sent and outputs each time it's healed once*
+    or, just fix output to do the actual # it was healed*
 
 
 seems like there's one less movement than card played ??
 
 change computer passing probability to something much lower
 
-sea move allowed it to move to a neutral region
+sea move allowed it to move to a neutral region*
 
 random_region might be wrong
 
