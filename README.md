@@ -10,3 +10,8 @@ make sure it outputs 'computer passes' each time it passes
 Ross is invalid
 scottish king coronation
 grant was outputted as normal attacker - something wrong in general, was not treated as reserve but also not treated as normal attacker (just not showing up)
+everything outputting odd amount in pillaging options (because of method of adding to pssible list, make sure it's not already in there before adding it)
+
+ready for computer move? input
+
+three_execution - check to see if it actually executes 3 times
