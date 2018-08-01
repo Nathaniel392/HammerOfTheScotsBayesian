@@ -668,8 +668,8 @@ class Board(object):
 
 				return False
 
-	#Successfully executed
-	return True
+		#Successfully executed
+		return True
 
 
 	def __repr__(self):
