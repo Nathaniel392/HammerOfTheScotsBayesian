@@ -14,6 +14,8 @@ def find_location(board, blok):
 	This function takes a board object and the name of a block
 	and returns a region object where the block is
 	'''
+
+	print('\n\n\n\n\n\n', blok.name)
 	for region in board.regions:
 		for bllock in region.blocks_present:
 			
@@ -457,7 +459,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 	for block in defense + defense_reinforcements:
-		if type(block.home_location == tuple) and type(block) == blocks.Noble and find_location(current_board, block).regionID in block.home_location:
+		if type(block.home_location) == tuple and type(block) == blocks.Noble and find_location(current_board, block).regionID in block.home_location:
 			block.b2_to_b3()
 		elif type(block) == blocks.Noble and find_location(current_board, block).regionID == block.home_location:
 			block.b2_to_b3()
