@@ -567,7 +567,7 @@ class Board(object):
 
 				#If it's a valid region, add it to the list
 
-				if user_input_region:
+				if user_input_region == 0 or user_input_region:
 
 					if user_input_region == start:
 
