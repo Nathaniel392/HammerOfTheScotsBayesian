@@ -73,6 +73,8 @@ def update_roster(all_blocks_lst = None, current_board = None):
 
 	current_board.reset_attacked_borders()
 	current_board.reset_borders()
+	for region in current_board.regions:
+		region.combat_dict = {'Attacking': [], 'Defending': [], 'Attacking Reinforcements': [], 'Defending Reinforcements': []}
 
 
 

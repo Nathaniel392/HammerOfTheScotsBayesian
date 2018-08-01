@@ -238,6 +238,8 @@ def play_game():
             
             #Get a list all the regions that are contested
             contested_regions = current_board.get_contested_regions()
+            print(contested_regions)
+
 
             #If the human goes first find out what region they want to battle in
             while len(contested_regions) > 0:

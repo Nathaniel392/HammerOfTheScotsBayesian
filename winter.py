@@ -1,6 +1,9 @@
 import math
 import random
 import search
+
+
+
 def go_home(board,noble,computer_role):
 
 	'''

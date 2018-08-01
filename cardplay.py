@@ -187,7 +187,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
             num_friends = len(focus_region.combat_dict['Defending'])
 
-            moveable_count = num_enemy - num_friends
+            moveable_count = num_friends - num_enemy
 
         #assigns moveable count for 
         else:

@@ -99,7 +99,7 @@ class Block(object):
 
       
     def is_dead(self):
-        return self.current_strength == 0
+        return self.current_strength <= 0
  
 
 class Noble(Block):

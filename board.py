@@ -199,8 +199,8 @@ class Board(object):
 		"""
 		for i, bllock in enumerate(self.regions[regionID].blocks_present):
 			if bllock == block:
-				self.regions[regionID].blocks_present.pop(i)
-				return True
+				return self.regions[regionID].blocks_present.pop(i)
+				
 		raise Exception('cannot find block to remove')
 
 	def fill_board(self, block_list, scenario):
@@ -464,7 +464,7 @@ class Board(object):
 			#Find every path from the start regionID to the end regionID and put them in a list
 			paths = self.check_path(block.movement_points,start,end, block, all_paths = list())
 
-			print(paths)
+			#print(paths)
 			#If valid paths exist, keep going
 			if paths:
 				print(paths)

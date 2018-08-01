@@ -479,6 +479,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	
 
 	# Divide each side into letter groups (dictionary)
+
 	letter_found = False
 	number_found = False
 	turn_found = False
@@ -547,10 +548,11 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							if option == 'r':
 								bad_input = False
 								valid_location = False
-
+								possible_locations = retreat_locations(current_board, [],[attacking_block], False)
 								while not valid_location:
 
 									try:
+
 										print('possible locations:', end = ' ')
 										for region in possible_locations:
 
@@ -560,8 +562,6 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									except ValueError:
 										print('type in a number please')
 										continue
-
-									possible_locations = retreat_locations(current_board, [],[attacking_block], False)
 									
 									for location in possible_locations:
 										if location.regionID == regionID_to_retreat_to:
