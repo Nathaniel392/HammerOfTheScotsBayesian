@@ -84,7 +84,7 @@ def opp_card_choice(cards):
     while choice not in cards:
         while True:
             choice = input('Enter the card you want to play: ')
-            if choice.lower == 'quit':
+            if choice.lower() == 'quit':
                 raise Exception('You told me to quit')
             choice = choice.upper()
             for i,card in enumerate(cards):
