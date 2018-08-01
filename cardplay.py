@@ -550,6 +550,7 @@ def sea_execution(board, position, role):
             #loops through list of blocks until it finds one it owns that's in a friendly region
             #continually chooses random friendly region until it finds coastal friendly region
         
+        possible_sea_origin_list = []
         #list of all blocks present in friendly areas
         friendly_blocks = []
         for region in board.get_controlled_regions(role):
@@ -571,23 +572,21 @@ def sea_execution(board, position, role):
                 not_norse = True
             
             if coastal and friendly and not_norse:
-                chosen_block = block
+                possible_sea_origin_list.append(block)
             
         
         region_found = False
         
         while not region_found:
             
-            regio = pick_random_region(board, role)
+            random_index = random.randint
+            regio = possible_sea_origin_list[random.randint(0, len(possible_sea_origin_list)-1)]
             not_same = False
             coastal = False
             friendly = False
             
             if combat.find_location(board, chosen_block) != board.regions[board.regionID_dict[region.name.upper()]]:
                 not_same = True
-                
-            if regio.coast:
-                coastal = True
                 
             if regio in board.get_controlled_regions(role):
                 friendly = True

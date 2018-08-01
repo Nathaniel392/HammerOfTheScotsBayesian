@@ -152,4 +152,13 @@ class Noble(Block):
                 self.allegiance = allegiance   
         if self.current_strength == 0:
                 self.current_strength = 1
+
+    def b2_to_b3(self, change = None):
+        if change == None:
+            if self.attack_number == 3:
+                self.attack_number = 2
+            else:
+                self.attack_number = 3
+        else:
+            self.attack_number = change
             

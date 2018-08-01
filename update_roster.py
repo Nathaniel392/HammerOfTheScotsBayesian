@@ -18,6 +18,10 @@ def update_roster(all_blocks_lst = None, current_board = None):
 		all_blocks_lst = current_board.scot_pool + current_board.scot_roster + current_board.eng_pool + current_board.eng_roster
 	for block in all_blocks_lst:
 		if type(block) == blocks.Noble:
+
+
+
+			block.b2_to_b3(2)
 			if block.allegiance == 'SCOTLAND':
 				#if block.allegiace is SCOTLAND and can't find it then put it from the english one and into the scotland one for nobles
 				block_found_bool = False
@@ -66,6 +70,8 @@ def update_roster(all_blocks_lst = None, current_board = None):
 					current_board.eng_roster.remove(block)
 				elif block.allegiance == 'SCOTLAND':
 					current_board.scot_roster.remove(block)
+
+
 	current_board.reset_attacked_borders()
 
 

@@ -238,7 +238,7 @@ def play_game():
 
                     battle_region = contested_regions[opp_battle_choice(contested_regions)]
 
-                    combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], battle_region.combat_dict['Defending Reinfrocements'],current_board, computer_role= computer_role)
+                    combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], battle_region.combat_dict['Defending Reinforcements'],current_board, computer_role= computer_role)
 
                     contested_regions.remove(battle_region)
                     
