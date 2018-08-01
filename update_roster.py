@@ -73,6 +73,7 @@ def update_roster(all_blocks_lst = None, current_board = None):
 
 
 	current_board.reset_attacked_borders()
+	current_board.reset_borders()
 
 
 

@@ -153,14 +153,16 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 				
 		
 		elif type(block) == blocks.Noble and block.is_dead():
+
+
 			block.change_allegiance()
-	
+			
 			defense_reinforcements.append(attackers_lst.pop(i))
 
 			print('\n', block.name, ' has changed sides and has been added to defense reinforcements')
 		elif type(block) != blocks.Noble and block.is_dead():
 
-			print('\n', block.name, ' has changed sides and goes to the pool')
+			print('\n', block.name, ' has died and goes to the pool')
 			if block.allegiance == 'ENGLAND':
 				eng_pool.append(attackers_lst.pop(i))
 			else:
@@ -196,7 +198,7 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 		
 		elif type(block) != blocks.Noble and block.is_dead():
 
-			print('\n', block.name, ' has changed sides and goes to the pool')
+			print('\n', block.name, ' has died and goes to the pool')
 			if block.allegiance == 'ENGLAND':
 				eng_pool.append(defenders_lst.pop(i))
 			else:
@@ -285,6 +287,9 @@ def regroup_locations(board, attacking, defending, is_attacking):
 	defending is an empty list
 	is_attacking is always false
 	'''
+
+
+
 
 	current_location = find_location(board, attacking[0])
 	possible_locations = []
@@ -496,7 +501,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 		current_board.reset_borders()
 
-		
+
 		for letter in 'ABC':
 		
 			

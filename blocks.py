@@ -138,20 +138,28 @@ class Noble(Block):
         No parameter: flips noble's alliegance
         Parameter ('SCOTLAND' or 'ENGLAND'): sets alliegance to that side
         """
+        
+        
         if self.has_cross:
             raise Exception('Moray can\'t change sides')
         else:
             if allegiance == None:
+                
                 if self.allegiance == 'SCOTLAND':
                     self.allegiance = 'ENGLAND'
                     
-                else:
-                    self.allegiance == 'SCOTLAND'
+                elif self.allegiance == 'ENGLAND':
+
+                    self.allegiance = 'SCOTLAND'
+
                     
             else:
+                raise Exception('bad')
                 self.allegiance = allegiance   
         if self.current_strength == 0:
                 self.current_strength = 1
+        
+
 
     def b2_to_b3(self, change = None):
         if change == None:

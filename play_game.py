@@ -175,6 +175,7 @@ def play_game():
     #Create list of blocks
     block_list = initialize_blocks.initialize_blocks()
     
+    block_list[26].attack_number = 6
     #Initialize board
     current_board = board.Board()
 
