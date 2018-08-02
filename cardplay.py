@@ -31,7 +31,7 @@ print(card)
 """
 
 import random
-
+import combat
 import dice
 import search
 import find_block
@@ -1178,6 +1178,28 @@ def pil_execution(board, position, role):
         else:
             print('There are no possible regions in which to play this card.')
 
+def play_pass(which_side):
+    
+    if which_side == 'opp':
+
+        valid_input = False
+        while not valid_input:
+            
+            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+            if play_pass.lower() == 'play':
+                return True
+            elif play_pass.lower() == 'pass':
+                return False
+            else:
+                print('Invalid input.')
+    #comp    
+    else:
+
+        #computer plays event card
+        return True
+        
+    #return true for play, false for pass
+
 def resolve_card(board, which_side, card, role,truce=False):
     
     """
@@ -1188,84 +1210,36 @@ def resolve_card(board, which_side, card, role,truce=False):
 
 
     if card == '1':
-        movement_execution(board, which_side, role, int(card), truce)
+        one_execution(board, which_side, role,truce)
     elif card == '2':
-        movement_execution(board, which_side, role, int(card), truce)
+        two_execution(board, which_side, role,truce)
     elif card == '3':
-        movement_execution(board, which_side, role, int(card), truce)
+        three_execution(board, which_side, role,truce)
             
     elif card == 'SEA':
-
-        if which_side == 'opp':
-
-            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-
-        else:
-
-            play_pass = 'play'
         
-        if play_pass.lower() == 'play':
+        if play_pass(which_side):
             sea_execution(board, which_side, role)
-        else:
-            pass
         
     elif card == 'HER':
-        if which_side == 'opp':
-
-            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-
-        else:
-
-            play_pass = 'play'
         
-        if play_pass.lower() == 'play':
+        if play_pass(which_side):
             her_execution(board, which_side, role)
-        else:
-            pass
         
     elif card == 'VIC':
-        if which_side == 'opp':
-
-            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-
-        else:
-
-            play_pass = 'play'
         
-        if play_pass.lower() == 'play':
+        if play_pass(which_side):
             vic_execution(board, which_side, role)
-        else:
-            pass
         
     elif card == 'PIL':
         
-        if which_side == 'opp':
-
-            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-
-        else:
-
-            play_pass = 'play'
-        
-        if play_pass.lower() == 'play':
+        if play_pass(which_side):
             pil_execution(board, which_side, role)
-        else:
-            pass
         
     elif card == 'TRU':
         
-        if which_side == 'opp':
-
-            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-
-        else:
-
-            play_pass = 'play'
-        
-        if play_pass.lower() == 'play':
+        if play_pass(which_side):
             return True
-        else:
-            pass
         
             
 def compare_cards(board, opp_card, comp_card, comp_role):
