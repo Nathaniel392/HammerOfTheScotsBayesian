@@ -1,5 +1,5 @@
 class Stupid(object):
-	def __init__Stupid(self):
+	def __init__(self):
 		self.hi = 'hi'
 
 def main():
