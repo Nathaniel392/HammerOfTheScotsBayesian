@@ -331,7 +331,11 @@ class Board(object):
 				path = [endID]
 				return path
 
-		#Not NORSE block
+		#French knight has no movement points
+		elif block.type == 'FRENCH':
+			return []
+
+		#Not NORSE or FRENCH block
 		else:
 
 			#path is a list of regions the algorithm has traversed to reach its current locaiton
@@ -342,7 +346,7 @@ class Board(object):
 			if startID == endID:
 				all_paths.append(copy.deepcopy(path))
 				path.pop()
-				return
+				return [endID]
 			#Can't go further - don't search for more borders
 			if stop:
 				path.pop()
@@ -400,7 +404,11 @@ class Board(object):
 
 			return all_paths
 
-		#Not NORSE block
+		#French knight has no movement points
+		elif block.type == 'FRENCH':
+			return []
+
+		#Not NORSE or FRENCH block
 		else:
 
 			#path is a list of regions the algorithm has traversed to reach its current locaiton
