@@ -135,7 +135,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
         focus_region = None
         prev_paths = []
 
-
+        passed = False
         #FIND A FOCUS REGION AND PATH
         if position == 'opp':
 
@@ -146,7 +146,12 @@ def movement_execution(board, position, role, num_moves, truce=False):
             while not valid_region_input:
 
                 #Take a region name input, then try to convert it into a region object
-                user_region_input = input('Which region would you like to focus your movement?\n>').strip().upper()
+                user_region_input = input('Which region would you like to focus your movement (or pass)?\n>').strip().upper()
+
+                if user_region_input.lower() == 'pass':
+                    passed = True
+                    break
+
                 focus_region = search.region_name_to_object(board, user_region_input)
 
                 #If it's actually a region - valid region name
@@ -183,6 +188,11 @@ def movement_execution(board, position, role, num_moves, truce=False):
                 if focus_region not in picked_regions:
                     unique_region = True
             print('Focus Region = ', focus_region.name)
+
+        if passed:
+            move_pt += 1
+            continue
+
         if focus_region.name != 'ENGLAND':
             
             picked_regions.append(focus_region)
