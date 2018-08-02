@@ -1210,11 +1210,11 @@ def resolve_card(board, which_side, card, role,truce=False):
 
 
     if card == '1':
-        one_execution(board, which_side, role,truce)
+        movement_execution(board, which_side, role, 1, truce)
     elif card == '2':
-        two_execution(board, which_side, role,truce)
+        movement_execution(board, which_side, role, 2, truce)
     elif card == '3':
-        three_execution(board, which_side, role,truce)
+        movement_execution(board, which_side, role, 3, truce)
             
     elif card == 'SEA':
         
