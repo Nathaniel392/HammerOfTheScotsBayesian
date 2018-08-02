@@ -148,10 +148,8 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 		elif block.has_cross and block.is_dead():
 
 			print('\n', block.name, ' has died and will never come back')
-			if current_board == None:
-				attackers_lst.pop(i)
-			else:
-				attackers_lst.pop(i)
+			
+			attackers_lst.pop(i)
 				
 		
 		elif type(block) == blocks.Noble and block.is_dead():
@@ -411,6 +409,15 @@ def regroup(winner_blocks, current_board, computer_role):
 
 			possible_locations = regroup_locations(current_board, [block], [], False)
 			place_to_go_to = random.randint(0, len(possible_locations))
+
+
+
+			place_to_go_to = len(possible_locations)
+
+
+
+
+
 			if place_to_go_to == len(possible_locations):
 				print(block.name, ' stays')
 				continue
@@ -478,6 +485,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	
 	'''
 
+	print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
 	
 
 	# Divide each side into letter groups (dictionary)
@@ -546,8 +554,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						attacking_block.current_strength = 0
 						print(attacking_block.name, 'has run away!')
 				
-				if combat_round == 0 and letter == 'A':
-					print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
+				
 
 
 				if not attacking_block.is_dead():
@@ -665,8 +672,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				if defense == list():
 					break
 
-				if combat_round == 0 and letter == 'A':
-					print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
+			
 
 				if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
 

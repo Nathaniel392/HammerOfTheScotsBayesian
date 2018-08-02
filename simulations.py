@@ -269,12 +269,7 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 		for i, element in enumerate(defense):
 			if type(element) == tuple:
 				defense[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
-		for i, element in enumerate(attack_reinforcements):
-			if type(element) == tuple:
-				attack_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
-		for i, element in enumerate(defense_reinforcements):
-			if type(element) == tuple:
-				defense_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+
 
 		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)] += 1
 	

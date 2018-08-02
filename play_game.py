@@ -182,6 +182,7 @@ def play_game():
     #Fill board with pieces
     current_board.fill_board(block_list, scenario)
 
+    
     #Initialize table with known probabilities
     location_prob_table = location_prob.init_probability_table(current_board, block_list)
 

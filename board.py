@@ -327,15 +327,11 @@ class Board(object):
 		#Norse block has different movement rules - can move from friendly coastal to friendly coastal, but not england
 		if block.type == 'NORSE':
 
-			if self.regions[endID].coast and endID != 22:
+			if self.regions[endID].coast and self.regions[endID].is_friendly(block.allegiance) and endID != 22:
 				path = [endID]
 				return path
 
-		#French knight has no movement points
-		elif block.type == 'FRENCH':
-			return []
-
-		#Not NORSE or FRENCH block
+		#Not NORSE block
 		else:
 
 			#path is a list of regions the algorithm has traversed to reach its current locaiton
@@ -346,7 +342,7 @@ class Board(object):
 			if startID == endID:
 				all_paths.append(copy.deepcopy(path))
 				path.pop()
-				return [endID]
+				return
 			#Can't go further - don't search for more borders
 			if stop:
 				path.pop()
@@ -397,7 +393,7 @@ class Board(object):
 		if block.type == 'NORSE':
 			
 			for region in self.regions:
-				if region.coast and region.regionID != 22:
+				if region.coast and region.is_friendly(block.allegiance) and region.regionID != 22:
 
 					path = [region.regionID]
 					all_paths.append(path)
@@ -449,7 +445,8 @@ class Board(object):
 				path.pop()
 
 		#Final output
-		return all_paths
+		return all_paths[1:]
+
   
 	def move_block(self, block, start, end = -1, position = 'comp', prev_paths = [], is_truce = False):
 		'''
@@ -475,7 +472,8 @@ class Board(object):
 			#print(paths)
 			#If valid paths exist, keep going
 			if paths:
-				print(paths)
+
+				print('THERE IS A VALID PATH')
 				computer_path = random.choice(paths)
 				print('computer chose ' + str(computer_path))
 
@@ -508,7 +506,7 @@ class Board(object):
 						self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
 
 					else:
-						self.regions[end].combact_dict['Defending Reinforcements'].append(block)
+						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
 
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
@@ -565,17 +563,18 @@ class Board(object):
 			print ("Enter your path ('done' to stop):")
 
 			counter = 1
-
+			user_input_region = False
 			while taking_input:
 
 				print(user_path)
 
 				user_input = input("Location " + str(counter) + ": ")
+				
 				user_input_region = search.region_name_to_id(self,user_input.upper())
 
 				#If it's a valid region, add it to the list
 
-				if user_input_region == 0 or user_input_region:
+				if type(user_input_region) == int and (user_input_region == 0 or user_input_region):
 
 					if user_input_region == start:
 
@@ -630,7 +629,7 @@ class Board(object):
 						self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
 
 					else:
-						self.regions[end].combact_dict['Defending Reinforcements'].append(block)
+						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
 
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
@@ -775,6 +774,8 @@ class Region(object):
 		role is 'ENGLAND' or 'SCOTLAND'
 		Returns True if the region only contains troops of that side
 		'''
+		if self.is_neutral():
+			return False
 		for block in self.blocks_present:
 			if block.allegiance != role:
 				return False

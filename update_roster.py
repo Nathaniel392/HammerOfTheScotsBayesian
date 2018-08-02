@@ -18,34 +18,39 @@ def update_roster(all_blocks_lst = None, current_board = None):
 	for block in all_blocks_lst:
 		if type(block) == blocks.Noble:
 
+			if block.has_cross:
+				current_board.scot_roster.remove(block)
+				current_board.remove_from_region(block, find_location(current_board,block).regionID)
+				
+			else:
 
 
-			block.b2_to_b3(2)
-			if block.allegiance == 'SCOTLAND':
-				#if block.allegiace is SCOTLAND and can't find it then put it from the english one and into the scotland one for nobles
-				block_found_bool = False
-				for block2 in current_board.scot_roster:
-					if block is block2:
-						block_found_bool = True
-						break
-
-				if not block_found_bool:
-					for i, block2 in enumerate(current_board.eng_roster):
+				block.b2_to_b3(2)
+				if block.allegiance == 'SCOTLAND':
+					#if block.allegiace is SCOTLAND and can't find it then put it from the english one and into the scotland one for nobles
+					block_found_bool = False
+					for block2 in current_board.scot_roster:
 						if block is block2:
-							current_board.scot_roster.append(current_board.eng_roster.pop(i))
+							block_found_bool = True
+							break
 
-							break
-			elif block.allegiance == 'ENGLAND':
-				block_found_bool = False
-				for block2 in current_board.eng_roster:
-					if block is block2:
-						block_found_bool = True
-						break
-				if not block_found_bool:
-					for i, block2 in enumerate(current_board.scot_roster):
+					if not block_found_bool:
+						for i, block2 in enumerate(current_board.eng_roster):
+							if block is block2:
+								current_board.scot_roster.append(current_board.eng_roster.pop(i))
+
+								break
+				elif block.allegiance == 'ENGLAND':
+					block_found_bool = False
+					for block2 in current_board.eng_roster:
 						if block is block2:
-							current_board.scot_roster.append(current_board.scot_roster.pop(i))
+							block_found_bool = True
 							break
+					if not block_found_bool:
+						for i, block2 in enumerate(current_board.scot_roster):
+							if block is block2:
+								current_board.scot_roster.append(current_board.scot_roster.pop(i))
+								break
 		elif block.is_dead() and not block.has_cross:	
 
 			if block.allegiance == 'SCOTLAND':
