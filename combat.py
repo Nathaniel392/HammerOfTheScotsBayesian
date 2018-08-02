@@ -605,7 +605,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 							elif option == 'f':
 								#fight
-								
+								attack_block(attacking_block, defense, computer_role)
 
 							
 								bad_input = False
