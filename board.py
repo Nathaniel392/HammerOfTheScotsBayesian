@@ -327,7 +327,7 @@ class Board(object):
 		#Norse block has different movement rules - can move from friendly coastal to friendly coastal, but not england
 		if block.type == 'NORSE':
 
-			if self.regions[endID].coast and self.regions[endID].is_friendly(block.allegiance) and endID != 22:
+			if self.regions[endID].coast and endID != 22:
 				path = [endID]
 				return path
 
@@ -397,7 +397,7 @@ class Board(object):
 		if block.type == 'NORSE':
 			
 			for region in self.regions:
-				if region.coast and region.is_friendly(block.allegiance) and region.regionID != 22:
+				if region.coast and region.regionID != 22:
 
 					path = [region.regionID]
 					all_paths.append(path)
