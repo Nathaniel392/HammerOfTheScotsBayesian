@@ -296,7 +296,21 @@ class Board(object):
 				return_list.append(i)
 
 		return return_list
-  
+
+	def find_adjacent_regions_object(self, region):
+		'''
+		Returns a list of all bordering regions given a region object
+		'''
+
+		return list = []
+
+		for other_region in self.regions:
+
+			if self.static_borders[region.regionID][other_region.regionID] != 'X':
+				return_list.append(other_region)
+
+		return return_list
+
 	def find_all_borders(self, regionID_list):
 		'''
 		returns a list of all bordering regionIDs in a list of regionIDs
@@ -449,7 +463,7 @@ class Board(object):
 				path.pop()
 
 		#Final output
-		return all_paths
+		return all_paths[1:]
   
 	def move_block(self, block, start, end = -1, position = 'comp', prev_paths = [], is_truce = False):
 		'''
@@ -777,6 +791,17 @@ class Region(object):
 		'''
 		for block in self.blocks_present:
 			if block.allegiance != role:
+				return False
+		return True
+
+	def is_enemy(self, role):
+		'''
+		role is 'ENGLAND' or 'SCOTLAND'
+		'''
+		for block in self.blocks_present:
+			if role == 'SCOTLAND' and block.allegiance == 'ENGLAND':
+				return False
+			elif role == 'ENGLAND' and block.allegiance == 'SCOTLAND':
 				return False
 		return True
 

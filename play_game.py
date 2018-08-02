@@ -182,6 +182,12 @@ def play_game():
     #Fill board with pieces
     current_board.fill_board(block_list, scenario)
 
+    path = current_board.check_all_paths(2, 9, block_list[34])
+    print(path)
+
+    #path = current_board.check_all_paths(block_list[34].movement_points, 0, block_list[34])
+    #print(path)
+
     #Initialize table with known probabilities
     location_prob_table = location_prob.init_probability_table(current_board, block_list)
 
