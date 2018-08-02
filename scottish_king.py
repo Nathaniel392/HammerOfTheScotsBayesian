@@ -44,7 +44,7 @@ def can_king(current_board):
 
 		#king has already been crowned
 		try:
-			elif block.name == 'KING' and block.kinged_before:
+			if block.name == 'KING' and block.kinged_before:
 				return {'BALLIOL': False, 'BRUCE': False, 'COMYN': False}
 		except AttributeError:
 			if block.name != 'KING':
