@@ -1,5 +1,14 @@
-new_lst = list('1')
-second_lst = list('1')
+class Stupid(object):
+	def __init__Stupid(self):
+		self.hi = 'hi'
 
-print(new_lst is second_lst)
-print(new_lst == second_lst)
+def main():
+	hey = Stupid()
+	if False:
+		hey.a = True
+	try:
+		if hey.a:
+			print('hi')
+	except AttributeError:
+		pass
+main()
