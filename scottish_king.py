@@ -39,11 +39,11 @@ def can_king(current_board):
 		
 		elif block.name == 'WALLACE':
 			wallace_found = True
-		elif block.name == 'FRENCH':
+		elif block.name == 'FRENCH' and block in current_board.scot_roster:
 			can_crown_balliol = True
 
 		#king has already been crowned
-		elif block.name == 'KING':
+		elif block.name == 'KING' and block.type == 'KING':
 			return {'BALLIOL': False, 'BRUCE': False, 'COMYN': False}
 
 	if not wallace_found: 
@@ -144,6 +144,7 @@ def make_king(current_board, type_of_king):
 				break
 		current_board.scot_roster.append(king)
 		current_board.add_to_region(king, kinging_location.regionID)
+		king.type = 'KING'
 
 def run_king(current_board, computer_role):
 	"""
