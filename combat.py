@@ -561,10 +561,14 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							#attack or retreat
 							print('What does ', attacking_block.name, 'do? (r) retreat (f) fight')
 							option = input('>')
+							possible_locations = retreat_locations(current_board, [],[attacking_block], False)
 							if option == 'r':
+
+								if len(possible_locations) < 1:
+									print("there aren't any locations you can retreat to")
 								bad_input = False
 								valid_location = False
-								possible_locations = retreat_locations(current_board, [],[attacking_block], False)
+								
 								while not valid_location:
 
 									try:
@@ -681,15 +685,19 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						print('What does ', attacking_block.name, 'do? (r) retreat (f) fight')
 						option = input('>')
 						bad_input = True
-
+						possible_locations = retreat_locations(current_board, [attacking_block], [], True)
 						while bad_input:
 
 							if option == 'r':
+
+								if len(possible_locations) < 1:
+									print("There aren't any locations you can retreat to")
+
 								bad_input = False
 								valid_location = False
 
 								while not valid_location:
-									possible_locations = retreat_locations(current_board, [attacking_block], [], True)
+									
 									try:
 										print('possible locations:', end = ' ')
 										for region in possible_locations:
