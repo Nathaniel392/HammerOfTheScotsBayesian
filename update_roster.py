@@ -18,7 +18,7 @@ def update_roster(all_blocks_lst = None, current_board = None):
 	for block in all_blocks_lst:
 		if type(block) == blocks.Noble:
 
-			if block.has_cross:
+			if block.has_cross and block.is_dead():
 				current_board.scot_roster.remove(block)
 				current_board.remove_from_region(block, find_location(current_board,block).regionID)
 				

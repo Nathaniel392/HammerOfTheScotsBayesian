@@ -15,7 +15,7 @@ def can_king(current_board):
 	"""
 
 	
-	wallace_found = find_locations
+	wallace_found = False
 	
 	bruce_found = False
 	comyn_found = False
@@ -160,13 +160,13 @@ def run_king(current_board, computer_role):
 	else run through program and return True
 	"""
 	
-	can_king = False
+	can_king2 = False
 	my_dict = can_king(current_board)
 	for key in my_dict:
 		if my_dict[key]:
-			can_king = True
+			can_king2 = True
 			break
-	if not can_king:
+	if not can_king2:
 		return False
 	if computer_role != 'SCOTLAND':
 		bad_input = True
@@ -196,6 +196,7 @@ def run_king(current_board, computer_role):
 		want_to_king = True
 		possible_kings = list()
 		if want_to_king:
+			print('computer will king')
 			for key in my_dict:
 				if my_dict[key]:
 					possible_kings.append(key)

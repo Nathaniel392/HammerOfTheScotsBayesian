@@ -169,7 +169,7 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 				attackers_lst.pop(i)
 		
 			
-		elif not block.is_dead():
+		if not block.is_dead():
 	
 			attacker_is_dead = False
 
@@ -205,10 +205,17 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 				defenders_lst.pop(i)
 			
 
-		elif not block.is_dead():
+		if not block.is_dead():
 			
 			defender_is_dead = False
 
+	if attackers_lst == []:
+		attacker_is_dead = True
+	if defenders_lst == []:
+
+		defender_is_dead = True
+
+		
 	return attacker_is_dead, defender_is_dead
 
 
@@ -600,10 +607,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 								current_board.add_to_location(attacking_block, regionID_to_retreat_to)
-
+								
 								original_location = find_location(current_board, attacking_block)
 								current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1
 								defense.remove(attacking_block)
+
+								current_board.remove_from_region(attacking_block, find_location(current_board, attacking_block))
 
 								if attacking_block.name == 'FRENCH':
 									attacking_xblock.movement_points = 0
@@ -629,8 +638,11 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						if option != False:
 							regionID_to_retreat_to = option.regionID
 							current_board.add_to_location(attacking_block, regionID_to_retreat_to)
+							
 							original_location = find_location(current_board, attacking_block)
 							current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1
+
+							current_board.remove_from_region(attacking_block, find_location(current_board, attacking_block))
 
 							if attacking_block.name == 'FRENCH':
 								attacking_block.movement_points = 0
@@ -725,11 +737,14 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 										print('please type in a valid location')
 
 								current_board.add_to_location(attacking_block, regionID_to_retreat_to)
+								
 
 								if attacking_block.name == 'FRENCH':
 									attacking_block.movement_points = 0
 								original_location = find_location(current_board, attacking_block)
 								current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1
+
+								current_board.remove_from_region(attacking_block, find_location(current_board, attacking_block))
 
 								attack.remove(attacking_block)
 								print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
@@ -747,8 +762,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							regionID_to_retreat_to = option.regionID
 							current_board.add_to_location(attacking_block, regionID_to_retreat_to)
 
+
 							original_location = find_location(current_board, attacking_block)
+							
 							current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1
+
+							current_board.remove_from_region(attacking_block, find_location(current_board, attacking_block))
 
 							if attacking_block.name == 'FRENCH':
 								attacking_block.movement_points = 0
@@ -781,6 +800,21 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	update_roster.update_roster(current_board = current_board)
 	print('attacker retreats')
+	for attacking_block in attack + attack_reinforcements:
+		regionID_to_retreat_to = option.regionID
+		current_board.add_to_location(attacking_block, regionID_to_retreat_to)
+
+		original_location = find_location(current_board, attacking_block)
+		current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1
+
+
+		current_board.remove_from_region(attacking_block, find_location(current_board, attacking_block))
+		if attacking_block.name == 'FRENCH':
+			attacking_block.movement_points = 0
+			attack.remove(attacking_block)
+		print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
+
+
 	regroup(defense + defense_reinforcements, current_board, computer_role)
 	return 'attacker retreats'
 

@@ -2,6 +2,7 @@ import math
 import random
 import search
 import blocks
+import board
 
 def find_location(board, blok):
 	for region in board.regions:
@@ -10,6 +11,50 @@ def find_location(board, blok):
 				return region
 	return False
 
+def choose_location(location_list,allegiance,computer_role, block):
+
+	'''
+	takes a list of locations and a block allegiance
+	returns a random location from list or a user decision
+	can be updated to do a smarter decision
+	'''
+
+	if allegiance == computer_role:
+
+		index = random.randint(0,len(location_list)-1)
+
+		return location_list[index]
+
+	else:
+
+		new_bool = True
+
+		while new_bool:
+
+			print("Where would you like " + block.name + " to go? ")
+
+			for ind, location in enumerate(location_list):
+				if type(location) != str:
+					print(location.name + "[" + str(ind) + ']')
+
+			print('Type pool to disband')
+			user_input = input('>')
+			if user_input == 'pool' and user_input in location_list:
+				if allegiance == 'SCOTLAND':
+					return 'scottish pool'
+				else:
+					return 'english pool'
+
+			elif True:
+
+				new_bool = False
+
+				return location_list[int(user_input)]
+
+
+			else:
+
+				print ("Not valid!")
 
 def go_home(board,noble,computer_role):
 
@@ -25,7 +70,7 @@ def go_home(board,noble,computer_role):
 		
 		if not board.regions[noble.home_location].blocks_present or board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
 
-			board.regions[find_location(board,noble.name).regionID].blocks_present.remove(noble)
+			board.regions[find_location(board,noble).regionID].blocks_present.remove(noble)
 
 			board.regions[noble.home_location].blocks_present.append(noble)
 
@@ -33,7 +78,9 @@ def go_home(board,noble,computer_role):
 
 			noble.allegiance = board.regions[noble.home_location].blocks_present[0].allegiance
 
-			board.regions[find_location(board,noble.name).regionID].blocks_present.remove(noble)
+			print(noble.name + '\'s allegiance was changed to ' + board.regions[noble.home_location].blocks_present[0].allegiance)
+
+			board.regions[find_location(board,noble).regionID].blocks_present.remove(noble)
 
 			board.regions[noble.home_location].blocks_present.append(noble)
 
@@ -50,7 +97,7 @@ def go_home(board,noble,computer_role):
 
 			if not board.regions[home].blocks_present or board.regions[home].blocks_present[0].allegiance == noble.allegiance:
 
-				possible_locations.append(home)
+				possible_locations.append(board.regions[home])
 
 		else:
 
@@ -65,15 +112,18 @@ def go_home(board,noble,computer_role):
 				else:
 
 					noble.allegiance == "SCOTLAND"
-
-				add_to_location(board,noble,choose_location(new_locations,noble.allegiance,computer_role))
+				
+				noble_choice = choose_location(new_locations,noble.allegiance,computer_role,block)
+				print(noble.name + 'went home to ' + board.regions[noble_choice].name)
+				add_to_location(board,noble,noble_choice)
 
 			else:
 
-				board.regions[find_location(board,noble.name).regionID].blocks_present.remove(noble)
+				noble_new_home = choose_location(possible_locations,noble.allegiance,computer_role,noble)
+				
+				add_to_location(board,noble,noble_new_home)
 
-				board.regions[random.choice(possible_locations)].blocks_present.append(noble)
-
+				print (noble.name + " went to " + str(noble_new_home))
 
 def add_to_location(board,block,location):
 
@@ -94,56 +144,33 @@ def add_to_location(board,block,location):
 
 	else:
 
-		board.regions[find_location(board,block).regionID].blocks_present.remove(block)
+		if find_location(board,block):
 
-		board.regions[location.regionID].blocks_present.append(block)
+			find_location(board,block).blocks_present.remove(block)
 
-		print ("Sent " + block.name + " to " + location.name)	
+			board.regions[location.regionID].blocks_present.append(block)
 
-def choose_location(location_list,allegiance,computer_role):
+			print ("Sent " + block.name + " to " + location.name)
 
-	'''
-	takes a list of locations and a block allegiance
-	returns a random location from list or a user decision
-	can be updated to do a smarter decision
-	'''
+		else:
 
-	if allegiance == computer_role:
+			if block.allegiance == 'SCOTLAND':
 
-		index = random.randint(len(location_list))
+				board.scot_pool.remove(block)
 
-		return location_list[index]
+				board.scot_roster.append(block)
 
-	else:
+			else:
 
-		new_bool = True
+				board.eng_pool.remove(block)
 
-		while new_bool:
+				board.eng_roster.append(roster)
 
-			print("Where would you like " + block.name + " to go? ")
-			print('Type pool to disband')
-			user_input = input('>')
-			if user_input == 'pool' and user_input in location_list:
-				if allegiance == 'SCOTLAND':
-					return 'scottish pool'
-				else:
-					return 'english pool'
-			try:
-				region_choice = board.regionID_dict[user_input.upper()]
-
-				if int(region_choice) in location_list:
-
-					new_bool = False
-
-					return region_choice
+			board.regions[location.regionID].blocks_present.append(block)	
 
 
-				else:
 
-					print ("Not valid!")
-
-			except ValueError:
-				print('Not valid')
+			
 
 def disband(board,block):
 
@@ -156,8 +183,10 @@ def disband(board,block):
 
 
 	if block.allegiance == 'SCOTLAND':
+		board.scot_roster.remove(block)
 		board.scot_pool.append(block)
 	else:
+		board.eng_roster.remove(block)
 		board.eng_pool.append(block)
 
 	print ("Disbanded " + block.name + "!")	
@@ -217,27 +246,61 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 	for noble in scot_nobles:
 
-		if block.name == "MORAY":
+		if noble.name == "MORAY":
 
-			int1 = random.randint(0,1)
+			if computer_role == 'SCOTLAND':
 
-			if int1 == 1:
+				int1 = random.randint(0,1)
 
-				if len(board.regions[find_location(board,block).regionID].blocks_present) <= board.regions[find_location(board,block).regionID].castle_points:
+				if int1 == 1:
 
-					print ("Moray stayed!")
+					if len(board.regions[find_location(board,noble).regionID].blocks_present) <= board.regions[find_location(board,noble).regionID].castle_points:
+
+						print ("Moray stayed!")
+
+					else:
+
+						go_home(board,noble,computer_role)
+
+						print ("Sent Moray Home!")	
 
 				else:
 
-					go_home(board,block)
+					go_home(board,noble,computer_role)
 
 					print ("Sent Moray Home!")	
 
 			else:
 
-				go_home(board,block)
+				user_decision = input("Where do you want Moray to go? 's' for stay, 'h' for home")
 
-				print ("Sent Moray Home!")			 
+				bool21 = True
+
+				while bool21:
+
+					if user_decision == 's':
+
+						if len(board.regions[find_location(board,noble).regionID].blocks_present) <= board.regions[find_location(board,noble).regionID].castle_points:
+
+							print ("Moray stayed!")
+
+							bool21 = False
+
+						else:
+
+							print ("Moray cannot stay!")
+
+					elif user_decision == 'h':
+
+						go_home(board,noble,computer_role)
+
+						print ("Sent Moray Home!")	
+
+						bool21 = False
+
+					else:
+
+						print ("invalid input!")	 
 
 		else:
 
@@ -248,7 +311,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 	if eng_edward:
 
 		if not edward_prev_winter[0]:
-			add_to_location(board,eng_edward[0],choose_location([find_location(board,block), 'english pool'],'ENGLAND',computer_role))
+			add_to_location(board,eng_edward[0],choose_location([find_location(board,block), 'english pool'],'ENGLAND',computer_role, block))
 			edward_prev_winter[0] = True
 		else:
 			disband(board, eng_king[0])
@@ -269,102 +332,159 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 				region.append(possible_locations)
 
-		place = choose_location(possible_locations,block.allegiance,computer_role)
+		place = choose_location(possible_locations,block.allegiance,computer_role, block)
 
 		add_to_location(board,block,place)
 
+	for brit in board.eng_roster:
+
+		if brit.type == 'ARCHER' or brit.type == 'KNIGHT':
+
+			disband(board,brit)
+
 	for region in board.regions:
 
-		for block in region.blocks_present:
+		if region.blocks_present and region.blocks_present[0].allegiance != computer_role:
 
-			if block.type == "WALLACE":
+			display_blocks = []
 
-				wallace_possible_locations = ['scottish pool']
+			if region.blocks_present[0].allegiance == 'SCOTLAND':
 
-				if find_location(board,block).cathedral:
+				if region.cathedral:
 
-					castle_points = find_location(board,block).castle_points + 1
+					castle_points = region.castle_points + 1
+
 				else:
-					castle_points = find_location(board,block).castle_points
 
-				if len(find_location(board,block).blocks_present) <= castle_points:
+					castle_points = region.castle_points
 
-					wallace_possible_locations.append(find_location(board,block))
+			else:
 
-				if not board.regions[18].blocks_present or board.regions[18].blocks_present[0].allegiance == block.allegiance:
-
-					wallace_possible_locations.append(board.regions[18])
-
-				add_to_location(board,block,choose_location(wallace_possible_locations,block.allegiance,computer_role))
-
-			elif block.type == "INFANTRY":
-
-				if find_location(board,'EDWARD') == find_location(board,block):
+				if find_location(board,search.block_name_to_object(board.all_blokcs,'EDWARD')) == region:
 
 					castle_points = 100
 
-				elif block.allegiance == "SCOTLAND" and find_location(board,block).cathedral:
-
-					castle_points = find_location(board,block).castle_points + 1
-
 				else:
 
-					castle_points = find_location(board,block).castle_points
+					castle_points = region.castle_points
 
-				if len(find_location(board,block).blocks_present) > castle_points:
+			for region_block in region.blocks_present:
 
-					if block.allegiance == "SCOTLAND":
+				if type(region_block) != blocks.Noble:
 
-						pool = 'scottish pool'
+					display_blocks.append(region_block)
+
+			user_inputting = True
+
+			while user_inputting:
+
+				have_to_move = len(region.blocks_present) - castle_points
+
+				if have_to_move < 0:
+
+					have_to_move = 0
+
+				print (region.name + ":")
+
+				for i,blck in enumerate(display_blocks):
+
+					print (blck.name,"(" + str(i) + ")")
+
+				user_input = input ("Choose a block to disband or move! \n You have to move at least " + str(have_to_move) + " blocks! 'Done' for done. \n>")
+
+				if user_input.lower() == 'done':
+
+					if have_to_move == 0:
+
+						user_inputting = False
 
 					else:
 
-						pool = 'english pool'
-
-					add_to_location(board,block,choose_location([pool,find_location(board,block)],block.allegiance,computer_role))
+						print ("You are over castle limits! Continue disbanding!")
 
 				else:
 
-					disband(board,block) 
+					user_block = display_blocks[int(user_input)]
 
-			elif type(block) != blocks.Noble:
+					if user_block.type == "WALLACE":
 
-				if find_location(board,'EDWARD') == find_location(board,block):
+						wallace_possible_locations = ['scottish pool',board.regions[18]]
+
+						add_to_location(board,block,choose_location(wallace_possible_locations,block.allegiance,computer_role,block))
+
+						display_blocks.remove(user_block)
+
+					else:
+
+						disband(board,user_block)
+
+						display_blocks.remove(user_block)
+
+		elif region.blocks_present and region.blocks_present[0].allegiance == computer_role:
+
+			display_blocks = []
+
+			if region.blocks_present[0].allegiance == 'SCOTLAND':
+
+				if region.cathedral:
+
+					castle_points = region.castle_points + 1
+
+				else:
+
+					castle_points = region.castle_points
+
+			else:
+
+				if find_location(board,search.block_name_to_object(board.all_blocks,'EDWARD')) == region:
 
 					castle_points = 100
 
-				elif block.allegiance == "SCOTLAND" and find_location(board,block).cathedral:
-
-					castle_points = find_location(board,block).castle_points + 1
-
 				else:
 
-					castle_points = find_location(board,block).castle_points
+					castle_points = region.castle_points
 
-				if block.allegiance == "ENGLAND":
+			for region_block in region.blocks_present:
 
-					if castle_points < 100:
+				if type(region_block) != blocks.Noble:
 
-						disband(block,board)
+					display_blocks.append(region_block)
 
-				else:
+			block_valid = True
 
-					if len(find_location(board,block).blocks_present) > castle_points:
+			while block_valid:
 
-						if block.allegiance == "SCOTLAND":
+				have_to_move = len(region.blocks_present) - castle_points
 
-							pool = 'scottish pool'
+				if have_to_move > 0:
 
-						else:
+					computer_block = random.choice(display_blocks)
+
+					if computer_block.type == "WALLACE":
+
+						wallace_possible_locations = ['scottish pool',board.regions[18]]
+
+						add_to_location(board,computer_block,choose_location(wallace_possible_locations,block.allegiance,computer_role,block))
+
+						display_blocks.remove(computer_block)
+
+					else:
+
+						if computer_block.allegiance == 'ENGLAND':
 
 							pool = 'english pool'
 
-							add_to_location(board,block,choose_location([pool,find_location(board,block)],block.allegiance,computer_role))
+						else:
 
-					else:
+							pool = 'scottish pool'
 
-						disband(board,block)
+						disband(board,computer_block)
 
+						display_blocks.remove(computer_block)
+
+				else:
+
+					block_valid = False
 
 	levy(board)
 
@@ -395,7 +515,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 						while not valid_block:
 
-							draw_block = random.choice(board.scot_pool.blocks_present)
+							draw_block = random.choice(board.scot_pool)
 
 							if draw_block.type == 'NORSE':
 
@@ -457,6 +577,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 		else:
 
+
 			potential_blocks = []
 
 			for block in region.blocks_present:
@@ -466,6 +587,8 @@ def distribute_rp(board,rp,region,computer_role):
 					potential_blocks.append(block)
 
 			points = rp
+
+			print (region.name + " has " + str(points))
 
 			while points > 0 or potential_blocks:
 
@@ -493,8 +616,9 @@ def distribute_rp(board,rp,region,computer_role):
 
 	else:
 
-		if computer_role == "ENGLAND":
-
+		
+		if region.blocks_present[0].allegiance == 'ENGLAND':
+			
 			potential_blocks = []
 
 			points = rp
@@ -507,17 +631,27 @@ def distribute_rp(board,rp,region,computer_role):
 
 						potential_blocks.append(block)
 
-				computer_choice = random.choice(potential_blocks)
+				if potential_blocks:
 
-				computer_choice.current_strength += 1 
+					computer_choice = random.choice(potential_blocks)
 
-				print ("Bumped " + computer_choice.name + " up!")
+					computer_choice.current_strength += 1 
 
-				points -= 1
+					print ("Bumped " + computer_choice.name + " up!")
+
+					points -= 1
+
+				else:
+
+					print (region.name + " has nothing to build!")
+
+					points = 0
 
 		else:
 
 			points = rp
+
+			print (region.name + " has " + str(points))
 
 			while points > 0:
 
@@ -531,9 +665,11 @@ def distribute_rp(board,rp,region,computer_role):
 
 					if len(region.blocks_present) < rp:
 
+						valid_block = False
+
 						while not valid_block:
 
-							draw_block = random.choice(board.scot_pool.blocks_present)
+							draw_block = random.choice(board.scot_pool)
 
 							if draw_block.type == 'NORSE':
 
@@ -565,7 +701,13 @@ def distribute_rp(board,rp,region,computer_role):
 
 						draw_block.current_strength = 1 
 
-						add_to_location(board,draw_block,region)
+						board.scot_pool.remove(draw_block)
+
+						region.blocks_present.append(draw_block)
+
+						board.scot_roster.append(draw_block)
+
+						print (draw_block.name + "added to reinforcements of " + region.name)
 
 						points -= 1
 
@@ -600,6 +742,10 @@ def distribute_rp(board,rp,region,computer_role):
 						except (IndexError,ValueError):
 
 							print ("Not a valid option!")
+
+					else:
+
+						print ("All blocks at full strength.")
 
 				else:
 

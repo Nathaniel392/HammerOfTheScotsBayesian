@@ -112,6 +112,7 @@ class Board(object):
 		self.scot_pool = []
 		self.scot_roster = []
 		self.eng_roster = []
+		self.all_blocks = []
 
 		#print(self.static_borders)
 		
@@ -251,7 +252,7 @@ class Board(object):
 				elif allegiance == 'SCOTLAND':
 					self.scot_roster.append(block_to_add)
 
-
+		self.all_blocks = self.scot_roster + self.scot_pool + self.eng_roster + self.eng_pool
 	def initialize_regions(self):
 		'''
 		This function initializes a list of region objects within the board class
@@ -376,7 +377,7 @@ class Board(object):
 		#Final output
 		return all_paths
 
-	def check_all_paths(self, num_moves, startID, block, path=[], stop=False, all_paths=[], truce=False):
+	def check_all_paths(self, num_moves, startID, block, path=[], stop=False, all_paths=[], truce=False, role = 'ENGLAND'):
 		'''
 		Finds all legal paths from a region - modified version of check_path
 		num_moves:  a block's movement points (int)
@@ -736,6 +737,7 @@ class Region(object):
 		self.combat_dict = {'Attacking':[], 'Defending':[], 'Attacking Reinforcements':[], 'Defending Reinforcements':[]}
 		self.contested = False
 		self.blocks_present = []
+		self.castle_points = castle_points
 
 	def __str__(self):
 		'''

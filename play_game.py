@@ -212,7 +212,7 @@ def play_game():
         play_turn = True
 
 
-
+        
         while play_turn:
             
             turn_counter += 1
@@ -271,7 +271,7 @@ def play_game():
             if win(block_list, year, scenario):
                 print(win(block_list, year, scenario))
                 return 'game over'
-
+        input('Start Winter')
         winter.initialize_winter(current_board, block_list, computer_role, edward_prev_winter)
         winter.winter_builds(current_board, computer_role)
 

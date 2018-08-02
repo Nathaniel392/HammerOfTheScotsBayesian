@@ -356,20 +356,21 @@ def movement_execution(board, position, role, num_moves, truce=False):
                         block_index = i - count
                         block = focus_region.blocks_present[block_index]
 
-                        possible_paths_2 = board.check_all_paths(block.movement_points,focus_region.regionID,block,path=[], all_paths=[],truce=truce)
+                        if block not in blocks_moved:
+                            possible_paths_2 = board.check_all_paths(block.movement_points,focus_region.regionID,block,path=[], all_paths=[],truce=truce, role = role)
 
-                        
-                        #print("CHECK PATHS", board.check_all_paths(block.movement_points,focus_region.regionID,block,truce=truce))
-                        if possible_paths_2:
-
-                            computer_paths_1 = copy.deepcopy(random.choice(possible_paths_2))
-                            #print(possible_paths_2)
-                            end = computer_paths_1[-1]
                             
+                            #print("CHECK PATHS", board.check_all_paths(block.movement_points,focus_region.regionID,block,truce=truce))
+                            if possible_paths_2:
 
-                            board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
-                            count+=1
-                            blocks_moved.append(block)
+                                computer_paths_1 = copy.deepcopy(random.choice(possible_paths_2))
+                                #print(possible_paths_2)
+                                end = computer_paths_1[-1]
+                                
+
+                                board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
+                                count+=1
+                                blocks_moved.append(block)
 
                             #print(move_pt)
 
@@ -849,7 +850,7 @@ def pil_execution(board, position, role):
             while health_points > 0:
 
                 block = possible_add_block_list[random.randint(0, len(possible_add_block_list) - 1)]
-                healing_points = random.randint(0, block.attack_strength - block.current_strength)
+                healing_points = random.randint(0, health_points)
                 block.heal_until_full(healing_points)
                 health_points -= healing_points
                 print(block.name + ' was healed ' + str(healing_points) + ' points.')
