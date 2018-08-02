@@ -412,7 +412,7 @@ def regroup(winner_blocks, current_board, computer_role):
 
 
 
-			place_to_go_to = len(possible_locations)
+
 
 
 
