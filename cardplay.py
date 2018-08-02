@@ -117,16 +117,18 @@ def random_card(computer_hand):
 
 def movement_execution(board, position, role, num_moves, truce=False):
     '''
-    Executes movement cards - prompts user for regions to activate, then calls move_block on them
-    position = 'comp' or 'opp'
-    role = 'ENGLAND' or 'SCOTLAND'
+    
     '''
+
+
 
     blocks_moved = []
     picked_regions = []
 
     #Pick n regions to 
     for movement_point in range(num_moves):
+
+        print (blocks_moved)
 
         focus_region = None
         prev_paths = []
@@ -135,7 +137,6 @@ def movement_execution(board, position, role, num_moves, truce=False):
         #FIND A FOCUS REGION AND PATH
         if position == 'opp':
 
-            blocks_moved = []
             user_region_input = ''
 
             #Loop until valid input for a focus region.
@@ -179,7 +180,9 @@ def movement_execution(board, position, role, num_moves, truce=False):
                 if focus_region not in picked_regions:
                     unique_region = True
 
-        picked_regions.append(focus_region)
+        if focus_region.name != 'ENGLAND':
+            
+            picked_regions.append(focus_region)
         #assigns moveable count for contested regions
 
         if focus_region.is_contested():
@@ -195,7 +198,9 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
             moveable_count = len(focus_region.blocks_present)
 
-        for i in range(moveable_count):
+        if focus_region.name == 'ENGLAND':
+
+            print(focus_region.blocks_present)
 
             if position == 'opp':
 
@@ -270,6 +275,84 @@ def movement_execution(board, position, role, num_moves, truce=False):
                         else:
 
                             print("Computer chosen region has no moves!")
+
+        else:
+
+            for i in range(moveable_count):
+
+                if position == 'opp':
+
+                    valid_block = False
+
+                    while not valid_block:
+
+                        user_block_name = input("Choose a block to move (type 'done' if done): ").strip().upper()
+
+                        if user_block_name.lower() == "done":
+
+                            print ("You passed one movement point!")
+
+                            valid_block = True
+
+                        board_blocks = board.eng_roster + board.scot_roster
+                        user_block = search.block_name_to_object(board_blocks, user_block_name)
+
+                        if user_block:
+
+                            if user_block in focus_region.blocks_present:
+
+                                if user_block not in blocks_moved:
+
+                                    if board.move_block(user_block,focus_region.regionID,position='opp',prev_paths=prev_paths,is_truce=truce) == False:
+
+                                        print ("That path was not valid!")
+
+                                    else:
+                                    
+                                        blocks_moved.append(user_block)
+
+                                        valid_block = True
+
+                                else:
+
+                                    print ("You have already moved that block this turn!")
+
+                            else:
+
+                                print ("That block is not in the region!")
+
+                        else:
+
+                            print ("Please input a valid block name!")
+
+                elif position == 'comp':
+
+                    print('It is computer turn to make a move')
+
+                    computer_choice = random.randint(0,3)
+
+                    if computer_choice == 0:
+
+                        print ("Computer Passes a Movement Point")
+
+                    else:
+
+
+                        for block in focus_region.blocks_present:
+
+                            possible_paths = board.check_all_paths(block.movement_points,focus_region.regionID,block,truce=truce)
+
+                            if possible_paths:
+
+                                computer_path1 = random.choice(possible_paths)
+
+                                end = computer_path1[-1]
+
+                                board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
+
+                            else:
+
+                                print("Computer chosen region has no moves!")
 
 def one_execution(board, position, role,truce=False):
     '''
