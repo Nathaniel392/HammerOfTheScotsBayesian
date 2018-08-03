@@ -74,6 +74,7 @@ def init_probability_table(board, block_list):
 				loc_probabilities[blockID][regionID] = prob
 
 	#print_table(board, block_list, loc_probabilities)
+	return loc_probabilities
 
 
 def main():
