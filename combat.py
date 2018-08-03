@@ -275,7 +275,7 @@ def retreat_locations(board, attacking, defending, is_attacking):
 				possible_locations.append(board.regions[x])
 		if not went_through_loop and border != 0 and (attacking[0].allegiance == 'ENGLAND' or x != 22) and (attacking[0].allegiance == 'SCOTLAND' or x == 22\
 			or current_location.regionID != 22) and (is_attacking == True or (not board.attacked_borders[x][current_location.regionID])):
-			possible_locations.append(board.regions[x]):
+			
 			possible_locations.append(board.regions[x])
 
 	return possible_locations
