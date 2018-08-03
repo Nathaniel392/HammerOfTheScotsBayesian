@@ -1030,6 +1030,18 @@ def resolve_card(board, which_side, card, role,truce=False):
     
     """
 
+    if which_side == 'opp':
+        if role == 'SCOTLAND': 
+            comp_role = 'ENGLAND'
+        else:
+            comp_role = 'SCOTLAND'
+    else:
+        comp_role = role
+
+
+
+
+
 
     if card == '1':
         movement_execution(board, which_side, role, int(card), truce)
@@ -1040,7 +1052,7 @@ def resolve_card(board, which_side, card, role,truce=False):
 
     else:
 
-        if not scottish_king.run_king(board, role):
+        if role == 'SCOTLAND' and not scottish_king.run_king(board, comp_role):
             
         
             
@@ -1151,6 +1163,8 @@ def compare_cards(board, opp_card, comp_card, comp_role):
     compares cards for which side plays their turn first
     returns True for computer going first, False for opponent first
     """
+
+
     
     year_ends_early = False
 
@@ -1176,7 +1190,17 @@ def compare_cards(board, opp_card, comp_card, comp_role):
         if get_card_val(opp_card) == 4 and get_card_val(comp_card) == 4:
             year_ends_early = True
         
-        
+    
+    if who_goes_first and comp_role == 'ENGLAND':
+        board.who_goes_first = 'ENGLAND'
+    elif who_goes_first and comp_role == 'SCOTLAND':
+        board.who_goes_first = 'SCOTLAND'
+    elif comp_role == 'ENGLAND':
+        board.who_goes_first = 'SCOTLAND'
+    else:
+        board.who_goes_first = 'ENGLAND'
+
+
     if who_goes_first: #if computer goes first
         
 
