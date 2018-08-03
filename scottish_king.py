@@ -38,7 +38,7 @@ def can_king(current_board):
 				comyn_found = True
 				comyn_location = find_location(current_board, block)
 		
-		elif block.name == 'WALLACE':
+		elif block.name == 'WALLACE' and not block.is_dead():
 			wallace_found = True
 		elif block.name == 'FRENCH' and block in current_board.scot_roster:
 			can_crown_balliol = True
@@ -58,6 +58,7 @@ def can_king(current_board):
 		if comyn_found and comyn_location.name == 'FIFE':
 			can_crown_comyn = True
 
+
 	return {'BALLIOL': can_crown_balliol, 'BRUCE': can_crown_bruce, 'COMYN': can_crown_comyn}
 
 
@@ -66,6 +67,8 @@ def defect_nobles(current_board, loyalty_to_defect):
 	"""
 	defeccts nobles
 	"""
+
+
 	for region in current_board.regions:
 		for block in region.blocks_present:
 			if type(block) == blocks.Noble and block.loyalty == loyalty_to_defect and block.allegiance == 'SCOTLAND':
@@ -94,15 +97,13 @@ def fight(current_board, computer_role):
 	for region in current_board.regions:
 		if region.is_contested():
 			contested_regions.append(region)
-	
+
+
 			
 	if computer_role == 'SCOTLAND':
 
-		while len(contested_regions) > 1:
-			contested_regions = list()
-			for region in current_board.regions:
-				if region.is_contested():
-					contested_regions.append(region)
+		while len(contested_regions) > 0:
+			
 
 			try:
 				if current_board.who_goes_first == 'SCOTLAND':
@@ -135,13 +136,15 @@ def fight(current_board, computer_role):
 			if type(attack) != list or type(defense) != list:
 				raise Exception('attack and defense are not lists')
 			combat.battle(attack, defense, list(), list(), current_board, computer_role)
+
+			contested_regions = list()
+			for region in current_board.regions:
+				if region.is_contested():
+					contested_regions.append(region)
 	else:
 		
-		while len(contested_regions) > 1:
-			contested_regions = list()
-			for region in current_board.regions:
-				if region.is_contested():
-					contested_regions.append(region)
+		while len(contested_regions) > 0:
+			
 			try:
 				
 				if current_board.who_goes_first == 'SCOTLAND':
@@ -175,6 +178,11 @@ def fight(current_board, computer_role):
 			if type(attack) != list or type(defense) != list:
 				raise Exception('attack and defense are not lists')
 			combat.battle(attack, defense, list(), list(), current_board, computer_role)
+
+			contested_regions = list()
+			for region in current_board.regions:
+				if region.is_contested():
+					contested_regions.append(region)
 
 def make_king(current_board, type_of_king):
 	"""
@@ -204,7 +212,7 @@ def make_king(current_board, type_of_king):
 				king = current_board.scot_pool.pop(i)
 				break
 		current_board.scot_roster.append(king)
-		current_board.add_to_region(king, kinging_location.regionID)
+		current_board.add_to_region(king, kinging_location_id)
 		print(king.name + ' is now king of scotland')
 		king.kinged_before = True
 
