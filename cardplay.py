@@ -191,7 +191,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
             print('Focus Region = ', focus_region.name)
 
         if passed:
-            move_pt += 1
+            #move_pt += 1
             continue
 
         if focus_region.name != 'ENGLAND':
@@ -244,7 +244,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                     print ("That path was not valid!")
 
                                 else:
-                                    move_pt +=1
+                                    #move_pt +=1
                                     blocks_moved.append(user_block)
 
                                     valid_block = True
@@ -285,7 +285,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                 end = computer_path1[-1]
 
                                 board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
-                                move_pt +=1
+                                #move_pt +=1
                             else:
 
                                 print("Computer chosen region has no moves!")
