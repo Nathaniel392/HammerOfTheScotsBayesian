@@ -292,9 +292,10 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
         else:
             count = 0
+            can_go_again = True
             for i in range(moveable_count):
 
-                if position == 'opp':
+                if position == 'opp' and can_go_again:
 
                     valid_block = False
 
@@ -322,7 +323,10 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                         print ("That path was not valid!")
 
                                     else:
-                                    
+
+                                        if combat.find_location(board, user_block).name == 'ENGLAND':
+                                            can_go_again = False
+                                            picked_regions.remove(focus_region)
                                         blocks_moved.append(user_block)
 
                                         valid_block = True
@@ -339,7 +343,9 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                             print ("Please input a valid block name!")
 
-                elif position == 'comp':
+                
+
+                elif position == 'comp' and can_go_again:
                     input('Computer Move Part 2')
                     print('It is computer turn to make a move')
 
@@ -369,6 +375,9 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                 
 
                                 board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
+                                if board.regions[end].name == 'ENGLAND':
+                                    can_go_again = False
+                                    picked_regions.remove(focus_region)
                                 count+=1
                                 blocks_moved.append(block)
 
