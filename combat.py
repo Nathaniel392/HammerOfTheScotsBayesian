@@ -179,7 +179,7 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 
 
 	for index in indexes_to_pop:
-		attackers_lst[i] = 'dead'
+		attackers_lst[index] = 'dead'
 
 	all_alive = False
 	while not all_alive:
@@ -231,7 +231,7 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 			defender_is_dead = False
 
 	for index in indexes_to_pop:
-		defenders_lst[i] = 'dead'
+		defenders_lst[index] = 'dead'
 
 	all_alive = False
 	while not all_alive:
