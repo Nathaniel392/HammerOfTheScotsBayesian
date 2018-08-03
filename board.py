@@ -502,7 +502,8 @@ class Board(object):
 					#Move it to the correct dictionary list
 					if self.regions[end].blocks_present[0].allegiance != block.allegiance and path_taken: 
 						self.regions[end].combat_dict['Attacking'].append(block)
-
+					elif self.regions[end].blocks_present[0].allegiance != block.allegiance and self.regions[end].name == 'ENGLAND':
+						self.regions[end].combat_dict['Attacking'].append(block)
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
 						self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
 
@@ -515,6 +516,7 @@ class Board(object):
 					print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 				#End location is not contested
+
 				else:
 
 					#If it's an enemy controlled region
@@ -624,6 +626,9 @@ class Board(object):
 
 					#Move it to the correct dictionary list
 					if self.regions[end].blocks_present[0].allegiance != block.allegiance and path_taken: 
+						self.regions[end].combat_dict['Attacking'].append(block)
+
+					elif self.regions[end].blocks_present[0].allegiance != block.allegiance and self.regions[end].name == 'ENGLAND':
 						self.regions[end].combat_dict['Attacking'].append(block)
 
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
