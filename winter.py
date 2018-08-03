@@ -360,7 +360,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 			else:
 
-				if find_location(board,search.block_name_to_object(board.all_blokcs,'EDWARD')) == region:
+				if find_location(board,search.block_name_to_object(board.all_blocks,'EDWARD')) == region:
 
 					castle_points = 100
 
