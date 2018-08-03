@@ -1,5 +1,6 @@
 import blocks
 import combat
+import random
 def find_location(board, blok):
 	for region in board.regions:
 		for bllock in region.blocks_present:
@@ -67,12 +68,15 @@ def defect_nobles(current_board, loyalty_to_defect):
 	"""
 	for region in current_board.regions:
 		for block in region.blocks_present:
-			if type(block) == blocks.Noble and block.loyalty == loyalty_to_defect:
+			if type(block) == blocks.Noble and block.loyalty == loyalty_to_defect and block.allegiance == 'SCOTLAND':
 				if block.name != 'MORAY':
 					block.change_allegiance()
 
 			
-			if len(region.blocks_present) > 1:
+			
+				
+		if region.is_contested():
+			for block in region.blocks_present:
 				if block.allegiance == 'ENGLAND':
 					region.combat_dict['Attacking'].append(block)
 				else:
@@ -85,12 +89,41 @@ def fight(current_board, computer_role):
 	"""
 	contested_regions = list()
 	for region in current_board.regions:
-		if len(region.combat_dict['Attacking']) != 0:
+		if region.is_contested():
 			contested_regions.append(region)
 			
 	if computer_role == 'SCOTLAND':
-		while len(contested_regions) > 0:
-			region_index_to_fight = random.randint(0, len(contested_regions) - 1)
+		while len(contested_regions) > 1:
+			contested_regions = list()
+			for region in current_board.regions:
+				if region.is_contested():
+					contested_regions.append(region)
+
+			try:
+				if current_board.who_goes_first == 'SCOTLAND':
+
+					region_index_to_fight = random.randint(0, len(contested_regions) - 1)
+				else:
+					print('contested regions:')
+					for i, region in enumerate(contested_regions):
+						print(region.name + '[' + str(i) + ']', end = '\t')
+
+					bad_input = True
+					while bad_input:
+						try:
+							region_index_to_fight = int(input('Which region do you want to fight now (type index)'))
+						except ValueError:
+							print('type a number')
+							continue
+						if region_index_to_fight not in range(len(contested_regions)):
+							print('type a valid index')
+						else:
+							bad_input = False
+			except AttributeError:
+				raise Exception('error in cardplay not assigning who_goes_first to board')
+
+
+
 			attack = contested_regions[region_index_to_fight].combat_dict['Attacking']
 			defense = contested_regions[region_index_to_fight].combat_dict['Defending']
 
@@ -98,29 +131,42 @@ def fight(current_board, computer_role):
 				raise Exception('attack and defense are not lists')
 			combat.battle(attack, defense, list(), list(), current_board, computer_role)
 	else:
-		while len(contested_regions) > 0:
-			print('contested regions:')
-			for i, region in enumerate(contested_regions):
-				print(region.name + '[' + str(i) + ']', end = '\t')
+		while len(contested_regions) > 1:
+			contested_regions = list()
+			for region in current_board.regions:
+				if region.is_contested():
+					contested_regions.append(region)
+			try:
+				if current_board.who_goes_first == 'SCOTLAND':
+					print('contested regions:')
+					for i, region in enumerate(contested_regions):
+						print(region.name + '[' + str(i) + ']', end = '\t')
 
-			bad_input = True
-			while bad_input:
-				try:
-					region_index_to_fight = int(input('Which region do you want to fight now (type index)'))
-				except ValueError:
-					print('type a number')
-					continue
-				if region_index_to_fight not in range(len(contested_regions)):
-					print('type a valid index')
-					
+					bad_input = True
+					while bad_input:
+						try:
+							region_index_to_fight = int(input('Which region do you want to fight now (type index)'))
+						except ValueError:
+							print('type a number')
+							continue
+						if region_index_to_fight not in range(len(contested_regions)):
+							print('type a valid index')
+						else:
+							bad_input = False
 				else:
-					bad_input = False
-					attack = contested_regions[region_index_to_fight].combat_dict['Attacking']
-					defense = contested_regions[region_index_to_fight].combat_dict['Defending']
+					region_index_to_fight = random.randint(0, len(contested_regions) - 1)
+			except AttributeError:
+				raise Exception('error in cardplay not assigning who_goes_first to board')
 
-					if type(attack) != list or type(defense) != list:
-						raise Exception('attack and defense are not lists')
-					combat.battle(attack, defense, list(), list(), current_board, computer_role)
+					
+				
+				
+			attack = contested_regions[region_index_to_fight].combat_dict['Attacking']
+			defense = contested_regions[region_index_to_fight].combat_dict['Defending']
+
+			if type(attack) != list or type(defense) != list:
+				raise Exception('attack and defense are not lists')
+			combat.battle(attack, defense, list(), list(), current_board, computer_role)
 
 def make_king(current_board, type_of_king):
 	"""
@@ -159,15 +205,26 @@ def run_king(current_board, computer_role):
 	returns False if don't want to king
 	else run through program and return True
 	"""
+
+
 	
 	can_king2 = False
 	my_dict = can_king(current_board)
+
+	print(my_dict)
 	for key in my_dict:
 		if my_dict[key]:
 			can_king2 = True
 			break
 	if not can_king2:
 		return False
+
+	possible_kings = list()
+	for key in my_dict:
+		if my_dict[key]:
+			possible_kings.append(key)
+
+
 	if computer_role != 'SCOTLAND':
 		bad_input = True
 		while bad_input:
@@ -179,12 +236,16 @@ def run_king(current_board, computer_role):
 				
 			else:
 				bad_input = False
-		print('which king would you like to king (BALLIOL) or (BRUCE) or (COMYN)?')
-		type_of_king = input('>').upper()
+		print('which king? (type name)')
+		for king in possible_kings:
+			print(king, end = '; ')
+
+		
 
 		good_input = False
 		while not good_input:
-			if type_of_king != 'BALLIOL' or type_of_king != 'BRUCE' or type_of_king != 'COMYN':
+			type_of_king = input('>').upper()
+			if type_of_king != 'BALLIOL' and type_of_king != 'BRUCE' and type_of_king != 'COMYN':
 				print('type BALLIOL or BRUCE or COMYN')
 				
 			elif not my_dict[type_of_king]:
