@@ -1,14 +1,12 @@
-class Stupid(object):
-	def __init__(self):
-		self.hi = 'hi'
+import stuipd
+
+def function():
+	print('this is a function')
+
 
 def main():
-	hey = Stupid()
-	if False:
-		hey.a = True
-	try:
-		if hey.a:
-			print('hi')
-	except AttributeError:
-		pass
-main()
+	stuipd.function()
+
+
+if __name__ == '__main__':
+	main()

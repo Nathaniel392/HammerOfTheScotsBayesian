@@ -302,7 +302,7 @@ class Board(object):
 		Returns a list of all bordering regions given a region object
 		'''
 
-		return list = []
+		return_list = []
 
 		for other_region in self.regions:
 

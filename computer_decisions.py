@@ -4,24 +4,11 @@ import search
 import simulations
 import computer_decisions
 
-
 '''
 NEW UTILITY FUNCIONS IN BOARD.PY
 
 find_adjacent_regions_object()
-find_adjacent_blocks_roles()
 '''
-
-def process_info(*prob_info):
-	#Process the information passed in prob_info - logic to prevent crashing from version differences
-	if len(prob_info) > 0:
-		card_prob = prob_info[0]
-	if len(prob_info) > 1:
-		loc_prob = prob_info[1]
-	if len(prob_info) > 2:
-		pass
-
-	return card_prob, loc_prob
 
 def find_n_highest_indeces(value_list, num_values=1, highest=[]):
 	'''
@@ -77,9 +64,7 @@ def likely_blocks(board, region, loc_prob):
 
 	return likely_blocks
 
-def select_card(board, role, hand, *prob_info):
-
-	card_prob, loc_prob = computer_decisions.process_info(prob_info)
+def select_card(board, role, hand, card_prob, loc_prob):
 
 	### TEMPORARY									###
 	### random choice								###
@@ -91,12 +76,12 @@ def select_card(board, role, hand, *prob_info):
 
 	return selected_card
 
-def sea_move(board, role, hand, *prob_info):
+def sea_move(board, role, hand, card_prob, loc_prob):
 
-	card_prob, loc_prob = computer_decisions.process_info(prob_info)
+	pass
 
 
-def herald(board, role, hand, *prob_info):
+def herald(board, role, hand, card_prob, loc_prob):
 
 	###
 	#CONSTANTS
@@ -111,7 +96,6 @@ def herald(board, role, hand, *prob_info):
 	KING_UTILITY = 15
 	###
 
-	card_prob, loc_prob = computer_decisions.process_info(prob_info)
 	noble_to_steal = None
 	
 	#Find enemy regions
@@ -307,7 +291,7 @@ def herald(board, role, hand, *prob_info):
 	return noble_to_steal
 
 
-	def crown_king(board, role, hand, *prob_info):
+	def crown_king(board, role, hand, card_prob, loc_prob):
 		'''
 		Determines whether or not to crown a king and which one.
 		Returns the Bruce or Comyn block, or False if it doesn't crown
@@ -316,7 +300,6 @@ def herald(board, role, hand, *prob_info):
 
 		COPY PASTED FROM OLD FUNCTION - DOES NOT WORK
 		'''
-		card_prob, loc_prob = process_info(prob_info)
 
 		if role != 'SCOTLAND':
 			return False
