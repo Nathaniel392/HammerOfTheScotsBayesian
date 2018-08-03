@@ -1052,7 +1052,7 @@ def resolve_card(board, which_side, card, role,truce=False):
 
     else:
 
-        if role == 'SCOTLAND' and not scottish_king.run_king(board, comp_role):
+        if role == 'ENGLAND' or not scottish_king.run_king(board, comp_role):
             
         
             
