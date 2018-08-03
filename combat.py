@@ -821,7 +821,42 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	update_roster.update_roster(current_board = current_board)
 	print('attacker retreats')
 	for attacking_block in attack + attack_reinforcements:
-		regionID_to_retreat_to = option.regionID
+		possible_locations = retreat_locations(current_board, [attacking_block],[], True)
+
+		regionID_to_retreat_to = 'error, need to get region id combat.py attacker retreats'
+		if computer_role == attackers_allegiance:
+			option = random.choice(possible_locations)
+			regionID_to_retreat_to = option.regionID
+		else:
+
+			bad_input = False
+			valid_location = False
+
+			while not valid_location:
+				
+				try:
+					print('possible locations:', end = ' ')
+					for region in possible_locations:
+						print(region.name + '[' + str(region.regionID) + ']', end = '; ')
+					print()
+					regionID_to_retreat_to = int(input('What regionID to retreat to: '))
+					
+				except ValueError:
+					print('type in a number please')
+					continue
+				
+				
+				for location in possible_locations:
+					if location.regionID == regionID_to_retreat_to:
+						valid_location = True
+						break
+
+				if not valid_location:
+					print('please type in a valid location')
+			
+			
+			
+		
 		
 		current_board.add_to_location(attacking_block, regionID_to_retreat_to)
 
@@ -832,7 +867,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 		
 		if attacking_block.name == 'FRENCH':
 			attacking_block.movement_points = 0
-			attack.remove(attacking_block)
+		attack.remove(attacking_block)
 		print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
 
