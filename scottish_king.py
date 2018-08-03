@@ -87,12 +87,17 @@ def fight(current_board, computer_role):
 	does all the fights in contested regions
 	computer_role is scottish or english
 	"""
+
+
+
 	contested_regions = list()
 	for region in current_board.regions:
 		if region.is_contested():
 			contested_regions.append(region)
+	
 			
 	if computer_role == 'SCOTLAND':
+
 		while len(contested_regions) > 1:
 			contested_regions = list()
 			for region in current_board.regions:
@@ -131,13 +136,16 @@ def fight(current_board, computer_role):
 				raise Exception('attack and defense are not lists')
 			combat.battle(attack, defense, list(), list(), current_board, computer_role)
 	else:
+		
 		while len(contested_regions) > 1:
 			contested_regions = list()
 			for region in current_board.regions:
 				if region.is_contested():
 					contested_regions.append(region)
 			try:
+				
 				if current_board.who_goes_first == 'SCOTLAND':
+					
 					print('contested regions:')
 					for i, region in enumerate(contested_regions):
 						print(region.name + '[' + str(i) + ']', end = '\t')
@@ -187,6 +195,8 @@ def make_king(current_board, type_of_king):
 				break
 		current_board.scot_roster.append(king)
 		current_board.add_to_region(king, kinging_location.regionID)
+		print(king.name + ' is now king of scotland')
+		king.kinged_before = True
 	elif type_of_king == 'BRUCE' or type_of_king == 'COMYN':
 		kinging_location_id = 11
 		for i, block in enumerate(current_board.scot_pool):
@@ -195,7 +205,7 @@ def make_king(current_board, type_of_king):
 				break
 		current_board.scot_roster.append(king)
 		current_board.add_to_region(king, kinging_location.regionID)
-
+		print(king.name + ' is now king of scotland')
 		king.kinged_before = True
 
 
@@ -211,7 +221,7 @@ def run_king(current_board, computer_role):
 	can_king2 = False
 	my_dict = can_king(current_board)
 
-	print(my_dict)
+	
 	for key in my_dict:
 		if my_dict[key]:
 			can_king2 = True
@@ -273,6 +283,7 @@ def run_king(current_board, computer_role):
 
 
 	make_king(current_board, type_of_king)
+
 	defect_nobles(current_board, loyalty_to_defect)
 	fight(current_board, computer_role)
 
