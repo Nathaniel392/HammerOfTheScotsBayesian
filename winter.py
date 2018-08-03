@@ -360,7 +360,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 			else:
 
-				if find_location(board,search.block_name_to_object(board.all_blocks,'EDWARD')) == region:
+				if find_location(board,search.block_name_to_object(board.all_blokcs,'EDWARD')) == region:
 
 					castle_points = 100
 
@@ -410,7 +410,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 						wallace_possible_locations = ['scottish pool',board.regions[18]]
 
-						add_to_location(board,user_block,choose_location(wallace_possible_locations,user_block.allegiance,computer_role,block))
+						add_to_location(board,block,choose_location(wallace_possible_locations,block.allegiance,computer_role,block))
 
 						display_blocks.remove(user_block)
 
@@ -457,32 +457,30 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 				have_to_move = len(region.blocks_present) - castle_points
 
 				if have_to_move > 0:
-					if len(display_blocks) != 0:
-						computer_block = random.choice(display_blocks)
 
-						if computer_block.type == "WALLACE":
+					computer_block = random.choice(display_blocks)
 
-							wallace_possible_locations = ['scottish pool',board.regions[18]]
+					if computer_block.type == "WALLACE":
 
-							add_to_location(board,computer_block,choose_location(wallace_possible_locations,block.allegiance,computer_role,block))
+						wallace_possible_locations = ['scottish pool',board.regions[18]]
 
-							display_blocks.remove(computer_block)
+						add_to_location(board,computer_block,choose_location(wallace_possible_locations,block.allegiance,computer_role,block))
+
+						display_blocks.remove(computer_block)
+
+					else:
+
+						if computer_block.allegiance == 'ENGLAND':
+
+							pool = 'english pool'
 
 						else:
 
-							if computer_block.allegiance == 'ENGLAND':
+							pool = 'scottish pool'
 
-								pool = 'english pool'
+						disband(board,computer_block)
 
-							else:
-
-								pool = 'scottish pool'
-
-							disband(board,computer_block)
-
-							display_blocks.remove(computer_block)
-					
-
+						display_blocks.remove(computer_block)
 
 				else:
 
@@ -509,7 +507,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 				computer_choice = random.randint(1)
 
-				if computer_choice == 0  and len(board.scot_pool) > 0:
+				if computer_choice == 0:
 
 					if len(region.blocks_present) < rp:
 
@@ -553,7 +551,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 						points -= 1
 
-				else:
+				elif computer_choice == 1:
 
 					potential_blocks = []
 
@@ -663,7 +661,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 					points = 0
 
-				elif user_choice.lower() == "r" and len(board.scot_pool) > 0:
+				elif user_choice.lower() == "r":
 
 					if len(region.blocks_present) < rp:
 
@@ -716,9 +714,6 @@ def distribute_rp(board,rp,region,computer_role):
 					else:
 
 						print ("Can't put reinforcements here!")
-				elif user_choice.lower() == "r" and len(board.scot_pool) > 0:
-
-					print('No blocks left in pool')
 
 				elif user_choice.lower() == "t":
 
