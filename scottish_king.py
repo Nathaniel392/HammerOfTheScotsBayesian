@@ -28,7 +28,7 @@ def can_king(current_board):
 	can_crown_balliol = False
 
 	for block in current_board.scot_roster + current_board.scot_pool:
-		if type(block) == blocks.Noble:
+		if type(block) == blocks.Noble and block in current_board.scot_roster:
 			
 			if block.name == 'BRUCE':
 				bruce_found = True
@@ -192,7 +192,7 @@ def make_king(current_board, type_of_king):
 	for region in current_board.regions:
 		for block in region.blocks_present:
 			if block.name == 'FRENCH':
-				french_location = find_location(current_board, block)
+				french_location = region
 
 
 	if type_of_king == 'BALLIOL':
