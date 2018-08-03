@@ -138,6 +138,7 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 	defender_is_dead = True
 
 
+	indexes_to_pop = list()
 
 	
 	for i, block in enumerate(attackers_lst):
@@ -153,7 +154,8 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 			if block.name == 'EDWARD':
 				print('However, his son is in the pool and will save the day')
 			
-			attackers_lst.pop(i)
+			indexes_to_pop.append(i)
+	
 				
 		
 		elif type(block) == blocks.Noble and block.is_dead():
@@ -161,21 +163,36 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 
 			block.change_allegiance()
 			
-			defense_reinforcements.append(attackers_lst.pop(i))
+			defense_reinforcements.append(attackers_lst[i])
+			indexes_to_pop.append(i)
 
 			print('\n', block.name, ' has changed sides and has been added to defense reinforcements')
 		elif type(block) != blocks.Noble and block.is_dead():
 
 			print('\n', block.name, ' has died and goes to the pool')
-			if block.allegiance == 'ENGLAND':
-				attackers_lst.pop(i)
-			else:
-				attackers_lst.pop(i)
+			indexes_to_pop.append(i)
 		
 			
 		if not block.is_dead():
 	
 			attacker_is_dead = False
+
+
+	for index in indexes_to_pop:
+		attackers_lst[i] = 'dead'
+
+	all_alive = False
+	while not all_alive:
+		try:
+			attackers_lst.remove('dead')
+		except ValueError:
+			all_alive = True
+
+
+	indexes_to_pop = list()
+
+
+
 
 
 	for i, block in enumerate(defenders_lst):
@@ -191,29 +208,40 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 			print('\n', block.name, ' has died and will never come back')
 			if block.name == 'EDWARD':
 				print('However, his son is in the pool and will save the day')
-			defenders_lst.pop(i)
+			indexes_to_pop.append(i)
 			
 
 		elif type(block) == blocks.Noble and block.is_dead():
 			
 			block.change_allegiance()
 
-			attack_reinforcements.append(defenders_lst.pop(i))
+			attack_reinforcements.append(defenders_lst[i])
+			indexes_to_pop.append(i)
 
 			print('\n', block.name, ' has changed sides and has been added to attack reinforcements')
 		
 		elif type(block) != blocks.Noble and block.is_dead():
 
 			print('\n', block.name, ' has died and goes to the pool')
-			if block.allegiance == 'ENGLAND':
-				defenders_lst.pop(i)
-			else:
-				defenders_lst.pop(i)
+			indexes_to_pop.append(i)
 			
 
 		if not block.is_dead():
 			
 			defender_is_dead = False
+
+	for index in indexes_to_pop:
+		defenders_lst[i] = 'dead'
+
+	all_alive = False
+	while not all_alive:
+		try:
+			defenders_lst.remove('dead')
+		except ValueError:
+			all_alive = True
+
+
+	
 
 	if attackers_lst == []:
 		attacker_is_dead = True
@@ -267,11 +295,13 @@ def retreat_locations(board, attacking, defending, is_attacking):
 
 			if is_attacking == False and defending[0].allegiance == region_allegiance and border != 0 and \
 			(not board.attacked_borders[x][current_location.regionID]) and (defending[0].name != 'NORSE' or board.regions[x].coast)\
-			and (defending[0].allegiance == 'ENGLAND' or x != 22) and (defending[0].allegiance == 'SCOTLAND' or x == 22 or current_location.regionID):
+			and (defending[0].allegiance == 'ENGLAND' or x != 22) and (defending[0].allegiance == 'SCOTLAND' or x == 22 or current_location.regionID)\
+			and (not board.regions[x].is_contested()):
 				possible_locations.append(board.regions[x])
 			elif is_attacking == True and attacking[0].allegiance == region_allegiance and border != 0 and \
 			(attacking[0].name != 'NORSE' or board.regions[x].coast) and (attacking[0].allegiance == 'ENGLAND' or x != 22) \
-			and (attacking[0].allegiance == 'SCOTLAND' or x == 22 or current_location.regionID != 22):
+			and (attacking[0].allegiance == 'SCOTLAND' or x == 22 or current_location.regionID != 22) \
+			and (not board.regions[x].is_contested()):
 				possible_locations.append(board.regions[x])
 		if not went_through_loop and border != 0 and (attacking[0].allegiance == 'ENGLAND' or x != 22) and (attacking[0].allegiance == 'SCOTLAND' or x == 22\
 			or current_location.regionID != 22) and (is_attacking == True or (not board.attacked_borders[x][current_location.regionID])):
@@ -337,7 +367,9 @@ def regroup_locations(board, attacking, defending, is_attacking):
 
 			if attacking[0].allegiance == region_allegiance and border != 0 \
 		    	and (block.name != 'NORSE' or board.regions[x].coast) \
-					and (attacking[0].allegiance == 'ENGLAND' or x != 22) and (attacking[0].allegiance == 'SCOTLAND' or x == 22 or find_location(board, block).regionID != 22):
+					and (attacking[0].allegiance == 'ENGLAND' or x != 22) and \
+					(attacking[0].allegiance == 'SCOTLAND' or x == 22 or find_location(board, block).regionID != 22)\
+					and (not board.regions[x].is_contested()):
 				possible_locations.append(board.regions[x])
 		if not went_through_loop and border != 0 and (attacking[0].allegiance == 'ENGLAND' or x != 22) and (attacking[0].allegiance == 'SCOTLAND' or x == 22\
 			or current_location.regionID != 22):
