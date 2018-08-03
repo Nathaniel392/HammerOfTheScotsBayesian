@@ -445,7 +445,7 @@ def sea_execution(board, position, role):
             
                     
                     
-            new_region = possible_final_region_list[random.randint(0, len(possible_region_list) - 1)]
+            new_region = possible_final_region_list[random.randint(0, len(possible_final_region_list) - 1)]
                 
             for block in move_block_list:
         

@@ -133,6 +133,11 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 	
 			defender_is_dead = False
 
+	if attackers_lst == []:
+		attacker_is_dead = True
+	if defenders_lst == []:
+		defender_is_dead = True
+
 	return attacker_is_dead, defender_is_dead
 
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
@@ -202,9 +207,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						for letter2 in defenders:
 							if letter2 == letter:
 								for attacking_block in defenders[letter2]:
+									if attack == list():
+										break
 									if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
 										if random.randint(0,2) == 0:
 											attacking_block.current_strength = 0
+											continue
 
 									attack_block(attacking_block, attack)
 
@@ -215,7 +223,15 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							
 									if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
 										
+							
+										
+										
 										return 'defender wins'
+									if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
+									
+										
+										
+										return 'attacker wins'
 								
 					if not turn_found and 'attacker' != turn:
 						pass
@@ -227,62 +243,26 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
 										if random.randint(0,2) == 0:
 											attacking_block.current_strength = 0
+											continue
 
 									attack_block(attacking_block, defense)
 
 				
 									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
 			
+									if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
+										
+							
+										
+										
+										return 'defender wins'
 									if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
-
+									
+										
+										
 										return 'attacker wins'
 
 	return 'attacker retreats'
-
-def simulation(attack, defense, num_times, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
-	"""
-	attack is list of attacking blocks
-	defense is list of defending blocks
-	num_times is number of simulations
-	returns dictionary with estimated probabilities
-	"""
-
-
-
-
-
-	original_attack = copy.deepcopy(attack)
-	original_defense = copy.deepcopy(defense)
-	original_attack_reinforcements = copy.deepcopy(attack_reinforcements)
-	original_defense_reinforcements = copy.deepcopy(defense_reinforcements)
-
-	totals_dict = {'attacker wins':0, 'defender wins':0, 'attacker retreats':0}
-	for j in range(num_times):
-
-
-	
-		for i, element in enumerate(attack):
-			if type(element) == tuple:
-				attack[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
-
-
-		for i, element in enumerate(defense):
-			if type(element) == tuple:
-				defense[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
-
-
-		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)] += 1
-	
-		attack, defense = copy.deepcopy(original_attack), copy.deepcopy(original_defense)
-
-		attack_reinforcements, defense_reinforcements = copy.deepcopy(original_attack_reinforcements), copy.deepcopy(original_defense_reinforcements)
-
-	for situation in totals_dict:
-		totals_dict[situation] /= num_times
-
-	return totals_dict
-
-
 def pick_random_block(block_tuple, attack, defense, attack_reinforcements, defense_reinforcements):
 	"""
 	if multiple blocks unkonwn
@@ -315,6 +295,61 @@ def pick_random_block(block_tuple, attack, defense, attack_reinforcements, defen
 					break
 
 	return block_to_be_attacked
+	
+def simulation(attack, defense, num_times, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
+	"""
+	attack is list of attacking blocks
+	defense is list of defending blocks
+	num_times is number of simulations
+	returns dictionary with estimated probabilities
+	"""
+
+
+
+
+
+	original_attack = copy.deepcopy(attack)
+	original_defense = copy.deepcopy(defense)
+	original_attack_reinforcements = copy.deepcopy(attack_reinforcements)
+	original_defense_reinforcements = copy.deepcopy(defense_reinforcements)
+
+	totals_dict = {'attacker wins':0, 'defender wins':0, 'attacker retreats':0}
+	for j in range(num_times):
+
+
+	
+		for i, element in enumerate(attack):
+			if type(element) == tuple:
+				attack[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+
+
+		for i, element in enumerate(defense):
+			if type(element) == tuple:
+				defense[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+
+		for i, element in enumerate(attack_reinforcements):
+			if type(element) == tuple:
+				attack_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+
+
+		for i, element in enumerate(defense_reinforcements):
+			if type(element) == tuple:
+				defense_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+
+
+		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)] += 1
+	
+		attack, defense = copy.deepcopy(original_attack), copy.deepcopy(original_defense)
+
+		attack_reinforcements, defense_reinforcements = copy.deepcopy(original_attack_reinforcements), copy.deepcopy(original_defense_reinforcements)
+
+	for situation in totals_dict:
+		totals_dict[situation] /= num_times
+
+	return totals_dict
+
+
+
 
 
 
