@@ -367,7 +367,9 @@ def using_weights_find_tuple(prob_dict, rounding = 100):
 
 
 
+
 	prev_gcd = math.gcd(weight_lst[0], weight_lst[1])
+
 	for i in range(2, len(weight_lst)):
 		prev_gcd = math.gcd(prev_gcd, weight_lst[i])
 
@@ -377,8 +379,11 @@ def using_weights_find_tuple(prob_dict, rounding = 100):
 
 	for weight, block_set in prob_dict.items():
 		for block in block_set:
-			for j in range(int(weight // prev_gcd)):
+
+
+			for j in range(int((weight * rounding) // prev_gcd)):
 				block_lst.append(block)
+
 
 	return tuple(block_lst)
 
