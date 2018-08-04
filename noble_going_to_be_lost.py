@@ -109,7 +109,7 @@ ENGLAND         22 F T 0
 	for i, number in enumerate(enemy_strength_lst):
 		if number != -1:
 			value_lst[i] -= number
-		value_lst[i] = value_lst[i] / 50
+		value_lst[i] = value_lst[i] / 60
 		if value_lst[i] < 0:
 			value_lst[i] = 0
 
