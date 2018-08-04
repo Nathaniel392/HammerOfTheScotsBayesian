@@ -75,32 +75,62 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 	"""
 	attacker_is_dead = True
 	defender_is_dead = True
+
+
+	indexes_to_pop = list()
+
 	
 	for i, block in enumerate(attackers_lst):
 	
 
 		if block.type == 'KING' and block.is_dead():
-		
+
 			return True, False
 		elif block.has_cross and block.is_dead():
+
 			
-			attackers_lst.pop(i)
+
+			if block.name == 'EDWARD':
+			
+			
+			indexes_to_pop.append(i)
+	
 				
 		
 		elif type(block) == blocks.Noble and block.is_dead():
+
+
 			block.change_allegiance()
-	
-			defense_reinforcements.append(attackers_lst.pop(i))
+			
+			defense_reinforcements.append(attackers_lst[i])
+			indexes_to_pop.append(i)
+
+			
 		elif type(block) != blocks.Noble and block.is_dead():
-			if block.allegiance == 'ENGLAND':
-				eng_pool.append(attackers_lst.pop(i))
-			else:
-				scot_pool.append(attackers_lst.pop(i))
+
+			indexes_to_pop.append(i)
 		
 			
 		if not block.is_dead():
 	
 			attacker_is_dead = False
+
+
+	for index in indexes_to_pop:
+		attackers_lst[index] = 'dead'
+
+	all_alive = False
+	while not all_alive:
+		try:
+			attackers_lst.remove('dead')
+		except ValueError:
+			all_alive = True
+
+
+	indexes_to_pop = list()
+
+
+
 
 
 	for i, block in enumerate(defenders_lst):
@@ -113,31 +143,49 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 
 		elif block.has_cross and block.is_dead():
 
-			defenders_lst.pop(i)
+	
+			if block.name == 'EDWARD':
+				
+			indexes_to_pop.append(i)
 			
 
 		elif type(block) == blocks.Noble and block.is_dead():
 			
 			block.change_allegiance()
 
-			attack_reinforcements.append(defenders_lst.pop(i))
+			attack_reinforcements.append(defenders_lst[i])
+			indexes_to_pop.append(i)
 
+		
 		elif type(block) != blocks.Noble and block.is_dead():
-			if block.allegiance == 'ENGLAND':
-				eng_pool.append(defenders_lst.pop(i))
-			else:
-				scot_pool.append(defenders_lst.pop(i))
+
+
+			indexes_to_pop.append(i)
 			
 
 		if not block.is_dead():
-	
+			
 			defender_is_dead = False
+
+	for index in indexes_to_pop:
+		defenders_lst[index] = 'dead'
+
+	all_alive = False
+	while not all_alive:
+		try:
+			defenders_lst.remove('dead')
+		except ValueError:
+			all_alive = True
+
+
+	
 
 	if attackers_lst == []:
 		attacker_is_dead = True
 	if defenders_lst == []:
 		defender_is_dead = True
 
+		
 	return attacker_is_dead, defender_is_dead
 
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
