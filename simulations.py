@@ -383,7 +383,7 @@ def using_weights_find_tuple(prob_dict, rounding = 100):
 
 
 	
-def simulation(attack, defense, num_times, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
+def simulation(attack, defense, num_times, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender', rounding = 100):
 	"""
 	attack is list of attacking blocks
 	defense is list of defending blocks
@@ -408,19 +408,31 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 		for i, element in enumerate(attack):
 			if type(element) == tuple:
 				attack[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+			elif type(element) == dict:
+				attack[i] = using_weights_find_tuple(element, rounding)
+				attack[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
 
 
 		for i, element in enumerate(defense):
 			if type(element) == tuple:
 				defense[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+			elif type(element) == dict:
+				defense[i] = using_weights_find_tuple(element, rounding)
+				defense[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
 
 		for i, element in enumerate(attack_reinforcements):
 			if type(element) == tuple:
+				attack_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+			elif type(element) == dict:
+				attack_reinforcements[i] = using_weights_find_tuple(element, rounding)
 				attack_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
 
 
 		for i, element in enumerate(defense_reinforcements):
 			if type(element) == tuple:
+				defense_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+			elif type(element) == dict:
+				defense_reinforcements[i] = using_weights_find_tuple(element, rounding)
 				defense_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
 
 
