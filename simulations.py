@@ -3,6 +3,7 @@ import blocks
 import copy
 import random
 import dice
+import math
 def organize(blocks):
 	'''
 	Separates list of blocks into a, b, and c
@@ -75,34 +76,62 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 	"""
 	attacker_is_dead = True
 	defender_is_dead = True
+
+
+	indexes_to_pop = list()
+
 	
 	for i, block in enumerate(attackers_lst):
 	
 
 		if block.type == 'KING' and block.is_dead():
-		
+
 			return True, False
 		elif block.has_cross and block.is_dead():
-			if current_board == None:
-				attackers_lst.pop(i)
-			else:
-				attackers_lst.pop(i)
+
+			
+
+
+			
+			
+			indexes_to_pop.append(i)
+	
 				
 		
 		elif type(block) == blocks.Noble and block.is_dead():
+
+
 			block.change_allegiance()
-	
-			defense_reinforcements.append(attackers_lst.pop(i))
+			
+			defense_reinforcements.append(attackers_lst[i])
+			indexes_to_pop.append(i)
+
+			
 		elif type(block) != blocks.Noble and block.is_dead():
-			if block.allegiance == 'ENGLAND':
-				eng_pool.append(attackers_lst.pop(i))
-			else:
-				scot_pool.append(attackers_lst.pop(i))
+
+			indexes_to_pop.append(i)
 		
 			
 		if not block.is_dead():
 	
 			attacker_is_dead = False
+
+
+	for index in indexes_to_pop:
+		attackers_lst[index] = 'dead'
+
+	all_alive = False
+	while not all_alive:
+		try:
+			attackers_lst.remove('dead')
+		except ValueError:
+			all_alive = True
+
+
+	indexes_to_pop = list()
+
+
+
 
 
 	for i, block in enumerate(defenders_lst):
@@ -115,26 +144,49 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 
 		elif block.has_cross and block.is_dead():
 
-			defenders_lst.pop(i)
+	
+	
+				
+			indexes_to_pop.append(i)
 			
 
 		elif type(block) == blocks.Noble and block.is_dead():
 			
 			block.change_allegiance()
 
-			attack_reinforcements.append(defenders_lst.pop(i))
+			attack_reinforcements.append(defenders_lst[i])
+			indexes_to_pop.append(i)
 
+		
 		elif type(block) != blocks.Noble and block.is_dead():
-			if block.allegiance == 'ENGLAND':
-				eng_pool.append(defenders_lst.pop(i))
-			else:
-				scot_pool.append(defenders_lst.pop(i))
+
+
+			indexes_to_pop.append(i)
 			
 
 		if not block.is_dead():
-	
+			
 			defender_is_dead = False
 
+	for index in indexes_to_pop:
+		defenders_lst[index] = 'dead'
+
+	all_alive = False
+	while not all_alive:
+		try:
+			defenders_lst.remove('dead')
+		except ValueError:
+			all_alive = True
+
+
+	
+
+	if attackers_lst == []:
+		attacker_is_dead = True
+	if defenders_lst == []:
+		defender_is_dead = True
+
+		
 	return attacker_is_dead, defender_is_dead
 
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
@@ -204,9 +256,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						for letter2 in defenders:
 							if letter2 == letter:
 								for attacking_block in defenders[letter2]:
+									if attack == list():
+										break
 									if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
 										if random.randint(0,2) == 0:
 											attacking_block.current_strength = 0
+											continue
 
 									attack_block(attacking_block, attack)
 
@@ -217,7 +272,15 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							
 									if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
 										
+							
+										
+										
 										return 'defender wins'
+									if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
+									
+										
+										
+										return 'attacker wins'
 								
 					if not turn_found and 'attacker' != turn:
 						pass
@@ -229,57 +292,26 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
 										if random.randint(0,2) == 0:
 											attacking_block.current_strength = 0
+											continue
 
 									attack_block(attacking_block, defense)
 
 				
 									attacker_is_dead, defender_is_dead = check_if_dead(attack, defense, attack_reinforcements, defense_reinforcements)
 			
+									if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
+										
+							
+										
+										
+										return 'defender wins'
 									if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
-
+									
+										
+										
 										return 'attacker wins'
 
 	return 'attacker retreats'
-
-def simulation(attack, defense, num_times, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
-	"""
-	attack is list of attacking blocks
-	defense is list of defending blocks
-	num_times is number of simulations
-	returns dictionary with estimated probabilities
-	"""
-	original_attack = copy.deepcopy(attack)
-	original_defense = copy.deepcopy(defense)
-	original_attack_reinforcements = copy.deepcopy(attack_reinforcements)
-	original_defense_reinforcements = copy.deepcopy(defense_reinforcements)
-
-	totals_dict = {'attacker wins':0, 'defender wins':0, 'attacker retreats':0}
-	for j in range(num_times):
-
-
-	
-		for i, element in enumerate(attack):
-			if type(element) == tuple:
-				attack[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
-
-
-		for i, element in enumerate(defense):
-			if type(element) == tuple:
-				defense[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
-
-
-		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)] += 1
-	
-		attack, defense = copy.deepcopy(original_attack), copy.deepcopy(original_defense)
-
-		attack_reinforcements, defense_reinforcements = copy.deepcopy(original_attack_reinforcements), copy.deepcopy(original_defense_reinforcements)
-
-	for situation in totals_dict:
-		totals_dict[situation] /= num_times
-
-	return totals_dict
-
-
 def pick_random_block(block_tuple, attack, defense, attack_reinforcements, defense_reinforcements):
 	"""
 	if multiple blocks unkonwn
@@ -312,6 +344,111 @@ def pick_random_block(block_tuple, attack, defense, attack_reinforcements, defen
 					break
 
 	return block_to_be_attacked
+
+def using_weights_find_tuple(prob_dict, rounding = 100):
+	"""
+	prob_dict: key is probability value (float) is block
+	rounding is how much one will round(max number of blocks to pick from)
+	picks random blocks based on weights
+	"""
+	weight_lst = list()
+
+	#find probabilites
+	for prob in prob_dict:
+		weight_lst.append(int(rounding * prob))
+
+	#reduce fractions
+	if len(weight_lst) < 2:
+		return weight_lst[0]
+
+
+	prev_gcd = math.gcd(weight_lst[0], weight_lst[1])
+	for i in range(2, len(weight_lst)):
+		prev_gcd = math.gcd(prev_gcd, weight_lst[i])
+
+	
+
+	block_lst = list()
+
+	for weight, block in prob_dict.items():
+		block_lst.append([block] * (weight // prev_gcd))
+
+	return tuple(block_lst)
+
+
+
+
+
+
+
+
+	
+def simulation(attack, defense, num_times, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender', rounding = 100):
+	"""
+	attack is list of attacking blocks
+	defense is list of defending blocks
+	num_times is number of simulations
+	returns dictionary with estimated probabilities
+	"""
+
+
+
+
+
+	original_attack = copy.deepcopy(attack)
+	original_defense = copy.deepcopy(defense)
+	original_attack_reinforcements = copy.deepcopy(attack_reinforcements)
+	original_defense_reinforcements = copy.deepcopy(defense_reinforcements)
+
+	totals_dict = {'attacker wins':0, 'defender wins':0, 'attacker retreats':0}
+	for j in range(num_times):
+
+
+	
+		for i, element in enumerate(attack):
+			if type(element) == tuple:
+				attack[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+			elif type(element) == dict:
+				attack[i] = using_weights_find_tuple(element, rounding)
+				attack[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+
+
+		for i, element in enumerate(defense):
+			if type(element) == tuple:
+				defense[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+			elif type(element) == dict:
+				defense[i] = using_weights_find_tuple(element, rounding)
+				defense[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+
+		for i, element in enumerate(attack_reinforcements):
+			if type(element) == tuple:
+				attack_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+			elif type(element) == dict:
+				attack_reinforcements[i] = using_weights_find_tuple(element, rounding)
+				attack_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+
+
+		for i, element in enumerate(defense_reinforcements):
+			if type(element) == tuple:
+				defense_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+			elif type(element) == dict:
+				defense_reinforcements[i] = using_weights_find_tuple(element, rounding)
+				defense_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
+
+
+		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)] += 1
+	
+		attack, defense = copy.deepcopy(original_attack), copy.deepcopy(original_defense)
+
+		attack_reinforcements, defense_reinforcements = copy.deepcopy(original_attack_reinforcements), copy.deepcopy(original_defense_reinforcements)
+
+	for situation in totals_dict:
+		totals_dict[situation] /= num_times
+
+	return totals_dict
+
+
+
 
 
 
