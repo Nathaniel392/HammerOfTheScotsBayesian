@@ -10,7 +10,7 @@ def weighted_prob(dictionary):
 	weight_sum = 0
 	for key, item in dictionary.items():
 		weight_sum += item
-	for key in dictionary.items():
+	for key in dictionary:
 		dictionary[key] /= float(weight_sum)
 
 
@@ -25,11 +25,24 @@ def weighted_prob(dictionary):
 
 	#select key
 	base_flt = random.uniform(0.0, 1.0)
+
 	for key, rage in range_dict.items():
-		if base_flt in rage:
+
+		if base_flt <= rage[1] and base_flt > rage[0]:
 			return key
 
-	return dictionary[0]
+	
+
+def main():
+	dictionary = {'hi': .25, 'hey': .75}
+	hey = {'hey':0, 'hi': 0}
+	for i in range(1000):
+		hey[weighted_prob(dictionary)] += 1
+	print(hey)
+
+
+if __name__ == '__main__':
+	main()
 
 
 
