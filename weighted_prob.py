@@ -31,12 +31,18 @@ def weighted_prob(dictionary):
 		if base_flt <= rage[1] and base_flt > rage[0]:
 			return key
 
+
+
+	#if for some reason the float rounding makes it not work
+	#pick arbitrary key
+	for key in dictionary:
+		return key
 	
 
 def main():
 	dictionary = {'hi': .25, 'hey': .75}
 	hey = {'hey':0, 'hi': 0}
-	for i in range(1000):
+	for i in range(100000000):
 		hey[weighted_prob(dictionary)] += 1
 	print(hey)
 
