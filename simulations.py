@@ -346,7 +346,7 @@ def pick_random_block(block_tuple, attack, defense, attack_reinforcements, defen
 
 	return block_to_be_attacked
 
-def using_weights_find_tuple(prob_dict, rounding = 100):
+def using_weights_find_tuple(prob_dict, rounding = 1000):
 	"""
 	prob_dict: value is blocks (set), key is probability (tuple)
 	rounding is how much one will round(max number of blocks to pick from)
