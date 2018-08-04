@@ -481,6 +481,8 @@ class Board(object):
 
 				path_taken = False
 
+
+
 				for path in prev_paths:
 
 					if path == computer_path:
@@ -488,10 +490,6 @@ class Board(object):
 						path_taken = True
 
 						break
-
-				if not path_taken:
-
-					prev_paths.append(computer_path)
 
 				#If the final region in the path is contested
 				if self.regions[end].is_contested():
@@ -502,11 +500,14 @@ class Board(object):
 					#Move it to the correct dictionary list
 					if self.regions[end].blocks_present[0].allegiance != block.allegiance and path_taken: 
 						self.regions[end].combat_dict['Attacking'].append(block)
+					
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance and self.regions[end].name == 'ENGLAND':
 						self.regions[end].combat_dict['Attacking'].append(block)
+
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
 						self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
 
+					
 					else:
 						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
 
@@ -535,10 +536,23 @@ class Board(object):
 						self.regions[end].combat_dict['Attacking'].append(block)
 						self.regions[end].blocks_present.append(block)
 						self.regions[start].blocks_present.remove(block)
+
+						
+						if not path_taken:
+
+							prev_paths.append(computer_path)
+						
 						print('Moved into enemy region')
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 						#Set the border between the last and second to last region in the path to attacked
+
+
+
+						###temporary
+						print(computer_path)
+						print('updating border between', computer_path[-2], 'and', end)
+						###
 						self.attacked_borders[computer_path[-2]][end] = True
 
 					#Friendly or neutral
@@ -614,9 +628,6 @@ class Board(object):
 
 						break
 
-				if not path_taken:
-
-					prev_paths.append(user_path)
 
 				#If the final region in the path is contested
 				if self.regions[end].is_contested():
@@ -661,10 +672,20 @@ class Board(object):
 						self.regions[end].combat_dict['Attacking'].append(block)
 						self.regions[end].blocks_present.append(block)
 						self.regions[start].blocks_present.remove(block)
+
+						if not path_taken:
+
+							prev_paths.append(user_path)
+
 						print('Moved into enemy region')
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 						#Set the border between the last and second to last region in the path to attacked
+
+						###temporary
+						print(user_path)
+						print('updating border between', user_path[-2], 'and', end)
+						###
 						self.attacked_borders[user_path[-2]][end] = True
 
 					#Friendly or neutral

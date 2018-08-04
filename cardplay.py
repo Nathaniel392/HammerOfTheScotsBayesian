@@ -244,7 +244,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                     print ("That path was not valid!")
 
                                 else:
-                                    move_pt +=1
+                                    #move_pt +=1
                                     blocks_moved.append(user_block)
 
                                     valid_block = True
@@ -285,7 +285,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                 end = computer_path1[-1]
 
                                 board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
-                                move_pt +=1
+                                #move_pt +=1
                             else:
 
                                 print("Computer chosen region has no moves!")
@@ -386,6 +386,8 @@ def movement_execution(board, position, role, num_moves, truce=False):
                         else:
 
                             print("Computer chosen region has no moves!")
+        #print(can_go_again)
+        print(move_pt)
         move_pt+=1
 
 def sea_execution(board, position, role):
@@ -533,8 +535,8 @@ def sea_execution(board, position, role):
                 
                 move_block_list = []
                 blocks_moved = 0
-                
-                while blocks_moved < 2:
+                quitt = False
+                while blocks_moved < 2 and not quitt:
                     valid_block = False
                     
                     while not valid_block:
@@ -548,52 +550,50 @@ def sea_execution(board, position, role):
                     
                             if block_to_move and block_to_move not in move_block_list:
                                 valid_block = True
-                                move_block_list.append(block)
+                                move_block_list.append(block_to_move)
                                 blocks_moved+=1
                             
                             elif block in move_block_list and len(possible_block_list) == 1:
-                                blocks_moved+=1
+                                blocks_moved=1
                                 
                             else:
                                 print('Invalid block.')
                                 continue
                         else:
-                            blocks_moved = 2
+                            
                             valid_block = True
                             quitt = True
-                            
-                            
-                        if not quitt:
-                                  
-                            print('Possible final regions:')
-                            for region in possible_final_region_list:
-                                print(region.name)
+
+                if len(move_block_list) > 0:              
+                    print('Possible final regions:')
+                    for region in possible_final_region_list:
+                        print(region.name)
+                
+                    #user input region, check if in possible list
+                    valid_region = False
+                    while not valid_region:
                         
-                            #user input region, check if in possible list
-                            valid_region = False
-                            while not valid_region:
-                                
-                                new_region_name = input('What region would you like to move block(s) to? Enter a name or \'none\'.\n>')
+                        new_region_name = input('What region would you like to move block(s) to? Enter a name or \'none\'.\n>')
+                    
+                        if new_region_name.lower() != 'none':
+                    
+                            new_region = search.region_name_to_object(board, new_region_name)
+                        
+                            if new_region and new_region in possible_final_region_list:
+                                valid_region = True
+                            else:
+                                print('Invalid region.')
+                                continue
+                        else:
+                            valid_region = True
+                            quitt = True
                             
-                                if new_region_name.lower() != 'none':
-                            
-                                    new_region = search.region_name_to_object(board, new_region_name)
+                    if not quitt:
                                 
-                                    if new_region and new_region in possible_final_region_list:
-                                        valid_region = True
-                                    else:
-                                        print('Invalid region.')
-                                        continue
-                                else:
-                                    valid_region = True
-                                    quitt = True
-                                    
-                            if not quitt:
-                                        
-                                for block in move_block_list:
-                                    
-                                    board.add_to_location(block, new_region)
-                                    print(block.name + ' moved from ' + original_region.name + ' to ' + new_region.name)
+                        for block in move_block_list:
+                            
+                            board.add_to_location(block, new_region)
+                            print(block.name + ' moved from ' + original_region.name + ' to ' + new_region.name)
                         
         else:
                 print('There are not enough friendly coastal regions with which to play this card.')

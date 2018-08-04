@@ -108,7 +108,7 @@ def opp_battle_choice(contested_regions):
         print(region.name, end = " ")
     
     while choice not in contested_regions:
-        choice = input('Enter name of region you want to resolve the battle in: ')
+        choice = input('Enter name of region you want to resolve the battle in: ').upper()
         for i,reg in enumerate(contested_regions):
             if reg.name == choice:
                 return(i)
@@ -169,8 +169,8 @@ def play_game():
 
     #Determine which side the computer plays:
     #computer_role, opp_role = prompt_ai_side()
-    computer_role = 'ENGLAND'
-    opp_role = 'SCOTLAND'
+    computer_role = 'SCOTLAND'
+    opp_role = 'ENGLAND'
 
     #Create list of blocks
     block_list = initialize_blocks.initialize_blocks()

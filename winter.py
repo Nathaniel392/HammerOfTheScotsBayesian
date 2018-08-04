@@ -123,7 +123,7 @@ def go_home(board,noble,computer_role):
 				
 				add_to_location(board,noble,noble_new_home)
 
-				print (noble.name + " went to " + str(noble_new_home))
+				print (noble.name + " went to " + str(noble_new_home.name))
 
 def add_to_location(board,block,location):
 
@@ -360,7 +360,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 			else:
 
-				if find_location(board,search.block_name_to_object(board.all_blokcs,'EDWARD')) == region:
+				if find_location(board,search.block_name_to_object(board.all_blocks,'EDWARD')) == region:
 
 					castle_points = 100
 
@@ -410,7 +410,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 						wallace_possible_locations = ['scottish pool',board.regions[18]]
 
-						add_to_location(board,block,choose_location(wallace_possible_locations,block.allegiance,computer_role,block))
+						add_to_location(board,user_block,choose_location(wallace_possible_locations,user_block.allegiance,computer_role,block))
 
 						display_blocks.remove(user_block)
 
@@ -457,30 +457,32 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 				have_to_move = len(region.blocks_present) - castle_points
 
 				if have_to_move > 0:
+					if len(display_blocks) != 0:
+						computer_block = random.choice(display_blocks)
 
-					computer_block = random.choice(display_blocks)
+						if computer_block.type == "WALLACE":
 
-					if computer_block.type == "WALLACE":
+							wallace_possible_locations = ['scottish pool',board.regions[18]]
 
-						wallace_possible_locations = ['scottish pool',board.regions[18]]
+							add_to_location(board,computer_block,choose_location(wallace_possible_locations,block.allegiance,computer_role,block))
 
-						add_to_location(board,computer_block,choose_location(wallace_possible_locations,block.allegiance,computer_role,block))
-
-						display_blocks.remove(computer_block)
-
-					else:
-
-						if computer_block.allegiance == 'ENGLAND':
-
-							pool = 'english pool'
+							display_blocks.remove(computer_block)
 
 						else:
 
-							pool = 'scottish pool'
+							if computer_block.allegiance == 'ENGLAND':
 
-						disband(board,computer_block)
+								pool = 'english pool'
 
-						display_blocks.remove(computer_block)
+							else:
+
+								pool = 'scottish pool'
+
+							disband(board,computer_block)
+
+							display_blocks.remove(computer_block)
+					
+
 
 				else:
 
@@ -505,9 +507,9 @@ def distribute_rp(board,rp,region,computer_role):
 
 			while points > 0:
 
-				computer_choice = random.randint(1)
+				computer_choice = random.randint(0,1)
 
-				if computer_choice == 0:
+				if computer_choice == 0  and len(board.scot_pool) > 0:
 
 					if len(region.blocks_present) < rp:
 
@@ -551,7 +553,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 						points -= 1
 
-				elif computer_choice == 1:
+				else:
 
 					potential_blocks = []
 
@@ -594,9 +596,9 @@ def distribute_rp(board,rp,region,computer_role):
 
 				try:
 
-					for index,name in enumerate(potential_blocks):
+					for index,potential_block in enumerate(potential_blocks):
 
-						print (str(index) + ":" + " "*5 + str(name))
+						print (str(index) + ":" + " "*5 + str(potential_block.name))
 
 					user_choice = input("Which block would you like to bump in " + region.name + "? \n Type 'done' if you are finished ")
 
@@ -609,6 +611,9 @@ def distribute_rp(board,rp,region,computer_role):
 						potential_blocks[int(user_choice)].current_strength += 1
 
 						points -= 1
+
+						if potential_blocks[int(user_choice)].current_strength == potential_blocks[int(user_choice)].attack_strength:
+							potential_blocks.pop(int(user_choice))
 
 				except (IndexError,ValueError):
 
@@ -661,7 +666,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 					points = 0
 
-				elif user_choice.lower() == "r":
+				elif user_choice.lower() == "r" and len(board.scot_pool) > 0:
 
 					if len(region.blocks_present) < rp:
 
@@ -714,6 +719,9 @@ def distribute_rp(board,rp,region,computer_role):
 					else:
 
 						print ("Can't put reinforcements here!")
+				elif user_choice.lower() == "r" and len(board.scot_pool) > 0:
+
+					print('No blocks left in pool')
 
 				elif user_choice.lower() == "t":
 
