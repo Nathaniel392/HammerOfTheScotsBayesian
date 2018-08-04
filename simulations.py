@@ -4,6 +4,7 @@ import copy
 import random
 import dice
 import math
+import search
 def organize(blocks):
 	'''
 	Separates list of blocks into a, b, and c
@@ -347,7 +348,7 @@ def pick_random_block(block_tuple, attack, defense, attack_reinforcements, defen
 
 def using_weights_find_tuple(prob_dict, rounding = 100):
 	"""
-	prob_dict: key is probability value (float) is block
+	prob_dict: value is blocks (set), key is probability (tuple)
 	rounding is how much one will round(max number of blocks to pick from)
 	picks random blocks based on weights
 	"""
@@ -370,8 +371,10 @@ def using_weights_find_tuple(prob_dict, rounding = 100):
 
 	block_lst = list()
 
-	for weight, block in prob_dict.items():
-		block_lst.append([block] * (weight // prev_gcd))
+	for weight, block_set in prob_dict.items():
+		for block in block_set:
+			for j in range(int(weight // prev_gcd)):
+				block_lst.append(block)
 
 	return tuple(block_lst)
 
