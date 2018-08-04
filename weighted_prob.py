@@ -3,6 +3,9 @@ def weighted_prob(dictionary):
 	"""
 	takes a dictionary of things
 	key is whatever you want (like path or whatever)
+	I would suggest if using blocks or paths or regions as the key to 
+	make it into a tuple of the one thing
+	so that it is immutable
 	value is weight
 	"""
 
