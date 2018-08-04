@@ -3,6 +3,7 @@ import blocks
 import copy
 import random
 import dice
+import math
 def organize(blocks):
 	'''
 	Separates list of blocks into a, b, and c
@@ -90,7 +91,7 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 
 			
 
-			if block.name == 'EDWARD':
+
 			
 			
 			indexes_to_pop.append(i)
@@ -144,7 +145,7 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 		elif block.has_cross and block.is_dead():
 
 	
-			if block.name == 'EDWARD':
+	
 				
 			indexes_to_pop.append(i)
 			
@@ -343,6 +344,44 @@ def pick_random_block(block_tuple, attack, defense, attack_reinforcements, defen
 					break
 
 	return block_to_be_attacked
+
+def using_weights_find_tuple(prob_dict, rounding = 100):
+	"""
+	prob_dict: key is probability value is block
+	rounding is how much one will round(max number of blocks to pick from)
+	picks random blocks based on weights
+	"""
+	weight_lst = list()
+
+	#find probabilites
+	for prob in prob_dict:
+		weight_lst.append(int(rounding * prob))
+
+	#reduce fractions
+	if len(weight_lst) < 2:
+		return weight_lst[0]
+
+
+	prev_gcd = math.gcd(weight_lst[0], weight_lst[1])
+	for i in range(2, len(weight_lst)):
+		prev_gcd = math.gcd(prev_gcd, weight_lst[i])
+
+	
+
+	block_lst = list()
+
+	for weight, block in prob_dict.items():
+		block_lst.append([block] * weight // prev_gcd)
+
+	return tuple(block_lst)
+
+
+
+
+
+
+
+
 	
 def simulation(attack, defense, num_times, attack_reinforcements = list(), defense_reinforcements = list(), before_letter = 'A', before_number = 0, turn = 'defender'):
 	"""
