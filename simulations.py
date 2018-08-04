@@ -347,7 +347,7 @@ def pick_random_block(block_tuple, attack, defense, attack_reinforcements, defen
 
 def using_weights_find_tuple(prob_dict, rounding = 100):
 	"""
-	prob_dict: key is probability value is block
+	prob_dict: key is probability value (float) is block
 	rounding is how much one will round(max number of blocks to pick from)
 	picks random blocks based on weights
 	"""
@@ -371,7 +371,7 @@ def using_weights_find_tuple(prob_dict, rounding = 100):
 	block_lst = list()
 
 	for weight, block in prob_dict.items():
-		block_lst.append([block] * weight // prev_gcd)
+		block_lst.append([block] * (weight // prev_gcd))
 
 	return tuple(block_lst)
 
