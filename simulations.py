@@ -352,6 +352,11 @@ def using_weights_find_tuple(prob_dict, rounding = 100):
 	rounding is how much one will round(max number of blocks to pick from)
 	picks random blocks based on weights
 	"""
+	if len(prob_dict) == 0:
+		raise Exception('nothing in probability dictionary')
+
+	if len(prob_dict) == 1:
+		return (prob_dict[0])
 	weight_lst = list()
 
 	#find probabilites
@@ -359,8 +364,7 @@ def using_weights_find_tuple(prob_dict, rounding = 100):
 		weight_lst.append(int(rounding * prob))
 
 	#reduce fractions
-	if len(weight_lst) < 2:
-		return weight_lst[0]
+
 
 
 	prev_gcd = math.gcd(weight_lst[0], weight_lst[1])
