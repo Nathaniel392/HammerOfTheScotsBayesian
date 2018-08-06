@@ -1010,6 +1010,7 @@ def pil_execution(board, position, role):
                                     if block_name.lower() == 'none':
                                         quitt = True
                                         valid_input = True
+                                        health_points = 0
                                     #if player doesnt enter 'none'
                                     if not quitt:
                                         block = search.block_name_to_object(chosen_add_region.blocks_present, block_name)
