@@ -570,7 +570,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 #run through the combat rounds
 
+		
 	for combat_round in range(3):
+
 
 
 		current_board.reset_borders()
@@ -591,6 +593,26 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 			defense_reinforcements = list()
 			print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
 
+
+		for block in attack + defense:
+			try:
+				if block.checked:
+					pass
+			except AttributeError:
+				if block.name == 'ULSTER' or block.name == 'WALES-INFANTRY' or block.name == 'WALES-ARCHER':
+					loyalty = random.randint(1, 6)
+					print(block.name, 'has rolled a', loyalty, 'to check for loyalty')
+					if loyalty in range(1, 5):
+						print(block.name, 'is loyal')
+					else:
+						print(block.name, 'has run away!')
+						block.checked = True
+						block.current_strength = 0
+						if block in attack:
+							attack.remove(block)
+						else:
+							defense.remove(block)
+						
 			
 		for letter in 'ABC':
 			
@@ -603,12 +625,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				if attack == list():
 					break
 
-				#check wales loyalty
-				if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
+			
 				
-					if random.randint(0,2) == 0:
-						attacking_block.current_strength = 0
-						print(attacking_block.name, 'has run away!')
 				
 				
 
@@ -740,11 +758,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 			
 
-				if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
-
-					if random.randint(0,2) == 0:
-						attacking_block.current_strength = 0
-						print(attacking_block.name, 'has run away!')
+			
 						
 				
 
