@@ -155,6 +155,8 @@ def win(block_list, year, scenario):
             return 'SCOTLAND WINS'
         else:
             return 'ENGLAND WINS'
+    elif year == 1305 and scenario == 'CAMPAIGN':
+        block_list[27].type = 'KING'
         
             
     return False
