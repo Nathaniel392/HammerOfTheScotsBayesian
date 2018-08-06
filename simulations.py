@@ -4,6 +4,7 @@ import copy
 import random
 import dice
 import math
+import search
 def organize(blocks):
 	'''
 	Separates list of blocks into a, b, and c
@@ -221,10 +222,31 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 #run through the combat rounds
 
 	for combat_round in range(3):
+
+
 		if not number_found and combat_round != before_number:
 	
 			pass
 		else:
+			for block in attack + defense:
+				try:
+					if block.checked:
+						pass
+				except AttributeError:
+					if block.name == 'ULSTER' or block.name == 'WALES-INFANTRY' or block.name == 'WALES-ARCHER':
+						loyalty = random.randint(1, 6)
+						
+						if loyalty in range(1, 5):
+							
+						else:
+							
+							block.checked = True
+							block.current_strength = 0
+							if block in attack:
+								attack.remove(block)
+							else:
+								defense.remove(block)
+					
 			number_found = True
 
 			if combat_round >= 1:
@@ -258,10 +280,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								for attacking_block in defenders[letter2]:
 									if attack == list():
 										break
-									if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
-										if random.randint(0,2) == 0:
-											attacking_block.current_strength = 0
-											continue
+									
 
 									attack_block(attacking_block, attack)
 
@@ -289,10 +308,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						for letter2 in attackers:
 							if letter2 == letter:
 								for attacking_block in attackers[letter2]:
-									if attacking_block.name == 'WALES-ARCHER' or attacking_block.name == 'WALES-INFANTRY' or attacking_block.name == 'ULSTER':
-										if random.randint(0,2) == 0:
-											attacking_block.current_strength = 0
-											continue
+									
 
 									attack_block(attacking_block, defense)
 
@@ -345,12 +361,17 @@ def pick_random_block(block_tuple, attack, defense, attack_reinforcements, defen
 
 	return block_to_be_attacked
 
-def using_weights_find_tuple(prob_dict, rounding = 100):
+def using_weights_find_tuple(prob_dict, rounding = 1000):
 	"""
-	prob_dict: key is probability value (float) is block
+	prob_dict: value is blocks (set), key is probability (tuple)
 	rounding is how much one will round(max number of blocks to pick from)
 	picks random blocks based on weights
 	"""
+	if len(prob_dict) == 0:
+		raise Exception('nothing in probability dictionary')
+
+	if len(prob_dict) == 1:
+		return (prob_dict[0])
 	weight_lst = list()
 
 	#find probabilites
@@ -358,11 +379,12 @@ def using_weights_find_tuple(prob_dict, rounding = 100):
 		weight_lst.append(int(rounding * prob))
 
 	#reduce fractions
-	if len(weight_lst) < 2:
-		return weight_lst[0]
+
+
 
 
 	prev_gcd = math.gcd(weight_lst[0], weight_lst[1])
+
 	for i in range(2, len(weight_lst)):
 		prev_gcd = math.gcd(prev_gcd, weight_lst[i])
 
@@ -370,8 +392,13 @@ def using_weights_find_tuple(prob_dict, rounding = 100):
 
 	block_lst = list()
 
-	for weight, block in prob_dict.items():
-		block_lst.append([block] * (weight // prev_gcd))
+	for weight, block_set in prob_dict.items():
+		for block in block_set:
+
+
+			for j in range(int((weight * rounding) // prev_gcd)):
+				block_lst.append(block)
+
 
 	return tuple(block_lst)
 
