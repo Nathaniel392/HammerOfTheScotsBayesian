@@ -134,7 +134,15 @@ def movement_execution(board, position, role, num_moves, truce=False):
         #print (blocks_moved)
 
         focus_region = None
-        prev_paths = []
+        try:
+            if type(prev_paths) != tuple:
+                prev_paths = []
+            else:
+                prev_paths = list(prev_paths)
+        except UnboundLocalError:
+            prev_paths = list()
+
+
 
         passed = False
         #FIND A FOCUS REGION AND PATH
@@ -636,9 +644,10 @@ def her_execution(board, position, role):
                 if name_input == noble.name:
                     valid_input = True
                     noble_to_steal = noble
+                    
 
-                else:
-                    print('Invalid input. Please try again.')
+            if not valid_input:
+                print('Invalid input. Please try again.')
 
     elif position == 'comp':
         ###

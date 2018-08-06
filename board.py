@@ -501,7 +501,7 @@ class Board(object):
 					if self.regions[end].blocks_present[0].allegiance != block.allegiance and path_taken: 
 						self.regions[end].combat_dict['Attacking'].append(block)
 					
-					elif self.regions[end].blocks_present[0].allegiance != block.allegiance and self.regions[end].name == 'ENGLAND':
+					elif self.regions[end].blocks_present[0].allegiance != block.allegiance and self.regions[end].name == 'ENGLAND' and path_taken:
 						self.regions[end].combat_dict['Attacking'].append(block)
 
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
@@ -542,6 +542,10 @@ class Board(object):
 						if not path_taken:
 
 							prev_paths.append(computer_path)
+
+							if computer_path[-1] == 22 or computer_path[0] == 22:
+								#if set don't change it in cardplay
+								prev_paths = tuple(prev_paths)
 						
 						print('Moved into enemy region')
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
@@ -555,6 +559,8 @@ class Board(object):
 						print('updating border between', computer_path[-2], 'and', end)
 						###
 						self.attacked_borders[computer_path[-2]][end] = True
+
+
 
 					#Friendly or neutral
 					else:
@@ -640,7 +646,7 @@ class Board(object):
 					if self.regions[end].blocks_present[0].allegiance != block.allegiance and path_taken: 
 						self.regions[end].combat_dict['Attacking'].append(block)
 
-					elif self.regions[end].blocks_present[0].allegiance != block.allegiance and self.regions[end].name == 'ENGLAND':
+					elif self.regions[end].blocks_present[0].allegiance != block.allegiance and self.regions[end].name == 'ENGLAND' and path_taken:
 						self.regions[end].combat_dict['Attacking'].append(block)
 
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
@@ -678,6 +684,10 @@ class Board(object):
 						if not path_taken:
 
 							prev_paths.append(user_path)
+
+							if user_path[-1] == 22 or user_path[0] == 22:
+								prev_paths = tuple(prev_paths)
+
 
 						print('Moved into enemy region')
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
