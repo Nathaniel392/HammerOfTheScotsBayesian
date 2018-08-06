@@ -205,7 +205,7 @@ def play_game():
     while game_playing:
 
         """INITIALIZE YEAR - deal, etc"""
-
+        print('Year: ' + str(year))
         deck.reset()
         computer_hand, opp_hand = deck.deal_hands()
 
