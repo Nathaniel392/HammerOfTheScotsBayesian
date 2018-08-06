@@ -510,6 +510,7 @@ class Board(object):
 					
 					else:
 						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
+						self.attacked_borders[computer_path[-2]][end] = True
 
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
@@ -655,6 +656,7 @@ class Board(object):
 
 					else:
 						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
+						self.attacked_borders[user_path[-2]][end] = True
 
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
