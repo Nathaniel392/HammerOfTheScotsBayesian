@@ -825,6 +825,7 @@ def pil_execution(board, position, role):
                     points_pillaged+=1
                     
                     if block.is_dead():
+                        print(block.name, 'goes to the pool')
                         if role == 'SCOTLAND':
                             board.eng_pool.append(block)
                             board.eng_roster.remove(block)
