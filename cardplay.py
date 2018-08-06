@@ -134,11 +134,13 @@ def movement_execution(board, position, role, num_moves, truce=False):
         #print (blocks_moved)
 
         focus_region = None
-
-        if type(prev_paths) != set:
-            prev_paths = []
-        else:
-            prev_paths = list(prev_paths)
+        try:
+            if type(prev_paths) != set:
+                prev_paths = []
+            else:
+                prev_paths = list(prev_paths)
+        except UnboundLocalError:
+            prev_paths = list()
 
 
 
@@ -642,9 +644,10 @@ def her_execution(board, position, role):
                 if name_input == noble.name:
                     valid_input = True
                     noble_to_steal = noble
+                    
 
-                else:
-                    print('Invalid input. Please try again.')
+            if not valid_input:
+                print('Invalid input. Please try again.')
 
     elif position == 'comp':
         ###
