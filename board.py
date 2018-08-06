@@ -685,7 +685,7 @@ class Board(object):
 
 							prev_paths.append(user_path)
 
-							if computer_path[-1] == 22 or computer_path[0] == 22:
+							if user_path[-1] == 22 or user_path[0] == 22:
 								#if set don't change it in cardplay
 								prev_paths = set(prev_paths)
 
