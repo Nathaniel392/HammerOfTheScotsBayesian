@@ -111,7 +111,7 @@ def go_home(board,noble,computer_role):
 
 			if not possible_locations:
 
-				board.regions[home].blocks_present.remove(noble)
+				find_location(board, noble).blocks_present.remove(noble)
 
 				if noble.allegiance == "SCOTLAND":
 

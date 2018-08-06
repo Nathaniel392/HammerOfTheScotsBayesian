@@ -506,13 +506,14 @@ class Board(object):
 
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
 						self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
-
+						self.attacked_borders[computer_path[-2]][end] = True
 					
 					else:
 						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
 
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
+
 					print('Moved into contested region.')
 					print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
@@ -644,6 +645,7 @@ class Board(object):
 
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
 						self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
+						self.attacked_borders[user_path[-2]][end] = True
 
 					else:
 						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
