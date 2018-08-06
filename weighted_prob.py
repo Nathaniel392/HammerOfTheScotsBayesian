@@ -1,7 +1,7 @@
 import random
 def weighted_prob(dictionary, num_times = 1):
 	if len(dictionary) < num_times:
-		raise Exception("asking for more keys than you have in your dictionary)
+		raise Exception("asking for more keys than you have in your dictionary")
 	prev_keys = set()
 	return_stuff = weighted_prob2(dictionary, num_times, prev_keys)
 
