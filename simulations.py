@@ -237,7 +237,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						loyalty = random.randint(1, 6)
 						
 						if loyalty in range(1, 5):
-							
+							pass
 						else:
 							
 							block.checked = True
