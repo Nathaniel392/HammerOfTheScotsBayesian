@@ -903,6 +903,7 @@ def pil_execution(board, position, role):
                 
                 if chosen_subtract_region_name.lower() == 'none':
                     quitt = True
+                    valid_region = True
                 
                 if not quitt:
                     chosen_subtract_region = search.region_name_to_object(board, chosen_subtract_region_name)
@@ -960,6 +961,7 @@ def pil_execution(board, position, role):
                         
                         if chosen_add_region_name.lower() == 'none':
                             quitt = True
+                            valid_region = True
                         
                         if not quitt:
                             chosen_add_region = search.region_name_to_object(board, chosen_add_region_name)
@@ -998,6 +1000,7 @@ def pil_execution(board, position, role):
                                     
                                     if block_name.lower() == 'none':
                                         quitt = True
+                                        valid_input = True
                                     #if player doesnt enter 'none'
                                     if not quitt:
                                         block = search.block_name_to_object(chosen_add_region.blocks_present, block_name)
@@ -1015,6 +1018,7 @@ def pil_execution(board, position, role):
                                             healing_points = input('How many points would you like to heal it? Enter an integer or \'none\'\n>')
                                             if healing_points.lower() == 'none':
                                                 quitt = True
+                                                valid_in = True
                                                 
                                             if not quitt:
                                                 if healing_points.isdigit():
