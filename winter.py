@@ -606,7 +606,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 			for block in region.blocks_present:
 
-				if block.current_strength < block.attack_strength and (type(block) == blocks.Noble or block.type == 'INFANTRY':
+				if block.current_strength < block.attack_strength and (type(block) == blocks.Noble or block.type == 'INFANTRY'):
 
 					potential_blocks.append(block)
 
@@ -651,7 +651,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 				for block in region.blocks_present:
 
-					if block.current_strength < block.attack_strength and (type(block) == blocks.Noble or block.type == 'INFANTRY':
+					if block.current_strength < block.attack_strength and (type(block) == blocks.Noble or block.type == 'INFANTRY'):
 
 						potential_blocks.append(block)
 
@@ -751,7 +751,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 					for block in region.blocks_present:
 
-						if block.current_strength < block.attack_strength
+						if block.current_strength < block.attack_strength:
 
 							potential_blocks.append(block)
 
