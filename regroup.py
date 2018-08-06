@@ -101,3 +101,4 @@ def noble_home_to_object(board, regionID):
 	elif regionID == 20:
 
 		return search.block_name_to_object(board.all_blocks, 'BRUCE')
+	return False
