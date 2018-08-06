@@ -11,6 +11,8 @@ import update_roster
 import random
 import combat
 
+
+
 def prompt_scenario():
     '''
     Ask the user for a scenario and return the string
@@ -211,6 +213,7 @@ def play_game():
 
         #When this gets to 5, end the year
         turn_counter = 0
+        current_board.turn = turn_counter
         play_turn = True
 
 

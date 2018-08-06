@@ -16,13 +16,6 @@ def update_roster(all_blocks_lst = None, current_board = None):
 	"""
 	all_blocks_lst = current_board.scot_roster + current_board.eng_roster
 	for block in all_blocks_lst:
-		try:
-			if block.checked:
-				block.checked = False
-		except AttributeError:
-			pass
-
-			
 		if type(block) == blocks.Noble:
 
 			if block.has_cross and block.is_dead():
@@ -92,7 +85,6 @@ def update_roster(all_blocks_lst = None, current_board = None):
 			region.combat_dict = {'Attacking': [], 'Defending': [], 'Attacking Reinforcements': [], 'Defending Reinforcements': []}
 		else:
 			current_board.reset_attacked_borders()
-
 
 
 

@@ -111,6 +111,8 @@ def go_home(board,noble,computer_role):
 
 			if not possible_locations:
 
+				find_location(board, noble).blocks_present.remove(noble)
+
 				if noble.allegiance == "SCOTLAND":
 
 					noble.allegiance == "ENGLAND"
@@ -119,7 +121,7 @@ def go_home(board,noble,computer_role):
 
 					noble.allegiance == "SCOTLAND"
 				
-				noble_choice = choose_location(new_locations,noble.allegiance,computer_role,noble)
+				noble_choice = choose_location(new_locations,noble.allegiance,computer_role,block)
 				print(noble.name + ' went home to ' + board.regions[noble_choice].name)
 				add_to_location(board,noble,noble_choice)
 
@@ -527,7 +529,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 			while points > 0:
 
-				computer_choice = random.randint(0, 1)
+				computer_choice = random.randint(1)
 
 				if computer_choice == 0:
 

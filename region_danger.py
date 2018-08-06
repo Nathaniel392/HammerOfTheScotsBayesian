@@ -14,12 +14,13 @@ def table(current_board, role):
 	for i,region in enumerate(current_board.regions):
 
 		danger_num = 0
-		if role == region.blocks_present[0].allegiance and role == region.blocks_present[len(region.blocks_present-1)].allegiance:
+
+		if len(region.blocks_present) > 0 and role == region.blocks_present[0].allegiance and role == region.blocks_present[len(region.blocks_present)-1].allegiance:
 			for j,other_region in enumerate(current_board.regions):
 
 				for block in other_region.blocks_present:
 
-					if block.allegiance != region.blocks_present[0].allegiance and current_board.checkpath(block.movement_points, y, x):
+					if block.allegiance != region.blocks_present[0].allegiance and current_board.check_path(block.movement_points, j, i, block):
 
 						danger_num += block.current_strength
 

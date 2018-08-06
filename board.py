@@ -113,6 +113,7 @@ class Board(object):
 		self.scot_roster = []
 		self.eng_roster = []
 		self.all_blocks = []
+		self.turn = 0
 
 		#print(self.static_borders)
 		
@@ -501,7 +502,7 @@ class Board(object):
 					if self.regions[end].blocks_present[0].allegiance != block.allegiance and path_taken: 
 						self.regions[end].combat_dict['Attacking'].append(block)
 					
-					elif self.regions[end].blocks_present[0].allegiance != block.allegiance and self.regions[end].name == 'ENGLAND' and path_taken:
+					elif self.regions[end].blocks_present[0].allegiance != block.allegiance and self.regions[end].name == 'ENGLAND':
 						self.regions[end].combat_dict['Attacking'].append(block)
 
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
@@ -510,7 +511,6 @@ class Board(object):
 					
 					else:
 						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
-						self.attacked_borders[computer_path[-2]][end] = True
 
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
@@ -543,10 +543,6 @@ class Board(object):
 						if not path_taken:
 
 							prev_paths.append(computer_path)
-
-							if computer_path[-1] == 22 or computer_path[0] == 22:
-								#if set don't change it in cardplay
-								prev_paths = tuple(prev_paths)
 						
 						print('Moved into enemy region')
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
@@ -560,8 +556,6 @@ class Board(object):
 						print('updating border between', computer_path[-2], 'and', end)
 						###
 						self.attacked_borders[computer_path[-2]][end] = True
-
-
 
 					#Friendly or neutral
 					else:
@@ -647,7 +641,7 @@ class Board(object):
 					if self.regions[end].blocks_present[0].allegiance != block.allegiance and path_taken: 
 						self.regions[end].combat_dict['Attacking'].append(block)
 
-					elif self.regions[end].blocks_present[0].allegiance != block.allegiance and self.regions[end].name == 'ENGLAND' and path_taken:
+					elif self.regions[end].blocks_present[0].allegiance != block.allegiance and self.regions[end].name == 'ENGLAND':
 						self.regions[end].combat_dict['Attacking'].append(block)
 
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
@@ -656,7 +650,6 @@ class Board(object):
 
 					else:
 						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
-						self.attacked_borders[user_path[-2]][end] = True
 
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
@@ -686,10 +679,6 @@ class Board(object):
 						if not path_taken:
 
 							prev_paths.append(user_path)
-
-							if user_path[-1] == 22 or user_path[0] == 22:
-								prev_paths = tuple(prev_paths)
-
 
 						print('Moved into enemy region')
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
@@ -846,7 +835,8 @@ class Region(object):
 
 		else:
 			return False
-
+	def is_enemy(self, role):
+		return not self.is_friendly(role) and not self.is_neutral() and not self.is_contested()
 	def activate_movement(self):
 		'''
 		use 1 movement point to activate movement for blocks in a region
