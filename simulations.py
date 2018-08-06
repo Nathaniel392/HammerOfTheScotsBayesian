@@ -427,7 +427,15 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 	original_attack_reinforcements = copy.deepcopy(attack_reinforcements)
 	original_defense_reinforcements = copy.deepcopy(defense_reinforcements)
 
-	totals_dict = {'attacker wins':0, 'defender wins':0, 'attacker retreats':0}
+	before_attack_strength = 0
+	before_defense_strength = 0
+
+	for block in original_attack + original_attack_reinforcements:
+		before_attack_strength += block.current_strength
+	for block in original_defense + original_defense_reinforcements:
+		before_defense_strength += block.current_strength
+
+	totals_dict = {'attacker wins':0, 'defender wins':0, 'attacker retreats':0, 'Attacker strength lost':0, 'Defender strength lost':0}
 	for j in range(num_times):
 
 
@@ -464,6 +472,16 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 
 
 		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)] += 1
+
+		after_attack_strength = 0
+		after_defense_strength = 0
+		for block in attack + attack_reinforcements:
+			after_attack_strength += block.current_strength
+		for block in defense + defense_reinforcements:
+			after_defense_strength += block.current_strength
+
+		totals_dict['Attacker strength lost'] += before_attack_strength - after_attack_strength
+		totals_dict['Defender strength lost'] += before_defense_strength - after_defense_strength
 	
 		attack, defense = copy.deepcopy(original_attack), copy.deepcopy(original_defense)
 
