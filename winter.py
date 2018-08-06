@@ -527,7 +527,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 			while points > 0:
 
-				computer_choice = random.randint(1)
+				computer_choice = random.randint(0, 1)
 
 				if computer_choice == 0:
 
