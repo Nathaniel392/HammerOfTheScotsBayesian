@@ -23,7 +23,9 @@ def regroup(board, regionID, locations):
 		else:
 			location_utility += value_of_location(board, location, role)
 
-		return_dict[location] = location_utilityxs
+		return_dict[location] = location_utility
+		
+	return return_dict
 
 
 
