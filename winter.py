@@ -111,8 +111,6 @@ def go_home(board,noble,computer_role):
 
 			if not possible_locations:
 
-				find_location(board, noble).blocks_present.remove(noble)
-
 				if noble.allegiance == "SCOTLAND":
 
 					noble.allegiance == "ENGLAND"
@@ -121,7 +119,7 @@ def go_home(board,noble,computer_role):
 
 					noble.allegiance == "SCOTLAND"
 				
-				noble_choice = choose_location(new_locations,noble.allegiance,computer_role,block)
+				noble_choice = choose_location(new_locations,noble.allegiance,computer_role,noble)
 				print(noble.name + ' went home to ' + board.regions[noble_choice].name)
 				add_to_location(board,noble,noble_choice)
 
