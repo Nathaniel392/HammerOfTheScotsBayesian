@@ -231,7 +231,7 @@ def play_game():
             #Remove card from human hand
             opp_hand.remove(opp_card)
             #Get card for computer
-            computer_card = cardplay.random_card(computer_hand)
+            computer_card = cardplay.select_comp_card(board, computer_hand, computer_role)
             #Remove card from computer hand
             computer_hand.remove(computer_card)
 
