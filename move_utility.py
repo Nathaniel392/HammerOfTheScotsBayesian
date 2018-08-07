@@ -67,7 +67,7 @@ def good_move(board, role, turn, truce):
 		
 
 
-	#account for difference in noble homes
+	#account for difference in locations owned values
 	value_loc_after = 0
 	for region in board.regions:
 		
