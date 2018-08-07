@@ -1179,7 +1179,7 @@ def resolve_card(board, which_side, card, role,truce=False):
                
         
             
-def compare_cards(board, opp_card, comp_card, comp_role):
+def compare_cards(board, eng_card, scot_card, eng_type, scot_type):
     """
     takes the opponent card, computer card, and computer allegiance (ENGLAND/SCOTLAND)
     compares cards for which side plays their turn first
@@ -1191,61 +1191,46 @@ def compare_cards(board, opp_card, comp_card, comp_role):
     year_ends_early = False
 
     
-    
-    if comp_role == 'SCOTLAND':
-        opp_role = 'ENGLAND'
-    elif comp_role == 'ENGLAND':
-        opp_role = 'SCOTLAND'
-    
-    if get_card_val(opp_card) > get_card_val(comp_card):
-      
-        who_goes_first = False
-    elif get_card_val(opp_card) < get_card_val(comp_card):
-    
-        who_goes_first = True
-    elif get_card_val(opp_card) == get_card_val(comp_card):
+    if get_card_val(eng_card) > get_card_val(scot_card):
+        who_goes_first = 'ENGLAND'
+        
+    elif get_card_val(eng_card) < get_card_val(scot_card):
+        who_goes_first = 'SCOTLAND'
+        
+    elif get_card_val(eng_card) == get_card_val(scot_card):
      
-        if comp_role == 'ENGLAND':
-            who_goes_first = True
-        elif comp_role == 'SCOTLAND':
-            who_goes_first = False
-        if get_card_val(opp_card) == 4 and get_card_val(comp_card) == 4:
+        who_goes_first = 'ENGLAND'
+        
+        if get_card_val(eng_card) == 4 and get_card_val(scot_card) == 4:
             year_ends_early = True
         
-    
-    if who_goes_first and comp_role == 'ENGLAND':
-        board.who_goes_first = 'ENGLAND'
-    elif who_goes_first and comp_role == 'SCOTLAND':
-        board.who_goes_first = 'SCOTLAND'
-    elif comp_role == 'ENGLAND':
-        board.who_goes_first = 'SCOTLAND'
-    else:
-        board.who_goes_first = 'ENGLAND'
+    board.who_goes_first = who_goes_first
 
 
-    if who_goes_first: #if computer goes first
+    if who_goes_first == 'ENGLAND': #if computer goes first
         
 
-        if resolve_card(board, 'comp',comp_card,comp_role) == True:
+        if resolve_card(board, scot_type,scot_card,'SCOTLAND') == True:
 
-            resolve_card(board, 'opp', opp_card, opp_role,True)
+            resolve_card(board, eng_type, eng_card, 'ENGLAND',True)
 
         else:
 
-            resolve_card(board, 'opp', opp_card, opp_role)
+            resolve_card(board, eng_type, eng_card, 'ENGLAND')
 
         
-    elif not who_goes_first: #if opponent goes first
+    elif who_goes_first == 'SCOTLAND': #if opponent goes first
         
         
 
-        if resolve_card(board, 'opp', opp_card, opp_role) == True:
+        if resolve_card(board, eng_type, eng_card, 'ENGLAND') == True:
 
-            resolve_card(board, 'comp', comp_card, comp_role,True)
+            resolve_card(board, scot_type, scot_card, 'SCOTLAND',True)
 
         else:
 
-            resolve_card(board, 'comp', comp_card, comp_role)
+            resolve_card(board, scot_type, scot_card, 'SCOTLAND')
 
         
     return who_goes_first, year_ends_early
+
