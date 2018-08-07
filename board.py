@@ -541,8 +541,10 @@ class Board(object):
 
 						
 						if not path_taken:
-
-							prev_paths.append(computer_path)
+							if type(prev_paths) != list:
+								prev_paths = list(prev_paths)
+								
+								prev_paths.append(computer_path)
 
 							if computer_path[-1] == 22 or computer_path[0] == 22:
 								#if set don't change it in cardplay
@@ -685,8 +687,9 @@ class Board(object):
 						self.regions[start].blocks_present.remove(block)
 
 						if not path_taken:
-
-							prev_paths.append(user_path)
+							if type(prev_paths) != list:
+								prev_paths = list(prev_paths)
+								prev_paths.append(user_path)
 
 							if user_path[-1] == 22 or user_path[0] == 22:
 								prev_paths = tuple(prev_paths)
