@@ -412,8 +412,12 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	else:
 		
 		possible_locations = list(retreat_locations(board, [], [attacking_block], is_attacking))
-
-
+	if len(attacking) > 0:
+		current_location = find_location(board, attacking[0]).regionID
+	possible_locations_id = list()
+	for location in possible_locations:
+		possible_locations_id.append(location.regionID)
+	choice = retreat.retreat(board, current_location, possible_locations_id, simulation_dict, is_attacking, board.turn)
 	###temporary
 	print('Computer says "I can move to these locations: "')
 	for region in possible_locations:
@@ -421,13 +425,13 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	print()
 	###
 
-	if win_percentage >= retreat_constant or len(possible_locations) < 1:
+	if choice == 'Staying value ':
 		return False
 	else:
-		
-		num = random.randint(0, len(possible_locations)-1)
-		return possible_locations[num]
-
+		choice = board.regions[choice]
+	
+		return choice
+	
 def print_situation(attack, defense, attack_reinforcements, defense_reinforcements):
 	"""
 	does nothing but print stuff
@@ -463,21 +467,19 @@ def regroup(winner_blocks, current_board, computer_role):
 			original_location = find_location(current_board, block)
 
 			possible_locations = regroup_locations(current_board, [block], [], False)
-			place_to_go_to = random.randint(0, len(possible_locations))
+			possible_locations_id = list()
+			for location in possible_locations:
+				possible_locations_id.append(location.regionID)
 
+			current_location = find_location(current_board, winner_blocks[0])
+			#Call the regrouping utility function which returns the ID of a region that the block should regroup to
+			place_to_go_to = search.region_id_to_object(current_board, regroup_util.regroup_utility(current_board, current_location.regionID, possible_locations_id))
 
-
-
-
-
-
-
-
-			if place_to_go_to == len(possible_locations):
+			if place_to_go_to.regionID == len(possible_locations):
 				print(block.name, ' stays')
 				continue
 			else:
-				place_to_go_to = possible_locations[place_to_go_to].regionID
+				place_to_go_to = possible_locations[place_to_go_to.regionID].regionID
 				current_board.add_to_location(block, place_to_go_to)
 
 				current_board.dynamic_borders[original_location.regionID][place_to_go_to] -= 1
@@ -523,7 +525,7 @@ def regroup(winner_blocks, current_board, computer_role):
 					print('not valid location')
 	current_board.reset_borders()
 	current_board.reset_attacked_borders()
-
+	
 def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), current_board = None, computer_role = 'ENGLAND'):
 	'''
 	Manages combat
