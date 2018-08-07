@@ -140,7 +140,9 @@ def retreat(board, regionID, locations, simulation_dict, is_attacking, turn):
 			retreating_value += noble_going_to_be_lost(board, block, role, turn) * 6
 
 			retreating_value += noble_not_going_to_be_occupied(board, block, turn, role) * -6
+	if 'WALLACE' in friendly_block_names and len(enemy_blocks) == 1:
 
+		retreating_value = 1
 
 	for location in locations:
 

@@ -218,7 +218,7 @@ def play_game():
         while play_turn:
             
             turn_counter += 1
-
+            current_board.turn = turn_counter
             #Reference to cards visible to the computer
             #known_cards = computer_hand
 
@@ -231,7 +231,7 @@ def play_game():
             #Remove card from human hand
             opp_hand.remove(opp_card)
             #Get card for computer
-            computer_card = cardplay.select_comp_card(board, computer_hand, 'comp')
+            computer_card = cardplay.random_card(computer_hand)
             #Remove card from computer hand
             computer_hand.remove(computer_card)
 

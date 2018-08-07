@@ -113,6 +113,7 @@ class Board(object):
 		self.scot_roster = []
 		self.eng_roster = []
 		self.all_blocks = []
+		self.turn = 0
 
 		#print(self.static_borders)
 		
@@ -463,6 +464,7 @@ class Board(object):
 		'''
 		
 
+		
 
 		if position == 'comp':
 			print('comp tried to move')
@@ -544,7 +546,9 @@ class Board(object):
 							if type(prev_paths) != list:
 								prev_paths = list(prev_paths)
 								
-								prev_paths.append(computer_path)
+							prev_paths.append(computer_path)
+							
+
 
 							if computer_path[-1] == 22 or computer_path[0] == 22:
 								#if set don't change it in cardplay
@@ -689,7 +693,7 @@ class Board(object):
 						if not path_taken:
 							if type(prev_paths) != list:
 								prev_paths = list(prev_paths)
-								prev_paths.append(user_path)
+							prev_paths.append(user_path)
 
 							if user_path[-1] == 22 or user_path[0] == 22:
 								prev_paths = tuple(prev_paths)
@@ -834,6 +838,7 @@ class Region(object):
 		Returns True if the region is empty
 		'''
 		return len(self.blocks_present) == 0
+
 	
 	def is_contested(self):
 		'''
@@ -852,6 +857,9 @@ class Region(object):
 
 		else:
 			return False
+
+	def is_enemy(self, role):
+		return not self.is_friendly(role) and not self.is_neutral() and not self.is_contested()
 
 	def activate_movement(self):
 		'''

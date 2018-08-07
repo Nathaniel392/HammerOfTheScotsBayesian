@@ -78,30 +78,28 @@ def get_card_val(card):
     else:
         return 4
 
-def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND'
-    max_value = 0
+def dumb_go_second(computer_hand): #plays lowest card
+    
+    min_val = 50 #initialize an initial "min" val 
+    
     for card in computer_hand:
-        if card == '1':
-            value = 0.6
-        elif card == '2':
-            value = 0.6
-        elif card == '3':
-            value = 0.6
-        elif card == 'SEA':
-            value = comp_card_utilities.sea_utility(board, role)
-        elif card == 'HER':
-            value, noble_to_steal = comp_card_utilities.her_utility(board, role)
-        elif card == 'VIC':
-            value, vic_block_lst = comp_card_utilities.vic_utility(board, role)
-        elif card == 'PIL':
-            value = comp_card_utilities.pil_utility(board, role)
-        elif card == 'TRU':
-            value = comp_card_utilities.tru_utility(board, role)
-        if value > max_value:
-            max_value = value
-            chosen_card = card
+        if get_card_val(card) < min_val:
+            min_val = get_card_val(card)
+            ret_card = card
             
-    return chosen_card
+    return ret_card
+
+
+def dumb_go_first(computer_hand): # plays highest card
+    
+    max_val = 0 #initialize an initial "max" val 
+    
+    for card in computer_hand:
+        if get_card_val(card) > max_val:
+                max_val = get_card_val(card)
+                ret_card = card
+                
+    return ret_card
 
 
 def random_card(computer_hand):
@@ -345,8 +343,8 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                         print ("That path was not valid!")
 
                                     else:
-                                        prev_paths = tuple(prev_paths)
-
+                                        
+                        
                                         if combat.find_location(board, user_block).name == 'ENGLAND':
                                             can_go_again = False
                                             picked_regions.remove(focus_region)
@@ -402,6 +400,9 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                     prev_paths = tuple(prev_paths)
                                     can_go_again = False
                                     picked_regions.remove(focus_region)
+                                else:
+                                    if type(prev_paths) == list:
+                                        prev_paths.append(computer_paths_1)
                                 count+=1
                                 blocks_moved.append(block)
 
