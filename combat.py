@@ -8,6 +8,7 @@ import simulations
 import search
 import regroup_util
 import retreat
+import exceptions
 
 
 def find_location(board, blok):
@@ -154,7 +155,10 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 
 		if block.type == 'KING' and block.is_dead():
 			print('\n', block.name , ' has died and the game is over')
-			return True, False
+			if block.allegiance == 'ENGLAND':
+				raise EnglishKingDeadException()
+			else:
+				raise ScottishKingDeadException()
 		elif block.has_cross and block.is_dead():
 
 			print('\n', block.name, ' has died and will never come back')
@@ -209,7 +213,10 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 		
 		if block.type == 'KING' and block.is_dead():
 			print('\n', block.name , ' has died and the game is over')
-			return False, True
+			if block.allegiance == 'ENGLAND':
+				raise EnglishKingDeadException()
+			else:
+				raise ScottishKingDeadException()
 
 		elif block.has_cross and block.is_dead():
 
