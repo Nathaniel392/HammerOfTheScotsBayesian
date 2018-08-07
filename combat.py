@@ -989,7 +989,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 	regroup(defense + defense_reinforcements, current_board, eng_type, scot_type)
-	update_roster.update_roster(current_board = current_board)
+
 	return 'attacker retreats'
 
 
