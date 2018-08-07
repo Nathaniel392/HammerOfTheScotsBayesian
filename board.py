@@ -547,6 +547,7 @@ class Board(object):
 							if computer_path[-1] == 22 or computer_path[0] == 22:
 								#if set don't change it in cardplay
 								prev_paths = tuple(prev_paths)
+
 						
 						print('Moved into enemy region')
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
@@ -689,6 +690,7 @@ class Board(object):
 
 							if user_path[-1] == 22 or user_path[0] == 22:
 								prev_paths = tuple(prev_paths)
+								
 
 
 						print('Moved into enemy region')
@@ -720,6 +722,7 @@ class Board(object):
 				return False
 
 		#Successfully executed
+	
 		return True
 
 

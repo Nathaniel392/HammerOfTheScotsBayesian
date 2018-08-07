@@ -134,13 +134,20 @@ def movement_execution(board, position, role, num_moves, truce=False):
         #print (blocks_moved)
 
         focus_region = None
+        
         try:
+       
             if type(prev_paths) != tuple:
                 prev_paths = []
             else:
+                
                 prev_paths = list(prev_paths)
+
+
         except UnboundLocalError:
             prev_paths = list()
+
+     
 
 
 
@@ -253,9 +260,14 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                                 else:
                                     #move_pt +=1
+                                    prev_paths = tuple(prev_paths)
+
+
                                     blocks_moved.append(user_block)
 
                                     valid_block = True
+
+                          
 
                             else:
 
@@ -331,6 +343,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                         print ("That path was not valid!")
 
                                     else:
+                                        prev_paths = tuple(prev_paths)
 
                                         if combat.find_location(board, user_block).name == 'ENGLAND':
                                             can_go_again = False
@@ -384,6 +397,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                                 board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
                                 if board.regions[end].name == 'ENGLAND':
+                                    prev_paths = tuple(prev_paths)
                                     can_go_again = False
                                     picked_regions.remove(focus_region)
                                 count+=1
