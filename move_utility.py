@@ -1,4 +1,36 @@
 import retreat
+def find_move(board, role, turn, truce, num_moves):
+	"""
+	this is for 2 and 3 cards
+	"""
+	move_dict_lst = list()
+
+	i = 0
+
+	while i < num_moves:
+		#keep going to find a move
+		while not good_move(board, role, turn, truce):
+			move_dict_lst.pop()
+			move_dict_lst.append(good_move(board, role, turn, truce))
+
+		#find the starting region
+		for block_name, path in move_dict_lst[i].items():
+			starting_region_id = path[0]
+			break
+
+		#make sure it's not in the same as something before
+		same_region_bool = False
+		for j in range(i)
+			for block_name, path in move_dict_lst[j].items():
+				if path[0] == path[i]:
+					same_region_bool = True
+
+		#if not the same region can move on to get another region
+		if not same_region_bool:
+			i += 1
+
+
+
 
 def good_move(board, role, turn, truce):
 
