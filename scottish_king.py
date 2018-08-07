@@ -85,7 +85,7 @@ def defect_nobles(current_board, loyalty_to_defect):
 				else:
 					region.combat_dict['Defending'].append(block)
 
-def fight(current_board, computer_role):
+def fight(current_board, eng_type, scot_type):
 	"""
 	does all the fights in contested regions
 	computer_role is scottish or english
@@ -97,15 +97,24 @@ def fight(current_board, computer_role):
 	for region in current_board.regions:
 		if region.is_contested():
 			contested_regions.append(region)
+	
+	first_played = current_board.who_goes_first
+	
+	if first_played == 'ENGLAND':
+		order_decider_type = eng_type
+	elif first_played == 'SCOTLAND':
+		order_decider_type = scot_type
 
 
 			
-	if computer_role == 'SCOTLAND':
+	if order_decider_type == 'comp':
 
 		while len(contested_regions) > 0:
 			
 
 			try:
+				region_index_to_fight = random.randint(0, len(contested_regions) - 1)
+				'''
 				if current_board.who_goes_first == 'SCOTLAND':
 
 					region_index_to_fight = random.randint(0, len(contested_regions) - 1)
@@ -125,6 +134,7 @@ def fight(current_board, computer_role):
 							print('type a valid index')
 						else:
 							bad_input = False
+				'''
 			except AttributeError:
 				raise Exception('error in cardplay not assigning who_goes_first to board')
 
@@ -141,7 +151,7 @@ def fight(current_board, computer_role):
 			for region in current_board.regions:
 				if region.is_contested():
 					contested_regions.append(region)
-	else:
+	else:	#Human picks which regions to contest first
 		
 		while len(contested_regions) > 0:
 			
@@ -217,7 +227,7 @@ def make_king(current_board, type_of_king):
 		king.kinged_before = True
 
 
-def run_king(current_board, computer_role):
+def run_king(current_board, eng_type, scot_type):
 	"""
 	runs through input
 	returns False if don't want to king
@@ -243,7 +253,7 @@ def run_king(current_board, computer_role):
 			possible_kings.append(key)
 
 
-	if computer_role != 'SCOTLAND':
+	if scot_type == 'comp':
 		bad_input = True
 		while bad_input:
 			want_to_king = input('Would you like to make a king (y) or (n): ')
@@ -293,7 +303,7 @@ def run_king(current_board, computer_role):
 	make_king(current_board, type_of_king)
 
 	defect_nobles(current_board, loyalty_to_defect)
-	fight(current_board, computer_role)
+	fight(current_board, eng_type, scot_type)
 
 
 
