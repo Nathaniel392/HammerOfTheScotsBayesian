@@ -79,6 +79,9 @@ def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND
             max_value = value
             chosen_card = card
             
+    print('computer hand: ', computer_hand)
+    print('computer plays ', card_to_play)
+            
     return chosen_card
 
 
