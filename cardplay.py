@@ -16,6 +16,7 @@ import find_block
 import blocks
 import copy
 import scottish_king
+import comp_card_utilities
 
     
 #ultimately: return card that the computer decides to play
