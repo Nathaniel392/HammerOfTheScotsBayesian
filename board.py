@@ -298,6 +298,19 @@ class Board(object):
 				return_list.append(i)
 
 		return return_list
+		
+	def find_adjacent_regions_object(self, region):
+		'''
+		Returns a list of all bordering regions of a region, given its region
+		'''
+		
+		return_list = []
+		for i, border in enumerate(self.static_borders[regionID]):
+
+			if border == "B" or border == "R":
+				return_list.append(search.region_id_to_object(self, i))
+
+		return return_list
   
 	def find_all_borders(self, regionID_list):
 		'''

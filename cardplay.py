@@ -81,7 +81,7 @@ def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND
             chosen_card = card
             
     print('computer hand: ', computer_hand)
-    print('computer plays ', card_to_play)
+    print('computer plays ', chosen_card)
             
     return chosen_card
 
@@ -814,7 +814,7 @@ def pil_execution(board, position, role):
                 new_list = []
                 new_list.append(region.regionID)
                 for neighbor_region in board.find_all_borders(new_list):
-                    if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
+                    if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral() and neighbor_region not in possible_pill_lst:
                         possible_pill_lst.append(neighbor_region)
             
             
