@@ -78,28 +78,30 @@ def get_card_val(card):
     else:
         return 4
 
-def dumb_go_second(computer_hand): #plays lowest card
-    
-    min_val = 50 #initialize an initial "min" val 
-    
+def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND'
+    max_value = 0
     for card in computer_hand:
-        if get_card_val(card) < min_val:
-            min_val = get_card_val(card)
-            ret_card = card
+        if card == '1':
+            value = 0.6
+        elif card == '2':
+            value = 0.6
+        elif card == '3':
+            value = 0.6
+        elif card == 'SEA':
+            value = comp_card_utilities.sea_utility(board, role)
+        elif card == 'HER':
+            value, noble_to_steal = comp_card_utilities.her_utility(board, role)
+        elif card == 'VIC':
+            value, vic_block_lst = comp_card_utilities.vic_utility(board, role)
+        elif card == 'PIL':
+            value = comp_card_utilities.pil_utility(board, role)
+        elif card == 'TRU':
+            value = comp_card_utilities.tru_utility(board, role)
+        if value > max_value:
+            max_value = value
+            chosen_card = card
             
-    return ret_card
-
-
-def dumb_go_first(computer_hand): # plays highest card
-    
-    max_val = 0 #initialize an initial "max" val 
-    
-    for card in computer_hand:
-        if get_card_val(card) > max_val:
-                max_val = get_card_val(card)
-                ret_card = card
-                
-    return ret_card
+    return chosen_card
 
 
 def random_card(computer_hand):
