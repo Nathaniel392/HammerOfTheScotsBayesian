@@ -171,8 +171,9 @@ def play_game():
 
     #Determine which side the computer plays:
     #computer_role, opp_role = prompt_ai_side()
-    computer_role = 'SCOTLAND'
-    opp_role = 'ENGLAND'
+    eng_type = 'comp'
+    scot_type = 'comp'
+    
 
     #Create list of blocks
     block_list = initialize_blocks.initialize_blocks()
@@ -207,7 +208,7 @@ def play_game():
         """INITIALIZE YEAR - deal, etc"""
         print('Year: ' + str(year))
         deck.reset()
-        computer_hand, opp_hand = deck.deal_hands()
+        eng_hand, scot_hand = deck.deal_hands()
 
         #When this gets to 5, end the year
         turn_counter = 0
@@ -219,25 +220,33 @@ def play_game():
             
             turn_counter += 1
             current_board.turn = turn_counter
+
             #Reference to cards visible to the computer
             #known_cards = computer_hand
 
             #probabilites of cards
             #probability_cards = deck.count_probabilities(known_cards)
 
-            #Find out what card the human wants to play
-            opp_card = opp_hand[opp_card_choice(opp_hand)]
+            #Find out what england wants to play
+            if eng_type == 'opp':
+                eng_card = opp_hand[opp_card_choice(opp_hand)]
+            elif eng_type == 'comp':
+                eng_card = cardplay.select_comp_card(current_board, eng_hand, 'ENGLAND')
+            
+            #Find out what scotland wants to play
+            if scot_type == 'opp':
+                scot_card = opp_hand[opp_card_choice(scot_hand)]
+            elif scot_type == 'comp':
+                scot_card = cardplay.select_comp_card(current_board, scot_hand, 'SCOTLAND')
 
-            #Remove card from human hand
-            opp_hand.remove(opp_card)
-            #Get card for computer
-            computer_card = cardplay.select_comp_card(current_board, computer_hand, computer_role)
+            #Remove card from hands
+            eng_hand.remove(eng_card)
             #Remove card from computer hand
-            computer_hand.remove(computer_card)
+            scot_hand.remove(scot_card)
 
 
             #Figure out who goes first, if it is true then Computer goes first - also resolves cards
-            who_goes_first, year_cut_short = cardplay.compare_cards(current_board, opp_card, computer_card, computer_role)
+            who_goes_first, year_cut_short = cardplay.compare_cards(current_board, eng_card, scot_card, eng_type, scot_type)
             
             #Get a list all the regions that are contested
             contested_regions = current_board.get_contested_regions()
@@ -251,7 +260,7 @@ def play_game():
 
                     battle_region = contested_regions[opp_battle_choice(contested_regions)]
 
-                    combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], battle_region.combat_dict['Defending Reinforcements'],current_board, computer_role= computer_role)
+                    combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], battle_region.combat_dict['Defending Reinforcements'],current_board, eng_type, scot_type)
 
                     contested_regions.remove(battle_region)
                     
@@ -260,11 +269,11 @@ def play_game():
                 else:
 
                     battle_region = contested_regions[random.randint(0, len(contested_regions)-1)]
-                    combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], battle_region.combat_dict['Defending Reinforcements'],current_board, computer_role= computer_role)
+                    combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], battle_region.combat_dict['Defending Reinforcements'],current_board, eng_type, scot_type)
 
                     contested_regions.remove(battle_region)
                     
-            border_raids.border_raid(current_board, computer_role)
+            border_raids.border_raid(current_board, eng_type, scot_type)
             update_roster.update_roster(block_list, current_board)
 
             if year_cut_short or turn_counter >= 5:
@@ -274,8 +283,8 @@ def play_game():
                 print(win(block_list, year, scenario))
                 return 'game over'
         input('Start Winter')
-        winter.initialize_winter(current_board, block_list, computer_role, edward_prev_winter)
-        winter.winter_builds(current_board, computer_role)
+        winter.initialize_winter(current_board, block_list, eng_type, scot_type, edward_prev_winter)
+        winter.winter_builds(current_board, eng_type, scot_type)
 
 
 def main():
