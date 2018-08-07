@@ -305,7 +305,7 @@ class Board(object):
 		'''
 		
 		return_list = []
-		for i, border in enumerate(self.static_borders[regionID]):
+		for i, border in enumerate(self.static_borders[region.regionID]):
 
 			if border == "B" or border == "R":
 				return_list.append(search.region_id_to_object(self, i))

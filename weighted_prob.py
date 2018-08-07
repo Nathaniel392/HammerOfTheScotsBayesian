@@ -1,7 +1,15 @@
 import random
 def weighted_prob(dictionary, num_times = 1):
+
+	for key, value in dictionary.items():
+		if value <= 0:
+			dictionary[key] = 0.00000001
+
+
+	print('weighted_prob: ' + str(dictionary))
 	if len(dictionary) < num_times:
 		raise Exception("asking for more keys than you have in your dictionary")
+	
 	prev_keys = set()
 	return_stuff = weighted_prob2(dictionary, num_times, prev_keys)
 
@@ -26,6 +34,8 @@ def weighted_prob2(dictionary, num_times = 1, prev_keys = set()):
 		try:
 			weight_sum = 0
 			for key, item in dictionary.items():
+				if item < 0:
+					raise Exception('you got negative weight, fool')
 				weight_sum += item
 			for key in dictionary:
 				dictionary[key] /= float(weight_sum)

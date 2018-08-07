@@ -60,6 +60,7 @@ def get_card_val(card):
 def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND'
     max_value = 0
     for card in computer_hand:
+        print(role + ' is testing ' + card)
         if card == '1':
             value = 0.6
         elif card == '2':
@@ -69,11 +70,11 @@ def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND
         elif card == 'SEA':
             value = comp_card_utilities.sea_utility(board, role)
         elif card == 'HER':
-            value, noble_to_steal = comp_card_utilities.her_utility(board, role)
+            value = comp_card_utilities.her_utility(board, role)
         elif card == 'VIC':
             value, vic_block_lst = comp_card_utilities.vic_utility(board, role)
         elif card == 'PIL':
-            value = comp_card_utilities.pil_utility(board, role)
+            value, region_to_pillage_ID, region_to_heal_ID = comp_card_utilities.pil_utility(board, role)
         elif card == 'TRU':
             value = comp_card_utilities.tru_utility(board, role)
         if value > max_value:
@@ -1048,7 +1049,7 @@ def pil_execution(board, position, role):
         else:
             print('There are no possible regions in which to play this card.')
 
-def resolve_card(board, which_side, card, role,truce=False):
+def resolve_card(board, eng_type, scot_type, card, role, truce=False):
     
     """
     Takes in a string that lists side (comp/opp), the card for that side, and the role (england/scotland)
@@ -1056,17 +1057,10 @@ def resolve_card(board, which_side, card, role,truce=False):
     
     """
 
-    if which_side == 'opp':
-        if role == 'SCOTLAND': 
-            comp_role = 'ENGLAND'
-        else:
-            comp_role = 'SCOTLAND'
-    else:
-        comp_role = role
-
-
-
-
+    if role == 'ENGLAND':
+        which_side = eng_type
+    elif role == 'SCOTLAND':
+        which_side = scot_type
 
 
     if card == '1':
@@ -1078,7 +1072,7 @@ def resolve_card(board, which_side, card, role,truce=False):
 
     else:
 
-        if role == 'ENGLAND' or not scottish_king.run_king(board, comp_role):
+        if role == 'ENGLAND' or not scottish_king.run_king(board, eng_type, scot_type):
             
         
             
@@ -1210,31 +1204,23 @@ def compare_cards(board, eng_card, scot_card, eng_type, scot_type):
         
     board.who_goes_first = who_goes_first
 
+    eng_played_truce = False
+    if eng_card == 'TRU':
+        eng_played_truce = True
 
-    if who_goes_first == 'ENGLAND': #if computer goes first
+    scot_played_truce = False
+    if scot_card == 'TRU':
+        scot_played_truce = True
+
+    if who_goes_first == 'ENGLAND':
+
+        resolve_card(board, eng_type, scot_type, eng_card, 'ENGLAND', scot_played_truce)
+        resolve_card(board, eng_type, scot_type, scot_card, 'SCOTLAND', eng_played_truce)
         
-
-        if resolve_card(board, scot_type,scot_card,'SCOTLAND') == True:
-
-            resolve_card(board, eng_type, eng_card, 'ENGLAND',True)
-
-        else:
-
-            resolve_card(board, eng_type, eng_card, 'ENGLAND')
-
+    elif who_goes_first == 'SCOTLAND':
         
-    elif who_goes_first == 'SCOTLAND': #if opponent goes first
-        
-        
-
-        if resolve_card(board, eng_type, eng_card, 'ENGLAND') == True:
-
-            resolve_card(board, scot_type, scot_card, 'SCOTLAND',True)
-
-        else:
-
-            resolve_card(board, scot_type, scot_card, 'SCOTLAND')
-
+        resolve_card(board, eng_type, scot_type, scot_card, 'SCOTLAND', eng_played_truce)
+        resolve_card(board, eng_type, scot_type, eng_card, 'ENGLAND', scot_played_truce)
         
     return who_goes_first, year_ends_early
 

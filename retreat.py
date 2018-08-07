@@ -147,8 +147,12 @@ def retreat(board, regionID, locations, simulation_dict, is_attacking, turn):
 	for location in locations:
 
 		return_dict[location] = value_of_location(board, location, role) * retreating_value
+
 	for key in return_dict:
 		print(str(key) + " " + str(return_dict[key]))
+		if return_dict[key] <= 0:
+			return_dict[key] = 0.000000001
+
 	return weighted_prob.weighted_prob(return_dict)
 
 

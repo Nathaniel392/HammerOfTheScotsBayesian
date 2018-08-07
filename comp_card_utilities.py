@@ -227,23 +227,22 @@ def vic_utility(board, role):
 	
 	#decide whether you want to play victuals based on chosen region and block list
 	region_dict = victuals_region_utility(board, role)
-	chosen_region = weighted_prob.weighted_prob(region_dict)
+
+	chosen_region_ID = weighted_prob.weighted_prob(region_dict)
+	#convert from id to Region
+	chosen_region = search.region_id_to_object(board, chosen_region_ID)
 	
 	#choosing blocks to victual and adding them to victual_block_list
 	victual_block_list = []
 	
-	blocks_dict = victuals_block_utility(chosen_region, role)
-	victual_block_list.append(weighted_prob.weighted_prob(blocks_dict))
-	
-	blocks_dict = victuals_block_utility(chosen_region, role)
-	victual_block_list.append(weighted_prob.weighted_prob(blocks_dict))
-	
-	blocks_dict = victuals_block_utility(chosen_region, role)
-	victual_block_list.append(weighted_prob.weighted_prob(blocks_dict))
+	for counter in range(3):
+		blocks_dict = victuals_block_utility(chosen_region, role)
+		victual_block_list.append(weighted_prob.weighted_prob(blocks_dict))
 	
 	utility_value = 0
 	hits_taken = 0
-	for block in victual_block_list:
+	for block_id in victual_block_list:
+		block = search.block_id_to_object(board.all_blocks, block_id)
 		#for scotland:
 		#if block is king and he needs it
 		if block.name == 'KING' and block.current_strength < block.attack_strength:
@@ -317,6 +316,8 @@ def victuals_region_utility(board, role): #+ prob tables
 			#if any other block is below full health
 			elif block.current_strength < block.attack_strength:
 				region_utility += .1
+			else:
+				region_utility += .00000001
 			
 			hits_taken += block.attack_strength - block.current_strength
 		#to maximize 3 healing points
@@ -325,7 +326,10 @@ def victuals_region_utility(board, role): #+ prob tables
 		elif hits_taken == 2:
 			region_utility += .1
 		
-		prob_dict[region] = region_utility
+		prob_dict[region.regionID] = region_utility
+
+
+	print('vicuals_region_utility: ' + str(prob_dict))
 		
 	return prob_dict
 				
@@ -356,7 +360,12 @@ def victuals_block_utility(chosen_region, role): #+ prob tables
 				block_utility += .25
 			else:
 				block_utility += .1
-		prob_dict[block] = block_utility
+		else:
+			block_utility += 0.0000001
+		prob_dict[block.blockID] = block_utility
+
+
+	print('victuals_block_utility: ' + str(prob_dict))
 		
 	return prob_dict
 
@@ -385,10 +394,10 @@ def max_health(board, region):
 		health_sum += block.attack_strength
 	return health_sum
 
-def value_blocks(regionid):
+def value_blocks(board, regionid):
 	valuable_blocks = {'WALLACE':18, 'KING':22, 'EDWARD':16, 'HOBELARS':13}
 	value = 0
-	region = search.region_id_to_object(regionid)
+	region = search.region_id_to_object(board, regionid)
 	for block in region.blocks_present:
 		if block.name in valuable_blocks:
 			value += valuable_blocks[block.name]
@@ -431,14 +440,14 @@ def pil_utility(board, role):
 
 
 			#takes friendly health into account
-			if max_health(board, region_friendly) - sum_health(board,region_id) >= 2:
+			if max_health(board, region_friendly.regionID) - sum_health(board,region_id) >= 2:
 				utility_dict[region_id, region_friendly] += .5
 			elif sum_health(board, region_id) == 1:
 				utility_dict[(region_id, region_friendly)] += .1
 
 			#value of enemy blocks and friendly blocks
-			utility_dict[(region_id, region_friendly)] += value_blocks(region_id)
-			utility_dict[(region_id, region_friendly)] += value_blocks(region_friendly)
+			utility_dict[(region_id, region_friendly)] += value_blocks(board, region_id)
+			utility_dict[(region_id, region_friendly)] += value_blocks(board, region_friendly.regionID)
 		
 		
 		

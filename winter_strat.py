@@ -137,7 +137,7 @@ def disband_block_util(player,board,region):
 
 	util_dict = {}
 
-	display_blocks
+	display_blocks = {}
 
 	if region.blocks_present[0].allegiance == 'SCOTLAND':
 

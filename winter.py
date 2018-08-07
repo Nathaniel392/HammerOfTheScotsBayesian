@@ -8,12 +8,6 @@ import weighted_prob
 def find_location(board, blok):
 	for region in board.regions:
 		for bllock in region.blocks_present:
-
-			if region.name == "FIFE":
-
-				print (blok.name)
-
-				print (bllock.name)
 			
 			if bllock.name == blok.name:
 				return region
@@ -229,7 +223,7 @@ def moray_util(board,noble):
 
 	stay_loc = find_location(board,noble)
 
-	if board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
+	if board.regions[noble.home_location].is_friendly(noble.allegiance):
 
 		util_dict['home'] = 0
 
@@ -389,7 +383,7 @@ def disband_block_util(board,region):
 
 			util_dict[block.blockID] = 0
 
-			for i in range(4-block.current_strength):
+			for i in range(block.attack_strength-block.current_strength):
 
 				util_dict[block.blockID] += 1
 
@@ -497,8 +491,6 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 	for block in block_list:
 
 		if block in board.eng_roster or block in board.scot_roster:
-
-			print (block.name)
 
 			if find_location(board,block).regionID == 22:
 
@@ -667,7 +659,7 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 
 	for brit in board.eng_roster:
 
-		if brit.type == 'ARCHER' or brit.type == 'KNIGHT' and find_location(board,search.block_name_to_object(board,'EDWARD')) != find_location(board,brit):
+		if brit.type == 'ARCHER' or brit.type == 'KNIGHT' and find_location(board,search.block_name_to_object(board.all_blocks,'EDWARD')) != find_location(board,brit):
 
 			disband(board,brit)
 
@@ -777,23 +769,33 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 
 		elif region.blocks_present and region.blocks_present[0].allegiance in computer_role:
 
-			disbanding_utilities,have_to_move = disband_block_util(board,region)
+			display_blocks = []
 
-			computer_choices = weighted_prob.weighted_prob(disbanding_utilities,have_to_move)
+			for region_block in region.blocks_present:
 
-			for computer_choice in computer_choices:
+				if type(region_block) != blocks.Noble:
 
-				computer_block = search.block_id_to_object(board.all_blocks,computer_choice)
+					display_blocks.append(region_block)
 
-				if computer_block.type == "WALLACE":
+			if display_blocks:
 
-					wallace_possible_locations = ['scottish pool',board.regions[18]]
+				disbanding_utilities,have_to_move = disband_block_util(board,region)
 
-					add_to_location(board,computer_block,choose_location(wallace_possible_locations,block.allegiance,eng_type,scot_type,block))
+				computer_choices = weighted_prob.weighted_prob(disbanding_utilities,have_to_move)
 
-				else:
+				for computer_choice in computer_choices:
 
-					disband(board,computer_block)
+					computer_block = search.block_id_to_object(board.all_blocks,computer_choice)
+
+					if computer_block.type == "WALLACE":
+
+						wallace_possible_locations = ['scottish pool',board.regions[18]]
+
+						add_to_location(board,computer_block,choose_location(wallace_possible_locations,block.allegiance,eng_type,scot_type,block))
+
+					else:
+
+						disband(board,computer_block)
 		
 	levy(board)
 

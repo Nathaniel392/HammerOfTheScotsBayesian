@@ -245,6 +245,7 @@ def play_game():
             scot_hand.remove(scot_card)
 
 
+
             #Figure out who goes first, if it is true then Computer goes first - also resolves cards
             who_goes_first, year_cut_short = cardplay.compare_cards(current_board, eng_card, scot_card, eng_type, scot_type)
             

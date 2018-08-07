@@ -13,7 +13,7 @@ def regroup_utility(board, regionID, locations):
 
 		location_utility = 0
 
-		if len(board.regions[location].blocks_present) == 0 and noble_home_to_object(board, location) and noble_homt_to_object(board, location).allegiance != role:
+		if len(board.regions[location].blocks_present) == 0 and noble_home_to_object(board, location) and noble_home_to_object(board, location).allegiance != role:
 			location_utility += value_of_location(board, location, role) * 3
 
 		elif len(board.regions[location].blocks_present) == 0 and noble_home_to_object(board, location):
@@ -145,7 +145,7 @@ ENGLAND         22 F T 0
 		if number != -1:
 			value_lst[i] -= number
 		value_lst[i] = value_lst[i] / 50
-		if value_lst[i] < 0:
-			value_lst[i] = 0
+		if value_lst[i] <= 0:
+			value_lst[i] = 0.0000001
 
 	return value_lst[regionID]
