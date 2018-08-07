@@ -1,4 +1,5 @@
 import random
+import exceptions
 def weighted_prob(dictionary, num_times = 1):
 
 	for key, value in dictionary.items():
@@ -64,14 +65,14 @@ def weighted_prob2(dictionary, num_times = 1, prev_keys = set()):
 
 							return key
 						else:
-							raise Exception()
+							raise BreakOutOfLoopException()
 					else:
 						if key not in prev_keys:
 							prev_keys.add(key)
 							
 							return weighted_prob2(dictionary, num_times - 1, prev_keys)
 						else:
-							raise Exception()
+							raise BreakOutOfLoopException()
 
 
 
@@ -87,15 +88,15 @@ def weighted_prob2(dictionary, num_times = 1, prev_keys = set()):
 						
 						return key
 					else:
-						raise Exception()
+						raise BreakOutOfLoopException()
 				else:
 					if key not in prev_keys:
 						prev_keys.add(key)
 						return weighted_prob2(dictionary, num_times - 1, prev_keys)
 					else:
-						raise Exception()
+						raise BreakOutOfLoopException()
 
-		except Exception:
+		except BreakOutOfLoopException:
 			pass
 
 	
