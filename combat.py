@@ -64,7 +64,7 @@ def find_max_strength(block_lst):
 	return strong_blocks
 
 
-def attack_block(attack_block_block, defending_blocks, computer_role):
+def attack_block(attack_block_block, defending_blocks, eng_type, scot_type):
 	"""
 	attacks blocks
 	uses random in case where everyone same health
@@ -74,6 +74,13 @@ def attack_block(attack_block_block, defending_blocks, computer_role):
 
 
 	attacking_allegiance = attack_block_block.allegiance
+	
+	if attacking_allegiance == 'ENGLAND':
+		attacker_type = eng_type
+		defender_type = scot_type
+	elif attacking_allegiance == 'SCOTLAND':
+		attacker_type = scot_type
+		defender_type = eng_type
 	
 	if defending_blocks == []:
 		return False
@@ -87,12 +94,12 @@ def attack_block(attack_block_block, defending_blocks, computer_role):
 		strong_blocks = find_max_strength(defending_blocks)
 
 		if num <= attack_block_block.attack_number:
-			if computer_role != attacking_allegiance:
+			if defender_type == 'comp':
 
 				block_to_get_hurt = strong_blocks[random.randint(0, len(strong_blocks) - 1)]
 				block_to_get_hurt.get_hurt(1)
 				print(block_to_get_hurt.name, 'got hurt!')
-			else:
+			else: #if defender is a human ('opp')
 				bad_input = True
 				index = 0
 				while bad_input:
@@ -455,14 +462,19 @@ def print_situation(attack, defense, attack_reinforcements, defense_reinforcemen
 		print(block.name, '-', block.current_strength, end = '\t')
 	print('\n')
 
-def regroup(winner_blocks, current_board, computer_role):
+def regroup(winner_blocks, current_board, eng_type, scot_type):
 	"""
 	regroups after someone wins
 	winner_blocks is a list of winning blocks
 	current_board is board
 	"""
 	
-	if computer_role == winner_blocks[0].allegiance:
+	if winner_blocks[0].allegiance == 'ENGLAND':
+		winner_type = eng_type
+	elif winner_blocks[0].allegiance == 'SCOTLAND':
+		winner_type = scot_type
+		
+	if winner_type == 'comp':
 		for block in winner_blocks:
 
 			original_location = find_location(current_board, block)
@@ -527,7 +539,7 @@ def regroup(winner_blocks, current_board, computer_role):
 	current_board.reset_borders()
 	current_board.reset_attacked_borders()
 	
-def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), current_board = None, computer_role = 'ENGLAND'):
+def battle(attack, defense, attack_reinforcements = list(), defense_reinforcements = list(), current_board = None, eng_type='opp', scot_type='comp'):
 	'''
 	Manages combat
 	attack:  list of attacking blocks
@@ -542,7 +554,20 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	
 	'''
+	
+	attacking_allegiance = attack[0].allegiance
+	
+	if attacking_allegiance == 'ENGLAND':
+		attacker_type = eng_type
+		defender_type = scot_type
+	elif attacking_allegiance == 'SCOTLAND':
+		attacker_type = scot_type
+		defender_type = eng_type
+		
+		
 
+	
+	
 	print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
 	
 
@@ -636,7 +661,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 				if not attacking_block.is_dead():
 
-					if computer_role != defenders_allegiance:
+					if defender_type == 'opp':
 
 						
 						bad_input = True
@@ -692,7 +717,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 							elif option == 'f':
 								#fight
-								attack_block(attacking_block, attack, computer_role)
+								attack_block(attacking_block, attack, eng_type, scot_type)
 
 							
 								bad_input = False
@@ -702,7 +727,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							else:
 								print('type in a proper letter (r) or (f) or (p)')
 								bad_input = True
-					else:
+					else:   #if defender_type == 'comp'
 
 
 						option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, letter, combat_round, attacking_block = attacking_block)
@@ -724,7 +749,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
 						else:
-							attack_block(attacking_block, attack, computer_role)
+							attack_block(attacking_block, attack, eng_type, scot_type)
 
 
 			
@@ -741,13 +766,13 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 					update_roster.update_roster(current_board = current_board)
 		
 					print('defender wins')
-					regroup(defense + defense_reinforcements, current_board, computer_role)
+					regroup(defense + defense_reinforcements, current_board, eng_type, scot_type)
 					return 'defender wins'
 				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
 				
 					update_roster.update_roster(current_board = current_board)
 					print('attacker wins')
-					regroup(attack + attack_reinforcements, current_board, computer_role)
+					regroup(attack + attack_reinforcements, current_board, eng_type, scot_type)
 					return 'attacker wins'
 						
 			
@@ -768,7 +793,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 				if not attacking_block.is_dead():
 					
-					if computer_role != attackers_allegiance:
+					if attacker_type == 'opp':
 
 						
 						bad_input = True
@@ -823,7 +848,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 							elif option == 'f':
 								#print(1)
-								attack_block(attacking_block, defense, computer_role)
+								attack_block(attacking_block, defense, eng_type, scot_type)
 								
 								bad_input = False
 							elif option == 'p':
@@ -832,7 +857,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							else:
 								print('type in a proper letter (r) or (f) or (p)')
 								bad_input = True
-					else:
+					else:   #if attacker_type == 'comp'
 
 						option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, True, letter, combat_round, 'attacker', attacking_block = attacking_block)
 						
@@ -855,7 +880,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 						else:
 						
-							attack_block(attacking_block, defense, computer_role)
+							attack_block(attacking_block, defense, eng_type, scot_type)
 
 				
 					
@@ -868,13 +893,13 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 					update_roster.update_roster(current_board = current_board)
 					
 					print('attacker wins')
-					regroup(attack + attack_reinforcements, current_board, computer_role)
+					regroup(attack + attack_reinforcements, current_board, eng_type, scot_type)
 					return 'attacker wins'
 				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
 					update_roster.update_roster(current_board = current_board)
 		
 					print('defender wins')
-					regroup(defense + defense_reinforcements, current_board, computer_role)
+					regroup(defense + defense_reinforcements, current_board, eng_type, scot_type)
 					return 'defender wins'
 
 	update_roster.update_roster(current_board = current_board)
@@ -913,10 +938,10 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 		else:
 			regionID_to_retreat_to = 'error, need to get region id combat.py attacker retreats'
-			if computer_role == attackers_allegiance:
+			if attacker_type == 'comp':
 				option = random.choice(possible_locations)
 				regionID_to_retreat_to = option.regionID
-			else:
+			else:  #attacker_type == 'opp':
 
 				bad_input = False
 				valid_location = False
@@ -961,7 +986,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 			print(attacking_block.name, ' retreated to ', current_board.regions[regionID_to_retreat_to].name)
 
 
-	regroup(defense + defense_reinforcements, current_board, computer_role)
+	regroup(defense + defense_reinforcements, current_board, eng_type, scot_type)
 	return 'attacker retreats'
 
 
