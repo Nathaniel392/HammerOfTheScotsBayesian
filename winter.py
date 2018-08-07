@@ -186,7 +186,7 @@ def moray_util(board,noble):
 
 	stay_loc = find_location(board,noble)
 
-	if board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
+	if len(board.regions[noble.home_location].blocks_present) == 0 or board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
 
 		util_dict['home'] = 0
 

@@ -629,7 +629,7 @@ class Board(object):
 					print ("Not a valid location!")
 
 			end = user_path[-1]
-			potential_paths = self.check_path(block.movement_points,user_path[0],user_path[-1], block)
+			potential_paths = self.check_path(block.movement_points,user_path[0],user_path[-1], block, all_paths = [])
 			print(potential_paths)
 			if user_path in potential_paths:
 

@@ -7,6 +7,29 @@ Created on Tue Jul 24 15:05:44 2018
 @author: amylvaganam
 """
 
+######### temporary set of functions for temporary gameplay
+
+"""
+HOW TO UTILIZE:
+
+deck = Deck()
+deck.shuffle()
+computer_hand = list()
+for i in range(5):
+    computer_hand.append(deck.deal())
+   
+    
+print(computer_hand)
+card = cardplay.random_card(computer_hand)
+print(card)
+
+card = cardplay.dumb_go_first(computer_hand)
+print(card)
+
+card = cardplay.dumb_go_second(computer_hand)
+print(card)
+"""
+
 import random
 import combat
 import dice
@@ -55,30 +78,28 @@ def get_card_val(card):
     else:
         return 4
 
-def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND'
-    max_value = 0
+def dumb_go_second(computer_hand): #plays lowest card
+    
+    min_val = 50 #initialize an initial "min" val 
+    
     for card in computer_hand:
-        if card == '1':
-            value = 0.6
-        elif card == '2':
-            value = 0.6
-        elif card == '3':
-            value = 0.6
-        elif card == 'SEA':
-            value = comp_card_utilities.sea_utility(board, role)
-        elif card == 'HER':
-            value = 0.5
-        elif card == 'VIC':
-            value, vic_block_lst = comp_card_utilities.vic_utility(board, role)
-        elif card == 'PIL':
-            value = comp_card_utilities.pil_utility(board, role)
-        elif card == 'TRU':
-            value = comp_card_utilities.tru_utility(board, role)
-        if value > max_value:
-            max_value = value
-            chosen_card = card
+        if get_card_val(card) < min_val:
+            min_val = get_card_val(card)
+            ret_card = card
             
-    return chosen_card
+    return ret_card
+
+
+def dumb_go_first(computer_hand): # plays highest card
+    
+    max_val = 0 #initialize an initial "max" val 
+    
+    for card in computer_hand:
+        if get_card_val(card) > max_val:
+                max_val = get_card_val(card)
+                ret_card = card
+                
+    return ret_card
 
 
 def random_card(computer_hand):
@@ -275,7 +296,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                     for block in focus_region.blocks_present:
                         if num_moves > move_pt:
-                            possible_paths = board.check_all_paths(block.movement_points,focus_region.regionID,block,all_paths = list(), truce=truce)
+                            possible_paths = board.check_all_paths(block.movement_points,focus_region.regionID,block,all_paths = [], truce=truce)
 
                             if possible_paths:
                                 print(possible_paths)
@@ -323,7 +344,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                                     else:
                                         
-                        
+
                                         if combat.find_location(board, user_block).name == 'ENGLAND':
                                             can_go_again = False
                                             picked_regions.remove(focus_region)
