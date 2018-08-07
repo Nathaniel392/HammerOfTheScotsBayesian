@@ -19,7 +19,7 @@ def find_location(board, blok):
 
 	print('CANNOT FIND BLOCK WITH BLOCK NAME', blok.name)
 	raise Exception('cannot find block')
-def border_raid(current_board, computer_role):
+def border_raid(current_board, eng_type, scot_type):
 	"""
 	does a border raid if necessayr
 	else return false
@@ -42,7 +42,7 @@ def border_raid(current_board, computer_role):
 			return False
 
 
-		if computer_role == 'SCOTLAND':
+		if scot_type == 'comp':
 			print('ENGLAND is raided!')
 			print('Which non_noble do you want to kill from the list below (type number)!')
 			print('possible blocks to kill:')
