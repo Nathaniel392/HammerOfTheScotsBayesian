@@ -506,11 +506,11 @@ class Board(object):
 
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
 						self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
-						self.attacked_borders[computer_path[-2]][end] = True
+						self.attacked_borders[computer_path[-2]][end] = 'attack'
 					
 					else:
 						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
-						self.attacked_borders[computer_path[-2]][end] = True
+						self.attacked_borders[computer_path[-2]][end] = 'defense'
 
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
@@ -559,7 +559,7 @@ class Board(object):
 						print(computer_path)
 						print('updating border between', computer_path[-2], 'and', end)
 						###
-						self.attacked_borders[computer_path[-2]][end] = True
+						self.attacked_borders[computer_path[-2]][end] = 'attack'
 
 
 
@@ -652,11 +652,11 @@ class Board(object):
 
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
 						self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
-						self.attacked_borders[user_path[-2]][end] = True
+						self.attacked_borders[user_path[-2]][end] = 'attack'
 
 					else:
 						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
-						self.attacked_borders[user_path[-2]][end] = True
+						self.attacked_borders[user_path[-2]][end] = 'defense'
 
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
@@ -700,7 +700,7 @@ class Board(object):
 						print(user_path)
 						print('updating border between', user_path[-2], 'and', end)
 						###
-						self.attacked_borders[user_path[-2]][end] = True
+						self.attacked_borders[user_path[-2]][end] = 'attack'
 
 					#Friendly or neutral
 					else:

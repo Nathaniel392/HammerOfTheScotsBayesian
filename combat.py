@@ -294,14 +294,14 @@ def retreat_locations(board, attacking, defending, is_attacking):
 
 
 			if is_attacking == False and defending[0].allegiance == region_allegiance and border != 0 and \
-			(not board.attacked_borders[x][current_location.regionID]) and (defending[0].name != 'NORSE' or board.regions[x].coast)\
+			(board.attacked_borders[x][current_location.regionID] != 'attack') and (defending[0].name != 'NORSE' or board.regions[x].coast)\
 			and (defending[0].allegiance == 'ENGLAND' or x != 22) and (defending[0].allegiance == 'SCOTLAND' or x == 22 or current_location.regionID)\
 			and (not board.regions[x].is_contested()):
 				possible_locations.append(board.regions[x])
 			elif is_attacking == True and attacking[0].allegiance == region_allegiance and border != 0 and \
 			(attacking[0].name != 'NORSE' or board.regions[x].coast) and (attacking[0].allegiance == 'ENGLAND' or x != 22) \
 			and (attacking[0].allegiance == 'SCOTLAND' or x == 22 or current_location.regionID != 22) \
-			and (not board.regions[x].is_contested()):
+			and (not board.regions[x].is_contested()) and (board.attacked_borders[x][current_location.regionID] != 'defense'):
 				possible_locations.append(board.regions[x])
 
 		#print("Is", x, "and", current_location.regionID, "attacked border updated?", board.attacked_borders[x][current_location.regionID])
