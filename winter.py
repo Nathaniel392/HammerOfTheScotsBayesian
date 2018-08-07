@@ -19,7 +19,7 @@ def find_location(board, blok):
 				return region
 	return False
 
-def choose_location(location_list,allegiance,computer_role, block):
+def choose_location(location_list,allegiance,eng_type,scot_type, block):
 
 	'''
 	takes a list of locations and a block allegiance
@@ -27,45 +27,88 @@ def choose_location(location_list,allegiance,computer_role, block):
 	can be updated to do a smarter decision
 	'''
 
-	if allegiance == computer_role:
+	if allegiance == 'ENGLAND':
 
-		index = random.randint(0,len(location_list)-1)
+		if eng_type == 'comp':
 
-		return location_list[index]
+			index = random.randint(0,len(location_list)-1)
 
-	else:
+			return location_list[index]
 
-		new_bool = True
+		elif eng_type == 'opp':
 
-		while new_bool:
+			new_bool = True
 
-			print("Where would you like " + block.name + " to go? ")
+			while new_bool:
 
-			for ind, location in enumerate(location_list):
-				if type(location) != str:
-					print(location.name + "[" + str(ind) + ']')
+				print("Where would you like " + block.name + " to go? ")
 
-			print('Type pool to disband')
-			user_input = input('>')
-			if user_input == 'pool' and user_input in location_list:
-				if allegiance == 'SCOTLAND':
-					return 'scottish pool'
+				for ind, location in enumerate(location_list):
+					if type(location) != str:
+						print(location.name + "[" + str(ind) + ']')
+
+				print('Type pool to disband')
+				user_input = input('>')
+				if user_input == 'pool' and user_input in location_list:
+					if allegiance == 'SCOTLAND':
+						return 'scottish pool'
+					else:
+						return 'english pool'
+
 				else:
-					return 'english pool'
 
-			else:
+					try:
 
-				try:
+						return location_list[int(user_input)]
 
-					return location_list[int(user_input)]
+						new_bool = False
 
-					new_bool = False
+					except (ValueError,IndexError):
 
-				except (ValueError,IndexError):
+						return ("Invalid Input!!")
 
-					return ("Invalid Input!!")
+	if allegiance == 'SCOTLAND':
 
-def go_home(board,noble,computer_role):
+		if scot_type == 'comp':
+
+			index = random.randint(0,len(location_list)-1)
+
+			return location_list[index]
+
+		elif scot_type == 'opp':
+
+			new_bool = True
+
+			while new_bool:
+
+				print("Where would you like " + block.name + " to go? ")
+
+				for ind, location in enumerate(location_list):
+					if type(location) != str:
+						print(location.name + "[" + str(ind) + ']')
+
+				print('Type pool to disband')
+				user_input = input('>')
+				if user_input == 'pool' and user_input in location_list:
+					if allegiance == 'SCOTLAND':
+						return 'scottish pool'
+					else:
+						return 'english pool'
+
+				else:
+
+					try:
+
+						return location_list[int(user_input)]
+
+						new_bool = False
+
+					except (ValueError,IndexError):
+
+						return ("Invalid Input!!")
+
+
+def go_home(board,noble,eng_type,scot_type):
 
 	'''
 	takes a noble from the location that they are at and then transports them
@@ -120,13 +163,13 @@ def go_home(board,noble,computer_role):
 
 					noble.allegiance == "SCOTLAND"
 				
-				noble_choice = choose_location(new_locations,noble.allegiance,computer_role,noble)
+				noble_choice = choose_location(new_locations,noble.allegiance,eng_type,scot_type,noble)
 				print(noble.name + ' went home to ' + board.regions[noble_choice].name)
 				add_to_location(board,noble,noble_choice)
 
 			else:
 
-				noble_new_home = choose_location(possible_locations,noble.allegiance,computer_role,noble)
+				noble_new_home = choose_location(possible_locations,noble.allegiance,eng_type,scot_type,noble)
 				
 				add_to_location(board,noble,noble_new_home)
 
@@ -439,7 +482,7 @@ def disband(board,block):
 
 	print ("Disbanded " + block.name + "!")	
 
-def initialize_winter(board,block_list,computer_role, edward_prev_winter = [False]):
+def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = [False]):
 
 	'''
 	takes a board object, list of all blocks in game, and which side the computer is playing
@@ -489,7 +532,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 	for noble in eng_nobles:
 		
-		go_home(board,noble,computer_role)
+		go_home(board,noble,eng_type,scot_type)
 
 		print ("Sent " + noble.name + " home!")
 
@@ -497,7 +540,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 		if noble.name == "MORAY":
 
-			if computer_role == 'SCOTLAND':
+			if scot_type == 'comp':
 
 				moray_utilities = moray_util(board,noble)
 
@@ -509,7 +552,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 				elif comp_choice_moray == 'home':
 
-					go_home(board,noble,computer_role)
+					go_home(board,noble,eng_type,scot_type)
 
 					print ("Sent Moray Home!")	
 
@@ -539,7 +582,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 					elif user_decision == 'h':
 
-						go_home(board,noble,computer_role)
+						go_home(board,noble,eng_type,scot_type)
 
 						print ("Sent Moray Home!")	
 
@@ -557,13 +600,13 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 		else:
 
-			go_home(board,noble,computer_role)
+			go_home(board,noble,eng_type,scot_type)
 
 			print ("Sent " + noble.name + " home!")
 
 	if eng_edward:
 
-		if computer.role == 'ENGLAND':
+		if eng_type == 'comp':
 
 			edward_utilities = edward_util(board,eng_edward[0],edward_prev_winter[0])
 
@@ -581,7 +624,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 		else:
 		
 			if not edward_prev_winter[0]:
-				add_to_location(board,eng_edward[0],choose_location([find_location(board,eng_edward[0]), 'english pool'],'ENGLAND',computer_role, block))
+				add_to_location(board,eng_edward[0],choose_location([find_location(board,eng_edward[0]), 'english pool'],'ENGLAND',eng_type,scot_type block))
 				edward_prev_winter[0] = True
 			else:
 				disband(board, eng_king[0])
@@ -594,7 +637,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 		block = scot_king[0]
 
-		if computer.role == 'SCOTLAND':
+		if scot_type == 'comp':
 
 			scot_king_utilities = scot_util(board)
 
@@ -618,7 +661,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 					region.append(possible_locations)
 
-			place = choose_location(possible_locations,block.allegiance,computer_role, block)
+			place = choose_location(possible_locations,block.allegiance,eng_type,scot_type,block)
 
 			add_to_location(board,block,place)
 
@@ -630,7 +673,17 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 	for region in board.regions:
 
-		if region.blocks_present and region.blocks_present[0].allegiance != computer_role:
+		computer_role = []
+
+		if eng_type == 'comp':
+
+			computer_role.append('ENGLAND')
+
+		if scot_type == 'comp':
+
+			computer_role.append('SCOTLAND')
+
+		if region.blocks_present and region.blocks_present[0].allegiance not in computer_role:
 
 			display_blocks = []
 
@@ -702,7 +755,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 								wallace_possible_locations = ['scottish pool',board.regions[18]]
 
-								add_to_location(board,block,choose_location(wallace_possible_locations,block.allegiance,computer_role,block))
+								add_to_location(board,block,choose_location(wallace_possible_locations,block.allegiance,eng_type,scot_type,block))
 
 								display_blocks.remove(user_block)
 
@@ -722,7 +775,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 					user_inputting = False
 
-		elif region.blocks_present and region.blocks_present[0].allegiance == computer_role:
+		elif region.blocks_present and region.blocks_present[0].allegiance in computer_role:
 
 			disbanding_utilities,have_to_move = disband_block_util(board,region)
 
@@ -736,7 +789,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 
 					wallace_possible_locations = ['scottish pool',board.regions[18]]
 
-					add_to_location(board,computer_block,choose_location(wallace_possible_locations,block.allegiance,computer_role,block))
+					add_to_location(board,computer_block,choose_location(wallace_possible_locations,block.allegiance,eng_type,scot_type,block))
 
 				else:
 
@@ -744,7 +797,7 @@ def initialize_winter(board,block_list,computer_role, edward_prev_winter = [Fals
 		
 	levy(board)
 
-def distribute_rp(board,rp,region,computer_role):
+def distribute_rp(board,rp,region,eng_type,scot_type):
 
 	'''
 	takes a board object, a given rp, a region object, and the side the computer plays
@@ -753,7 +806,7 @@ def distribute_rp(board,rp,region,computer_role):
 	asks for appropriate inputs from the user based on side 
 	'''
 
-	if computer_role == "SCOTLAND":
+	if scot_type == 'comp':
 
 		if region.blocks_present[0].allegiance == "SCOTLAND":
 
@@ -841,8 +894,8 @@ def distribute_rp(board,rp,region,computer_role):
 
 					print ("Not a correct input! Please type 'r' or 'b'!")
 
-		else:
-
+		
+		elif eng_type == 'opp':
 
 			potential_blocks = []
 
@@ -880,9 +933,8 @@ def distribute_rp(board,rp,region,computer_role):
 
 					print ("Not a valid option!")
 
-	else:
-
-		
+	if eng_type == 'comp':
+	
 		if region.blocks_present[0].allegiance == 'ENGLAND':
 
 			points = rp
@@ -917,7 +969,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 					points = 0
 
-		else:
+		elif scot_type == 'comp':
 
 			points = rp
 
@@ -1029,7 +1081,7 @@ def distribute_rp(board,rp,region,computer_role):
 
 
 
-def winter_builds(board,computer_role):
+def winter_builds(board,eng_type,scot_type):
 
 	'''
 	takes a board object and the side the computer is playing
@@ -1057,13 +1109,13 @@ def winter_builds(board,computer_role):
 
 				scottish_rp = region.castle_points
 
-			distribute_rp(board,scottish_rp,region,computer_role)
+			distribute_rp(board,scottish_rp,region,eng_type,scot_type)
 
 		elif len(region.blocks_present) > 0 and region.blocks_present[0].allegiance == 'ENGLAND':
 
 			english_rp = region.castle_points
 
-			distribute_rp(board,english_rp,region,computer_role)
+			distribute_rp(board,english_rp,region,eng_type,scot_type)
 
 
 def levy(board, num_people = None):
