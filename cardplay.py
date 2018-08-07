@@ -67,7 +67,7 @@ def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND
         elif card == 'SEA':
             value = comp_card_utilities.sea_utility(board, role)
         elif card == 'HER':
-            value, noble_to_steal = comp_card_utilities.her_utility(board, role)
+            value = 0.5
         elif card == 'VIC':
             value, vic_block_lst = comp_card_utilities.vic_utility(board, role)
         elif card == 'PIL':
