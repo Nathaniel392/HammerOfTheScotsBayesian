@@ -296,7 +296,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                     for block in focus_region.blocks_present:
                         if num_moves > move_pt:
-                            possible_paths = board.check_all_paths(block.movement_points,focus_region.regionID,block,truce=truce)
+                            possible_paths = board.check_all_paths(block.movement_points,focus_region.regionID,block,all_paths = list(), truce=truce)
 
                             if possible_paths:
                                 print(possible_paths)
