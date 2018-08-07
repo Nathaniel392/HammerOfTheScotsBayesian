@@ -291,137 +291,137 @@ def herald(board, role, hand, card_prob, loc_prob):
 	return noble_to_steal
 
 
-	def crown_king(board, role, hand, card_prob, loc_prob):
-		'''
-		Determines whether or not to crown a king and which one.
-		Returns the Bruce or Comyn block, or False if it doesn't crown
-		role should be SCOTLAND, but it's still passed for consistency
+def crown_king(board, role, hand, card_prob, loc_prob):
+	'''
+	Determines whether or not to crown a king and which one.
+	Returns the Bruce or Comyn block, or False if it doesn't crown
+	role should be SCOTLAND, but it's still passed for consistency
 
 
-		COPY PASTED FROM OLD FUNCTION - DOES NOT WORK
-		'''
+	COPY PASTED FROM OLD FUNCTION - DOES NOT WORK
+	'''
 
-		if role != 'SCOTLAND':
-			return False
+	if role != 'SCOTLAND':
+		return False
 
-		else:
-			#Declaring variables
-			king_present = False
-			french_present = False
+	else:
+		#Declaring variables
+		king_present = False
+		french_present = False
 
-			#Check if the king is already there, french knight, and find comyn and bruce
+		#Check if the king is already there, french knight, and find comyn and bruce
+		for block in board.all_blocks:
+
+			if block.name == 'COMYN':
+				comyn = block
+			elif block.name == 'BRUCE':
+				bruce = block
+			elif block.name == 'FRENCH':
+				french_present = True
+			elif block.name == 'KING' and block.allegiance == 'SCOTLAND':
+				king_present = True
+
+		#Boolean for controlling each noble
+		control_bruce = bruce in board.scot_roster
+		control_comyn = comyn in board.scot_roster
+
+		#Check if SCOTLAND controls FIFE or if it will need to battle for it
+		control_fife = board.regions[11].is_friendly('SCOTLAND')
+
+		#King can be crowned 
+		if not king_present and not (control_bruce and control_comyn):
+
+			#Check if you have another event card
+			event_card = False
+			for card in hand:
+				if card not in '123' and card != 'HER':
+					event_card = True
+
+			#Count the nobles you control loyal to each faction
+			friendly_bruce = 0
+			friendly_comyn = 0
+
+			#Loop through the board to find Bruce and Comyn loyal nobles
 			for block in board.all_blocks:
 
-				if block.name == 'COMYN':
-					comyn = block
-				elif block.name == 'BRUCE':
-					bruce = block
-				elif block.name == 'FRENCH':
-					french_present = True
-				elif block.name == 'KING' and block.allegiance == 'SCOTLAND':
-					king_present = True
+				#Found a noble - note its loyalty
+				if type(block) == blocks.Noble and block.allegiance == 'SCOTLAND':
 
-			#Boolean for controlling each noble
-			control_bruce = bruce in board.scot_roster
-			control_comyn = comyn in board.scot_roster
+					if block.loyalty == 'BRUCE':
+						friendly_bruce += 1
+					elif block.loyalty == 'COMYN':
+						friendly_comyn += 1
 
-			#Check if SCOTLAND controls FIFE or if it will need to battle for it
-			control_fife = board.regions[11].is_friendly('SCOTLAND')
+			#Create a list of every friendly noble, for comyn and bruce too
+			friendly_nobles = []
+			friendly_bruce_nobles = []
+			friendly_comyn_nobles = []
 
-			#King can be crowned 
-			if not king_present and not (control_bruce and control_comyn):
+			for block in board.scot_roster:
+				if type(block) == blocks.Noble and block.allegiance == 'SCOTLAND':
+					friendly_nobles.append(block)
 
-				#Check if you have another event card
-				event_card = False
-				for card in hand:
-					if card not in '123' and card != 'HER':
-						event_card = True
+					if block.loyalty == 'BRUCE':
+						friendly_bruce_nobles.append(block)
+					elif block.loyalty == 'COMYN':
+						friendly_comyn_nobles.append(block)
 
-				#Count the nobles you control loyal to each faction
-				friendly_bruce = 0
-				friendly_comyn = 0
+			#Make dictionaries to store the probability that a noble will successfully flip
+			bruce_recovery_dict = {}
+			comyn_recovery_dict = {}
 
-				#Loop through the board to find Bruce and Comyn loyal nobles
-				for block in board.all_blocks:
+			'''
+			if control_bruce:
 
-					#Found a noble - note its loyalty
+				for noble in friendly_bruce_nobles:
+
+					###
+					# Run a simulation for the noble and check if SCOTLAND can recover the noble
+					###
+			'''
+
+
+
+			for region_temp in board.regions:
+				for block in region_temp:
+
 					if type(block) == blocks.Noble and block.allegiance == 'SCOTLAND':
 
-						if block.loyalty == 'BRUCE':
-							friendly_bruce += 1
-						elif block.loyalty == 'COMYN':
-							friendly_comyn += 1
+						#Add the probability of the noble living through the flip to a dictionary
+						if len(region_temp.blocks_present) == 1:
+							if block.loyalty == 'BRUCE':
+								bruce_recovery_dict[block.name] = 1.0
+							elif block.loyalty == 'COMYN':
+								comyn_recovery_dict[block.name] = 1.0
 
-				#Create a list of every friendly noble, for comyn and bruce too
-				friendly_nobles = []
-				friendly_bruce_nobles = []
-				friendly_comyn_nobles = []
+						#Noble must fight
+						else:
 
-				for block in board.scot_roster:
-					if type(block) == blocks.Noble and block.allegiance == 'SCOTLAND':
-						friendly_nobles.append(block)
+							###
+							# Run a simulation for the noble and check if SCOTLAND can recover the noble
+							###
 
-						if block.loyalty == 'BRUCE':
-							friendly_bruce_nobles.append(block)
-						elif block.loyalty == 'COMYN':
-							friendly_comyn_nobles.append(block)
+							#Temporarily flip the noble for the simulation
+							block.allegiance = 'ENGLAND'
 
-				#Make dictionaries to store the probability that a noble will successfully flip
-				bruce_recovery_dict = {}
-				comyn_recovery_dict = {}
+							attack = [enemy_noble]
+							#defense = 
 
-				'''
-				if control_bruce:
+							simulation_results = simulations.simulation(attack, defense, NUM_SIMULATIONS)
+							win_rate = simulation_results['attacker wins'] / NUM_SIMULATIONS
 
-					for noble in friendly_bruce_nobles:
+							#Flip it back
+							enemy_noble.allegiance = role
+
+							#Value from 0-COMBAT_UTILITY, scaled by distance from the WINNING_THRESHOLD
+							if win_rate > WINNING_THRESHOLD:
+								battle_outcome_util = (win_rate - WINNING_THRESHOLD) / (1.0 - WINNING_THRESHOLD) * COMBAT_UTILITY
 
 						###
-						# Run a simulation for the noble and check if SCOTLAND can recover the noble
 						###
-				'''
-
-
-
-				for region_temp in board.regions:
-					for block in region_temp:
-
-						if type(block) == blocks.Noble and block.allegiance == 'SCOTLAND':
-
-							#Add the probability of the noble living through the flip to a dictionary
-							if len(region_temp.blocks_present) == 1:
-								if block.loyalty == 'BRUCE':
-									bruce_recovery_dict[block.name] = 1.0
-								elif block.loyalty == 'COMYN':
-									comyn_recovery_dict[block.name] = 1.0
-
-							#Noble must fight
-							else:
-
-								###
-								# Run a simulation for the noble and check if SCOTLAND can recover the noble
-								###
-
-								#Temporarily flip the noble for the simulation
-								block.allegiance = 'ENGLAND'
-
-								attack = [enemy_noble]
-								#defense = 
-
-								simulation_results = simulations.simulation(attack, defense, NUM_SIMULATIONS)
-								win_rate = simulation_results['attacker wins'] / NUM_SIMULATIONS
-
-								#Flip it back
-								enemy_noble.allegiance = role
-
-								#Value from 0-COMBAT_UTILITY, scaled by distance from the WINNING_THRESHOLD
-								if win_rate > WINNING_THRESHOLD:
-									battle_outcome_util = (win_rate - WINNING_THRESHOLD) / (1.0 - WINNING_THRESHOLD) * COMBAT_UTILITY
-
-							###
-							###
-							###	UNFINISHED FUNCTION
-							###
-							###
+						###	UNFINISHED FUNCTION
+						###
+						###
 
 
 
