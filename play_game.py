@@ -289,7 +289,12 @@ def play_game():
 
 
 def main():
-    play_game()
+    try:
+        play_game()
+    except EnglishKingDeadException:
+        print('\n\n\nThe English King is Dead!\nSCOTLAND WINS')
+    except ScottishKingDeadException:
+        print('\n\n\nThe Scottish King is Dead!\nENGLAND WINS')
 
 if __name__ == '__main__':
     main()
