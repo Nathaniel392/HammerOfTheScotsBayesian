@@ -9,7 +9,7 @@ def find_location(board, blok):
 	for region in board.regions:
 		for bllock in region.blocks_present:
 			
-			if bllock.name == blok.name:
+			if bllock.blockID == blok.blockID:
 				return region
 	return False
 
@@ -160,14 +160,17 @@ def go_home(board,noble,eng_type,scot_type):
 					noble.allegiance == "SCOTLAND"
 				
 				noble_choice = search.region_id_to_object(board, choose_location(new_locations,noble.allegiance,eng_type,scot_type,noble))
-				print(noble.name + ' went home to ' + board.regions[noble_choice].name)
+				print(noble.name + ' went home to ' + board.regions[noble_choice.regionID].name)
 				add_to_location(board,noble,noble_choice)
 
 			else:
 
 				noble_new_home = choose_location(possible_locations,noble.allegiance,eng_type,scot_type,noble)
 				
-				add_to_location(board,noble,noble_new_home)
+				#add_to_location(board,noble,noble_new_home)
+				current_loca = find_location(board, noble)
+				board.regions[current_loca.regionID].blocks_present.remove(noble)
+				board.regions[noble_new_home.regionID].blocks_present.append(noble)
 
 def add_to_location(board,block,location):
 
@@ -378,7 +381,8 @@ def disband_block_util(board,region):
 			display_blocks.append(region_block)
 
 	have_to_move = len(region.blocks_present) - castle_points
-
+	if have_to_move < 0:
+		have_to_move = 0
 	if have_to_move > 0:
 	
 		for block in display_blocks:
@@ -418,15 +422,15 @@ def choose_what_to_do_util(board,region,rp):
 
 		util_dict['r'] += 1
 
-	if search.block_name_to_object(board,'WALLACE') in region.blocks_present and search.block_name_to_object(board,'WALLACE').current_strength < search.block_name_to_object(board,'WALLACE').attack_strength:
+	if (search.block_name_to_object(board.all_blocks,'WALLACE') in region.blocks_present) and search.block_name_to_object(board.all_blocks,'WALLACE').current_strength < search.block_name_to_object(board.all_blocks,'WALLACE').attack_strength:
 
 		util_dict['b'] += 1
 
-	if search.block_name_to_object(board,'KING') in region.blocks_present and search.block_name_to_object(board,'KING').current_strength < search.block_name_to_object(board,'KING').attack_strength:
+	if (search.block_name_to_object(board.all_blocks,'KING') in region.blocks_present) and search.block_name_to_object(board.all_blocks,'KING').current_strength < search.block_name_to_object(board.all_blocks,'KING').attack_strength:
 
 		util_dict['b'] += 1
 
-	if search.block_name_to_object(board,'EDWARD') in region.blocks_present and search.block_name_to_object(board,'EDWARD').current_strength < search.block_name_to_object(board,'EDWARD').attack_strength:
+	if (search.block_name_to_object(board.all_blocks,'EDWARD') in region.blocks_present) and search.block_name_to_object(board.all_blocks,'EDWARD').current_strength < search.block_name_to_object(board.all_blocks,'EDWARD').attack_strength:
 
 		util_dict['b'] += 1
 
@@ -787,22 +791,27 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 			if display_blocks:
 
 				disbanding_utilities,have_to_move = disband_block_util(board,region)
+				print(region)
+				print(have_to_move)
+				if have_to_move > 0:
+					computer_choices = weighted_prob.weighted_prob(disbanding_utilities,have_to_move)
 
-				computer_choices = weighted_prob.weighted_prob(disbanding_utilities,have_to_move)
+					if type(computer_choices) == int:
+						computer_choices = [computer_choices]
 
-				for computer_choice in computer_choices:
+					for computer_choice in computer_choices:
 
-					computer_block = search.block_id_to_object(board.all_blocks,computer_choice)
+						computer_block = search.block_id_to_object(board.all_blocks,computer_choice)
 
-					if computer_block.type == "WALLACE":
+						if computer_block.type == "WALLACE":
 
-						wallace_possible_locations = ['scottish pool',board.regions[18]]
+							wallace_possible_locations = ['scottish pool',board.regions[18]]
 
-						add_to_location(board,computer_block,choose_location(wallace_possible_locations,block.allegiance,eng_type,scot_type,block))
+							add_to_location(board,computer_block,choose_location(wallace_possible_locations,block.allegiance,eng_type,scot_type,block))
 
-					else:
+						else:
 
-						disband(board,computer_block)
+							disband(board,computer_block)
 		
 	levy(board)
 
@@ -887,7 +896,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 						bump_choice = weighted_prob.weighted_prob(bump_block_utilities)
 
-						bump_block = search.block_id_to_object(board.all_blocks,bump_choice)
+						bump_block = search.block_name_to_object(board.all_blocks,bump_choice)
 
 						bump_block.current_strength += 1
 
@@ -943,7 +952,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 					print ("Not a valid option!")
 
 	if eng_type == 'comp':
-	
+		potential_blocks = []
 		if region.is_friendly('ENGLAND'):
 
 			points = rp
@@ -964,7 +973,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 					bump_choice = weighted_prob.weighted_prob(bump_block_utilities)
 
-					bump_block = search.block_id_to_object(board.all_blocks,bump_choice)
+					bump_block = search.block_name_to_object(board.all_blocks,bump_choice)
 
 					bump_block.current_strength += 1 
 
@@ -978,7 +987,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 					points = 0
 
-		elif scot_type == 'comp':
+		elif scot_type == 'opp':
 
 			points = rp
 

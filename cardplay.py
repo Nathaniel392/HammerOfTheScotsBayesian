@@ -59,7 +59,7 @@ def get_card_val(card):
         return 4
 
 def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND'
-    val_dict = dict()
+    max_value = 0
     for card in computer_hand:
         print(role + ' is testing ' + card)
         if card == '1':
@@ -78,8 +78,11 @@ def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND
             value, region_to_pillage_ID, region_to_heal_ID = comp_card_utilities.pil_utility(board, role)
         elif card == 'TRU':
             value = comp_card_utilities.tru_utility(board, role)
-        val_dict[card] = value
-    chosen_card = weighted_prob.weighted_prob(val_dict)
+        if value > max_value:
+            max_value = value
+            chosen_card = card
+    if max_value == 0:
+        chosen_card = random.choice(computer_hand)
     print('computer hand: ', computer_hand)
     print('computer plays ', chosen_card)
             
@@ -700,6 +703,7 @@ def her_execution(board, position, role):
                 else:
                     noble_region.combat_dict['Defending'].append(block)
             print('DID HERALD BATTLE IN HERALD FUNCTION')
+            noble_region.combat_dict['Attacking'][0].change_allegiance()
             combat.battle(noble_region.combat_dict['Attacking'], noble_region.combat_dict['Defending'], list(), list(), board, role)
 
         #Move the noble to its own region - will sort it into attacker/defender

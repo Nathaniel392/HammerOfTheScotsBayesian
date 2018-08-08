@@ -201,7 +201,10 @@ class Board(object):
 		"""
 		for i, bllock in enumerate(self.regions[regionID].blocks_present):
 			if bllock.name == block.name:
-				return self.regions[regionID].blocks_present.pop(i)
+				print(bllock.name + ' GOT REMOVED FROM ' + self.regions[regionID].name)
+				return_block = self.regions[regionID].blocks_present.pop(i)
+				print(str(self.regions[regionID].blocks_present) + ' SHOULD NOT HAVE ' + block.name + ' IN IT!')
+				return return_block
 				
 		raise Exception('cannot find block to remove')
 
@@ -775,10 +778,18 @@ class Board(object):
 			print("Sent" + block.name + ' to ' + location.name)
 
 		else:
-
-			self.regions[find_location(self,block).regionID].blocks_present.remove(block)
-
-			self.regions[location.regionID].blocks_present.append(block)
+			if location.regionID != find_location(self, block):
+				#print(block)
+				region = find_location(self, block)
+				#print(find_location(self,block))
+				#print(block)
+				remove_region_id = find_location(self,block).regionID
+				#print(remove_region_id)
+				#print(self.regions[remove_region_id].blocks_present)
+				self.remove_from_region(block, remove_region_id)
+				#print(block)
+				#print(region)
+				self.regions[location.regionID].blocks_present.append(block)
 
 			print ("Sent " + block.name + " to " + location.name)
 

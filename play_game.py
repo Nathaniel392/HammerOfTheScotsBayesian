@@ -284,6 +284,7 @@ def play_game():
             if win(block_list, year, scenario):
                 print(win(block_list, year, scenario))
                 return 'game over'
+        print(current_board.regions)
         input('Start Winter')
         winter.initialize_winter(current_board, block_list, eng_type, scot_type, edward_prev_winter)
         winter.winter_builds(current_board, eng_type, scot_type)

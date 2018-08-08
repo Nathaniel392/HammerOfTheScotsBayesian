@@ -490,6 +490,7 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 			original_location = find_location(current_board, block)
 			print(original_location)
 			print('111111111')
+
 			possible_locations = regroup_locations(current_board, [block], [], False)
 
 			possible_locations_id = list()
@@ -507,6 +508,7 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 
 				#place_to_go_to is now a regionID, now a Region
 				place_to_go_to = place_to_go_to.regionID
+				print(place_to_go_to)
 				current_board.add_to_location(block, place_to_go_to)
 
 				current_board.dynamic_borders[original_location.regionID][place_to_go_to] -= 1
@@ -757,11 +759,13 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 							regionID_to_retreat_to = option.regionID
 							print('THIS ONE')
-							print(attacking_block.name)
-
-							print(regionID_to_retreat_to)
+						
 							original_location = find_location(current_board, attacking_block)
+
+
+							print(original_location, current_board.regions[regionID_to_retreat_to])
 							current_board.add_to_location(attacking_block, regionID_to_retreat_to)
+							print(original_location, current_board.regions[regionID_to_retreat_to])
 							
 							
 
@@ -912,9 +916,9 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							original_location = find_location(current_board, attacking_block)
 
 							
-
+							print(original_location, current_board.regions[regionID_to_retreat_to])
 							current_board.add_to_location(attacking_block, regionID_to_retreat_to)
-
+							print(original_location, current_board.regions[regionID_to_retreat_to])
 
 							
 							current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1

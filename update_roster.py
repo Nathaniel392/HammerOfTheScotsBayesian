@@ -29,7 +29,8 @@ def update_roster(all_blocks_lst = None, current_board = None):
 				print(block.name)
 				
 				current_board.scot_roster.remove(block)
-				current_board.remove_from_region(block, find_location(current_board,block).regionID)
+
+				#current_board.remove_from_region(block, find_location(current_board,block).regionID)
 				
 			else:
 
