@@ -9,7 +9,7 @@ import search
 import regroup_util
 import retreat
 import exceptions
-
+import weighted_prob
 
 def find_location(board, blok):
 	'''
@@ -432,7 +432,8 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	possible_locations_id = list()
 	for location in possible_locations:
 		possible_locations_id.append(location.regionID)
-	choice = retreat.retreat(board, current_location, possible_locations_id, simulation_dict, is_attacking, board.turn)
+	choice_dictionary = retreat.retreat(board, current_location, possible_locations_id, simulation_dict, is_attacking, board.turn)
+	choice = weighted_prob.weighted_prob(choice_dictionary)
 	###temporary
 	print('Computer says "I can move to these locations: "')
 	for region in possible_locations:

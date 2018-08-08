@@ -153,7 +153,7 @@ def retreat(board, regionID, locations, simulation_dict, is_attacking, turn):
 		if return_dict[key] <= 0:
 			return_dict[key] = 0.000000001
 
-	return weighted_prob.weighted_prob(return_dict)
+	return return_dict
 
 
 
