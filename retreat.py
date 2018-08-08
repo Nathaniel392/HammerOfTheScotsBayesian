@@ -28,7 +28,7 @@ def retreat(board, regionID, locations, simulation_dict, is_attacking, turn):
 
 	#Valuable Blocks and respective weights
 	valuable_blocks = {'WALLACE':18, 'KING':22, 'EDWARD':16, 'HOBELARS':13}
-
+	print(len(board.regions[regionID].combat_dict['Attacking']), len(board.regions[regionID].combat_dict['Defending']))
 	if (is_attacking and board.regions[regionID].combat_dict['Attacking'][0].allegiance == 'ENGLAND') or (not is_attacking and board.regions[regionID].combat_dict['Defending'][0].allegiance == 'ENGLAND'):
 
 		role = 'ENGLAND'
@@ -270,7 +270,7 @@ ENGLAND         22 F T 0
 		value_lst[i] = value_lst[i] / 50
 		if value_lst[i] < 0:
 			value_lst[i] = 0
-	print('VALUE ' + str(value_lst[regionID]))
+	#print('VALUE ' + str(value_lst[regionID]))
 	return value_lst[regionID]
 
 

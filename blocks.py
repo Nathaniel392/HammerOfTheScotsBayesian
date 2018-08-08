@@ -86,6 +86,7 @@ class Block(object):
         output += '\tMoves:' + str(self.movement_points) + '\n'
         output += '\tStrength:' + str(self.current_strength) + '/' + str(self.attack_strength) + '\n'
         output += '\tCombat:' + str(self.attack_letter) + str(self.attack_number) + '\n'
+        output += '\tAllegiance:' + str(self.allegiance) + '\n'
         output += '-'*20
         return output
       
@@ -95,6 +96,12 @@ class Block(object):
         '''
         output = str(self)
         return output
+
+    def __eq__(self,other):
+        if type(self) == type(other):
+            return self.blockID == other.blockID
+        else:
+            return False
 
 
       

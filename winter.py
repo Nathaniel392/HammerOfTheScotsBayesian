@@ -116,6 +116,8 @@ def go_home(board,noble,eng_type,scot_type):
 		
 		if not board.regions[noble.home_location].blocks_present or board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
 
+			print(noble.name)
+
 			board.regions[find_location(board,noble).regionID].blocks_present.remove(noble)
 
 			board.regions[noble.home_location].blocks_present.append(noble)
@@ -464,6 +466,10 @@ def disband(board,block):
 	sends the block to the board's draw pool
 	'''
 
+	print(board.regions[find_location(board,block).regionID])
+	print(board.regions[find_location(board,block).regionID].blocks_present)
+	print(block)
+	print(block in board.regions[find_location(board,block).regionID].blocks_present)
 	board.regions[find_location(board,block).regionID].blocks_present.remove(block)
 
 
@@ -493,7 +499,8 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 		if block in board.eng_roster or block in board.scot_roster:
 
 			if find_location(board,block).regionID == 22:
-
+				print(board.regions[22])
+				print(block)
 				disband(board,block)
 			
 			else:

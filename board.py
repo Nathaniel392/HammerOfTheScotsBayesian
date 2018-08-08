@@ -200,7 +200,7 @@ class Board(object):
 		returns False if block not found in that region
 		"""
 		for i, bllock in enumerate(self.regions[regionID].blocks_present):
-			if bllock == block:
+			if bllock.name == block.name:
 				return self.regions[regionID].blocks_present.pop(i)
 				
 		raise Exception('cannot find block to remove')

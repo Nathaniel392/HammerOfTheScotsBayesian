@@ -641,7 +641,7 @@ def good_move(board, num_moves, role, turn, truce):
 	UNTIL FINDS GOOD MOVE AND THEN IT EXECUTES IT ON THE ACTUAL BOARD
 	"""
 
-	copy_board_regions = copy.deepcopy(board.regions)
+	copy_board = copy.deepcopy(board)
 
 	global total_string
 
@@ -661,28 +661,28 @@ def good_move(board, num_moves, role, turn, truce):
 
 	movement_execution(board, 'comp', role, num_moves, truce=truce)
 
+	print(total_string)
+	#movement_execution(board, 'comp', role, num_moves, truce=truce)
+	print("ORINGAL BOARD BEFORE")
+	print(original_board.regions)
+	print("BOARD COPY")
+	print(board_copy.regions)
+
 	
+
+	
+
 
 	#checks utilitiy of the battles using the retreat elliot's thing
 	noble_home_after = 0
 	for region in board.regions:
 		if region.is_contested():
-
-			print("***ATTACKING***")
-			print(region.combat_dict['Attacking'])
-			print("******")
-			print("***DEFENDING***")
-			print(region.combat_dict['Defending'])
-			print("******")
-			simulation_dict = simulations.simulation(copy.deepcopy(region.combat_dict['Attacking']), copy.deepcopy(region.combat_dict['Defending']), 1000, \
-				copy.deepcopy(region.combat_dict['Attacking Reinforcements']), copy.deepcopy(region.combat_dict['Defending Reinforcements']))
-			print("***ATTACKING***")
-			print(region.combat_dict['Attacking'])
-			print("******")
-			print("***DEFENDING***")
-			print(region.combat_dict['Defending'])
-			print("******")
+			for block in region.blocks_present:
+				print(block.name)
+			simulation_dict = simulations.simulation(region.combat_dict['Attacking'], region.combat_dict['Defending'], 1000, \
+				region.combat_dict['Attacking Reinforcements'], region.combat_dict['Defending Reinforcements'])
 			for key in region.combat_dict:
+				print(region)
 				print(region.combat_dict[key])
 
 
@@ -727,8 +727,7 @@ def good_move(board, num_moves, role, turn, truce):
 		
 	else:
 		total_string = ''
-		board.regions = copy_board_regions
-		good_move(board, num_moves, role, turn, truce)
+		good_move(copy_board, num_moves, role, turn, truce)
 		
 
 

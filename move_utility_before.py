@@ -87,8 +87,6 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
 
 				else:
 
-					print("here")
-
 					#If it's an enemy controlled region
 					if len(board.regions[end].blocks_present) != 0 and board.regions[end].blocks_present[0].allegiance != block.allegiance:
 
@@ -102,13 +100,10 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
 						for defending_block in board.regions[end].blocks_present:
 							board.regions[end].combat_dict['Defending'].append(defending_block)
 
-						print(board.regions[end].combat_dict['Attacking'])
 						#Move the attacking into the attacking dictionary
 						board.regions[end].combat_dict['Attacking'].append(block)
 						board.regions[end].blocks_present.append(block)
 						board.regions[start].blocks_present.remove(block)
-
-						print(board.regions[end].combat_dict['Attacking'])
 
 						
 						if not path_taken:
@@ -620,9 +615,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 		#print(move_pt)
 		move_pt+=1
 
-	return board
-
-def good_move(board, num_moves, role, turn, truce):
+def good_move(board, num_moves, role, turn, truce, original_board):
 
 	"""
 	board is a copy of the board
@@ -641,8 +634,6 @@ def good_move(board, num_moves, role, turn, truce):
 	UNTIL FINDS GOOD MOVE AND THEN IT EXECUTES IT ON THE ACTUAL BOARD
 	"""
 
-	copy_board_regions = copy.deepcopy(board.regions)
-
 	global total_string
 
 	utility = 0
@@ -659,46 +650,36 @@ def good_move(board, num_moves, role, turn, truce):
 	
 	#does movement
 
-	movement_execution(board, 'comp', role, num_moves, truce=truce)
+	board_copy = copy.deepcopy(board)
+	movement_execution(board_copy, 'comp', role, num_moves, truce=truce)
+
 
 	
 
+	
+
+
 	#checks utilitiy of the battles using the retreat elliot's thing
 	noble_home_after = 0
-	for region in board.regions:
+	for region in board_copy.regions:
 		if region.is_contested():
-
-			print("***ATTACKING***")
-			print(region.combat_dict['Attacking'])
-			print("******")
-			print("***DEFENDING***")
-			print(region.combat_dict['Defending'])
-			print("******")
-			simulation_dict = simulations.simulation(copy.deepcopy(region.combat_dict['Attacking']), copy.deepcopy(region.combat_dict['Defending']), 1000, \
-				copy.deepcopy(region.combat_dict['Attacking Reinforcements']), copy.deepcopy(region.combat_dict['Defending Reinforcements']))
-			print("***ATTACKING***")
-			print(region.combat_dict['Attacking'])
-			print("******")
-			print("***DEFENDING***")
-			print(region.combat_dict['Defending'])
-			print("******")
+			simulation_dict = simulations.simulation(region.combat_dict['Attacking'], region.combat_dict['Defending'], 1000, \
+				region.combat_dict['Attacking Reinforcements'], region.combat_dict['Defending Reinforcements'])
 			for key in region.combat_dict:
 				print(region.combat_dict[key])
-
-
 			if role == region.combat_dict['Attacking'][0].allegiance:
 				is_attacking = True
 			else:
 				is_attacking = False
-			utility += retreat.retreat(board, region.regionID, [], simulation_dict, is_attacking, turn)['Staying value '] * 4
+			utility += retreat.retreat(board_copy, region.regionID, [], simulation_dict, is_attacking, turn)['Staying value '] * 4
 		
 
 
 	#account for difference in locations owned values
 	value_loc_after = 0
-	for region in board.regions:
+	for region in board_copy.regions:
 		
-		value_loc_after += retreat.value_of_location(board, region.regionID, role)
+		value_loc_after += retreat.value_of_location(board_copy, region.regionID, role)
 
 	utility += (value_loc_after - value_loc_before) * 2
 
@@ -719,16 +700,16 @@ def good_move(board, num_moves, role, turn, truce):
 		#pause
 		print('computer ready to make a move')
 		input()
+		movement_execution(board, 'comp', role, num_moves, truce=truce)
+		original_board = board_copy
 		print(total_string)
-
 		total_string = ''
 		print('computer done with move')
 		input()
 		
 	else:
 		total_string = ''
-		board.regions = copy_board_regions
-		good_move(board, num_moves, role, turn, truce)
+		good_move(original_board, num_moves, role, turn, truce, original_board)
 		
 
 

@@ -24,9 +24,9 @@ def find_location(board, blok):
 			if bllock.name == blok.name:
 				return region
 	
-
-	print('CANNOT FIND BLOCK WITH BLOCK NAME', blok.name)
-	raise Exception('cannot find block')
+	return False
+	#print('CANNOT FIND BLOCK WITH BLOCK NAME', blok.name)
+	#raise Exception('cannot find block')
 
 def organize(blocks):
 	'''
@@ -343,10 +343,12 @@ def regroup_locations(board, attacking, defending, is_attacking):
 
 
 	if len(attacking) != 0:
+		print(attacking[0].name)
 		current_location = find_location(board, attacking[0])
 		is_attacking = True
 	else:
 		is_attacking = False
+		print(defending[0].name)
 		current_location = find_location(board, defending[0])
 		attacking = defending
 	possible_locations = []
@@ -486,8 +488,10 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 		for block in winner_blocks:
 
 			original_location = find_location(current_board, block)
-
+			print(original_location)
+			print('111111111')
 			possible_locations = regroup_locations(current_board, [block], [], False)
+
 			possible_locations_id = list()
 			for location in possible_locations:
 				possible_locations_id.append(location.regionID)
@@ -515,6 +519,7 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 
 			original_location = find_location(current_board, block)
 			bad_input = True
+			print('22222222')
 			possible_locations = regroup_locations(current_board, [block], [], False)
 			while bad_input:
 				try:
@@ -537,6 +542,7 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 					break
 				if not bad_input:
 					if place_to_go_to != -1:
+
 						current_board.add_to_location(block, place_to_go_to)
 
 						current_board.dynamic_borders[original_location.regionID][place_to_go_to] -= 1
@@ -565,6 +571,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	
 	'''
 	
+
+
 	attacking_allegiance = attack[0].allegiance
 	
 	if attacking_allegiance == 'ENGLAND':
@@ -596,6 +604,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	attackers = organize(attack)
 	defenders = organize(defense)
+
+
 
 	attackers_allegiance = attack[0].allegiance
 	defenders_allegiance = defense[0].allegiance
@@ -666,7 +676,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 			
 				
 				
-				
+
 
 
 				if not attacking_block.is_dead():
@@ -711,10 +721,10 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									if not valid_location:
 										print('please type in a valid location')
 
-								
+								original_location = find_location(current_board, attacking_block)
 								current_board.add_to_location(attacking_block, regionID_to_retreat_to)
 								
-								original_location = find_location(current_board, attacking_block)
+								
 								current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1
 								defense.remove(attacking_block)
 
@@ -742,13 +752,20 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 						option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, False, letter, combat_round, attacking_block = attacking_block)
 						
-							
+
 						if option != False:
+
 							regionID_to_retreat_to = option.regionID
-							
+							print('THIS ONE')
+							print(attacking_block.name)
+
+							print(regionID_to_retreat_to)
+							original_location = find_location(current_board, attacking_block)
 							current_board.add_to_location(attacking_block, regionID_to_retreat_to)
 							
-							original_location = find_location(current_board, attacking_block)
+							
+
+
 							current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1
 
 							
@@ -773,16 +790,29 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
+					print(current_board.regions)
+
 					update_roster.update_roster(current_board = current_board)
 		
 					print('defender wins')
+					
+					print(current_board.regions)
 					regroup(defense + defense_reinforcements, current_board, eng_type, scot_type)
+					print(current_board.regions)
+
 					return 'defender wins'
 				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
-				
+					print(current_board.regions)
+
 					update_roster.update_roster(current_board = current_board)
 					print('attacker wins')
+					
+					print(current_board.regions)
+
 					regroup(attack + attack_reinforcements, current_board, eng_type, scot_type)
+					print(current_board.regions)
+
+
 					return 'attacker wins'
 						
 			
@@ -796,7 +826,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 			
 
-			
+
 						
 				
 
@@ -842,13 +872,13 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 									if not valid_location:
 										print('please type in a valid location')
 								
-								
+								original_location = find_location(current_board, attacking_block)
 								current_board.add_to_location(attacking_block, regionID_to_retreat_to)
 								
 
 								if attacking_block.name == 'FRENCH':
 									attacking_block.movement_points = 0
-								original_location = find_location(current_board, attacking_block)
+								
 								current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1
 
 								
@@ -869,15 +899,23 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 								bad_input = True
 					else:   #if attacker_type == 'comp'
 
+
+
 						option = should_retreat(current_board, attack, defense, attack_reinforcements, defense_reinforcements, True, letter, combat_round, 'attacker', attacking_block = attacking_block)
 						
 						if option != False:
 							regionID_to_retreat_to = option.regionID
+							print('NO! THIS ONE')
+							print(attacking_block.name)
+
+							print(regionID_to_retreat_to)
+							original_location = find_location(current_board, attacking_block)
+
 							
+
 							current_board.add_to_location(attacking_block, regionID_to_retreat_to)
 
 
-							original_location = find_location(current_board, attacking_block)
 							
 							current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1
 
@@ -900,15 +938,23 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				
 				
 				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
+
 					update_roster.update_roster(current_board = current_board)
 					
 					print('attacker wins')
+					print(current_board.regions)
+
 					regroup(attack + attack_reinforcements, current_board, eng_type, scot_type)
 					return 'attacker wins'
 				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
+
 					update_roster.update_roster(current_board = current_board)
 		
 					print('defender wins')
+					print(current_board.regions)
+
+
+
 					regroup(defense + defense_reinforcements, current_board, eng_type, scot_type)
 					return 'defender wins'
 
@@ -982,10 +1028,10 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				
 				
 			
-			
+			original_location = find_location(current_board, attacking_block)
 			current_board.add_to_location(attacking_block, regionID_to_retreat_to)
 
-			original_location = find_location(current_board, attacking_block)
+			
 			current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1
 
 

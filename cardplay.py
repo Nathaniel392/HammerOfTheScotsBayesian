@@ -81,7 +81,8 @@ def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND
         if value > max_value:
             max_value = value
             chosen_card = card
-            
+    if max_value == 0:
+        chosen_card = random.choice(computer_hand)
     print('computer hand: ', computer_hand)
     print('computer plays ', chosen_card)
             
@@ -701,7 +702,7 @@ def her_execution(board, position, role):
                     noble_region.combat_dict['Attacking'].append(block)
                 else:
                     noble_region.combat_dict['Defending'].append(block)
-
+            print('DID HERALD BATTLE IN HERALD FUNCTION')
             combat.battle(noble_region.combat_dict['Attacking'], noble_region.combat_dict['Defending'], list(), list(), board, role)
 
         #Move the noble to its own region - will sort it into attacker/defender
@@ -809,6 +810,8 @@ def vic_execution(board, position, role):
             print(possible_blocks[rand_block_selection].name, ' healed one point')
 
 def pil_execution(board, position, role):
+
+    print(role)
     
     if position == 'comp':
         
