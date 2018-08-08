@@ -469,7 +469,7 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 				defense_reinforcements[i] = using_weights_find_tuple(element, rounding)
 				defense_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
 
-		battle_result = battle(copy.deepcopy(attack), copy.deepcopy(defense), copy.deepcopy(attack_reinforcements), copy.deepcopy(defense_reinforcements), before_letter, before_number, turn)
+		battle_result = battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)
 
 		totals_dict[battle_result] += 1
 
