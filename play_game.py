@@ -10,6 +10,7 @@ import border_raids
 import update_roster
 import random
 import combat
+import exceptions
 
 def prompt_scenario():
     '''
@@ -291,9 +292,9 @@ def play_game():
 def main():
     try:
         play_game()
-    except EnglishKingDeadException:
+    except exceptions.EnglishKingDeadException:
         print('\n\n\nThe English King is Dead!\nSCOTLAND WINS')
-    except ScottishKingDeadException:
+    except exceptions.ScottishKingDeadException:
         print('\n\n\nThe Scottish King is Dead!\nENGLAND WINS')
 
 if __name__ == '__main__':

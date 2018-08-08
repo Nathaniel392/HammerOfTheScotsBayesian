@@ -17,6 +17,7 @@ import blocks
 import copy
 import scottish_king
 import comp_card_utilities
+import move_utility
 
     
 #ultimately: return card that the computer decides to play
@@ -106,6 +107,18 @@ def movement_execution(board, position, role, num_moves, truce=False):
     '''
     
     '''
+
+
+
+    #this is where I started implementing move_utility (david)
+
+    if position == 'comp':
+        move_utility.good_move(board, num_moves, role, board.turn, truce)
+        return None
+
+
+
+    #this is where I ended implementing move_utility (david)
 
 
 

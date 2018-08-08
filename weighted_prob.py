@@ -8,6 +8,8 @@ def weighted_prob(dictionary, num_times = 1):
 
 
 	print('weighted_prob: ' + str(dictionary))
+	if num_times <= 0:
+		raise Exception('cannot return ' + str(num_times) + ' number of keys')
 	if len(dictionary) < num_times:
 		raise Exception("asking for more keys than you have in your dictionary")
 	
@@ -65,14 +67,14 @@ def weighted_prob2(dictionary, num_times = 1, prev_keys = set()):
 
 							return key
 						else:
-							raise BreakOutOfLoopException()
+							raise exceptions.BreakOutOfLoopException()
 					else:
 						if key not in prev_keys:
 							prev_keys.add(key)
 							
 							return weighted_prob2(dictionary, num_times - 1, prev_keys)
 						else:
-							raise BreakOutOfLoopException()
+							raise exceptions.BreakOutOfLoopException()
 
 
 
@@ -88,15 +90,15 @@ def weighted_prob2(dictionary, num_times = 1, prev_keys = set()):
 						
 						return key
 					else:
-						raise BreakOutOfLoopException()
+						raise exceptions.BreakOutOfLoopException()
 				else:
 					if key not in prev_keys:
 						prev_keys.add(key)
 						return weighted_prob2(dictionary, num_times - 1, prev_keys)
 					else:
-						raise BreakOutOfLoopException()
+						raise exceptions.BreakOutOfLoopException()
 
-		except BreakOutOfLoopException:
+		except exceptions.BreakOutOfLoopException:
 			pass
 
 	

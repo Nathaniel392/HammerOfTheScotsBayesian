@@ -156,9 +156,9 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 		if block.type == 'KING' and block.is_dead():
 			print('\n', block.name , ' has died and the game is over')
 			if block.allegiance == 'ENGLAND':
-				raise EnglishKingDeadException()
+				raise exceptions.EnglishKingDeadException()
 			else:
-				raise ScottishKingDeadException()
+				raise exceptions.ScottishKingDeadException()
 		elif block.has_cross and block.is_dead():
 
 			print('\n', block.name, ' has died and will never come back')
@@ -214,9 +214,9 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 		if block.type == 'KING' and block.is_dead():
 			print('\n', block.name , ' has died and the game is over')
 			if block.allegiance == 'ENGLAND':
-				raise EnglishKingDeadException()
+				raise exceptions.EnglishKingDeadException()
 			else:
-				raise ScottishKingDeadException()
+				raise exceptions.ScottishKingDeadException()
 
 		elif block.has_cross and block.is_dead():
 
