@@ -715,7 +715,7 @@ def good_move(board, num_moves, role, turn, truce):
 	utility_dict = {'move': utility, 'not move': bad_move_utility}
 
 	if weighted_prob.weighted_prob(utility_dict) == 'move':
-		total_string = ''
+		
 		#pause
 		print('computer ready to make a move')
 		input()
