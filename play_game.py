@@ -10,6 +10,7 @@ import border_raids
 import update_roster
 import random
 import combat
+import exceptions
 
 def prompt_scenario():
     '''
@@ -139,7 +140,7 @@ def win(block_list, year, scenario):
     elif eng_noble_count == 0:
         return 'SCOTLAND WINS'
 
-    if year == 1305 and scenario == 'BRAVEHEART':
+    if year == 1306 and scenario == 'BRAVEHEART':
         if scot_noble_count == eng_noble_count:
             if wallace_is_dead:
                 return 'ENGLAND WINS'
@@ -150,12 +151,12 @@ def win(block_list, year, scenario):
                 return 'SCOTLAND WINS'
             else:
                 return 'ENGLAND WINS'
-    elif year == 1314 and scenario == 'BRUCE':
+    elif year == 1315 and scenario == 'BRUCE':
         if scot_noble_count > eng_noble_count:
             return 'SCOTLAND WINS'
         else:
             return 'ENGLAND WINS'
-    elif year == 1305 and scenario == 'CAMPAIGN':
+    elif year == 1306 and scenario == 'CAMPAIGN':
         block_list[27].type = 'KING'
         
             
@@ -245,6 +246,7 @@ def play_game():
             scot_hand.remove(scot_card)
 
 
+
             #Figure out who goes first, if it is true then Computer goes first - also resolves cards
             who_goes_first, year_cut_short = cardplay.compare_cards(current_board, eng_card, scot_card, eng_type, scot_type)
             
@@ -288,7 +290,12 @@ def play_game():
 
 
 def main():
-    play_game()
+    try:
+        play_game()
+    except exceptions.EnglishKingDeadException:
+        print('\n\n\nThe English King is Dead!\nSCOTLAND WINS')
+    except exceptions.ScottishKingDeadException:
+        print('\n\n\nThe Scottish King is Dead!\nENGLAND WINS')
 
 if __name__ == '__main__':
     main()

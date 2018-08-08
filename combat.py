@@ -8,6 +8,7 @@ import simulations
 import search
 import regroup_util
 import retreat
+import exceptions
 
 
 def find_location(board, blok):
@@ -154,7 +155,10 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 
 		if block.type == 'KING' and block.is_dead():
 			print('\n', block.name , ' has died and the game is over')
-			return True, False
+			if block.allegiance == 'ENGLAND':
+				raise exceptions.EnglishKingDeadException()
+			else:
+				raise exceptions.ScottishKingDeadException()
 		elif block.has_cross and block.is_dead():
 
 			print('\n', block.name, ' has died and will never come back')
@@ -209,7 +213,10 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 		
 		if block.type == 'KING' and block.is_dead():
 			print('\n', block.name , ' has died and the game is over')
-			return False, True
+			if block.allegiance == 'ENGLAND':
+				raise exceptions.EnglishKingDeadException()
+			else:
+				raise exceptions.ScottishKingDeadException()
 
 		elif block.has_cross and block.is_dead():
 
@@ -384,7 +391,7 @@ def regroup_locations(board, attacking, defending, is_attacking):
 		if not went_through_loop and border != 0 and (attacking[0].allegiance == 'ENGLAND' or x != 22) and (attacking[0].allegiance == 'SCOTLAND' or x == 22\
 			or current_location.regionID != 22):
 			possible_locations.append(board.regions[x])
-
+	possible_locations.append(current_location)
 	return possible_locations
 
 def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
@@ -488,11 +495,13 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 			#Call the regrouping utility function which returns the ID of a region that the block should regroup to
 			place_to_go_to = search.region_id_to_object(current_board, regroup_util.regroup_utility(current_board, current_location.regionID, possible_locations_id))
 
-			if place_to_go_to.regionID == len(possible_locations):
+			if len(possible_locations) == 1:
 				print(block.name, ' stays')
 				continue
 			else:
-				place_to_go_to = possible_locations[place_to_go_to.regionID].regionID
+
+				#place_to_go_to is now a regionID, now a Region
+				place_to_go_to = place_to_go_to.regionID
 				current_board.add_to_location(block, place_to_go_to)
 
 				current_board.dynamic_borders[original_location.regionID][place_to_go_to] -= 1
@@ -987,6 +996,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 	regroup(defense + defense_reinforcements, current_board, eng_type, scot_type)
+
 	return 'attacker retreats'
 
 
