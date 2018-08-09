@@ -79,7 +79,7 @@ def set_up_combat_dict(current_board, battle_region):
 
     for path in current_board.regions[battle_regionID].enterers[defending_allegiance]:
         for block,order in current_board.regions[battle_regionID].enterers[defending_allegiance][path]:
-            if order < first_attacker_order:
+            if order < first_attacking_order:
                 current_board.regions[battle_regionID].combat_dict['Defending'].append(block)
             else:
                 current_board.regions[battle_regionID].combat_dict['Defending Reinforcements'].append(block)
