@@ -274,7 +274,7 @@ def vic_utility(board, role):
 			
 
 	#to convert victual block list to blocks from blockIDs before it's returned
-
+	return_victual_block_lst = []
 	for blockID in victual_block_list:
 		block = search.block_id_to_object(board.all_blocks, block_id)
 		return_victual_block_lst.append()
