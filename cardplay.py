@@ -699,8 +699,10 @@ def her_execution(board, position, role):
         if len(board.regions[noble_region.regionID].blocks_present) > 1:
             for block in noble_region.blocks_present:
                 if block == noble_to_steal:
+                    print(block.name + ' added to attacking dict')
                     board.regions[noble_region.regionID].combat_dict['Attacking'].append(block)
                 else:
+                    print(block.name + ' added to defending dict')
                     board.regions[noble_region.regionID].combat_dict['Defending'].append(block)
 
             print('DID HERALD BATTLE IN HERALD FUNCTION')
