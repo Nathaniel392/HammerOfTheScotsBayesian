@@ -239,7 +239,7 @@ def vic_utility(board, role):
 		blocks_dict = victuals_block_utility(chosen_region, role)
 		victual_block_list.append(weighted_prob.weighted_prob(blocks_dict))
 	
-	utility_value = 0
+	utility_value = 0.00000000001
 	hits_taken = 0
 	for block_id in victual_block_list:
 		block = search.block_id_to_object(board.all_blocks, block_id)
@@ -453,7 +453,7 @@ def pil_utility(board, role):
 		
 	region_id_to_pillage, region_friendly_to_heal = weighted_prob.weighted_prob(utility_dict)
 
-	return utility_dict[(region_id_to_pillage, region_friendly_to_heal)], region_id_to_pillage, region_friendly_to_heal
+	return utility_dict[(region_id_to_pillage, region_friendly_to_heal)], region_id_to_pillage, region_friendly_to_heal.regionID
 
 def tru_utility(board, comp_hand):
 
@@ -461,7 +461,4 @@ def tru_utility(board, comp_hand):
 		return 1.0
 	else:
 		return 0.0000001
-
-
-	
 
