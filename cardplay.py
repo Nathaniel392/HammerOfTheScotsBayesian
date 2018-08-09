@@ -18,6 +18,7 @@ import copy
 import scottish_king
 import comp_card_utilities
 import move_utility
+import weighted_prob
 
     
 #ultimately: return card that the computer decides to play
@@ -59,7 +60,7 @@ def get_card_val(card):
         return 4
 
 def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND'
-    max_value = 0
+    prob_dict = dict()
     for card in computer_hand:
         print(role + ' is testing ' + card)
         if card == '1':
@@ -73,21 +74,29 @@ def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND
         elif card == 'HER':
             value = comp_card_utilities.her_utility(board, role)
         elif card == 'VIC':
-            value, vic_block_lst = comp_card_utilities.vic_utility(board, role)
+            value, vic_block_list = comp_card_utilities.vic_utility(board, role)
         elif card == 'PIL':
             value, region_to_pillage_ID, region_to_heal_ID = comp_card_utilities.pil_utility(board, role)
+            pil_data = [region_to_pillage_ID, region_to_heal_ID]
         elif card == 'TRU':
             value = comp_card_utilities.tru_utility(board, role)
-        if value > max_value:
-            max_value = value
-            chosen_card = card
-    if max_value == 0:
-        chosen_card = random.choice(computer_hand)
+        
+        prob_dict[card] = value
+    chosen_card = weighted_prob.weighted_prob(prob_dict)
+
     print('computer hand: ', computer_hand)
     print('computer plays ', chosen_card)
-            
-    return chosen_card
-
+    
+    if chosen_card == '1' or chosen_card == '2' or chosen_card == '3' or chosen_card == 'TRU':
+        return chosen_card, 0 #empty second parameter because it's unnecessary
+    elif chosen_card == 'SEA':
+        return chosen_card, 0 #empty parameter temp before strategy is coded in
+    elif chosen_card == 'HER':
+        return chosen_card, 0 #empty parameter temp before noble_to_steal strat
+    elif chosen_card == 'VIC':
+        return chosen_card, vic_block_list
+    elif chosen_card == 'PIL':
+        return chosen_card, pil_data
 
 def random_card(computer_hand):
     """
