@@ -481,7 +481,7 @@ def sea_execution(board, position, role):
         
         
         if len(possible_final_region_list) >= 2:
-        
+            #if you want to add in last-min strategy, do it here
             #random region from possible list
             original_region = possible_region_list[random.randint(0, len(possible_region_list) - 1)]
             #remove the original region from the possible end regions
@@ -497,15 +497,18 @@ def sea_execution(board, position, role):
             move_block_list = []
             blocks_moved = 0
             print(4)
+
             while blocks_moved < 2:
                 print(5)
-                block = original_region.blocks_present[random.randint(0, len(original_region.blocks_present)-1)]
+                block = possible_block_list[random.randint(0, len(possible_block_list)-1)]
                 #if it's not already on the list,append to move_block_list
                 if block not in move_block_list:
                     move_block_list.append(block)
                     blocks_moved+=1
                 elif block in move_block_list and len(possible_block_list) == 1:
                     blocks_moved+=1
+                else:
+                    print('neither condition was met so this is an infinite loop')
             
                     
             print(6)    
@@ -651,6 +654,7 @@ def sea_execution(board, position, role):
         else:
                 print('There are not enough friendly coastal regions with which to play this card.')
             
+ 
             
 def her_execution(board, position, role):
     '''
