@@ -8,7 +8,7 @@ import other_movement
 
 
 
-def good_move(board, num_moves, role, turn, truce, blocks_moved, bad_move_utility):
+def good_move(board, num_moves, role, turn, truce, blocks_moved):
 	
 	"""
 	board is a copy of the board
@@ -41,11 +41,12 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved, bad_move_utilit
 		
 		value_loc_before += retreat.value_of_location(board_copy, region.regionID, role)
 
-
+	computer_block = None
 	
 	#does movement
-	while computer_block not in blocks_moved:
-		computer_path, computer_block = other_movement.movement_execution(board_copy, 'comp', role, num_moves, truce=truce)
+	
+
+	computer_path, computer_block = other_movement.movement_execution(board_copy, 'comp', role, num_moves, truce=truce)
 
 
 	#debugging why things aren't in combat dictionary
@@ -108,7 +109,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved, bad_move_utilit
 
 	#throw in the random number generator with some base bad_move_utility
 	#'move' is a substitute for whatever the move will be stored in later
-	bad_move_utility = 15
+	bad_move_utility = 5
 
 	if utility <= 0:
 		utility = .01
@@ -117,8 +118,8 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved, bad_move_utilit
 
 	utility_dict = {'move': utility, 'not move': bad_move_utility}
 
-	#if weighted_prob.weighted_prob(utility_dict) == 'move':
-	if utility > bad_move_utility:
+	if weighted_prob.weighted_prob(utility_dict) == 'move':
+	#if utility > bad_move_utility:
 		#total_string = ''
 		#pause
 		print('computer ready to make a move')
@@ -131,7 +132,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved, bad_move_utilit
 		print(type(board))
 		return board
 	else:
-		bad_move_utility-=.15
+		
 	
 		#other_movement.reset_total_string()
 		

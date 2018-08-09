@@ -131,7 +131,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
             
             for j in range(num_moves):
                 input()
-                board = move_utility.good_move(board, num_moves, role, board.turn, truce, blocks_moved, 8)
+                board = move_utility.good_move(board, num_moves, role, board.turn, truce, blocks_moved)
                 input()
             move_found = True
             

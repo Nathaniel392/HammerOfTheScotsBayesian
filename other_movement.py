@@ -408,14 +408,16 @@ def movement_execution(board, position, role, num_moves, truce=False):
             #Get a random starting region
 
             unique_region = False
+            
             while not unique_region:
-
                 friendly_regions = board.get_controlled_regions(role)
+                print(role, friendly_regions)
                 rand_startID = random.randint(0, len(friendly_regions) - 1)
                 focus_region = friendly_regions[rand_startID]
 
                 if focus_region not in picked_regions:
                     unique_region = True
+            print('CHOSE REGION: ', focus_region.name)
             add_to_total_string('Focus Region = ', focus_region.name)
 
         if passed:
