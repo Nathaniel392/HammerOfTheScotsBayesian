@@ -239,7 +239,7 @@ def vic_utility(board, role):
 		blocks_dict = victuals_block_utility(chosen_region, role)
 		victual_block_list.append(weighted_prob.weighted_prob(blocks_dict))
 	
-	utility_value = 0
+	utility_value = 0.00000000001
 	hits_taken = 0
 	for block_id in victual_block_list:
 		block = search.block_id_to_object(board.all_blocks, block_id)
@@ -273,8 +273,14 @@ def vic_utility(board, role):
 	elif hits_taken == 2:
 		utility_value += .1
 			
+
+	#to convert victual block list to blocks from blockIDs before it's returned
+	return_victual_block_lst = []
+	for blockID in victual_block_list:
+		block = search.block_id_to_object(board.all_blocks, block_id)
+		return_victual_block_lst.append(block)
 	
-	return utility_value, victual_block_list
+	return utility_value, return_victual_block_lst
 		
 
 def victuals_region_utility(board, role): #+ prob tables
@@ -292,7 +298,7 @@ def victuals_region_utility(board, role): #+ prob tables
 	prob_dict = dict()
 	for region in friendly_list:
 		hits_taken = 0
-		region_utility = 0
+		region_utility = 0.000000001
 		for block in region.blocks_present:
 			
 			#for scotland:
@@ -329,7 +335,7 @@ def victuals_region_utility(board, role): #+ prob tables
 		prob_dict[region.regionID] = region_utility
 
 
-	print('vicuals_region_utility: ' + str(prob_dict))
+	print('victuals_region_utility: ' + str(prob_dict))
 		
 	return prob_dict
 				
@@ -345,7 +351,7 @@ def victuals_block_utility(chosen_region, role): #+ prob tables
 	prob_dict = dict()
 	
 	for block in chosen_region.blocks_present:
-		block_utility = 0
+		block_utility = 0.0000000001
 		#if block is below max strength
 		if block.current_strength < block.attack_strength:
 			if block.name == 'KING':
@@ -453,7 +459,7 @@ def pil_utility(board, role):
 		
 	region_id_to_pillage, region_friendly_to_heal = weighted_prob.weighted_prob(utility_dict)
 
-	return utility_dict[(region_id_to_pillage, region_friendly_to_heal)], region_id_to_pillage, region_friendly_to_heal
+	return utility_dict[(region_id_to_pillage, region_friendly_to_heal)], region_id_to_pillage, region_friendly_to_heal.regionID
 
 def tru_utility(board, comp_hand):
 
@@ -464,4 +470,6 @@ def tru_utility(board, comp_hand):
 
 
 	
+
+
 
