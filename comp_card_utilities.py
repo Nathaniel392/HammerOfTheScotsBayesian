@@ -277,7 +277,7 @@ def vic_utility(board, role):
 	return_victual_block_lst = []
 	for blockID in victual_block_list:
 		block = search.block_id_to_object(board.all_blocks, block_id)
-		return_victual_block_lst.append()
+		return_victual_block_lst.append(block)
 	
 	return utility_value, return_victual_block_lst
 		
@@ -334,7 +334,7 @@ def victuals_region_utility(board, role): #+ prob tables
 		prob_dict[region.regionID] = region_utility
 
 
-	print('vicuals_region_utility: ' + str(prob_dict))
+	print('victuals_region_utility: ' + str(prob_dict))
 		
 	return prob_dict
 				
