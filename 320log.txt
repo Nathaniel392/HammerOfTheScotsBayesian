@@ -1,0 +1,2086 @@
+WALES-INFANTRY  has moved to levy
+ULSTER  has moved to levy
+EDWARD  has moved to levy
+YORK-INFANTRY  has moved to levy
+opp hand: 
+1 2 2 PIL 3 
+Enter the card you want to play: YORK-INFANTRY  has moved to levy
+WALES-INFANTRY  has moved to levy
+ULSTER  has moved to levy
+WESTMOR  has moved to levy
+opp hand: 
+2 1 2 SEA 1 
+Enter the card you want to play: computer hand:  ['1', '2', 'TRU', '2', '2']
+computer plays  2
+Would you like to play the event card or pass it? (play/pass)Possible origin regions:
+ROSS
+BUCHAN
+ANGUS
+ARGYLL
+LENNOX
+MENTIETH
+LOTHIAN
+DUNBAR
+ENGLAND
+What region would you like to move block(s) from? Enter a name or 'none'.
+>Possible blocks:
+YORK-INFANTRY
+WALES-INFANTRY
+ULSTER
+WESTMOR
+Which block would you like to move? Enter a name or 'none'.
+>Invalid block.
+Which block would you like to move? Enter a name or 'none'.
+>Possible final regions:
+ROSS
+BUCHAN
+ANGUS
+ARGYLL
+LENNOX
+MENTIETH
+LOTHIAN
+DUNBAR
+What region would you like to move block(s) to? Enter a name or 'none'.
+>Sent WESTMOR to ANGUS
+WESTMOR moved from ENGLAND to ANGUS
+Which block would you like to move? Enter a name or 'none'.
+>Invalid block.
+Which block would you like to move? Enter a name or 'none'.
+>Invalid block.
+Which block would you like to move? Enter a name or 'none'.
+>Possible final regions:
+ROSS
+BUCHAN
+ANGUS
+ARGYLL
+LENNOX
+MENTIETH
+LOTHIAN
+DUNBAR
+What region would you like to move block(s) to? Enter a name or 'none'.
+>Invalid region.
+What region would you like to move block(s) to? Enter a name or 'none'.
+>Sent WESTMOR to ANGUS
+WESTMOR moved from ENGLAND to ANGUS
+Sent WESTMOR to ANGUS
+WESTMOR moved from ENGLAND to ANGUS
+LOOPING AGAIN 0 2
+Num of move=  0
+Computer Move Part 1DURHAM-KNIGHT  has moved to levy
+LANCASTER-INFANTRY  has moved to levy
+DURHAM-INFANTRY  has moved to levy
+YORK-KNIGHT  has moved to levy
+opp hand: 
+2 2 3 3 2 
+Enter the card you want to play: computer hand:  ['HER', 'PIL', '1', '2', '2']
+computer plays  PIL
+COMYN took one hit.
+COMYN took one hit.
+GRANT was healed 1 points.
+GRANT was healed 0 points.
+GRANT was healed 1 points.
+LOOPING AGAIN 0 2
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+DURHAM-KNIGHT - KNIGHT
+	Moves:2
+	Strength:3/3
+	Combat:B3
+--------------------, --------------------
+LANCASTER-INFANTRY - INFANTRY
+	Moves:2
+	Strength:4/4
+	Combat:C2
+--------------------, --------------------
+DURHAM-INFANTRY - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------, --------------------
+YORK-KNIGHT - KNIGHT
+	Moves:2
+	Strength:4/4
+	Combat:B3
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 17]
+Location 2: [22, 17, 16]
+Location 3: [[22, 17, 16]]
+Moved to friendly or neutral region
+YORK-KNIGHT was moved from ENGLAND to LOTHIAN
+0
+LOOPING AGAIN 1 2
+Which region would you like to focus your movement (or pass)?
+>Invalid input. Please input a valid region name.
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+DURHAM-KNIGHT - KNIGHT
+	Moves:2
+	Strength:3/3
+	Combat:B3
+--------------------, --------------------
+LANCASTER-INFANTRY - INFANTRY
+	Moves:2
+	Strength:4/4
+	Combat:C2
+--------------------, --------------------
+DURHAM-INFANTRY - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 17]
+Location 2: [22, 17, 16]
+Location 3: [[22, 17, 16], [22, 17, 16]]
+Moved to friendly or neutral region
+DURHAM-KNIGHT was moved from ENGLAND to LOTHIAN
+1
+[]
+opp hand: 
+2 3 3 2 
+Enter the card you want to play: computer hand:  ['HER', '1', '2', '2']
+computer plays  2
+LOOPING AGAIN 0 3
+Which region would you like to focus your movement (or pass)?
+>Invalid input. Please input a valid region name.
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[16]
+Location 1: [16, 13]
+Location 2: [[22, 17, 16], [22, 17, 16], [16, 13], [16, 15, 13]]
+Moved to friendly or neutral region
+DURHAM-KNIGHT was moved from LOTHIAN to MENTIETH
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[16]
+Location 1: [16, 13]
+Location 2: [[22, 17, 16], [22, 17, 16], [16, 13], [16, 15, 13], [16, 13], [16, 15, 13]]
+Moved to friendly or neutral region
+YORK-KNIGHT was moved from LOTHIAN to MENTIETH
+Choose a block to move (type 'done' if done): You passed one movement point!
+Please input a valid block name!
+0
+LOOPING AGAIN 1 3
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[7]
+Location 1: [7, 8]
+Location 2: [[22, 17, 16], [22, 17, 16], [16, 13], [16, 15, 13], [16, 13], [16, 15, 13], [7, 4, 8], [7, 8]]
+Moved to friendly or neutral region
+MAR was moved from MAR to ANGUS
+1
+LOOPING AGAIN 2 3
+Which region would you like to focus your movement (or pass)?
+>LOOPING AGAIN 0 2
+Num of move=  0
+Computer Move Part 1Focus Region =  STRATHSPEY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [3, 2, 6]
+Moved into enemy region
+GRANT was moved from STRATHSPEY to BADENOCH
+0
+LOOPING AGAIN 1 2
+Num of move=  1
+Computer Move Part 1Focus Region =  ANNAN
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [20, 19]
+Moved to friendly or neutral region
+BRUCE was moved from ANNAN to GALLOWAY
+1
+[--------------------
+BADENOCH - 6
+	COMYN GRANT 
+--------------------]
+Contested Regions:  BADENOCH Enter name of region you want to resolve the battle in: 
+attack: GRANT - 3	
+defense: COMYN - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: GRANT - 3	
+defense: COMYN - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  COMYN do? (r) retreat (f) fight (p) pass
+>Is 0 and 6 attacked border updated? False
+Is 1 and 6 attacked border updated? False
+Is 2 and 6 attacked border updated? True
+Is 3 and 6 attacked border updated? False
+Is 4 and 6 attacked border updated? False
+Is 5 and 6 attacked border updated? False
+Is 6 and 6 attacked border updated? False
+Is 7 and 6 attacked border updated? False
+Is 8 and 6 attacked border updated? False
+Is 9 and 6 attacked border updated? False
+Is 10 and 6 attacked border updated? False
+Is 11 and 6 attacked border updated? False
+Is 12 and 6 attacked border updated? False
+Is 13 and 6 attacked border updated? False
+Is 14 and 6 attacked border updated? False
+Is 15 and 6 attacked border updated? False
+Is 16 and 6 attacked border updated? False
+Is 17 and 6 attacked border updated? False
+Is 18 and 6 attacked border updated? False
+Is 19 and 6 attacked border updated? False
+Is 20 and 6 attacked border updated? False
+Is 21 and 6 attacked border updated? False
+Is 22 and 6 attacked border updated? False
+COMYN  rolled  [5, 1]
+GRANT got hurt!
+
+attack: GRANT - 2	
+defense: COMYN - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 6 attacked border updated? False
+Is 1 and 6 attacked border updated? False
+Is 2 and 6 attacked border updated? True
+Is 3 and 6 attacked border updated? False
+Is 4 and 6 attacked border updated? False
+Is 5 and 6 attacked border updated? False
+Is 6 and 6 attacked border updated? False
+Is 7 and 6 attacked border updated? False
+Is 8 and 6 attacked border updated? False
+Is 9 and 6 attacked border updated? False
+Is 10 and 6 attacked border updated? False
+Is 11 and 6 attacked border updated? False
+Is 12 and 6 attacked border updated? False
+Is 13 and 6 attacked border updated? False
+Is 14 and 6 attacked border updated? False
+Is 15 and 6 attacked border updated? False
+Is 16 and 6 attacked border updated? False
+Is 17 and 6 attacked border updated? False
+Is 18 and 6 attacked border updated? False
+Is 19 and 6 attacked border updated? False
+Is 20 and 6 attacked border updated? False
+Is 21 and 6 attacked border updated? False
+Is 22 and 6 attacked border updated? False
+GRANT  rolled  [6, 3]
+
+attack: GRANT - 2	
+defense: COMYN - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: GRANT - 2	
+defense: COMYN - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  COMYN do? (r) retreat (f) fight (p) pass
+>HOBELARS  has moved to levy
+WALES-ARCHER  has moved to levy
+LANCASTER-INFANTRY  has moved to levy
+DURHAM-KNIGHT  has moved to levy
+opp hand: 
+HER 2 1 2 2 
+Enter the card you want to play: DURHAM-KNIGHT  has moved to levy
+YORK-INFANTRY  has moved to levy
+ULSTER  has moved to levy
+HOBELARS  has moved to levy
+opp hand: 
+1 VIC 2 1 2 
+Enter the card you want to play: computer hand:  ['1', 'PIL', '2', '1', '3']
+computer plays  3
+LOOPING AGAIN 0 3
+Num of move=  0
+Computer Move Part 1Focus Region =  ANNAN
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [20, 21]
+Moved to friendly or neutral region
+BRUCE was moved from ANNAN to TEVIOT
+0
+LOOPING AGAIN 1 3
+Num of move=  1
+Computer Move Part 1Focus Region =  STRATHSPEY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [3, 2, 6]
+Moved into enemy region
+GRANT was moved from STRATHSPEY to BADENOCH
+updating border between 2 and 6
+1
+LOOPING AGAIN 2 3
+Num of move=  2
+Computer Move Part 1Focus Region =  GALLOWAY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [19, 20]
+Moved to friendly or neutral region
+GALLOWAY was moved from GALLOWAY to ANNAN
+2
+LOOPING AGAIN 0 2
+Which region would you like to focus your movement (or pass)?
+>DURHAM-KNIGHT  has moved to levy
+WALES-INFANTRY  has moved to levy
+LANCASTER-KNIGHT  has moved to levy
+DURHAM-INFANTRY  has moved to levy
+opp hand: 
+2 1 1 2 2 
+Enter the card you want to play: computer hand:  ['2', 'VIC', '3', '2', 'TRU']
+computer plays  VIC
+GRANT  healed one point
+GRANT  healed one point
+GRANT  healed one point
+LOOPING AGAIN 0 1
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[15]
+Location 1: [15, 20]
+Location 2: [[15, 14, 20], [15, 20]]
+Moved into enemy region
+STEWARD was moved from LANARK to ANNAN
+0
+[--------------------
+ANNAN - 20
+	*Coastal
+	BRUCE STEWARD 
+--------------------]
+
+attack: STEWARD - 3	
+defense: BRUCE - 4	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: STEWARD - 3	
+defense: BRUCE - 4	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 20 attacked border updated? False
+Is 1 and 20 attacked border updated? False
+Is 2 and 20 attacked border updated? False
+Is 3 and 20 attacked border updated? False
+Is 4 and 20 attacked border updated? False
+Is 5 and 20 attacked border updated? False
+Is 6 and 20 attacked border updated? False
+Is 7 and 20 attacked border updated? False
+Is 8 and 20 attacked border updated? False
+Is 9 and 20 attacked border updated? False
+Is 10 and 20 attacked border updated? False
+Is 11 and 20 attacked border updated? False
+Is 12 and 20 attacked border updated? False
+Is 13 and 20 attacked border updated? False
+Is 14 and 20 attacked border updated? False
+Is 15 and 20 attacked border updated? True
+Is 16 and 20 attacked border updated? False
+Is 17 and 20 attacked border updated? False
+Is 18 and 20 attacked border updated? False
+Is 19 and 20 attacked border updated? False
+Is 20 and 20 attacked border updated? False
+Is 21 and 20 attacked border updated? False
+Is 22 and 20 attacked border updated? False
+BRUCE  rolled  [5, 4, 4, 4]
+
+attack: STEWARD - 3	
+defense: BRUCE - 4	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  STEWARD do? (r) retreat (f) fight (p) pass
+>Is 0 and 20 attacked border updated? False
+Is 1 and 20 attacked border updated? False
+Is 2 and 20 attacked border updated? False
+Is 3 and 20 attacked border updated? False
+Is 4 and 20 attacked border updated? False
+Is 5 and 20 attacked border updated? False
+Is 6 and 20 attacked border updated? False
+Is 7 and 20 attacked border updated? False
+Is 8 and 20 attacked border updated? False
+Is 9 and 20 attacked border updated? False
+Is 10 and 20 attacked border updated? False
+Is 11 and 20 attacked border updated? False
+Is 12 and 20 attacked border updated? False
+Is 13 and 20 attacked border updated? False
+Is 14 and 20 attacked border updated? False
+Is 15 and 20 attacked border updated? True
+Is 16 and 20 attacked border updated? False
+Is 17 and 20 attacked border updated? False
+Is 18 and 20 attacked border updated? False
+Is 19 and 20 attacked border updated? False
+Is 20 and 20 attacked border updated? False
+Is 21 and 20 attacked border updated? False
+Is 22 and 20 attacked border updated? False
+STEWARD  rolled  [2, 4, 6]
+BRUCE got hurt!
+
+attack: STEWARD - 3	
+defense: BRUCE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: STEWARD - 3	
+defense: BRUCE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 20 attacked border updated? False
+Is 1 and 20 attacked border updated? False
+Is 2 and 20 attacked border updated? False
+Is 3 and 20 attacked border updated? False
+Is 4 and 20 attacked border updated? False
+Is 5 and 20 attacked border updated? False
+Is 6 and 20 attacked border updated? False
+Is 7 and 20 attacked border updated? False
+Is 8 and 20 attacked border updated? False
+Is 9 and 20 attacked border updated? False
+Is 10 and 20 attacked border updated? False
+Is 11 and 20 attacked border updated? False
+Is 12 and 20 attacked border updated? False
+Is 13 and 20 attacked border updated? False
+Is 14 and 20 attacked border updated? False
+Is 15 and 20 attacked border updated? True
+Is 16 and 20 attacked border updated? False
+Is 17 and 20 attacked border updated? False
+Is 18 and 20 attacked border updated? False
+Is 19 and 20 attacked border updated? False
+Is 20 and 20 attacked border updated? False
+Is 21 and 20 attacked border updated? False
+Is 22 and 20 attacked border updated? False
+BRUCE  rolled  [4, 4, 3]
+Who do you want to get hurt? (Type index in list below:)
+STEWARD[0]; >STEWARD got hurt!
+
+attack: STEWARD - 2	
+defense: BRUCE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  STEWARD do? (r) retreat (f) fight (p) pass
+>Is 0 and 20 attacked border updated? False
+Is 1 and 20 attacked border updated? False
+Is 2 and 20 attacked border updated? False
+Is 3 and 20 attacked border updated? False
+Is 4 and 20 attacked border updated? False
+Is 5 and 20 attacked border updated? False
+Is 6 and 20 attacked border updated? False
+Is 7 and 20 attacked border updated? False
+Is 8 and 20 attacked border updated? False
+Is 9 and 20 attacked border updated? False
+Is 10 and 20 attacked border updated? False
+Is 11 and 20 attacked border updated? False
+Is 12 and 20 attacked border updated? False
+Is 13 and 20 attacked border updated? False
+Is 14 and 20 attacked border updated? False
+Is 15 and 20 attacked border updated? True
+Is 16 and 20 attacked border updated? False
+Is 17 and 20 attacked border updated? False
+Is 18 and 20 attacked border updated? False
+Is 19 and 20 attacked border updated? False
+Is 20 and 20 attacked border updated? False
+Is 21 and 20 attacked border updated? False
+Is 22 and 20 attacked border updated? False
+STEWARD  rolled  [2, 2]
+BRUCE got hurt!
+BRUCE got hurt!
+
+attack: STEWARD - 2	
+defense: BRUCE - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: STEWARD - 2	
+defense: BRUCE - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 20 attacked border updated? False
+Is 1 and 20 attacked border updated? False
+Is 2 and 20 attacked border updated? False
+Is 3 and 20 attacked border updated? False
+Is 4 and 20 attacked border updated? False
+Is 5 and 20 attacked border updated? False
+Is 6 and 20 attacked border updated? False
+Is 7 and 20 attacked border updated? False
+Is 8 and 20 attacked border updated? False
+Is 9 and 20 attacked border updated? False
+Is 10 and 20 attacked border updated? False
+Is 11 and 20 attacked border updated? False
+Is 12 and 20 attacked border updated? False
+Is 13 and 20 attacked border updated? False
+Is 14 and 20 attacked border updated? False
+Is 15 and 20 attacked border updated? True
+Is 16 and 20 attacked border updated? False
+Is 17 and 20 attacked border updated? False
+Is 18 and 20 attacked border updated? False
+Is 19 and 20 attacked border updated? False
+Is 20 and 20 attacked border updated? False
+Is 21 and 20 attacked border updated? False
+Is 22 and 20 attacked border updated? False
+BRUCE  rolled  [3]
+Who do you want to get hurt? (Type index in list below:)
+STEWARD[0]; >STEWARD got hurt!
+
+attack: STEWARD - 1	
+defense: BRUCE - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  STEWARD do? (r) retreat (f) fight (p) pass
+>Is 0 and 20 attacked border updated? False
+Is 1 and 20 attacked border updated? False
+Is 2 and 20 attacked border updated? False
+Is 3 and 20 attacked border updated? False
+Is 4 and 20 attacked border updated? False
+Is 5 and 20 attacked border updated? False
+Is 6 and 20 attacked border updated? False
+Is 7 and 20 attacked border updated? False
+Is 8 and 20 attacked border updated? False
+Is 9 and 20 attacked border updated? False
+Is 10 and 20 attacked border updated? False
+Is 11 and 20 attacked border updated? False
+Is 12 and 20 attacked border updated? False
+Is 13 and 20 attacked border updated? False
+Is 14 and 20 attacked border updated? False
+Is 15 and 20 attacked border updated? True
+Is 16 and 20 attacked border updated? False
+Is 17 and 20 attacked border updated? False
+Is 18 and 20 attacked border updated? False
+Is 19 and 20 attacked border updated? False
+Is 20 and 20 attacked border updated? False
+Is 21 and 20 attacked border updated? False
+Is 22 and 20 attacked border updated? False
+STEWARD  rolled  [5]
+attacker retreats
+Is 0 and 20 attacked border updated? False
+Is 1 and 20 attacked border updated? False
+Is 2 and 20 attacked border updated? False
+Is 3 and 20 attacked border updated? False
+Is 4 and 20 attacked border updated? False
+Is 5 and 20 attacked border updated? False
+Is 6 and 20 attacked border updated? False
+Is 7 and 20 attacked border updated? False
+Is 8 and 20 attacked border updated? False
+Is 9 and 20 attacked border updated? False
+Is 10 and 20 attacked border updated? False
+Is 11 and 20 attacked border updated? False
+Is 12 and 20 attacked border updated? False
+Is 13 and 20 attacked border updated? False
+Is 14 and 20 attacked border updated? False
+Is 15 and 20 attacked border updated? False
+Is 16 and 20 attacked border updated? False
+Is 17 and 20 attacked border updated? False
+Is 18 and 20 attacked border updated? False
+Is 19 and 20 attacked border updated? False
+Is 20 and 20 attacked border updated? False
+Is 21 and 20 attacked border updated? False
+Is 22 and 20 attacked border updated? False
+possible locations: CARRICK[14]; LANARK[15]; SELKIRK-FOREST[18]; TEVIOT[21]; ENGLAND[22]; ENGLAND[22]; ENGLAND[22]; ENGLAND[22]; where does STEWARD go to?
+What regionID to retreat to: Sent STEWARD to CARRICK
+STEWARD  retreated to  CARRICK
+Sent BRUCE to SELKIRK-FOREST
+BRUCE  moved to  SELKIRK-FOREST
+opp hand: 
+2 1 2 2 
+Enter the card you want to play: computer hand:  ['2', '3', '2', 'TRU']
+computer plays  2
+LOOPING AGAIN 0 2
+Num of move=  0
+Computer Move Part 1Focus Region =  GALLOWAY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [19, 20]
+Moved to friendly or neutral region
+GALLOWAY was moved from GALLOWAY to ANNAN
+0
+LOOPING AGAIN 1 2
+Num of move=  1
+Computer Move Part 1Focus Region =  SELKIRK-FOREST
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [18, 16]
+Moved into enemy region
+BRUCE was moved from SELKIRK-FOREST to LOTHIAN
+[18, 16]
+updating border between 18 and 16
+1
+LOOPING AGAIN 0 1
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[6]
+Location 1: [6, 3]
+Location 2: [[15, 14, 20], [15, 20], [6, 3]]
+Moved into enemy region
+COMYN was moved from BADENOCH to STRATHSPEY
+0
+[--------------------
+STRATHSPEY - 3
+	*Cathedral
+	*Coastal
+	GRANT COMYN 
+--------------------, --------------------
+LOTHIAN - 16
+	*Coastal
+	CUMBRIA BRUCE 
+--------------------]
+
+attack: BRUCE - 1	
+defense: CUMBRIA - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: BRUCE - 1	
+defense: CUMBRIA - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 16 attacked border updated? False
+Is 1 and 16 attacked border updated? False
+Is 2 and 16 attacked border updated? False
+Is 3 and 16 attacked border updated? False
+Is 4 and 16 attacked border updated? False
+Is 5 and 16 attacked border updated? False
+Is 6 and 16 attacked border updated? False
+Is 7 and 16 attacked border updated? False
+Is 8 and 16 attacked border updated? False
+Is 9 and 16 attacked border updated? False
+Is 10 and 16 attacked border updated? False
+Is 11 and 16 attacked border updated? False
+Is 12 and 16 attacked border updated? False
+Is 13 and 16 attacked border updated? False
+Is 14 and 16 attacked border updated? False
+Is 15 and 16 attacked border updated? False
+Is 16 and 16 attacked border updated? False
+Is 17 and 16 attacked border updated? False
+Is 18 and 16 attacked border updated? True
+Is 19 and 16 attacked border updated? False
+Is 20 and 16 attacked border updated? False
+Is 21 and 16 attacked border updated? False
+Is 22 and 16 attacked border updated? False
+Sent BRUCE to SELKIRK-FOREST
+BRUCE  retreated to  SELKIRK-FOREST
+defender wins
+possible locations: MENTIETH[13]; MENTIETH[13]; LANARK[15]; DUNBAR[17]; 
+Where will  CUMBRIA  go to? (region id)
+ (type -1 for stay): 
+>
+attack: COMYN - 4	
+defense: GRANT - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: COMYN - 4	
+defense: GRANT - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  COMYN do? (r) retreat (f) fight (p) pass
+>Is 0 and 3 attacked border updated? False
+Is 1 and 3 attacked border updated? False
+Is 2 and 3 attacked border updated? False
+Is 3 and 3 attacked border updated? False
+Is 4 and 3 attacked border updated? False
+Is 5 and 3 attacked border updated? False
+Is 6 and 3 attacked border updated? False
+Is 7 and 3 attacked border updated? False
+Is 8 and 3 attacked border updated? False
+Is 9 and 3 attacked border updated? False
+Is 10 and 3 attacked border updated? False
+Is 11 and 3 attacked border updated? False
+Is 12 and 3 attacked border updated? False
+Is 13 and 3 attacked border updated? False
+Is 14 and 3 attacked border updated? False
+Is 15 and 3 attacked border updated? False
+Is 16 and 3 attacked border updated? False
+Is 17 and 3 attacked border updated? False
+Is 18 and 3 attacked border updated? False
+Is 19 and 3 attacked border updated? False
+Is 20 and 3 attacked border updated? False
+Is 21 and 3 attacked border updated? False
+Is 22 and 3 attacked border updated? False
+possible locations: BUCHAN[4]; BADENOCH[6]; 
+What regionID to retreat to: Sent COMYN to BUCHAN
+COMYN  retreated to  BUCHAN
+defender wins
+Sent GRANT to MORAY
+GRANT  moved to  MORAY
+opp hand: 
+2 2 2 
+Enter the card you want to play: YORK-INFANTRY  has moved to levy
+YORK-KNIGHT  has moved to levy
+HOBELARS  has moved to levy
+ULSTER  has moved to levy
+opp hand: 
+2 1 3 2 TRU 
+Enter the card you want to play: computer hand:  ['3', '2', 'HER', '2', '2']
+computer plays  3
+LOOPING AGAIN 0 3
+Num of move=  0
+Computer Move Part 1Focus Region =  ANNAN
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [20, 14]
+Moved to friendly or neutral region
+BRUCE was moved from ANNAN to CARRICK
+0
+LOOPING AGAIN 1 3
+Num of move=  1
+Computer Move Part 1Focus Region =  CARRICK
+Computer Move Part 2It is computer turn to make a move
+Reset List
+Computer chosen region has no moves!
+1
+LOOPING AGAIN 2 3
+Num of move=  2
+Computer Move Part 1Focus Region =  GALLOWAY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [19, 20]
+Moved to friendly or neutral region
+GALLOWAY was moved from GALLOWAY to ANNAN
+2
+LOOPING AGAIN 0 1
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[6]
+Location 1: [6, 3]
+Location 2: [[6, 3]]
+Moved into enemy region
+COMYN was moved from BADENOCH to STRATHSPEY
+0
+[--------------------
+STRATHSPEY - 3
+	*Cathedral
+	*Coastal
+	GRANT COMYN 
+--------------------]
+
+attack: COMYN - 4	
+defense: GRANT - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: COMYN - 4	
+defense: GRANT - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  COMYN do? (r) retreat (f) fight (p) pass
+>Is 0 and 3 attacked border updated? False
+Is 1 and 3 attacked border updated? False
+Is 2 and 3 attacked border updated? False
+Is 3 and 3 attacked border updated? False
+Is 4 and 3 attacked border updated? False
+Is 5 and 3 attacked border updated? False
+Is 6 and 3 attacked border updated? True
+Is 7 and 3 attacked border updated? False
+Is 8 and 3 attacked border updated? False
+Is 9 and 3 attacked border updated? False
+Is 10 and 3 attacked border updated? False
+Is 11 and 3 attacked border updated? False
+Is 12 and 3 attacked border updated? False
+Is 13 and 3 attacked border updated? False
+Is 14 and 3 attacked border updated? False
+Is 15 and 3 attacked border updated? False
+Is 16 and 3 attacked border updated? False
+Is 17 and 3 attacked border updated? False
+Is 18 and 3 attacked border updated? False
+Is 19 and 3 attacked border updated? False
+Is 20 and 3 attacked border updated? False
+Is 21 and 3 attacked border updated? False
+Is 22 and 3 attacked border updated? False
+possible locations: BUCHAN[4]; BADENOCH[6]; 
+What regionID to retreat to: type in a number please
+possible locations: BUCHAN[4]; BADENOCH[6]; 
+What regionID to retreat to: Sent COMYN to BUCHAN
+COMYN  retreated to  BUCHAN
+defender wins
+Sent GRANT to BADENOCH
+GRANT  moved to  BADENOCH
+opp hand: 
+2 3 2 TRU 
+Enter the card you want to play: HOBELARS  has moved to levy
+DURHAM-KNIGHT  has moved to levy
+YORK-INFANTRY  has moved to levy
+WALES-INFANTRY  has moved to levy
+opp hand: 
+2 2 3 1 TRU 
+Enter the card you want to play: DURHAM-KNIGHT  has moved to levy
+LANCASTER-INFANTRY  has moved to levy
+DURHAM-INFANTRY  has moved to levy
+YORK-INFANTRY  has moved to levy
+opp hand: 
+TRU 3 2 2 PIL 
+Enter the card you want to play: LANCASTER-INFANTRY  has moved to levy
+DURHAM-KNIGHT  has moved to levy
+LANCASTER-KNIGHT  has moved to levy
+YORK-KNIGHT  has moved to levy
+opp hand: 
+2 HER 1 1 3 
+Enter the card you want to play: computer hand:  ['2', '2', 'VIC', '2', '1']
+computer plays  2
+LOOPING AGAIN 0 2
+Num of move=  0
+Computer Move Part 1Focus Region =  FIFE
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [11, 13]
+Moved into enemy region
+DOUGLAS was moved from FIFE to MENTIETH
+[11, 13]
+updating border between 11 and 13
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [11, 13]
+Moved into contested region.
+BARCLAY was moved from FIFE to MENTIETH
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [11, 13]
+Moved into contested region.
+WALLACE was moved from FIFE to MENTIETH
+0
+LOOPING AGAIN 1 2
+Num of move=  1
+Computer Move Part 1Focus Region =  ANNAN
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [20, 14, 19]
+Moved to friendly or neutral region
+BRUCE was moved from ANNAN to GALLOWAY
+1
+LOOPING AGAIN 0 1
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[6]
+Location 1: [6, 3]
+Location 2: [[6, 3]]
+Moved into enemy region
+COMYN was moved from BADENOCH to STRATHSPEY
+[6, 3]
+updating border between 6 and 3
+0
+[--------------------
+STRATHSPEY - 3
+	*Cathedral
+	*Coastal
+	GRANT COMYN 
+--------------------, --------------------
+MENTIETH - 13
+	*Coastal
+	NORTHUMBER MENTIETH DOUGLAS BARCLAY WALLACE 
+--------------------]
+
+attack: COMYN - 4	
+defense: GRANT - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: COMYN - 4	
+defense: GRANT - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  COMYN do? (r) retreat (f) fight (p) pass
+>Is 0 and 3 attacked border updated? False
+Is 1 and 3 attacked border updated? False
+Is 2 and 3 attacked border updated? False
+Is 3 and 3 attacked border updated? False
+Is 4 and 3 attacked border updated? False
+Is 5 and 3 attacked border updated? False
+Is 6 and 3 attacked border updated? True
+Is 7 and 3 attacked border updated? False
+Is 8 and 3 attacked border updated? False
+Is 9 and 3 attacked border updated? False
+Is 10 and 3 attacked border updated? False
+Is 11 and 3 attacked border updated? False
+Is 12 and 3 attacked border updated? False
+Is 13 and 3 attacked border updated? False
+Is 14 and 3 attacked border updated? False
+Is 15 and 3 attacked border updated? False
+Is 16 and 3 attacked border updated? False
+Is 17 and 3 attacked border updated? False
+Is 18 and 3 attacked border updated? False
+Is 19 and 3 attacked border updated? False
+Is 20 and 3 attacked border updated? False
+Is 21 and 3 attacked border updated? False
+Is 22 and 3 attacked border updated? False
+COMYN  rolled  [2, 6, 3, 2]
+GRANT got hurt!
+GRANT got hurt!
+
+attack: COMYN - 4	
+defense: GRANT - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 3 attacked border updated? False
+Is 1 and 3 attacked border updated? False
+Is 2 and 3 attacked border updated? False
+Is 3 and 3 attacked border updated? False
+Is 4 and 3 attacked border updated? False
+Is 5 and 3 attacked border updated? False
+Is 6 and 3 attacked border updated? True
+Is 7 and 3 attacked border updated? False
+Is 8 and 3 attacked border updated? False
+Is 9 and 3 attacked border updated? False
+Is 10 and 3 attacked border updated? False
+Is 11 and 3 attacked border updated? False
+Is 12 and 3 attacked border updated? False
+Is 13 and 3 attacked border updated? False
+Is 14 and 3 attacked border updated? False
+Is 15 and 3 attacked border updated? False
+Is 16 and 3 attacked border updated? False
+Is 17 and 3 attacked border updated? False
+Is 18 and 3 attacked border updated? False
+Is 19 and 3 attacked border updated? False
+Is 20 and 3 attacked border updated? False
+Is 21 and 3 attacked border updated? False
+Is 22 and 3 attacked border updated? False
+Sent GRANT to MORAY
+GRANT  retreated to  MORAY
+attacker wins
+possible locations: BUCHAN[4]; BADENOCH[6]; 
+Where will  COMYN  go to? (region id)
+ (type -1 for stay): 
+>
+attack: DOUGLAS - 4	BARCLAY - 4	WALLACE - 4	
+defense: NORTHUMBER - 4	MENTIETH - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: DOUGLAS - 4	BARCLAY - 4	WALLACE - 4	
+defense: NORTHUMBER - 4	MENTIETH - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 13 attacked border updated? False
+Is 1 and 13 attacked border updated? False
+Is 2 and 13 attacked border updated? False
+Is 3 and 13 attacked border updated? False
+Is 4 and 13 attacked border updated? False
+Is 5 and 13 attacked border updated? False
+Is 6 and 13 attacked border updated? False
+Is 7 and 13 attacked border updated? False
+Is 8 and 13 attacked border updated? False
+Is 9 and 13 attacked border updated? False
+Is 10 and 13 attacked border updated? False
+Is 11 and 13 attacked border updated? False
+Is 12 and 13 attacked border updated? False
+Is 13 and 13 attacked border updated? False
+Is 14 and 13 attacked border updated? False
+Is 15 and 13 attacked border updated? False
+Is 16 and 13 attacked border updated? False
+Is 17 and 13 attacked border updated? False
+Is 18 and 13 attacked border updated? False
+Is 19 and 13 attacked border updated? False
+Is 20 and 13 attacked border updated? False
+Is 21 and 13 attacked border updated? False
+Is 22 and 13 attacked border updated? False
+WALLACE  rolled  [1, 1, 6, 4]
+Who do you want to get hurt? (Type index in list below:)
+NORTHUMBER[0]; >NORTHUMBER got hurt!
+Who do you want to get hurt? (Type index in list below:)
+NORTHUMBER[0]; MENTIETH[1]; >MENTIETH got hurt!
+
+attack: DOUGLAS - 4	BARCLAY - 4	WALLACE - 4	
+defense: NORTHUMBER - 3	MENTIETH - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  MENTIETH do? (r) retreat (f) fight (p) pass
+>Is 0 and 13 attacked border updated? False
+Is 1 and 13 attacked border updated? False
+Is 2 and 13 attacked border updated? False
+Is 3 and 13 attacked border updated? False
+Is 4 and 13 attacked border updated? False
+Is 5 and 13 attacked border updated? False
+Is 6 and 13 attacked border updated? False
+Is 7 and 13 attacked border updated? False
+Is 8 and 13 attacked border updated? False
+Is 9 and 13 attacked border updated? False
+Is 10 and 13 attacked border updated? False
+Is 11 and 13 attacked border updated? False
+Is 12 and 13 attacked border updated? False
+Is 13 and 13 attacked border updated? False
+Is 14 and 13 attacked border updated? False
+Is 15 and 13 attacked border updated? False
+Is 16 and 13 attacked border updated? False
+Is 17 and 13 attacked border updated? False
+Is 18 and 13 attacked border updated? False
+Is 19 and 13 attacked border updated? False
+Is 20 and 13 attacked border updated? False
+Is 21 and 13 attacked border updated? False
+Is 22 and 13 attacked border updated? False
+possible locations: ATHOLL[10]; FIFE[11]; LENNOX[12]; LANARK[15]; LOTHIAN[16]; 
+What regionID to retreat to: Sent MENTIETH to ATHOLL
+MENTIETH  retreated to  ATHOLL
+
+attack: DOUGLAS - 4	BARCLAY - 4	WALLACE - 4	
+defense: NORTHUMBER - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  NORTHUMBER do? (r) retreat (f) fight (p) pass
+>Is 0 and 13 attacked border updated? False
+Is 1 and 13 attacked border updated? False
+Is 2 and 13 attacked border updated? False
+Is 3 and 13 attacked border updated? False
+Is 4 and 13 attacked border updated? False
+Is 5 and 13 attacked border updated? False
+Is 6 and 13 attacked border updated? False
+Is 7 and 13 attacked border updated? False
+Is 8 and 13 attacked border updated? False
+Is 9 and 13 attacked border updated? False
+Is 10 and 13 attacked border updated? False
+Is 11 and 13 attacked border updated? False
+Is 12 and 13 attacked border updated? False
+Is 13 and 13 attacked border updated? False
+Is 14 and 13 attacked border updated? False
+Is 15 and 13 attacked border updated? False
+Is 16 and 13 attacked border updated? False
+Is 17 and 13 attacked border updated? False
+Is 18 and 13 attacked border updated? False
+Is 19 and 13 attacked border updated? False
+Is 20 and 13 attacked border updated? False
+Is 21 and 13 attacked border updated? False
+Is 22 and 13 attacked border updated? False
+possible locations: ATHOLL[10]; ATHOLL[10]; FIFE[11]; LENNOX[12]; LANARK[15]; LOTHIAN[16]; 
+What regionID to retreat to: Sent NORTHUMBER to ATHOLL
+NORTHUMBER  retreated to  ATHOLL
+attacker wins
+Sent DOUGLAS to FIFE
+DOUGLAS  moved to  FIFE
+Sent BARCLAY to FIFE
+BARCLAY  moved to  FIFE
+WALLACE  stays
+opp hand: 
+2 HER 1 3 
+Enter the card you want to play: YORK-INFANTRY  has moved to levy
+LANCASTER-INFANTRY  has moved to levy
+WESTMOR  has moved to levy
+LANCASTER-KNIGHT  has moved to levy
+opp hand: 
+2 HER VIC 1 3 
+Enter the card you want to play: computer hand:  ['1', '1', '3', '2', '2']
+computer plays  1
+LOOPING AGAIN 0 1
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[6]
+Location 1: [6, 3]
+Location 2: [[6, 3]]
+Moved into enemy region
+COMYN was moved from BADENOCH to STRATHSPEY
+[6, 3]
+updating border between 6 and 3
+0
+LOOPING AGAIN 0 1
+Num of move=  0
+Computer Move Part 1Focus Region =  MORAY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [2, 5, 1]
+Moved to friendly or neutral region
+FRASER was moved from MORAY to GARMORAN
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [2, 1]
+Moved to friendly or neutral region
+MORAY was moved from MORAY to GARMORAN
+0
+[--------------------
+STRATHSPEY - 3
+	*Cathedral
+	*Coastal
+	GRANT COMYN 
+--------------------]
+Contested Regions:  STRATHSPEY Enter name of region you want to resolve the battle in: Enter name of region you want to resolve the battle in: 
+attack: COMYN - 4	
+defense: GRANT - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: COMYN - 4	
+defense: GRANT - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  COMYN do? (r) retreat (f) fight (p) pass
+>Is 0 and 3 attacked border updated? False
+Is 1 and 3 attacked border updated? False
+Is 2 and 3 attacked border updated? False
+Is 3 and 3 attacked border updated? False
+Is 4 and 3 attacked border updated? False
+Is 5 and 3 attacked border updated? False
+Is 6 and 3 attacked border updated? True
+Is 7 and 3 attacked border updated? False
+Is 8 and 3 attacked border updated? False
+Is 9 and 3 attacked border updated? False
+Is 10 and 3 attacked border updated? False
+Is 11 and 3 attacked border updated? False
+Is 12 and 3 attacked border updated? False
+Is 13 and 3 attacked border updated? False
+Is 14 and 3 attacked border updated? False
+Is 15 and 3 attacked border updated? False
+Is 16 and 3 attacked border updated? False
+Is 17 and 3 attacked border updated? False
+Is 18 and 3 attacked border updated? False
+Is 19 and 3 attacked border updated? False
+Is 20 and 3 attacked border updated? False
+Is 21 and 3 attacked border updated? False
+Is 22 and 3 attacked border updated? False
+COMYN  rolled  [4, 4, 4, 6]
+
+attack: COMYN - 4	
+defense: GRANT - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 3 attacked border updated? False
+Is 1 and 3 attacked border updated? False
+Is 2 and 3 attacked border updated? False
+Is 3 and 3 attacked border updated? False
+Is 4 and 3 attacked border updated? False
+Is 5 and 3 attacked border updated? False
+Is 6 and 3 attacked border updated? True
+Is 7 and 3 attacked border updated? False
+Is 8 and 3 attacked border updated? False
+Is 9 and 3 attacked border updated? False
+Is 10 and 3 attacked border updated? False
+Is 11 and 3 attacked border updated? False
+Is 12 and 3 attacked border updated? False
+Is 13 and 3 attacked border updated? False
+Is 14 and 3 attacked border updated? False
+Is 15 and 3 attacked border updated? False
+Is 16 and 3 attacked border updated? False
+Is 17 and 3 attacked border updated? False
+Is 18 and 3 attacked border updated? False
+Is 19 and 3 attacked border updated? False
+Is 20 and 3 attacked border updated? False
+Is 21 and 3 attacked border updated? False
+Is 22 and 3 attacked border updated? False
+Computer says I can move to these locations: 
+MORAY; 
+GRANT  rolled  [4, 3, 4]
+
+attack: COMYN - 4	
+defense: GRANT - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: COMYN - 4	
+defense: GRANT - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  COMYN do? (r) retreat (f) fight (p) pass
+>Is 0 and 3 attacked border updated? False
+Is 1 and 3 attacked border updated? False
+Is 2 and 3 attacked border updated? False
+Is 3 and 3 attacked border updated? False
+Is 4 and 3 attacked border updated? False
+Is 5 and 3 attacked border updated? False
+Is 6 and 3 attacked border updated? True
+Is 7 and 3 attacked border updated? False
+Is 8 and 3 attacked border updated? False
+Is 9 and 3 attacked border updated? False
+Is 10 and 3 attacked border updated? False
+Is 11 and 3 attacked border updated? False
+Is 12 and 3 attacked border updated? False
+Is 13 and 3 attacked border updated? False
+Is 14 and 3 attacked border updated? False
+Is 15 and 3 attacked border updated? False
+Is 16 and 3 attacked border updated? False
+Is 17 and 3 attacked border updated? False
+Is 18 and 3 attacked border updated? False
+Is 19 and 3 attacked border updated? False
+Is 20 and 3 attacked border updated? False
+Is 21 and 3 attacked border updated? False
+Is 22 and 3 attacked border updated? False
+possible locations: MORAY[2]; BUCHAN[4]; BADENOCH[6]; 
+What regionID to retreat to: Sent COMYN to MORAY
+COMYN  retreated to  MORAY
+defender wins
+Sent GRANT to BADENOCH
+GRANT  moved to  BADENOCH
+opp hand: 
+2 HER VIC 3 
+Enter the card you want to play: HOBELARS  has moved to levy
+WALES-INFANTRY  has moved to levy
+DURHAM-KNIGHT  has moved to levy
+DURHAM-INFANTRY  has moved to levy
+opp hand: 
+3 TRU 3 1 2 
+Enter the card you want to play: computer hand:  ['SEA', '2', '2', '3', 'HER']
+computer plays  2
+LOOPING AGAIN 0 3
+Which region would you like to focus your movement (or pass)?
+>Invalid region. Please select a region you control that hasn't been moved
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+HOBELARS - KNIGHT - †
+	Moves:3
+	Strength:3/3
+	Combat:A2
+--------------------, --------------------
+WALES-INFANTRY - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C3
+--------------------, --------------------
+DURHAM-KNIGHT - KNIGHT
+	Moves:2
+	Strength:3/3
+	Combat:B3
+--------------------, --------------------
+DURHAM-INFANTRY - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 17]
+Location 2: [22, 17, 16]
+Location 3: [[22, 17, 16]]
+Moved to friendly or neutral region
+HOBELARS was moved from ENGLAND to LOTHIAN
+0
+LOOPING AGAIN 1 3
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+WALES-INFANTRY - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C3
+--------------------, --------------------
+DURHAM-KNIGHT - KNIGHT
+	Moves:2
+	Strength:3/3
+	Combat:B3
+--------------------, --------------------
+DURHAM-INFANTRY - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 21]
+Location 2: [[22, 17, 16], [22, 17, 21], [22, 21]]
+Moved to friendly or neutral region
+DURHAM-KNIGHT was moved from ENGLAND to TEVIOT
+1
+LOOPING AGAIN 2 3
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[7]
+Location 1: [7, 8]
+Location 2: [[22, 17, 16], [22, 17, 21], [22, 21], [7, 4, 8], [7, 8]]
+Moved to friendly or neutral region
+MAR was moved from MAR to ANGUS
+2
+LOOPING AGAIN 0 2
+Num of move=  0
+Computer Move Part 1Focus Region =  GALLOWAY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [19, 14]
+Moved to friendly or neutral region
+GALLOWAY was moved from GALLOWAY to CARRICK
+0
+LOOPING AGAIN 1 2
+Num of move=  1
+Computer Move Part 1Focus Region =  MORAY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [2, 5, 9]
+Moved into enemy region
+FRASER was moved from MORAY to ARGYLL
+[2, 5, 9]
+updating border between 5 and 9
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [2, 5, 1]
+Moved to friendly or neutral region
+MORAY was moved from MORAY to GARMORAN
+1
+[--------------------
+ARGYLL - 9
+	*Coastal
+	ARGYLL FRASER 
+--------------------]
+Contested Regions:  ARGYLL Enter name of region you want to resolve the battle in: 
+attack: FRASER - 3	
+defense: ARGYLL - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: FRASER - 3	
+defense: ARGYLL - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  ARGYLL do? (r) retreat (f) fight (p) pass
+>Is 0 and 9 attacked border updated? False
+Is 1 and 9 attacked border updated? False
+Is 2 and 9 attacked border updated? False
+Is 3 and 9 attacked border updated? False
+Is 4 and 9 attacked border updated? False
+Is 5 and 9 attacked border updated? True
+Is 6 and 9 attacked border updated? False
+Is 7 and 9 attacked border updated? False
+Is 8 and 9 attacked border updated? False
+Is 9 and 9 attacked border updated? False
+Is 10 and 9 attacked border updated? False
+Is 11 and 9 attacked border updated? False
+Is 12 and 9 attacked border updated? False
+Is 13 and 9 attacked border updated? False
+Is 14 and 9 attacked border updated? False
+Is 15 and 9 attacked border updated? False
+Is 16 and 9 attacked border updated? False
+Is 17 and 9 attacked border updated? False
+Is 18 and 9 attacked border updated? False
+Is 19 and 9 attacked border updated? False
+Is 20 and 9 attacked border updated? False
+Is 21 and 9 attacked border updated? False
+Is 22 and 9 attacked border updated? False
+ARGYLL  rolled  [3, 2, 2]
+FRASER got hurt!
+FRASER got hurt!
+FRASER got hurt!
+
+ FRASER  has died and goes to the pool
+defender wins
+possible locations: LOCHABER[5]; ATHOLL[10]; LENNOX[12]; 
+Where will  ARGYLL  go to? (region id)
+ (type -1 for stay): 
+>opp hand: 
+TRU 3 1 2 
+Enter the card you want to play: computer hand:  ['SEA', '2', '3', 'HER']
+computer plays  SEA
+Sent MORAY to FIFE
+MORAY moved from GARMORAN to FIFE
+LOOPING AGAIN 0 2
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[6]
+Location 1: [6, 2]
+Location 2: [[22, 17, 16], [22, 17, 21], [22, 21], [7, 4, 8], [7, 8], [6, 2]]
+Moved to friendly or neutral region
+COMYN was moved from BADENOCH to MORAY
+0
+LOOPING AGAIN 1 2
+Which region would you like to focus your movement (or pass)?
+>[]
+opp hand: 
+TRU 3 1 
+Enter the card you want to play: computer hand:  ['2', '3', 'HER']
+computer plays  2
+LOOPING AGAIN 0 3
+Which region would you like to focus your movement (or pass)?
+>LOOPING AGAIN 1 3
+Which region would you like to focus your movement (or pass)?
+>LOOPING AGAIN 2 3
+Which region would you like to focus your movement (or pass)?
+>LOOPING AGAIN 0 2
+Num of move=  0
+Computer Move Part 1Focus Region =  CARRICK
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [14, 15]
+Moved into enemy region
+GALLOWAY was moved from CARRICK to LANARK
+[14, 15]
+updating border between 14 and 15
+0
+LOOPING AGAIN 1 2
+Num of move=  1
+Computer Move Part 1Focus Region =  ANNAN
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [20, 14, 12]
+Moved into enemy region
+BRUCE was moved from ANNAN to LENNOX
+[20, 14, 12]
+updating border between 14 and 12
+1
+[--------------------
+LENNOX - 12
+	*Cathedral
+	*Coastal
+	LENNOX BRUCE 
+--------------------, --------------------
+LANARK - 15
+	STEWARD GALLOWAY 
+--------------------]
+Contested Regions:  LENNOX LANARK Enter name of region you want to resolve the battle in: 
+attack: BRUCE - 4	
+defense: LENNOX - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: BRUCE - 4	
+defense: LENNOX - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  LENNOX do? (r) retreat (f) fight (p) pass
+>Is 0 and 12 attacked border updated? False
+Is 1 and 12 attacked border updated? False
+Is 2 and 12 attacked border updated? False
+Is 3 and 12 attacked border updated? False
+Is 4 and 12 attacked border updated? False
+Is 5 and 12 attacked border updated? False
+Is 6 and 12 attacked border updated? False
+Is 7 and 12 attacked border updated? False
+Is 8 and 12 attacked border updated? False
+Is 9 and 12 attacked border updated? False
+Is 10 and 12 attacked border updated? False
+Is 11 and 12 attacked border updated? False
+Is 12 and 12 attacked border updated? False
+Is 13 and 12 attacked border updated? False
+Is 14 and 12 attacked border updated? True
+Is 15 and 12 attacked border updated? False
+Is 16 and 12 attacked border updated? False
+Is 17 and 12 attacked border updated? False
+Is 18 and 12 attacked border updated? False
+Is 19 and 12 attacked border updated? False
+Is 20 and 12 attacked border updated? False
+Is 21 and 12 attacked border updated? False
+Is 22 and 12 attacked border updated? False
+LENNOX  rolled  [5, 2, 4]
+BRUCE got hurt!
+
+attack: BRUCE - 3	
+defense: LENNOX - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 12 attacked border updated? False
+Is 1 and 12 attacked border updated? False
+Is 2 and 12 attacked border updated? False
+Is 3 and 12 attacked border updated? False
+Is 4 and 12 attacked border updated? False
+Is 5 and 12 attacked border updated? False
+Is 6 and 12 attacked border updated? False
+Is 7 and 12 attacked border updated? False
+Is 8 and 12 attacked border updated? False
+Is 9 and 12 attacked border updated? False
+Is 10 and 12 attacked border updated? False
+Is 11 and 12 attacked border updated? False
+Is 12 and 12 attacked border updated? False
+Is 13 and 12 attacked border updated? False
+Is 14 and 12 attacked border updated? True
+Is 15 and 12 attacked border updated? False
+Is 16 and 12 attacked border updated? False
+Is 17 and 12 attacked border updated? False
+Is 18 and 12 attacked border updated? False
+Is 19 and 12 attacked border updated? False
+Is 20 and 12 attacked border updated? False
+Is 21 and 12 attacked border updated? False
+Is 22 and 12 attacked border updated? False
+Computer says "I can move to these locations: "
+CARRICK; 
+BRUCE  rolled  [4, 4, 1]
+Who do you want to get hurt? (Type index in list below:)
+LENNOX[0]; >LENNOX got hurt!
+
+attack: BRUCE - 3	
+defense: LENNOX - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: BRUCE - 3	
+defense: LENNOX - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  LENNOX do? (r) retreat (f) fight (p) pass
+>Is 0 and 12 attacked border updated? False
+Is 1 and 12 attacked border updated? False
+Is 2 and 12 attacked border updated? False
+Is 3 and 12 attacked border updated? False
+Is 4 and 12 attacked border updated? False
+Is 5 and 12 attacked border updated? False
+Is 6 and 12 attacked border updated? False
+Is 7 and 12 attacked border updated? False
+Is 8 and 12 attacked border updated? False
+Is 9 and 12 attacked border updated? False
+Is 10 and 12 attacked border updated? False
+Is 11 and 12 attacked border updated? False
+Is 12 and 12 attacked border updated? False
+Is 13 and 12 attacked border updated? False
+Is 14 and 12 attacked border updated? True
+Is 15 and 12 attacked border updated? False
+Is 16 and 12 attacked border updated? False
+Is 17 and 12 attacked border updated? False
+Is 18 and 12 attacked border updated? False
+Is 19 and 12 attacked border updated? False
+Is 20 and 12 attacked border updated? False
+Is 21 and 12 attacked border updated? False
+Is 22 and 12 attacked border updated? False
+LENNOX  rolled  [5, 1]
+BRUCE got hurt!
+
+attack: BRUCE - 2	
+defense: LENNOX - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 12 attacked border updated? False
+Is 1 and 12 attacked border updated? False
+Is 2 and 12 attacked border updated? False
+Is 3 and 12 attacked border updated? False
+Is 4 and 12 attacked border updated? False
+Is 5 and 12 attacked border updated? False
+Is 6 and 12 attacked border updated? False
+Is 7 and 12 attacked border updated? False
+Is 8 and 12 attacked border updated? False
+Is 9 and 12 attacked border updated? False
+Is 10 and 12 attacked border updated? False
+Is 11 and 12 attacked border updated? False
+Is 12 and 12 attacked border updated? False
+Is 13 and 12 attacked border updated? False
+Is 14 and 12 attacked border updated? True
+Is 15 and 12 attacked border updated? False
+Is 16 and 12 attacked border updated? False
+Is 17 and 12 attacked border updated? False
+Is 18 and 12 attacked border updated? False
+Is 19 and 12 attacked border updated? False
+Is 20 and 12 attacked border updated? False
+Is 21 and 12 attacked border updated? False
+Is 22 and 12 attacked border updated? False
+Computer says "I can move to these locations: "
+CARRICK; 
+BRUCE  rolled  [3, 2]
+Who do you want to get hurt? (Type index in list below:)
+LENNOX[0]; >LENNOX got hurt!
+
+attack: BRUCE - 2	
+defense: LENNOX - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: BRUCE - 2	
+defense: LENNOX - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  LENNOX do? (r) retreat (f) fight (p) pass
+>Is 0 and 12 attacked border updated? False
+Is 1 and 12 attacked border updated? False
+Is 2 and 12 attacked border updated? False
+Is 3 and 12 attacked border updated? False
+Is 4 and 12 attacked border updated? False
+Is 5 and 12 attacked border updated? False
+Is 6 and 12 attacked border updated? False
+Is 7 and 12 attacked border updated? False
+Is 8 and 12 attacked border updated? False
+Is 9 and 12 attacked border updated? False
+Is 10 and 12 attacked border updated? False
+Is 11 and 12 attacked border updated? False
+Is 12 and 12 attacked border updated? False
+Is 13 and 12 attacked border updated? False
+Is 14 and 12 attacked border updated? True
+Is 15 and 12 attacked border updated? False
+Is 16 and 12 attacked border updated? False
+Is 17 and 12 attacked border updated? False
+Is 18 and 12 attacked border updated? False
+Is 19 and 12 attacked border updated? False
+Is 20 and 12 attacked border updated? False
+Is 21 and 12 attacked border updated? False
+Is 22 and 12 attacked border updated? False
+LENNOX  rolled  [3]
+BRUCE got hurt!
+
+attack: BRUCE - 1	
+defense: LENNOX - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 12 attacked border updated? False
+Is 1 and 12 attacked border updated? False
+Is 2 and 12 attacked border updated? False
+Is 3 and 12 attacked border updated? False
+Is 4 and 12 attacked border updated? False
+Is 5 and 12 attacked border updated? False
+Is 6 and 12 attacked border updated? False
+Is 7 and 12 attacked border updated? False
+Is 8 and 12 attacked border updated? False
+Is 9 and 12 attacked border updated? False
+Is 10 and 12 attacked border updated? False
+Is 11 and 12 attacked border updated? False
+Is 12 and 12 attacked border updated? False
+Is 13 and 12 attacked border updated? False
+Is 14 and 12 attacked border updated? True
+Is 15 and 12 attacked border updated? False
+Is 16 and 12 attacked border updated? False
+Is 17 and 12 attacked border updated? False
+Is 18 and 12 attacked border updated? False
+Is 19 and 12 attacked border updated? False
+Is 20 and 12 attacked border updated? False
+Is 21 and 12 attacked border updated? False
+Is 22 and 12 attacked border updated? False
+Computer says "I can move to these locations: "
+CARRICK; 
+BRUCE  rolled  [3]
+attacker retreats
+Is 0 and 12 attacked border updated? False
+Is 1 and 12 attacked border updated? False
+Is 2 and 12 attacked border updated? False
+Is 3 and 12 attacked border updated? False
+Is 4 and 12 attacked border updated? False
+Is 5 and 12 attacked border updated? False
+Is 6 and 12 attacked border updated? False
+Is 7 and 12 attacked border updated? False
+Is 8 and 12 attacked border updated? False
+Is 9 and 12 attacked border updated? False
+Is 10 and 12 attacked border updated? False
+Is 11 and 12 attacked border updated? False
+Is 12 and 12 attacked border updated? False
+Is 13 and 12 attacked border updated? False
+Is 14 and 12 attacked border updated? False
+Is 15 and 12 attacked border updated? False
+Is 16 and 12 attacked border updated? False
+Is 17 and 12 attacked border updated? False
+Is 18 and 12 attacked border updated? False
+Is 19 and 12 attacked border updated? False
+Is 20 and 12 attacked border updated? False
+Is 21 and 12 attacked border updated? False
+Is 22 and 12 attacked border updated? False
+Sent BRUCE to CARRICK
+BRUCE  retreated to  CARRICK
+possible locations: ARGYLL[9]; ATHOLL[10]; MENTIETH[13]; MENTIETH[13]; 
+Where will  LENNOX  go to? (region id)
+ (type -1 for stay): 
+>Contested Regions:  LANARK Enter name of region you want to resolve the battle in: 
+attack: GALLOWAY - 3	
+defense: STEWARD - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: GALLOWAY - 3	
+defense: STEWARD - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  STEWARD do? (r) retreat (f) fight (p) pass
+>Is 0 and 15 attacked border updated? False
+Is 1 and 15 attacked border updated? False
+Is 2 and 15 attacked border updated? False
+Is 3 and 15 attacked border updated? False
+Is 4 and 15 attacked border updated? False
+Is 5 and 15 attacked border updated? False
+Is 6 and 15 attacked border updated? False
+Is 7 and 15 attacked border updated? False
+Is 8 and 15 attacked border updated? False
+Is 9 and 15 attacked border updated? False
+Is 10 and 15 attacked border updated? False
+Is 11 and 15 attacked border updated? False
+Is 12 and 15 attacked border updated? False
+Is 13 and 15 attacked border updated? False
+Is 14 and 15 attacked border updated? False
+Is 15 and 15 attacked border updated? False
+Is 16 and 15 attacked border updated? False
+Is 17 and 15 attacked border updated? False
+Is 18 and 15 attacked border updated? False
+Is 19 and 15 attacked border updated? False
+Is 20 and 15 attacked border updated? False
+Is 21 and 15 attacked border updated? False
+Is 22 and 15 attacked border updated? False
+STEWARD  rolled  [4, 3, 4]
+GALLOWAY got hurt!
+
+attack: GALLOWAY - 2	
+defense: STEWARD - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 15 attacked border updated? False
+Is 1 and 15 attacked border updated? False
+Is 2 and 15 attacked border updated? False
+Is 3 and 15 attacked border updated? False
+Is 4 and 15 attacked border updated? False
+Is 5 and 15 attacked border updated? False
+Is 6 and 15 attacked border updated? False
+Is 7 and 15 attacked border updated? False
+Is 8 and 15 attacked border updated? False
+Is 9 and 15 attacked border updated? False
+Is 10 and 15 attacked border updated? False
+Is 11 and 15 attacked border updated? False
+Is 12 and 15 attacked border updated? False
+Is 13 and 15 attacked border updated? False
+Is 14 and 15 attacked border updated? False
+Is 15 and 15 attacked border updated? False
+Is 16 and 15 attacked border updated? False
+Is 17 and 15 attacked border updated? False
+Is 18 and 15 attacked border updated? False
+Is 19 and 15 attacked border updated? False
+Is 20 and 15 attacked border updated? False
+Is 21 and 15 attacked border updated? False
+Is 22 and 15 attacked border updated? False
+Computer says "I can move to these locations: "
+CARRICK; SELKIRK-FOREST; ANNAN; 
+Sent GALLOWAY to ANNAN
+GALLOWAY  retreated to  ANNAN
+defender wins
+possible locations: LENNOX[12]; MENTIETH[13]; MENTIETH[13]; LOTHIAN[16]; LOTHIAN[16]; SELKIRK-FOREST[18]; 
+Where will  STEWARD  go to? (region id)
+ (type -1 for stay): 
+>opp hand: 
+TRU 1 
+Enter the card you want to play: computer hand:  ['3', 'HER']
+computer plays  3
+Would you like to play the event card or pass it? (play/pass)LOOPING AGAIN 0 3
+Num of move=  0
+Computer Move Part 1Focus Region =  ANNAN
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [20, 18]
+Moved to friendly or neutral region
+GALLOWAY was moved from ANNAN to SELKIRK-FOREST
+0
+LOOPING AGAIN 1 3
+Num of move=  1
+Computer Move Part 1Focus Region =  CARRICK
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [14, 20, 21]
+You can't move there fool, issa truce
+1
+LOOPING AGAIN 2 3
+Num of move=  2
+Computer Move Part 1Focus Region =  SELKIRK-FOREST
+Computer Move Part 2It is computer turn to make a move
+Reset List
+Computer chosen region has no moves!
+2
+[]
+opp hand: 
+1 
+Enter the card you want to play: computer hand:  ['HER']
+computer plays  HER
+Computer picked MAR
+Roll a die to take the noble. 1-4 = success, 5-6 = failure.
+>
+DIE ROLL: 3
+
+attack: MAR - 3	
+defense: ANGUS - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: MAR - 3	
+defense: ANGUS - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  ANGUS do? (r) retreat (f) fight (p) pass
+>Is 0 and 8 attacked border updated? False
+Is 1 and 8 attacked border updated? False
+Is 2 and 8 attacked border updated? False
+Is 3 and 8 attacked border updated? False
+Is 4 and 8 attacked border updated? False
+Is 5 and 8 attacked border updated? False
+Is 6 and 8 attacked border updated? False
+Is 7 and 8 attacked border updated? False
+Is 8 and 8 attacked border updated? False
+Is 9 and 8 attacked border updated? False
+Is 10 and 8 attacked border updated? False
+Is 11 and 8 attacked border updated? False
+Is 12 and 8 attacked border updated? False
+Is 13 and 8 attacked border updated? False
+Is 14 and 8 attacked border updated? False
+Is 15 and 8 attacked border updated? False
+Is 16 and 8 attacked border updated? False
+Is 17 and 8 attacked border updated? False
+Is 18 and 8 attacked border updated? False
+Is 19 and 8 attacked border updated? False
+Is 20 and 8 attacked border updated? False
+Is 21 and 8 attacked border updated? False
+Is 22 and 8 attacked border updated? False
+ANGUS  rolled  [5, 2, 6]
+MAR got hurt!
+
+attack: MAR - 2	
+defense: ANGUS - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+Is 0 and 8 attacked border updated? False
+Is 1 and 8 attacked border updated? False
+Is 2 and 8 attacked border updated? False
+Is 3 and 8 attacked border updated? False
+Is 4 and 8 attacked border updated? False
+Is 5 and 8 attacked border updated? False
+Is 6 and 8 attacked border updated? False
+Is 7 and 8 attacked border updated? False
+Is 8 and 8 attacked border updated? False
+Is 9 and 8 attacked border updated? False
+Is 10 and 8 attacked border updated? False
+Is 11 and 8 attacked border updated? False
+Is 12 and 8 attacked border updated? False
+Is 13 and 8 attacked border updated? False
+Is 14 and 8 attacked border updated? False
+Is 15 and 8 attacked border updated? False
+Is 16 and 8 attacked border updated? False
+Is 17 and 8 attacked border updated? False
+Is 18 and 8 attacked border updated? False
+Is 19 and 8 attacked border updated? False
+Is 20 and 8 attacked border updated? False
+Is 21 and 8 attacked border updated? False
+Is 22 and 8 attacked border updated? False
+Computer says "I can move to these locations: "
+MAR; FIFE; FIFE; FIFE; FIFE; 
+Sent MAR to FIFE
+MAR  retreated to  FIFE
+defender wins
+possible locations: BUCHAN[4]; MAR[7]; ATHOLL[10]; 
+Where will  ANGUS  go to? (region id)
+ (type -1 for stay): 
+>Success
+LOOPING AGAIN 0 1
+Which region would you like to focus your movement (or pass)?
+>[]
+Start WinterDisbanded DURHAM-INFANTRY!
+Disbanded WALES-INFANTRY!
+Sent ATHOLL home!
+Sent ARGYLL home!
+Where would you like COMYN to go? 
+BADENOCH[0]
+LOCHABER[1]
+Type pool to disband
+>Sent COMYN to BADENOCH
+COMYN went to BADENOCH
+Sent COMYN home!
+Sent MENTIETH home!
+Sent ROSS home!
+Sent ANGUS home!
+Sent STEWARD home!
+Sent DUNBAR home!
+Sent LENNOX home!
+Sent BUCHAN home!
+Sent BRUCE to CARRICK
+BRUCE went to CARRICK
+Sent BRUCE home!
+Sent GALLOWAY home!
+Sent MAR home!
+Sent Moray Home!
+Disbanded HOBELARS!
+ROSS:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>BUCHAN:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>BADENOCH:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>ANGUS:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>ARGYLL:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>ATHOLL:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>LENNOX:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>MENTIETH:
+NORTHUMBER (0)
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>LANARK:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>LOTHIAN:
+CUMBRIA (0)
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>DUNBAR:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>TEVIOT:
+DURHAM-KNIGHT (0)
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>DURHAM-INFANTRY  has moved to levy
+LANCASTER-INFANTRY  has moved to levy
+LANCASTER-ARCHER  has moved to levy
+LANCASTER-KNIGHT  has moved to levy
+WALES-ARCHER  has moved to levy
+WESTMOR  has moved to levy
+ROSS has 1
+Which block would you like to bump in ROSS? 
+ Type 'done' if you are finished ULSTER  has moved to levy
+LANCASTER-ARCHER  has moved to levy
+WALES-INFANTRY  has moved to levy
+WESTMOR  has moved to levy
+opp hand: 
+TRU 2 PIL 2 1 
+Enter the card you want to play: computer hand:  ['VIC', '1', 'HER', '2', '3']
+computer plays  HER
+Would you like to play the event card or pass it? (play/pass)Computer picked MAR
+Roll a die to take the noble. 1-4 = success, 5-6 = failure.
+>
+DIE ROLL: 4
+Success
+[]
+Start WinterDisbanded WESTMOR!
+Disbanded LANCASTER-ARCHER!
+Disbanded ULSTER!
+Disbanded WALES-INFANTRY!
+Sent ATHOLL home!
+Sent ARGYLL home!
+Where would you like COMYN to go? 
+BADENOCH[0]
+LOCHABER[1]
+Type pool to disband
+>Sent COMYN to BADENOCH
+COMYN went to BADENOCH
+Sent COMYN home!
+Sent MENTIETH home!
+Sent ROSS home!
+Sent ANGUS home!
+Sent STEWARD home!
+Sent DUNBAR home!
+Sent LENNOX home!
+Sent BUCHAN home!
+Sent BRUCE to CARRICK
+BRUCE went to CARRICK
+Sent BRUCE home!
+Sent GALLOWAY home!
+Sent MAR home!
+Sent Moray Home!
+ROSS:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>BUCHAN:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>BADENOCH:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>ANGUS:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>ARGYLL:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>ATHOLL:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>LENNOX:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>MENTIETH:
+NORTHUMBER (0)
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>LANARK:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>LOTHIAN:
+CUMBRIA (0)
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>DUNBAR:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>DURHAM-KNIGHT  has moved to levy
+EDWARD  has moved to levy
+DURHAM-INFANTRY  has moved to levy
+YORK-INFANTRY  has moved to levy
+HOBELARS  has moved to levy
+YORK-KNIGHT  has moved to levy
+LANCASTER-INFANTRY  has moved to levy
+ROSS has 1
+Which block would you like to bump in ROSS? 
+ Type 'done' if you are finished Bumped MACDONALD up!
+BUCHAN has 2
+Which block would you like to bump in BUCHAN? 
+ Type 'done' if you are finished BADENOCH has 2
+Which block would you like to bump in BADENOCH? 
+ Type 'done' if you are finished ANGUS has 2
+Which block would you like to bump in ANGUS? 
+ Type 'done' if you are finished ARGYLL has 2
+Which block would you like to bump in ARGYLL? 
+ Type 'done' if you are finished ATHOLL has 1
+Which block would you like to bump in ATHOLL? 
+ Type 'done' if you are finished LENNOX has 1
+Which block would you like to bump in LENNOX? 
+ Type 'done' if you are finished MENTIETH has 3
+Which block would you like to bump in MENTIETH? 
+ Type 'done' if you are finished LANARK has 2
+Which block would you like to bump in LANARK? 
+ Type 'done' if you are finished LOTHIAN has 2
+Which block would you like to bump in LOTHIAN? 
+ Type 'done' if you are finished DUNBAR has 2
+Which block would you like to bump in DUNBAR? 
+ Type 'done' if you are finished ENGLAND has 0
+opp hand: 
+2 1 3 VIC 2 
+Enter the card you want to play: 
