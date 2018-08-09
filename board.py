@@ -257,6 +257,7 @@ class Board(object):
 					self.scot_roster.append(block_to_add)
 
 		self.all_blocks = self.scot_roster + self.scot_pool + self.eng_roster + self.eng_pool
+		
 	def initialize_regions(self):
 		'''
 		This function initializes a list of region objects within the board class
@@ -500,7 +501,7 @@ class Board(object):
 				# print('computer chose ' + str(computer_path))
 
 
-				# path_taken = False
+				path_taken = False
 
 
 
@@ -513,10 +514,12 @@ class Board(object):
 				# 		break
 
 				#If the final region in the path is contested
+				print('IS IT CONTESTED: ', self.regions[end].is_contested())
 				if self.regions[end].is_contested():
-					if path not in self.regions[end].enterers[block.allegiance]:
-						self.regions[end].enterers[block.allegiance][path] = []
-					self.regions[end].enterers[block.allegiance][path].append(tuple(block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
+					print("WE ARE IN HERE")
+					if tuple(path) not in self.regions[end].enterers[block.allegiance]:
+						self.regions[end].enterers[block.allegiance][tuple(path)] = []
+					self.regions[end].enterers[block.allegiance][tuple(path)].append((block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
 
 					#Remove the block from its starting location
 					self.regions[start].blocks_present.remove(block)
@@ -530,11 +533,11 @@ class Board(object):
 
 					elif self.regions[end].blocks_present[0].allegiance != block.allegiance:
 						self.regions[end].combat_dict['Attacking Reinforcements'].append(block)
-						self.attacked_borders[computer_path[-2]][end] = 'attack'
+						self.attacked_borders[path[-2]][end] = 'attack'
 					
 					else:
 						self.regions[end].combat_dict['Defending Reinforcements'].append(block)
-						self.attacked_borders[computer_path[-2]][end] = 'defense'
+						self.attacked_borders[path[-2]][end] = 'defense'
 
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
@@ -547,11 +550,12 @@ class Board(object):
 				else:
 
 					#If it's an enemy controlled region
+					print('IS IT ENEMY CONTROLLED: ', len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance)
 					if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
-
-						if path not in self.regions[end].enterers[block.allegiance]:
-							self.regions[end].enterers[block.allegiance][path] = []
-						self.regions[end].enterers[block.allegiance][path].append(tuple(block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
+						print("WE ARE IN HERE")
+						if tuple(path) not in self.regions[end].enterers[block.allegiance]:
+							self.regions[end].enterers[block.allegiance][tuple(path)] = []
+						self.regions[end].enterers[block.allegiance][tuple(path)].append((block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
 
 						#Stop the function if it's truce
 						if is_truce:
@@ -572,11 +576,11 @@ class Board(object):
 							if type(prev_paths) != list:
 								prev_paths = list(prev_paths)
 								
-							prev_paths.append(computer_path)
+							prev_paths.append(path)
 							
 
 
-							if computer_path[-1] == 22 or computer_path[0] == 22:
+							if path[-1] == 22 or path[0] == 22:
 								#if set don't change it in cardplay
 								prev_paths = tuple(prev_paths)
 
@@ -589,26 +593,29 @@ class Board(object):
 
 
 						###temporary
-						print(computer_path)
-						print('updating border between', computer_path[-2], 'and', end)
+						print(path)
+						print('updating border between', path[-2], 'and', end)
 						###
-						self.attacked_borders[computer_path[-2]][end] = 'attack'
+						self.attacked_borders[path[-2]][end] = 'attack'
 
 
 
 					#Friendly or neutral
+
 					else:
-						if path not in self.regions[end].enterers[block.allegiance]:
-							self.regions[end].enterers[block.allegiance][path] = []
-						self.regions[end].enterers[block.allegiance][path].append(tuple(block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
+						print("IT IS FRIENDLY OR NEUTRAL")
+						print("WE ARE IN HERE")
+						if tuple(path) not in self.regions[end].enterers[block.allegiance]:
+							self.regions[end].enterers[block.allegiance][tuple(path)] = []
+						self.regions[end].enterers[block.allegiance][tuple(path)].append((block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
 						self.regions[start].blocks_present.remove(block)
 						self.regions[end].blocks_present.append(block)
 						print('Moved to friendly or neutral region')
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 				#Decrement the border limits of each border in the path
-				for i in range(len(computer_path)-2):
-					self.dynamic_borders[computer_path[i]][computer_path[i+1]] -= 1
+				for i in range(len(path)-2):
+					self.dynamic_borders[path[i]][path[i+1]] -= 1
 
 			#No valid paths
 			else:
@@ -675,9 +682,9 @@ class Board(object):
 
 				#If the final region in the path is contested
 				if self.regions[end].is_contested():
-					if path not in self.regions[end].enterers[block.allegiance]:
-						self.regions[end].enterers[block.allegiance][path] = []
-					self.regions[end].enterers[block.allegiance][path].append(tuple(block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
+					if tuple(path) not in self.regions[end].enterers[block.allegiance]:
+						self.regions[end].enterers[block.allegiance][tuple(path)] = []
+					self.regions[end].enterers[block.allegiance][tuple(path)].append((block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
 					#Remove the block from its starting location
 					self.regions[start].blocks_present.remove(block)
 
@@ -706,9 +713,9 @@ class Board(object):
 
 					#If it's an enemy controlled region
 					if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
-						if path not in self.regions[end].enterers[block.allegiance]:
-							self.regions[end].enterers[block.allegiance][path] = []
-						self.regions[end].enterers[block.allegiance][path].append(tuple(block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
+						if tuple(path) not in self.regions[end].enterers[block.allegiance]:
+							self.regions[end].enterers[block.allegiance][tuple(path)] = []
+						self.regions[end].enterers[block.allegiance][tuple(path)].append((block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
 						#Stop the function if it's truce
 						if is_truce:
 							print("You can't move there fool, issa truce")
@@ -746,9 +753,9 @@ class Board(object):
 
 					#Friendly or neutral
 					else:
-						if path not in self.regions[end].enterers[block.allegiance]:
-							self.regions[end].enterers[block.allegiance][path] = []
-						self.regions[end].enterers[block.allegiance][path].append(tuple(block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
+						if tuple(path) not in self.regions[end].enterers[block.allegiance]:
+							self.regions[end].enterers[block.allegiance][tuple(path)] = []
+						self.regions[end].enterers[block.allegiance][tuple(path)].append((block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
 						self.regions[start].blocks_present.remove(block)
 						self.regions[end].blocks_present.append(block)
 						print('Moved to friendly or neutral region')

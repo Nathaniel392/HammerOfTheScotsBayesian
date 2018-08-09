@@ -274,7 +274,7 @@ def play_game():
             #probabilites of cards
             #probability_cards = deck.count_probabilities(known_cards)
 
-            #Find out what england wants to play
+           #Find out what england wants to play
             if eng_type == 'opp':
                 eng_card = eng_hand[opp_card_choice(eng_hand)]
                 eng_parameter = 0
@@ -297,6 +297,7 @@ def play_game():
 
             #Figure out who goes first, if it is true then Computer goes first - also resolves cards
             who_goes_first, year_cut_short = cardplay.compare_cards(current_board, eng_card, scot_card, eng_type, scot_type, eng_parameter, scot_parameter)
+            
             
             #Get a list all the regions that are contested
             contested_regions = current_board.get_contested_regions()

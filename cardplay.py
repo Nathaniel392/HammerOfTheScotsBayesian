@@ -451,7 +451,7 @@ def sea_execution(board, position, role):
     """
     quitt = False
     if position == 'comp':
-        print(1)
+        #print(1)
             #temporary for dumb AI
             #create and print a list of coastal, friendly regions where norse is not the ONLY one
         
@@ -459,7 +459,7 @@ def sea_execution(board, position, role):
         
         #loops through list of friendly, coastal, not just Norse regions to append to a possible_region_list
         for region in board.get_controlled_regions(role):
-            print(2)
+            #print(2)
             coastal = False
             just_norse = False
             if region.coast:
@@ -474,7 +474,7 @@ def sea_execution(board, position, role):
         #loops through list of friendly, coastal regions to append to a possible_final_region_list
             possible_final_region_list = []
             for region in board.get_controlled_regions(role): 
-                print(3)               
+                #print(3)               
                 if region.coast:
                     possible_final_region_list.append(region)
         
@@ -496,10 +496,10 @@ def sea_execution(board, position, role):
             
             move_block_list = []
             blocks_moved = 0
-            print(4)
+            #print(4)
 
             while blocks_moved < 2:
-                print(5)
+                #print(5)
                 block = possible_block_list[random.randint(0, len(possible_block_list)-1)]
                 #if it's not already on the list,append to move_block_list
                 if block not in move_block_list:
@@ -511,7 +511,7 @@ def sea_execution(board, position, role):
                     print('neither condition was met so this is an infinite loop')
             
                     
-            print(6)    
+            #print(6)    
             new_region = possible_final_region_list[random.randint(0, len(possible_final_region_list) - 1)]
                 
             for block in move_block_list:
@@ -981,21 +981,21 @@ def pil_execution(board, position, role, pil_data):
             utility_value = 0.0000000001
             if block.name == 'KING' and block.current_strength < block.attack_strength:
                 utility_value += .5
-        		#if block is wallace and he needs it
+                #if block is wallace and he needs it
             elif block.name == 'WALLACE' and block.current_strength < block.attack_strength:
                 utility_value += .4
             #for england:
-    		#if block is edward and he needs it
+            #if block is edward and he needs it
             if block.name == 'EDWARD' and block.current_strength < block.attack_strength:
                 utility_value += .45
-    		#if block is hobelars and he needs it
+            #if block is hobelars and he needs it
             elif block.name == 'HOBELARS' and block.current_strength < block.attack_strength:
                 utility_value += .3
-    			
-    		#if block is type noble and he needs it
+                
+            #if block is type noble and he needs it
             elif type(block) == blocks.Noble and block.current_strength < block.attack_strength:
                 utility_value += .25
-    		#if block is below full health
+            #if block is below full health
             elif block.current_strength < block.attack_strength:
                 utility_value += .1
             
