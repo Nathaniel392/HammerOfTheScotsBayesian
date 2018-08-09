@@ -743,7 +743,7 @@ def her_execution(board, position, role):
         print('Failure')
 
 
-def vic_execution(board, position, role):
+def vic_execution(board, position, role, vic_block_list):
     '''
     Pick a friendly region and distribute 3 health points to them.
     role = 'ENGLAND' or 'SCOTLAND'
@@ -818,6 +818,8 @@ def vic_execution(board, position, role):
     #Computer
     elif position == 'comp':
 
+       #below is random decision
+        """
         possible_blocks = list()
 
         
@@ -838,6 +840,13 @@ def vic_execution(board, position, role):
             rand_block_selection = random.randint(0, len(possible_blocks) - 1)
             possible_blocks[rand_block_selection].heal_until_full()
             print(possible_blocks[rand_block_selection].name, ' healed one point')
+            
+        """
+        
+        #below is strategized decision:
+        for block in vic_block_list:
+            block.heal_until_full()
+            print(block.name, ' healed one point')
 
 def pil_execution(board, position, role, pil_data):
 
@@ -886,9 +895,11 @@ def pil_execution(board, position, role, pil_data):
                         if role == 'SCOTLAND':
                             board.eng_pool.append(block)
                             board.eng_roster.remove(block)
+                            board.remove_from_region(block, chosen_subtract_region.regionID)
                         elif role == 'ENGLAND':
                             board.scot_pool.append(block)
                             board.scot_roster.remove(block)
+                            board.remove_from_region(block, chosen_subtract_region.regionID)
                         
             
             
@@ -950,9 +961,11 @@ def pil_execution(board, position, role, pil_data):
                     if role == 'SCOTLAND':
                         board.eng_pool.append(block)
                         board.eng_roster.remove(block)
+                        board.remove_from_region(block, region_to_pil.regionID)
                     elif role == 'ENGLAND':
                         board.scot_pool.append(block)
                         board.scot_roster.remove(block)
+                        board.remove_from_region(block, region_to_pil.regionID)
     
         #use weighted prob to choose blocks to add pts to
         #for block in blocks_present
@@ -987,7 +1000,7 @@ def pil_execution(board, position, role, pil_data):
         #possible healing pts = # pts taken from other region
         health_points = points_pillaged
         
-        while health_points > 0:
+        while health_points > 0 and len(region_to_heal) > 0:
 
                 #should i add something here so it doesn't choose the same blocks???
                 block_name = weighted_prob.weighted_prob(block_val_dict)
@@ -1060,9 +1073,11 @@ def pil_execution(board, position, role, pil_data):
                                 if role == 'SCOTLAND':
                                     board.eng_pool.append(block)
                                     board.eng_roster.remove(block)
+                                    board.remove_from_region(block, chosen_subtract_region.regionID)
                                 elif role == 'ENGLAND':
                                     board.scot_pool.append(block)
                                     board.scot_roster.remove(block)
+                                    board.remove_from_region(block, chosen_subtract_region.regionID)
                         
             
             
