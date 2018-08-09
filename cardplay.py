@@ -1225,7 +1225,7 @@ def resolve_card(board, eng_type, scot_type, card, role, truce=False):
                
     
             
-def compare_cards(board, eng_card, scot_card, eng_type, scot_type):
+def compare_cards(board, eng_card, scot_card, eng_type, scot_type, eng_parameter, scot_parameter):
     """
     takes the opponent card, computer card, and computer allegiance (ENGLAND/SCOTLAND)
     compares cards for which side plays their turn first
