@@ -127,7 +127,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
             i += 1
             try:
                 board = move_utility.good_move(board, num_moves, role, board.turn, truce)
-
+                return None
                 break
             except:
                 if i == 25:
