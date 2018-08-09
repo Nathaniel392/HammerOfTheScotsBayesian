@@ -60,9 +60,9 @@ def set_up_combat_dict(current_board, battle_region):
     defending_allegiance = current_board.regions[battle_regionID].combat_dict['Defending'][0].allegiance
 
     if defending_allegiance == 'SCOTLAND':
-        attacking_allegiance == 'ENGLAND'
+        attacking_allegiance = 'ENGLAND'
     else:
-        attacking_allegiance == 'SCOTLAND'
+        attacking_allegiance = 'SCOTLAND'
     first_attacking_order = 99
 
     for i,path in enumerate(current_board.regions[battle_regionID].enterers[attacking_allegiance]):
