@@ -205,6 +205,14 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	'''
 
 	# Divide each side into letter groups (dictionary)
+
+	if attack == list():
+		attack = attack_reinforcements
+		attack_reinforcements = list()
+	elif defense == list():
+		defense = defense_reinforcements
+		defense_reinforcements = list()
+		
 	letter_found = False
 	number_found = False
 	turn_found = False
@@ -436,9 +444,8 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 		before_defense_strength += block.current_strength
 
 	totals_dict = {'attacker wins':0, 'defender wins':0, 'attacker retreats':0, 'Attacker strength lost':0, 'Defender strength lost':0}
+	count = 0
 	for j in range(num_times):
-
-
 	
 		for i, element in enumerate(attack):
 			if type(element) == tuple:
@@ -470,8 +477,9 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 				defense_reinforcements[i] = using_weights_find_tuple(element, rounding)
 				defense_reinforcements[i] = pick_random_block(element, attack, defense, attack_reinforcements, defense_reinforcements)
 
+		battle_result = battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)
 
-		totals_dict[battle(attack, defense, attack_reinforcements, defense_reinforcements, before_letter, before_number, turn)] += 1
+		totals_dict[battle_result] += 1
 
 		after_attack_strength = 0
 		after_defense_strength = 0
@@ -489,6 +497,8 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 
 	for situation in totals_dict:
 		totals_dict[situation] /= num_times
+
+	print(totals_dict)
 
 	return totals_dict
 

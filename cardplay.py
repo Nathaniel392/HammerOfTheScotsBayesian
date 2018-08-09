@@ -7,28 +7,6 @@ Created on Tue Jul 24 15:05:44 2018
 @author: amylvaganam
 """
 
-######### temporary set of functions for temporary gameplay
-
-"""
-HOW TO UTILIZE:
-
-deck = Deck()
-deck.shuffle()
-computer_hand = list()
-for i in range(5):
-    computer_hand.append(deck.deal())
-   
-    
-print(computer_hand)
-card = cardplay.random_card(computer_hand)
-print(card)
-
-card = cardplay.dumb_go_first(computer_hand)
-print(card)
-
-card = cardplay.dumb_go_second(computer_hand)
-print(card)
-"""
 
 import random
 import combat
@@ -38,6 +16,8 @@ import find_block
 import blocks
 import copy
 import scottish_king
+import comp_card_utilities
+import move_utility
 
     
 #ultimately: return card that the computer decides to play
@@ -78,28 +58,35 @@ def get_card_val(card):
     else:
         return 4
 
-def dumb_go_second(computer_hand): #plays lowest card
-    
-    min_val = 50 #initialize an initial "min" val 
-    
+def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND'
+    max_value = 0
     for card in computer_hand:
-        if get_card_val(card) < min_val:
-            min_val = get_card_val(card)
-            ret_card = card
+        print(role + ' is testing ' + card)
+        if card == '1':
+            value = 0.6
+        elif card == '2':
+            value = 0.6
+        elif card == '3':
+            value = 0.6
+        elif card == 'SEA':
+            value = comp_card_utilities.sea_utility(board, role)
+        elif card == 'HER':
+            value = comp_card_utilities.her_utility(board, role)
+        elif card == 'VIC':
+            value, vic_block_lst = comp_card_utilities.vic_utility(board, role)
+        elif card == 'PIL':
+            value, region_to_pillage_ID, region_to_heal_ID = comp_card_utilities.pil_utility(board, role)
+        elif card == 'TRU':
+            value = comp_card_utilities.tru_utility(board, role)
+        if value > max_value:
+            max_value = value
+            chosen_card = card
+    if max_value == 0:
+        chosen_card = random.choice(computer_hand)
+    print('computer hand: ', computer_hand)
+    print('computer plays ', chosen_card)
             
-    return ret_card
-
-
-def dumb_go_first(computer_hand): # plays highest card
-    
-    max_val = 0 #initialize an initial "max" val 
-    
-    for card in computer_hand:
-        if get_card_val(card) > max_val:
-                max_val = get_card_val(card)
-                ret_card = card
-                
-    return ret_card
+    return chosen_card
 
 
 def random_card(computer_hand):
@@ -124,6 +111,30 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
 
 
+    #this is where I started implementing move_utility (david)
+
+    if position == 'comp':
+        i = 0
+        while True:
+            i += 1
+            try:
+                input()
+                board = move_utility.good_move(board, num_moves, role, board.turn, truce)
+                input()
+                return None
+            except:
+                if i == 25:
+                    print('computer passes')
+                    return None
+        print(type(board))
+        #input()
+
+
+
+    #this is where I ended implementing move_utility (david)
+
+
+
     blocks_moved = []
     picked_regions = []
     move_pt = 0
@@ -134,13 +145,20 @@ def movement_execution(board, position, role, num_moves, truce=False):
         #print (blocks_moved)
 
         focus_region = None
+        
         try:
-            if type(prev_paths) != set:
+       
+            if type(prev_paths) != tuple:
                 prev_paths = []
             else:
+                
                 prev_paths = list(prev_paths)
+
+
         except UnboundLocalError:
             prev_paths = list()
+
+     
 
 
 
@@ -180,7 +198,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
         elif position == 'comp':
             print('Num of move= ', move_pt)
-            input('Computer Move Part 1')
+            #input('Computer Move Part 1')
             ###
             ###TEMPORARY
             ###
@@ -191,7 +209,10 @@ def movement_execution(board, position, role, num_moves, truce=False):
             while not unique_region:
 
                 friendly_regions = board.get_controlled_regions(role)
-                rand_startID = random.randint(0, len(friendly_regions) - 1)
+                if len(friendly_regions) > 1:
+                    rand_startID = random.randint(0, len(friendly_regions) - 1)
+                else:
+                    rand_startID = 0
                 focus_region = friendly_regions[rand_startID]
 
                 if focus_region not in picked_regions:
@@ -253,9 +274,14 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                                 else:
                                     #move_pt +=1
+                                    prev_paths = tuple(prev_paths)
+
+
                                     blocks_moved.append(user_block)
 
                                     valid_block = True
+
+                          
 
                             else:
 
@@ -284,7 +310,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                     for block in focus_region.blocks_present:
                         if num_moves > move_pt:
-                            possible_paths = board.check_all_paths(block.movement_points,focus_region.regionID,block,truce=truce)
+                            possible_paths = board.check_all_paths(block.movement_points,focus_region.regionID,block,all_paths = [], truce=truce)
 
                             if possible_paths:
                                 print(possible_paths)
@@ -292,8 +318,9 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                                 end = computer_path1[-1]
 
-                                board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
-                                #move_pt +=1
+                                board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce, path = computer_path1)
+
+                                move_pt +=1
                             else:
 
                                 print("Computer chosen region has no moves!")
@@ -331,6 +358,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                         print ("That path was not valid!")
 
                                     else:
+                                        
 
                                         if combat.find_location(board, user_block).name == 'ENGLAND':
                                             can_go_again = False
@@ -354,7 +382,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                 
 
                 elif position == 'comp' and can_go_again:
-                    input('Computer Move Part 2')
+                    #input('Computer Move Part 2')
                     print('It is computer turn to make a move')
 
                     computer_choice = random.randint(0,100)
@@ -382,10 +410,14 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                 end = computer_paths_1[-1]
                                 
 
-                                board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
+                                board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce, path = computer_paths_1)
                                 if board.regions[end].name == 'ENGLAND':
+                                    prev_paths = tuple(prev_paths)
                                     can_go_again = False
                                     picked_regions.remove(focus_region)
+                                else:
+                                    if type(prev_paths) == list:
+                                        prev_paths.append(computer_paths_1)
                                 count+=1
                                 blocks_moved.append(block)
 
@@ -411,6 +443,7 @@ def sea_execution(board, position, role):
     """
     quitt = False
     if position == 'comp':
+        print(1)
             #temporary for dumb AI
             #create and print a list of coastal, friendly regions where norse is not the ONLY one
         
@@ -418,6 +451,7 @@ def sea_execution(board, position, role):
         
         #loops through list of friendly, coastal, not just Norse regions to append to a possible_region_list
         for region in board.get_controlled_regions(role):
+            print(2)
             coastal = False
             just_norse = False
             if region.coast:
@@ -431,7 +465,8 @@ def sea_execution(board, position, role):
         
         #loops through list of friendly, coastal regions to append to a possible_final_region_list
             possible_final_region_list = []
-            for region in board.get_controlled_regions(role):                
+            for region in board.get_controlled_regions(role): 
+                print(3)               
                 if region.coast:
                     possible_final_region_list.append(region)
         
@@ -453,7 +488,9 @@ def sea_execution(board, position, role):
             
             move_block_list = []
             blocks_moved = 0
+            print(4)
             while blocks_moved < 2:
+                print(5)
                 block = original_region.blocks_present[random.randint(0, len(original_region.blocks_present)-1)]
                 #if it's not already on the list,append to move_block_list
                 if block not in move_block_list:
@@ -463,7 +500,7 @@ def sea_execution(board, position, role):
                     blocks_moved+=1
             
                     
-                    
+            print(6)    
             new_region = possible_final_region_list[random.randint(0, len(possible_final_region_list) - 1)]
                 
             for block in move_block_list:
@@ -676,18 +713,20 @@ def her_execution(board, position, role):
         noble_to_steal.change_allegiance()
 
         #Find the noble's region
-        for region in board.regions:
-            if noble_to_steal in region.blocks_present:
-                noble_region = region
+        noble_region = combat.find_location(board, noble_to_steal)
 
-        if len(noble_region.blocks_present) > 1:
+        if len(board.regions[noble_region.regionID].blocks_present) > 1:
             for block in noble_region.blocks_present:
                 if block == noble_to_steal:
-                    noble_region.combat_dict['Attacking'].append(block)
+                    print(block.name + ' added to attacking dict')
+                    board.regions[noble_region.regionID].combat_dict['Attacking'].append(block)
                 else:
-                    noble_region.combat_dict['Defending'].append(block)
+                    print(block.name + ' added to defending dict')
+                    board.regions[noble_region.regionID].combat_dict['Defending'].append(block)
 
-            combat.battle(noble_region.combat_dict['Attacking'], noble_region.combat_dict['Defending'], list(), list(), board, role)
+            print('DID HERALD BATTLE IN HERALD FUNCTION')
+            board.regions[noble_region.regionID].combat_dict['Attacking'][0].change_allegiance()
+            combat.battle(board.regions[noble_region.regionID].combat_dict['Attacking'], board.regions[noble_region.regionID].combat_dict['Defending'], list(), list(), board, role)
 
         #Move the noble to its own region - will sort it into attacker/defender
         #board.move_block(noble_to_steal, noble_region.regionID, noble_region.regionID, position)
@@ -794,6 +833,8 @@ def vic_execution(board, position, role):
             print(possible_blocks[rand_block_selection].name, ' healed one point')
 
 def pil_execution(board, position, role):
+
+    print(role)
     
     if position == 'comp':
         
@@ -813,7 +854,7 @@ def pil_execution(board, position, role):
                 new_list = []
                 new_list.append(region.regionID)
                 for neighbor_region in board.find_all_borders(new_list):
-                    if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
+                    if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral() and neighbor_region not in possible_pill_lst:
                         possible_pill_lst.append(neighbor_region)
             
             
@@ -826,7 +867,7 @@ def pil_execution(board, position, role):
             for x in range (0,2):
                 highest_block_lst = combat.find_max_strength(chosen_subtract_region.blocks_present)
             
-                if highest_block_lst:
+                if highest_block_lst and len(board.regions[chosen_subtract_region.regionID].blocks_present) > 0:
                     block = highest_block_lst[0]
                     #strike once
                     block.get_hurt(1)
@@ -838,9 +879,11 @@ def pil_execution(board, position, role):
                         if role == 'SCOTLAND':
                             board.eng_pool.append(block)
                             board.eng_roster.remove(block)
+                            board.remove_from_region(block, chosen_subtract_region.regionID)
                         elif role == 'ENGLAND':
                             board.scot_pool.append(block)
                             board.scot_roster.remove(block)
+                            board.remove_from_region(block, chosen_subtract_region.regionID)
                         
             
             
@@ -865,8 +908,8 @@ def pil_execution(board, position, role):
             #list for possible blocks to heal in chosen_add_region
             for block in chosen_add_region.blocks_present:
                 possible_add_block_list.append(block)
-            
-            while health_points > 0:
+            print('PILLAGE IS WORKING UNTIL NOW')
+            while health_points > 0 and possible_add_block_list:
 
                 block = possible_add_block_list[random.randint(0, len(possible_add_block_list) - 1)]
                 healing_points = random.randint(0, health_points)
@@ -877,7 +920,7 @@ def pil_execution(board, position, role):
         else:
             print('There are no possible regions in which to play this card.')
             
-            
+        print('PILLAGE SHOULD BE DONE')
         
     elif position == 'opp':
         quitt = False
@@ -1010,6 +1053,7 @@ def pil_execution(board, position, role):
                                     if block_name.lower() == 'none':
                                         quitt = True
                                         valid_input = True
+                                        health_points = 0
                                     #if player doesnt enter 'none'
                                     if not quitt:
                                         block = search.block_name_to_object(chosen_add_region.blocks_present, block_name)
@@ -1046,7 +1090,7 @@ def pil_execution(board, position, role):
         else:
             print('There are no possible regions in which to play this card.')
 
-def resolve_card(board, which_side, card, role,truce=False):
+def resolve_card(board, eng_type, scot_type, card, role, truce=False):
     
     """
     Takes in a string that lists side (comp/opp), the card for that side, and the role (england/scotland)
@@ -1054,17 +1098,10 @@ def resolve_card(board, which_side, card, role,truce=False):
     
     """
 
-    if which_side == 'opp':
-        if role == 'SCOTLAND': 
-            comp_role = 'ENGLAND'
-        else:
-            comp_role = 'SCOTLAND'
-    else:
-        comp_role = role
-
-
-
-
+    if role == 'ENGLAND':
+        which_side = eng_type
+    elif role == 'SCOTLAND':
+        which_side = scot_type
 
 
     if card == '1':
@@ -1076,7 +1113,7 @@ def resolve_card(board, which_side, card, role,truce=False):
 
     else:
 
-        if role == 'ENGLAND' or not scottish_king.run_king(board, comp_role):
+        if role == 'ENGLAND' or not scottish_king.run_king(board, eng_type, scot_type):
             
         
             
@@ -1179,9 +1216,9 @@ def resolve_card(board, which_side, card, role,truce=False):
                 if play_pass.lower() == 'play':
                     return True
                
-        
+    
             
-def compare_cards(board, opp_card, comp_card, comp_role):
+def compare_cards(board, eng_card, scot_card, eng_type, scot_type):
     """
     takes the opponent card, computer card, and computer allegiance (ENGLAND/SCOTLAND)
     compares cards for which side plays their turn first
@@ -1193,61 +1230,38 @@ def compare_cards(board, opp_card, comp_card, comp_role):
     year_ends_early = False
 
     
-    
-    if comp_role == 'SCOTLAND':
-        opp_role = 'ENGLAND'
-    elif comp_role == 'ENGLAND':
-        opp_role = 'SCOTLAND'
-    
-    if get_card_val(opp_card) > get_card_val(comp_card):
-      
-        who_goes_first = False
-    elif get_card_val(opp_card) < get_card_val(comp_card):
-    
-        who_goes_first = True
-    elif get_card_val(opp_card) == get_card_val(comp_card):
+    if get_card_val(eng_card) > get_card_val(scot_card):
+        who_goes_first = 'ENGLAND'
+        
+    elif get_card_val(eng_card) < get_card_val(scot_card):
+        who_goes_first = 'SCOTLAND'
+        
+    elif get_card_val(eng_card) == get_card_val(scot_card):
      
-        if comp_role == 'ENGLAND':
-            who_goes_first = True
-        elif comp_role == 'SCOTLAND':
-            who_goes_first = False
-        if get_card_val(opp_card) == 4 and get_card_val(comp_card) == 4:
+        who_goes_first = 'ENGLAND'
+        
+        if get_card_val(eng_card) == 4 and get_card_val(scot_card) == 4:
             year_ends_early = True
         
-    
-    if who_goes_first and comp_role == 'ENGLAND':
-        board.who_goes_first = 'ENGLAND'
-    elif who_goes_first and comp_role == 'SCOTLAND':
-        board.who_goes_first = 'SCOTLAND'
-    elif comp_role == 'ENGLAND':
-        board.who_goes_first = 'SCOTLAND'
-    else:
-        board.who_goes_first = 'ENGLAND'
+    board.who_goes_first = who_goes_first
 
+    eng_played_truce = False
+    if eng_card == 'TRU':
+        eng_played_truce = True
 
-    if who_goes_first: #if computer goes first
+    scot_played_truce = False
+    if scot_card == 'TRU':
+        scot_played_truce = True
+
+    if who_goes_first == 'ENGLAND':
+
+        resolve_card(board, eng_type, scot_type, eng_card, 'ENGLAND', scot_played_truce)
+        resolve_card(board, eng_type, scot_type, scot_card, 'SCOTLAND', eng_played_truce)
         
-
-        if resolve_card(board, 'comp',comp_card,comp_role) == True:
-
-            resolve_card(board, 'opp', opp_card, opp_role,True)
-
-        else:
-
-            resolve_card(board, 'opp', opp_card, opp_role)
-
+    elif who_goes_first == 'SCOTLAND':
         
-    elif not who_goes_first: #if opponent goes first
-        
-        
-
-        if resolve_card(board, 'opp', opp_card, opp_role) == True:
-
-            resolve_card(board, 'comp', comp_card, comp_role,True)
-
-        else:
-
-            resolve_card(board, 'comp', comp_card, comp_role)
-
+        resolve_card(board, eng_type, scot_type, scot_card, 'SCOTLAND', eng_played_truce)
+        resolve_card(board, eng_type, scot_type, eng_card, 'ENGLAND', scot_played_truce)
         
     return who_goes_first, year_ends_early
+

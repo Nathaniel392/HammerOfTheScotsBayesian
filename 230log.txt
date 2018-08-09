@@ -1,0 +1,1154 @@
+LANCASTER-KNIGHT  has moved to levy
+LANCASTER-ARCHER  has moved to levy
+YORK-KNIGHT  has moved to levy
+WESTMOR  has moved to levy
+opp hand: 
+2 1 2 2 VIC 
+Enter the card you want to play: computer hand:  ['1', '2', '2', '2', 'HER']
+computer plays  2
+LOOPING AGAIN 0 2
+Which region would you like to focus your movement (or pass)?
+>Invalid input. Please input a valid region name.
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+LANCASTER-KNIGHT - KNIGHT
+	Moves:2
+	Strength:4/4
+	Combat:B3
+--------------------, --------------------
+LANCASTER-ARCHER - ARCHER
+	Moves:2
+	Strength:3/3
+	Combat:B3
+--------------------, --------------------
+YORK-KNIGHT - KNIGHT
+	Moves:2
+	Strength:4/4
+	Combat:B3
+--------------------, --------------------
+WESTMOR - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 17]
+Location 2: [22, 17, 16]
+Location 3: [[22, 17, 16]]
+Moved to friendly or neutral region
+LANCASTER-KNIGHT was moved from ENGLAND to LOTHIAN
+LOOPING AGAIN 0 2
+Num of move=  0
+Computer Move Part 1HOBELARS  has moved to levy
+LANCASTER-KNIGHT  has moved to levy
+WALES-ARCHER  has moved to levy
+LANCASTER-INFANTRY  has moved to levy
+opp hand: 
+2 1 2 3 VIC 
+Enter the card you want to play: computer hand:  ['3', '2', '1', 'PIL', '1']
+computer plays  3
+LOOPING AGAIN 0 3
+Num of move=  0
+Computer Move Part 1Focus Region =  GALLOWAY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [19, 14]
+Moved to friendly or neutral region
+GALLOWAY was moved from GALLOWAY to CARRICK
+True
+0
+LOOPING AGAIN 1 3
+Num of move=  1
+Computer Move Part 1Focus Region =  ANNAN
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [20, 21]
+Moved to friendly or neutral region
+BRUCE was moved from ANNAN to TEVIOT
+True
+1
+LOOPING AGAIN 2 3
+Num of move=  2
+Computer Move Part 1Focus Region =  STRATHSPEY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [3, 2]
+Moved to friendly or neutral region
+GRANT was moved from STRATHSPEY to MORAY
+True
+2
+LOOPING AGAIN 0 2
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+HOBELARS - KNIGHT - †
+	Moves:3
+	Strength:3/3
+	Combat:A2
+--------------------, --------------------
+LANCASTER-KNIGHT - KNIGHT
+	Moves:2
+	Strength:4/4
+	Combat:B3
+--------------------, --------------------
+WALES-ARCHER - ARCHER
+	Moves:2
+	Strength:3/3
+	Combat:B3
+--------------------, --------------------
+LANCASTER-INFANTRY - INFANTRY
+	Moves:2
+	Strength:4/4
+	Combat:C2
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 21]
+Location 2: [[22, 17, 21], [22, 20, 21], [22, 21]]
+Moved into enemy region
+HOBELARS was moved from ENGLAND to TEVIOT
+EDWARD  has moved to levy
+HOBELARS  has moved to levy
+YORK-INFANTRY  has moved to levy
+WALES-ARCHER  has moved to levy
+opp hand: 
+1 SEA 2 2 2 
+Enter the card you want to play: computer hand:  ['PIL', '2', '2', '2', 'TRU']
+computer plays  2
+LOOPING AGAIN 0 2
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+EDWARD - EDWARD - †
+	Moves:3
+	Strength:4/4
+	Combat:B4
+--------------------, --------------------
+HOBELARS - KNIGHT - †
+	Moves:3
+	Strength:3/3
+	Combat:A2
+--------------------, --------------------
+YORK-INFANTRY - INFANTRY
+	Moves:2
+	Strength:4/4
+	Combat:C2
+--------------------, --------------------
+WALES-ARCHER - ARCHER
+	Moves:2
+	Strength:3/3
+	Combat:B3
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 21]
+Location 2: [[22, 17, 21], [22, 21]]
+Moved to friendly or neutral region
+EDWARD was moved from ENGLAND to TEVIOT
+1
+LOOPING AGAIN 0 2
+Num of move=  0
+Computer Move Part 1DURHAM-INFANTRY  has moved to levy
+LANCASTER-ARCHER  has moved to levy
+ULSTER  has moved to levy
+WESTMOR  has moved to levy
+opp hand: 
+2 SEA 2 1 3 
+Enter the card you want to play: computer hand:  ['2', '1', '1', 'TRU', '3']
+computer plays  TRU
+LOOPING AGAIN 0 2
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+DURHAM-INFANTRY - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------, --------------------
+LANCASTER-ARCHER - ARCHER
+	Moves:2
+	Strength:3/3
+	Combat:B3
+--------------------, --------------------
+ULSTER - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C3
+--------------------, --------------------
+WESTMOR - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 17]
+Location 2: [22, 17, 16]
+Location 3: [[22, 17, 16]]
+Moved to friendly or neutral region
+DURHAM-INFANTRY was moved from ENGLAND to LOTHIAN
+1
+[]
+opp hand: 
+SEA 2 1 3 
+Enter the card you want to play: HOBELARS  has moved to levy
+WALES-ARCHER  has moved to levy
+WESTMOR  has moved to levy
+LANCASTER-INFANTRY  has moved to levy
+opp hand: 
+2 TRU 2 3 1 
+Enter the card you want to play: computer hand:  ['2', '2', '1', '1', 'SEA']
+computer plays  2
+LOOPING AGAIN 0 3
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+HOBELARS - KNIGHT - †
+	Moves:3
+	Strength:3/3
+	Combat:A2
+--------------------, --------------------
+WALES-ARCHER - ARCHER
+	Moves:2
+	Strength:3/3
+	Combat:B3
+--------------------, --------------------
+WESTMOR - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------, --------------------
+LANCASTER-INFANTRY - INFANTRY
+	Moves:2
+	Strength:4/4
+	Combat:C2
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 17]
+Location 2: [[22, 17]]
+Moved to friendly or neutral region
+HOBELARS was moved from ENGLAND to DUNBAR
+0
+LOOPING AGAIN 1 3
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+WALES-ARCHER - ARCHER
+	Moves:2
+	Strength:3/3
+	Combat:B3
+--------------------, --------------------
+WESTMOR - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------, --------------------
+LANCASTER-INFANTRY - INFANTRY
+	Moves:2
+	Strength:4/4
+	Combat:C2
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 17]
+Location 2: [[22, 17], [22, 17]]
+Moved to friendly or neutral region
+WESTMOR was moved from ENGLAND to DUNBAR
+1
+LOOPING AGAIN 2 3
+Which region would you like to focus your movement (or pass)?
+>Invalid region. Please select a region you control that hasn't been moved
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[7]
+Location 1: [7, 8]
+Location 2: [[22, 17], [22, 17], [7, 4, 8], [7, 8]]
+Moved to friendly or neutral region
+MAR was moved from MAR to ANGUS
+2
+LOOPING AGAIN 0 2
+Num of move=  0
+Computer Move Part 1LANCASTER-INFANTRY  has moved to levy
+HOBELARS  has moved to levy
+DURHAM-INFANTRY  has moved to levy
+WESTMOR  has moved to levy
+opp hand: 
+3 2 1 VIC 1 
+Enter the card you want to play: computer hand:  ['2', '1', '1', '2', '1']
+computer plays  1
+LOOPING AGAIN 0 3
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+LANCASTER-INFANTRY - INFANTRY
+	Moves:2
+	Strength:4/4
+	Combat:C2
+--------------------, --------------------
+HOBELARS - KNIGHT - †
+	Moves:3
+	Strength:3/3
+	Combat:A2
+--------------------, --------------------
+DURHAM-INFANTRY - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------, --------------------
+WESTMOR - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 17]
+Location 2: [22, 17, 16]
+Location 3: [22, 17, 16, 13]
+Location 4: [[22, 17, 16, 13]]
+Moved to friendly or neutral region
+HOBELARS was moved from ENGLAND to MENTIETH
+0
+LOOPING AGAIN 1 3
+Which region would you like to focus your movement (or pass)?
+>[--------------------
+LANCASTER-INFANTRY - INFANTRY
+	Moves:2
+	Strength:4/4
+	Combat:C2
+--------------------, --------------------
+DURHAM-INFANTRY - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------, --------------------
+WESTMOR - INFANTRY
+	Moves:2
+	Strength:3/3
+	Combat:C2
+--------------------]
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[22]
+Location 1: [22, 17]
+Location 2: [22, 17, 16]
+Location 3: [[22, 17, 16, 13], [22, 17, 16]]
+Moved to friendly or neutral region
+LANCASTER-INFANTRY was moved from ENGLAND to LOTHIAN
+1
+LOOPING AGAIN 2 3
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[7]
+Location 1: [7, 8]
+Location 2: [[22, 17, 16, 13], [22, 17, 16], [7, 4, 8], [7, 8]]
+Moved to friendly or neutral region
+MAR was moved from MAR to ANGUS
+2
+LOOPING AGAIN 0 1
+Num of move=  0
+Computer Move Part 1Focus Region =  GALLOWAY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [19, 20]
+Moved to friendly or neutral region
+GALLOWAY was moved from GALLOWAY to ANNAN
+0
+[]
+opp hand: 
+2 1 VIC 1 
+Enter the card you want to play: computer hand:  ['2', '1', '2', '1']
+computer plays  2
+LOOPING AGAIN 0 2
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[13]
+Location 1: [13, 11]
+Location 2: [[22, 17, 16, 13], [22, 17, 16], [7, 4, 8], [7, 8], [13, 11]]
+Moved into enemy region
+HOBELARS was moved from MENTIETH to FIFE
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[13]
+Location 1: [13, 11]
+Location 2: [[22, 17, 16, 13], [22, 17, 16], [7, 4, 8], [7, 8], [13, 11], [13, 11]]
+Moved into contested region.
+NORTHUMBER was moved from MENTIETH to FIFE
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[13]
+Location 1: [13, 11]
+Location 2: [[22, 17, 16, 13], [22, 17, 16], [7, 4, 8], [7, 8], [13, 11], [13, 11], [13, 11]]
+Moved into contested region.
+MENTIETH was moved from MENTIETH to FIFE
+0
+LOOPING AGAIN 1 2
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[8]
+Location 1: [8, 11]
+Location 2: [[22, 17, 16, 13], [22, 17, 16], [7, 4, 8], [7, 8], [13, 11], [13, 11], [13, 11], [8, 11]]
+Moved into contested region.
+ANGUS was moved from ANGUS to FIFE
+Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[8]
+Location 1: [8, 11]
+Location 2: [[22, 17, 16, 13], [22, 17, 16], [7, 4, 8], [7, 8], [13, 11], [13, 11], [13, 11], [8, 11], [8, 11]]
+Moved into contested region.
+MAR was moved from ANGUS to FIFE
+1
+LOOPING AGAIN 0 2
+Num of move=  0
+Computer Move Part 1Focus Region =  ANNAN
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [20, 14, 12]
+Moved into enemy region
+BRUCE was moved from ANNAN to LENNOX
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [20, 22]
+Moved into enemy region
+GALLOWAY was moved from ANNAN to ENGLAND
+0
+LOOPING AGAIN 1 2
+Num of move=  1
+Computer Move Part 1Focus Region =  MORAY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [2, 3, 4]
+Moved into enemy region
+FRASER was moved from MORAY to BUCHAN
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [2, 6]
+Moved into enemy region
+MORAY was moved from MORAY to BADENOCH
+1
+[--------------------
+BUCHAN - 4
+	*Coastal
+	BUCHAN FRASER 
+--------------------, --------------------
+BADENOCH - 6
+	COMYN MORAY 
+--------------------, --------------------
+FIFE - 11
+	*Cathedral
+	*Coastal
+	DOUGLAS BARCLAY WALLACE HOBELARS NORTHUMBER MENTIETH ANGUS MAR 
+--------------------, --------------------
+LENNOX - 12
+	*Cathedral
+	*Coastal
+	LENNOX BRUCE 
+--------------------, --------------------
+ENGLAND - 22
+	*Coastal
+	DURHAM-INFANTRY WESTMOR GALLOWAY 
+--------------------]
+Contested Regions:  BUCHAN BADENOCH FIFE LENNOX ENGLAND Enter name of region you want to resolve the battle in: 
+attack: GALLOWAY - 3	
+defense: DURHAM-INFANTRY - 3	WESTMOR - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: GALLOWAY - 3	
+defense: DURHAM-INFANTRY - 3	WESTMOR - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+Sent GALLOWAY to TEVIOT
+GALLOWAY  retreated to  TEVIOT
+defender wins
+possible locations: DUNBAR[17]; 
+Where will  DURHAM-INFANTRY  go to? (region id)
+ (type -1 for stay): 
+>possible locations: DUNBAR[17]; 
+Where will  WESTMOR  go to? (region id)
+ (type -1 for stay): 
+>Contested Regions:  BUCHAN BADENOCH FIFE LENNOX Enter name of region you want to resolve the battle in: 
+attack: FRASER - 3	
+defense: BUCHAN - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: FRASER - 3	
+defense: BUCHAN - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  BUCHAN do? (r) retreat (f) fight (p) pass
+>BUCHAN  rolled  [3, 6, 6]
+FRASER got hurt!
+
+attack: FRASER - 2	
+defense: BUCHAN - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+Sent FRASER to MAR
+FRASER  retreated to  MAR
+defender wins
+possible locations: ANGUS[8]; 
+Where will  BUCHAN  go to? (region id)
+ (type -1 for stay): 
+>Contested Regions:  BADENOCH FIFE LENNOX Enter name of region you want to resolve the battle in: 
+attack: MORAY - 3	
+defense: COMYN - 4	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: MORAY - 3	
+defense: COMYN - 4	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  COMYN do? (r) retreat (f) fight (p) pass
+>COMYN  rolled  [1, 2, 3, 6]
+MORAY got hurt!
+MORAY got hurt!
+MORAY got hurt!
+
+ MORAY  has died and will never come back
+defender wins
+possible locations: MORAY[2]; BUCHAN[4]; LOCHABER[5]; ATHOLL[10]; 
+Where will  COMYN  go to? (region id)
+ (type -1 for stay): 
+>Contested Regions:  FIFE LENNOX Enter name of region you want to resolve the battle in: Enter name of region you want to resolve the battle in: 
+attack: BRUCE - 4	
+defense: LENNOX - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: BRUCE - 4	
+defense: LENNOX - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  LENNOX do? (r) retreat (f) fight (p) pass
+>LENNOX  rolled  [4, 5, 4]
+
+attack: BRUCE - 4	
+defense: LENNOX - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+BRUCE  rolled  [2, 1, 3, 6]
+Who do you want to get hurt? (Type index in list below:)
+LENNOX[0]; >LENNOX got hurt!
+Who do you want to get hurt? (Type index in list below:)
+LENNOX[0]; >LENNOX got hurt!
+
+attack: BRUCE - 4	
+defense: LENNOX - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: BRUCE - 4	
+defense: LENNOX - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  LENNOX do? (r) retreat (f) fight (p) pass
+>possible locations: ARGYLL[9]; ATHOLL[10]; MENTIETH[13]; CARRICK[14]; LANARK[15]; 
+What regionID to retreat to: Sent LENNOX to ARGYLL
+LENNOX  retreated to  ARGYLL
+attacker wins
+Sent BRUCE to CARRICK
+BRUCE  moved to  CARRICK
+Contested Regions:  FIFE Enter name of region you want to resolve the battle in: 
+attack: HOBELARS - 3	NORTHUMBER - 4	MENTIETH - 3	
+defense: DOUGLAS - 4	BARCLAY - 4	WALLACE - 4	
+attacking reinforcements: ANGUS - 3	MAR - 3	
+defending reinforcements: 
+
+
+attack: HOBELARS - 3	NORTHUMBER - 4	MENTIETH - 3	
+defense: DOUGLAS - 4	BARCLAY - 4	WALLACE - 4	
+attacking reinforcements: ANGUS - 3	MAR - 3	
+defending reinforcements: 
+
+WALLACE  rolled  [6, 6, 6, 5]
+
+attack: HOBELARS - 3	NORTHUMBER - 4	MENTIETH - 3	
+defense: DOUGLAS - 4	BARCLAY - 4	WALLACE - 4	
+attacking reinforcements: ANGUS - 3	MAR - 3	
+defending reinforcements: 
+
+What does  HOBELARS do? (r) retreat (f) fight (p) pass
+>HOBELARS  rolled  [6, 3, 3]
+
+attack: HOBELARS - 3	NORTHUMBER - 4	MENTIETH - 3	
+defense: DOUGLAS - 4	BARCLAY - 4	WALLACE - 4	
+attacking reinforcements: ANGUS - 3	MAR - 3	
+defending reinforcements: 
+
+What does  MENTIETH do? (r) retreat (f) fight (p) pass
+>MENTIETH  rolled  [5, 5, 3]
+
+attack: HOBELARS - 3	NORTHUMBER - 4	MENTIETH - 3	
+defense: DOUGLAS - 4	BARCLAY - 4	WALLACE - 4	
+attacking reinforcements: ANGUS - 3	MAR - 3	
+defending reinforcements: 
+
+DOUGLAS  rolled  [1, 6, 1, 5]
+Who do you want to get hurt? (Type index in list below:)
+NORTHUMBER[0]; >NORTHUMBER got hurt!
+Who do you want to get hurt? (Type index in list below:)
+HOBELARS[0]; NORTHUMBER[1]; MENTIETH[2]; >NORTHUMBER got hurt!
+
+attack: HOBELARS - 3	NORTHUMBER - 2	MENTIETH - 3	
+defense: DOUGLAS - 4	BARCLAY - 4	WALLACE - 4	
+attacking reinforcements: ANGUS - 3	MAR - 3	
+defending reinforcements: 
+
+BARCLAY  rolled  [4, 5, 3, 5]
+
+attack: HOBELARS - 3	NORTHUMBER - 2	MENTIETH - 3	
+defense: DOUGLAS - 4	BARCLAY - 4	WALLACE - 4	
+attacking reinforcements: ANGUS - 3	MAR - 3	
+defending reinforcements: 
+
+What does  NORTHUMBER do? (r) retreat (f) fight (p) pass
+>NORTHUMBER  rolled  [2, 2]
+WALLACE got hurt!
+BARCLAY got hurt!
+
+attack: HOBELARS - 3	NORTHUMBER - 2	MENTIETH - 3	ANGUS - 3	MAR - 3	
+defense: DOUGLAS - 4	BARCLAY - 3	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: HOBELARS - 3	NORTHUMBER - 2	MENTIETH - 3	ANGUS - 3	MAR - 3	
+defense: DOUGLAS - 4	BARCLAY - 3	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+WALLACE  rolled  [2, 2, 3]
+Who do you want to get hurt? (Type index in list below:)
+HOBELARS[0]; MENTIETH[1]; ANGUS[2]; MAR[3]; >MAR got hurt!
+Who do you want to get hurt? (Type index in list below:)
+HOBELARS[0]; MENTIETH[1]; ANGUS[2]; >ANGUS got hurt!
+Who do you want to get hurt? (Type index in list below:)
+HOBELARS[0]; MENTIETH[1]; >MENTIETH got hurt!
+
+attack: HOBELARS - 3	NORTHUMBER - 2	MENTIETH - 2	ANGUS - 2	MAR - 2	
+defense: DOUGLAS - 4	BARCLAY - 3	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  HOBELARS do? (r) retreat (f) fight (p) pass
+>HOBELARS  rolled  [3, 5, 2]
+DOUGLAS got hurt!
+
+attack: HOBELARS - 3	NORTHUMBER - 2	MENTIETH - 2	ANGUS - 2	MAR - 2	
+defense: DOUGLAS - 3	BARCLAY - 3	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  MENTIETH do? (r) retreat (f) fight (p) pass
+>MENTIETH  rolled  [6, 1]
+DOUGLAS got hurt!
+
+attack: HOBELARS - 3	NORTHUMBER - 2	MENTIETH - 2	ANGUS - 2	MAR - 2	
+defense: DOUGLAS - 2	BARCLAY - 3	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  ANGUS do? (r) retreat (f) fight (p) pass
+>ANGUS  rolled  [3, 5]
+
+attack: HOBELARS - 3	NORTHUMBER - 2	MENTIETH - 2	ANGUS - 2	MAR - 2	
+defense: DOUGLAS - 2	BARCLAY - 3	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  MAR do? (r) retreat (f) fight (p) pass
+>MAR  rolled  [6, 3]
+
+attack: HOBELARS - 3	NORTHUMBER - 2	MENTIETH - 2	ANGUS - 2	MAR - 2	
+defense: DOUGLAS - 2	BARCLAY - 3	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+DOUGLAS  rolled  [3, 1]
+Who do you want to get hurt? (Type index in list below:)
+HOBELARS[0]; >HOBELARS got hurt!
+Who do you want to get hurt? (Type index in list below:)
+HOBELARS[0]; NORTHUMBER[1]; MENTIETH[2]; ANGUS[3]; MAR[4]; >NORTHUMBER got hurt!
+
+attack: HOBELARS - 2	NORTHUMBER - 1	MENTIETH - 2	ANGUS - 2	MAR - 2	
+defense: DOUGLAS - 2	BARCLAY - 3	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+BARCLAY  rolled  [3, 1, 5]
+Who do you want to get hurt? (Type index in list below:)
+HOBELARS[0]; MENTIETH[1]; ANGUS[2]; MAR[3]; >MAR got hurt!
+
+attack: HOBELARS - 2	NORTHUMBER - 1	MENTIETH - 2	ANGUS - 2	MAR - 1	
+defense: DOUGLAS - 2	BARCLAY - 3	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  NORTHUMBER do? (r) retreat (f) fight (p) pass
+>NORTHUMBER  rolled  [1]
+BARCLAY got hurt!
+
+attack: HOBELARS - 2	NORTHUMBER - 1	MENTIETH - 2	ANGUS - 2	MAR - 1	
+defense: DOUGLAS - 2	BARCLAY - 2	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: HOBELARS - 2	NORTHUMBER - 1	MENTIETH - 2	ANGUS - 2	MAR - 1	
+defense: DOUGLAS - 2	BARCLAY - 2	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+WALLACE  rolled  [6, 1, 2]
+Who do you want to get hurt? (Type index in list below:)
+HOBELARS[0]; MENTIETH[1]; ANGUS[2]; >MENTIETH got hurt!
+Who do you want to get hurt? (Type index in list below:)
+HOBELARS[0]; ANGUS[1]; >ANGUS got hurt!
+
+attack: HOBELARS - 2	NORTHUMBER - 1	MENTIETH - 1	ANGUS - 1	MAR - 1	
+defense: DOUGLAS - 2	BARCLAY - 2	WALLACE - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  HOBELARS do? (r) retreat (f) fight (p) pass
+>HOBELARS  rolled  [2, 5]
+WALLACE got hurt!
+
+attack: HOBELARS - 2	NORTHUMBER - 1	MENTIETH - 1	ANGUS - 1	MAR - 1	
+defense: DOUGLAS - 2	BARCLAY - 2	WALLACE - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  MENTIETH do? (r) retreat (f) fight (p) pass
+>MENTIETH  rolled  [1]
+BARCLAY got hurt!
+
+attack: HOBELARS - 2	NORTHUMBER - 1	MENTIETH - 1	ANGUS - 1	MAR - 1	
+defense: DOUGLAS - 2	BARCLAY - 1	WALLACE - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  ANGUS do? (r) retreat (f) fight (p) pass
+>ANGUS  rolled  [6]
+
+attack: HOBELARS - 2	NORTHUMBER - 1	MENTIETH - 1	ANGUS - 1	MAR - 1	
+defense: DOUGLAS - 2	BARCLAY - 1	WALLACE - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  MAR do? (r) retreat (f) fight (p) pass
+>MAR  rolled  [6]
+
+attack: HOBELARS - 2	NORTHUMBER - 1	MENTIETH - 1	ANGUS - 1	MAR - 1	
+defense: DOUGLAS - 2	BARCLAY - 1	WALLACE - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+DOUGLAS  rolled  [5, 5]
+
+attack: HOBELARS - 2	NORTHUMBER - 1	MENTIETH - 1	ANGUS - 1	MAR - 1	
+defense: DOUGLAS - 2	BARCLAY - 1	WALLACE - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+BARCLAY  rolled  [2]
+Who do you want to get hurt? (Type index in list below:)
+HOBELARS[0]; >HOBELARS got hurt!
+
+attack: HOBELARS - 1	NORTHUMBER - 1	MENTIETH - 1	ANGUS - 1	MAR - 1	
+defense: DOUGLAS - 2	BARCLAY - 1	WALLACE - 2	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  NORTHUMBER do? (r) retreat (f) fight (p) pass
+>NORTHUMBER  rolled  [4]
+attacker retreats
+possible locations: ANGUS[8]; ATHOLL[10]; MENTIETH[13]; 
+What regionID to retreat to: Sent HOBELARS to MENTIETH
+HOBELARS  retreated to  MENTIETH
+possible locations: ANGUS[8]; ATHOLL[10]; MENTIETH[13]; 
+What regionID to retreat to: Sent NORTHUMBER to ATHOLL
+NORTHUMBER  retreated to  ATHOLL
+possible locations: ANGUS[8]; ATHOLL[10]; ATHOLL[10]; MENTIETH[13]; 
+What regionID to retreat to: Sent MENTIETH to MENTIETH
+MENTIETH  retreated to  MENTIETH
+possible locations: ANGUS[8]; ATHOLL[10]; ATHOLL[10]; MENTIETH[13]; MENTIETH[13]; 
+What regionID to retreat to: Sent ANGUS to ANGUS
+ANGUS  retreated to  ANGUS
+possible locations: ANGUS[8]; ATHOLL[10]; ATHOLL[10]; MENTIETH[13]; MENTIETH[13]; 
+What regionID to retreat to: Sent MAR to ANGUS
+MAR  retreated to  ANGUS
+DOUGLAS  stays
+BARCLAY  stays
+WALLACE  stays
+opp hand: 
+1 VIC 1 
+Enter the card you want to play: computer hand:  ['1', '2', '1']
+computer plays  1
+LOOPING AGAIN 0 1
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[10]
+Location 1: [10, 13]
+Location 2: [[22, 17, 16, 13], [22, 17, 16], [7, 4, 8], [7, 8], [13, 11], [13, 11], [13, 11], [8, 11], [8, 11], [10, 13]]
+Moved to friendly or neutral region
+NORTHUMBER was moved from ATHOLL to MENTIETH
+Choose a block to move (type 'done' if done): You passed one movement point!
+Please input a valid block name!
+0
+LOOPING AGAIN 0 1
+Num of move=  0
+Computer Move Part 1Focus Region =  STRATHSPEY
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [3, 2, 1]
+Moved to friendly or neutral region
+GRANT was moved from STRATHSPEY to GARMORAN
+0
+[]
+opp hand: 
+VIC 1 
+Enter the card you want to play: computer hand:  ['2', '1']
+computer plays  2
+Would you like to play the event card or pass it? (play/pass)ROSS
+BUCHAN
+BADENOCH
+ANGUS
+ARGYLL
+ATHOLL
+MENTIETH
+LANARK
+LOTHIAN
+DUNBAR
+ENGLAND
+Which region do you want to heal?: Possible blocks: 
+HOBELARS [ 0 ]	MENTIETH [ 1 ]	NORTHUMBER [ 2 ]	You have  3  health points remaining
+Which block index would you like to heal: How many health points would you like to heal it: NORTHUMBER  got healed
+You have  1  health points remaining
+Which block index would you like to heal: How many health points would you like to heal it: MENTIETH  got healed
+LOOPING AGAIN 0 2
+Num of move=  0
+Computer Move Part 1Focus Region =  MAR
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [7, 10]
+Moved into enemy region
+FRASER was moved from MAR to ATHOLL
+0
+LOOPING AGAIN 1 2
+Num of move=  1
+Computer Move Part 1Focus Region =  TEVIOT
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [21, 20]
+Moved to friendly or neutral region
+GALLOWAY was moved from TEVIOT to ANNAN
+1
+[--------------------
+ATHOLL - 10
+	ATHOLL FRASER 
+--------------------]
+Contested Regions:  ATHOLL Enter name of region you want to resolve the battle in: Enter name of region you want to resolve the battle in: 
+attack: FRASER - 2	
+defense: ATHOLL - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: FRASER - 2	
+defense: ATHOLL - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  ATHOLL do? (r) retreat (f) fight (p) pass
+>ATHOLL  rolled  [1, 2, 1]
+FRASER got hurt!
+FRASER got hurt!
+FRASER got hurt!
+
+ FRASER  has died and goes to the pool
+defender wins
+possible locations: LOCHABER[5]; BADENOCH[6]; MAR[7]; ANGUS[8]; ANGUS[8]; ARGYLL[9]; ARGYLL[9]; LENNOX[12]; MENTIETH[13]; MENTIETH[13]; MENTIETH[13]; 
+Where will  ATHOLL  go to? (region id)
+ (type -1 for stay): 
+>opp hand: 
+1 
+Enter the card you want to play: computer hand:  ['1']
+computer plays  1
+LOOPING AGAIN 0 1
+Which region would you like to focus your movement (or pass)?
+>Choose a block to move (type 'done' if done): Enter your path ('done' to stop):
+[16]
+Location 1: [16, 13]
+Location 2: [[22, 17, 16, 13], [22, 17, 16], [7, 4, 8], [7, 8], [13, 11], [13, 11], [13, 11], [8, 11], [8, 11], [10, 13], [16, 13], [16, 15, 13]]
+Moved to friendly or neutral region
+LANCASTER-INFANTRY was moved from LOTHIAN to MENTIETH
+Choose a block to move (type 'done' if done): You passed one movement point!
+Please input a valid block name!
+0
+LOOPING AGAIN 0 1
+Num of move=  0
+Computer Move Part 1Focus Region =  FIFE
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [11, 10]
+Moved into enemy region
+DOUGLAS was moved from FIFE to ATHOLL
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [11, 8]
+Moved into enemy region
+BARCLAY was moved from FIFE to ANGUS
+Computer Move Part 2It is computer turn to make a move
+Reset List
+comp tried to move
+THERE IS A VALID PATH
+computer chose [11, 13]
+Moved into enemy region
+WALLACE was moved from FIFE to MENTIETH
+0
+[--------------------
+ANGUS - 8
+	*Coastal
+	ANGUS MAR BARCLAY 
+--------------------, --------------------
+ATHOLL - 10
+	ATHOLL DOUGLAS 
+--------------------, --------------------
+MENTIETH - 13
+	*Coastal
+	HOBELARS MENTIETH NORTHUMBER LANCASTER-INFANTRY WALLACE 
+--------------------]
+Contested Regions:  ANGUS ATHOLL MENTIETH Enter name of region you want to resolve the battle in: Enter name of region you want to resolve the battle in: 
+attack: BARCLAY - 1	
+defense: ANGUS - 1	MAR - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: BARCLAY - 1	
+defense: ANGUS - 1	MAR - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  ANGUS do? (r) retreat (f) fight (p) pass
+>ANGUS  rolled  [4]
+
+attack: BARCLAY - 1	
+defense: ANGUS - 1	MAR - 1	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  MAR do? (r) retreat (f) fight (p) pass
+>MAR  rolled  [2]
+BARCLAY got hurt!
+
+ BARCLAY  has died and goes to the pool
+defender wins
+possible locations: BUCHAN[4]; MAR[7]; FIFE[11]; 
+Where will  ANGUS  go to? (region id)
+ (type -1 for stay): 
+>possible locations: BUCHAN[4]; MAR[7]; FIFE[11]; 
+Where will  MAR  go to? (region id)
+ (type -1 for stay): 
+>Contested Regions:  ATHOLL MENTIETH Enter name of region you want to resolve the battle in: 
+attack: DOUGLAS - 2	
+defense: ATHOLL - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: DOUGLAS - 2	
+defense: ATHOLL - 3	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  ATHOLL do? (r) retreat (f) fight (p) pass
+>ATHOLL  rolled  [1, 6, 3]
+DOUGLAS got hurt!
+DOUGLAS got hurt!
+
+ DOUGLAS  has died and goes to the pool
+defender wins
+possible locations: LOCHABER[5]; BADENOCH[6]; MAR[7]; ANGUS[8]; ANGUS[8]; ARGYLL[9]; ARGYLL[9]; FIFE[11]; LENNOX[12]; 
+Where will  ATHOLL  go to? (region id)
+ (type -1 for stay): 
+>Contested Regions:  MENTIETH Enter name of region you want to resolve the battle in: 
+attack: WALLACE - 2	
+defense: HOBELARS - 1	MENTIETH - 2	NORTHUMBER - 3	LANCASTER-INFANTRY - 4	
+attacking reinforcements: 
+defending reinforcements: 
+
+
+attack: WALLACE - 2	
+defense: HOBELARS - 1	MENTIETH - 2	NORTHUMBER - 3	LANCASTER-INFANTRY - 4	
+attacking reinforcements: 
+defending reinforcements: 
+
+What does  HOBELARS do? (r) retreat (f) fight (p) pass
+>HOBELARS  rolled  [5]
+
+attack: WALLACE - 2	
+defense: HOBELARS - 1	MENTIETH - 2	NORTHUMBER - 3	LANCASTER-INFANTRY - 4	
+attacking reinforcements: 
+defending reinforcements: 
+
+Sent WALLACE to LENNOX
+WALLACE  retreated to  LENNOX
+defender wins
+possible locations: ATHOLL[10]; FIFE[11]; LANARK[15]; LOTHIAN[16]; 
+Where will  HOBELARS  go to? (region id)
+ (type -1 for stay): 
+>possible locations: ATHOLL[10]; FIFE[11]; LANARK[15]; LOTHIAN[16]; 
+Where will  MENTIETH  go to? (region id)
+ (type -1 for stay): 
+>possible locations: ATHOLL[10]; FIFE[11]; LANARK[15]; LOTHIAN[16]; 
+Where will  NORTHUMBER  go to? (region id)
+ (type -1 for stay): 
+>possible locations: ATHOLL[10]; FIFE[11]; LANARK[15]; LOTHIAN[16]; 
+Where will  LANCASTER-INFANTRY  go to? (region id)
+ (type -1 for stay): 
+>Start WinterDisbanded WESTMOR!
+Disbanded DURHAM-INFANTRY!
+Sent ATHOLL home!
+Sent ARGYLL home!
+Where would you like COMYN to go? 
+BADENOCH[0]
+LOCHABER[1]
+Type pool to disband
+>Sent COMYN to BADENOCH
+COMYN went to --------------------
+BADENOCH - 6
+	COMYN 
+--------------------
+Sent COMYN home!
+Sent MENTIETH home!
+Sent ROSS home!
+Sent ANGUS home!
+Sent MAR home!
+Sent STEWARD home!
+Sent DUNBAR home!
+LENNOX's allegiance was changed to SCOTLAND
+Sent LENNOX home!
+Sent BUCHAN home!
+Sent BRUCE to ANNAN
+BRUCE went to --------------------
+ANNAN - 20
+	*Coastal
+	GALLOWAY BRUCE 
+--------------------
+Sent BRUCE home!
+Sent GALLOWAY home!
+Disbanded HOBELARS!
+ROSS:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>Disbanded GRANT!
+BUCHAN:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>BADENOCH:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>MAR:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>ANGUS:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>ARGYLL:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>ATHOLL:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>MENTIETH:
+NORTHUMBER (0)
+LANCASTER-INFANTRY (1)
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>LANARK:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>LOTHIAN:
+CUMBRIA (0)
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>DUNBAR:
+Choose a block to disband or move! 
+ You have to move at least 0 blocks! 'Done' for done. 
+>DURHAM-KNIGHT  has moved to levy
+WESTMOR  has moved to levy
+LANCASTER-KNIGHT  has moved to levy
+WALES-ARCHER  has moved to levy
+DURHAM-INFANTRY  has moved to levy
+YORK-KNIGHT  has moved to levy
+ROSS has 1
+Which block would you like to bump in ROSS? 
+ Type 'done' if you are finished BUCHAN has 2
+Which block would you like to bump in BUCHAN? 
+ Type 'done' if you are finished BADENOCH has 2
+Which block would you like to bump in BADENOCH? 
+ Type 'done' if you are finished MAR has 1
+0:     --------------------
+MAR - BRUCE
+	Moves:2
+	Strength:1/3
+	Combat:B2
+--------------------
+Which block would you like to bump in MAR? 
+ Type 'done' if you are finished 0:     --------------------
+MAR - BRUCE
+	Moves:2
+	Strength:2/3
+	Combat:B2
+--------------------
+Which block would you like to bump in MAR? 
+ Type 'done' if you are finished 0:     --------------------
+MAR - BRUCE
+	Moves:2
+	Strength:2/3
+	Combat:B2
+--------------------
+Which block would you like to bump in MAR? 
+ Type 'done' if you are finished 0:     --------------------
+MAR - BRUCE
+	Moves:2
+	Strength:2/3
+	Combat:B2
+--------------------
+Which block would you like to bump in MAR? 
+ Type 'done' if you are finished 
