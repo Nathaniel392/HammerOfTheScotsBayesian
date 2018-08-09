@@ -1001,7 +1001,7 @@ def pil_execution(board, position, role, pil_data):
         #possible healing pts = # pts taken from other region
         health_points = points_pillaged
         
-        while health_points > 0 and len(region_to_heal) > 0:
+        while health_points > 0 and len(region_to_heal.blocks_present) > 0:
 
                 #should i add something here so it doesn't choose the same blocks???
                 block_name = weighted_prob.weighted_prob(block_val_dict)
@@ -1306,4 +1306,5 @@ def compare_cards(board, eng_card, scot_card, eng_type, scot_type, eng_parameter
         resolve_card(board, eng_type, scot_type, eng_card, 'ENGLAND', eng_parameter, scot_played_truce)
         
     return who_goes_first, year_ends_early
+
 
