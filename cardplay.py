@@ -1306,5 +1306,3 @@ def compare_cards(board, eng_card, scot_card, eng_type, scot_type, eng_parameter
         resolve_card(board, eng_type, scot_type, eng_card, 'ENGLAND', eng_parameter, scot_played_truce)
         
     return who_goes_first, year_ends_early
-
-
