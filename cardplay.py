@@ -839,12 +839,12 @@ def vic_execution(board, position, role):
             possible_blocks[rand_block_selection].heal_until_full()
             print(possible_blocks[rand_block_selection].name, ' healed one point')
 
-def pil_execution(board, position, role):
+def pil_execution(board, position, role, pil_data):
 
     print(role)
     
     if position == 'comp':
-        
+        """
         #loop through regions to make sure there is a region that it works in
         for region_controlled in board.get_controlled_regions(role):
             new_list = []
@@ -874,7 +874,7 @@ def pil_execution(board, position, role):
             for x in range (0,2):
                 highest_block_lst = combat.find_max_strength(chosen_subtract_region.blocks_present)
             
-                if highest_block_lst and len(board.regions[chosen_subtract_region.regionID].blocks_present) > 0:
+                if highest_block_lst:
                     block = highest_block_lst[0]
                     #strike once
                     block.get_hurt(1)
@@ -886,11 +886,9 @@ def pil_execution(board, position, role):
                         if role == 'SCOTLAND':
                             board.eng_pool.append(block)
                             board.eng_roster.remove(block)
-                            board.remove_from_region(block, chosen_subtract_region.regionID)
                         elif role == 'ENGLAND':
                             board.scot_pool.append(block)
                             board.scot_roster.remove(block)
-                            board.remove_from_region(block, chosen_subtract_region.regionID)
                         
             
             
@@ -915,8 +913,8 @@ def pil_execution(board, position, role):
             #list for possible blocks to heal in chosen_add_region
             for block in chosen_add_region.blocks_present:
                 possible_add_block_list.append(block)
-            print('PILLAGE IS WORKING UNTIL NOW')
-            while health_points > 0 and possible_add_block_list:
+            
+            while health_points > 0:
 
                 block = possible_add_block_list[random.randint(0, len(possible_add_block_list) - 1)]
                 healing_points = random.randint(0, health_points)
@@ -926,8 +924,78 @@ def pil_execution(board, position, role):
    
         else:
             print('There are no possible regions in which to play this card.')
+        """
+        
+        #this is strategized, receives chosen region IDs from utility:
+        region_to_pil_id = pil_data[0]
+        region_to_heal_id = pil_data[1]
+        region_to_pil = search.region_id_to_object(board, region_to_pil_id)
+        region_to_heal = search.region_id_to_object(board, region_to_heal_id)
+        
+        #pillage combat style
+        points_pillaged = 0
             
-        print('PILLAGE SHOULD BE DONE')
+        for x in range (0,2):
+            highest_block_lst = combat.find_max_strength(region_to_pil.blocks_present)
+        
+            if highest_block_lst:
+                block = highest_block_lst[0]
+                #strike once
+                block.get_hurt(1)
+                print(block.name + ' took one hit.')
+                points_pillaged+=1
+                
+                if block.is_dead():
+                    print(block.name, 'goes to the pool')
+                    if role == 'SCOTLAND':
+                        board.eng_pool.append(block)
+                        board.eng_roster.remove(block)
+                    elif role == 'ENGLAND':
+                        board.scot_pool.append(block)
+                        board.scot_roster.remove(block)
+    
+        #use weighted prob to choose blocks to add pts to
+        #for block in blocks_present
+        
+        block_val_dict = dict()
+            
+            #list for possible blocks to heal in chosen_add_region
+        for block in region_to_heal.blocks_present:
+            utility_value = 0.0000000001
+            if block.name == 'KING' and block.current_strength < block.attack_strength:
+                utility_value += .5
+        		#if block is wallace and he needs it
+            elif block.name == 'WALLACE' and block.current_strength < block.attack_strength:
+                utility_value += .4
+            #for england:
+    		#if block is edward and he needs it
+            if block.name == 'EDWARD' and block.current_strength < block.attack_strength:
+                utility_value += .45
+    		#if block is hobelars and he needs it
+            elif block.name == 'HOBELARS' and block.current_strength < block.attack_strength:
+                utility_value += .3
+    			
+    		#if block is type noble and he needs it
+            elif type(block) == blocks.Noble and block.current_strength < block.attack_strength:
+                utility_value += .25
+    		#if block is below full health
+            elif block.current_strength < block.attack_strength:
+                utility_value += .1
+            
+            block_val_dict[block.name] = utility_value
+            
+        #possible healing pts = # pts taken from other region
+        health_points = points_pillaged
+        
+        while health_points > 0:
+
+                #should i add something here so it doesn't choose the same blocks???
+                block_name = weighted_prob.weighted_prob(block_val_dict)
+                healing_points = random.randint(0, health_points)
+                block.heal_until_full(healing_points)
+                health_points -= healing_points
+                print(block.name + ' was healed ' + str(healing_points) + ' points.')
+                
         
     elif position == 'opp':
         quitt = False
@@ -1097,7 +1165,29 @@ def pil_execution(board, position, role):
         else:
             print('There are no possible regions in which to play this card.')
 
-def resolve_card(board, eng_type, scot_type, card, role, truce=False):
+def play_pass(which_side):
+    """
+    prompts user if they want to play or pass event card.
+    if comp, automatically plays.
+    returns 'play' or 'pass'
+    """
+
+    if which_side == 'opp':
+    
+        bad_input = True
+        while bad_input:
+            play_pass = input('Would you like to play the event card or pass it? (play/pass)')
+            if play_pass.lower() != 'play' and play_pass.lower() != 'pass':
+                print('type in play or pass')
+            else:
+                bad_input = False
+                return play_pass.lower()
+    
+    else:
+    
+        return 'play'
+            
+def resolve_card(board, eng_type, scot_type, card, role, parameter, truce = False):
     
     """
     Takes in a string that lists side (comp/opp), the card for that side, and the role (england/scotland)
@@ -1125,102 +1215,31 @@ def resolve_card(board, eng_type, scot_type, card, role, truce=False):
         
             
             if card == 'SEA':
-
-                if which_side == 'opp':
-
-                    bad_input = True
-                    while bad_input:
-                        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-                        if play_pass.lower() != 'play' and play_pass.lower() != 'pass':
-                            print('type in play or pass')
-                        else:
-                            bad_input = False
-
-
-
-                else:
-
-                    play_pass = 'play'
                 
-                if play_pass.lower() == 'play':
+                if play_pass(which_side) == 'play':
                     sea_execution(board, which_side, role)
                 
                 
             elif card == 'HER':
-                if which_side == 'opp':
-
-                    bad_input = True
-                    while bad_input:
-                        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-                        if play_pass.lower() != 'play' and play_pass.lower() != 'pass':
-                            print('type in play or pass')
-                        else:
-                            bad_input = False
-
-                else:
-
-                    play_pass = 'play'
                 
-                if play_pass.lower() == 'play':
+                if play_pass(which_side) == 'play':
                     her_execution(board, which_side, role)
                 
                 
             elif card == 'VIC':
-                if which_side == 'opp':
-
-                    bad_input = True
-                    while bad_input:
-                        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-                        if play_pass.lower() != 'play' and play_pass.lower() != 'pass':
-                            print('type in play or pass')
-                        else:
-                            bad_input = False
-
-                else:
-
-                    play_pass = 'play'
-                
-                if play_pass.lower() == 'play':
-                    vic_execution(board, which_side, role)
+                if play_pass(which_side) == 'play':
+                    vic_execution(board, which_side, role, parameter)
                 
                 
             elif card == 'PIL':
                 
-                if which_side == 'opp':
-
-                    bad_input = True
-                    while bad_input:
-                        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-                        if play_pass.lower() != 'play' and play_pass.lower() != 'pass':
-                            print('type in play or pass')
-                        else:
-                            bad_input = False
-
-                else:
-
-                    play_pass = 'play'
-                
-                if play_pass.lower() == 'play':
-                    pil_execution(board, which_side, role)
+                if play_pass(which_side) == 'play':
+                    pil_execution(board, which_side, role, parameter)
                 
                 
             elif card == 'TRU':
                 
-                if which_side == 'opp':
-
-                    bad_input = True
-                    while bad_input:
-                        play_pass = input('Would you like to play the event card or pass it? (play/pass)')
-                        if play_pass.lower() != 'play' and play_pass.lower() != 'pass':
-                            print('type in play or pass')
-                        else:
-                            bad_input = False
-
-                else:
-
-                    play_pass = 'play'
-                
-                if play_pass.lower() == 'play':
+                if play_pass(which_side) == 'play':
                     return True
                
     
@@ -1262,13 +1281,13 @@ def compare_cards(board, eng_card, scot_card, eng_type, scot_type, eng_parameter
 
     if who_goes_first == 'ENGLAND':
 
-        resolve_card(board, eng_type, scot_type, eng_card, 'ENGLAND', scot_played_truce)
-        resolve_card(board, eng_type, scot_type, scot_card, 'SCOTLAND', eng_played_truce)
+        resolve_card(board, eng_type, scot_type, eng_card, 'ENGLAND', eng_parameter, scot_played_truce)
+        resolve_card(board, eng_type, scot_type, scot_card, 'SCOTLAND', scot_parameter, eng_played_truce)
         
     elif who_goes_first == 'SCOTLAND':
         
-        resolve_card(board, eng_type, scot_type, scot_card, 'SCOTLAND', eng_played_truce)
-        resolve_card(board, eng_type, scot_type, eng_card, 'ENGLAND', scot_played_truce)
+        resolve_card(board, eng_type, scot_type, scot_card, 'SCOTLAND', scot_parameter, eng_played_truce)
+        resolve_card(board, eng_type, scot_type, eng_card, 'ENGLAND', eng_parameter, scot_played_truce)
         
     return who_goes_first, year_ends_early
 
