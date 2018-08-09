@@ -124,17 +124,16 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
     if position == 'comp':
         i = 0
-        while True:
+        move_found = False
+        while not move_found:
             i += 1
-            try:
-                input()
-                board = move_utility.good_move(board, num_moves, role, board.turn, truce)
-                input()
-                return None
-            except:
-                if i == 25:
-                    print('computer passes')
-                    return None
+            
+            input()
+            board = move_utility.good_move(board, num_moves, role, board.turn, truce)
+            move_found = True
+            input()
+            return None
+            
         print(type(board))
         #input()
 
