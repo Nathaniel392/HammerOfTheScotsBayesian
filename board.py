@@ -394,7 +394,6 @@ class Board(object):
 		#Final output
 
 
-		
 		return all_paths
 
 	def check_all_paths(self, num_moves, startID, block, path=[], stop=False, all_paths=[], truce=False, role = 'ENGLAND'):
