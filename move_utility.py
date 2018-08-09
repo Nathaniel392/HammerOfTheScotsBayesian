@@ -132,7 +132,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved, bad_move_utilit
 		return board
 	else:
 		bad_move_utility-=.15
-	else:
+	
 		#other_movement.reset_total_string()
 		
 		return good_move(board, num_moves, role, turn, truce, bad_move_utility)
