@@ -286,9 +286,13 @@ def play_game():
                 return 'game over'
         print(current_board.regions)
         input('Start Winter')
+        winter.update_roster(current_board)
         winter.initialize_winter(current_board, block_list, eng_type, scot_type, edward_prev_winter)
         winter.winter_builds(current_board, eng_type, scot_type)
-
+        winter.update_roster(current_board)
+        print(current_board.scot_roster)
+        print(current_board.scot_pool)
+        input()
 
 def main():
     try:

@@ -50,7 +50,7 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
 
 
             #debugging why type int have no thing len()
-
+            print(paths)
             for path in paths:
                 if type(path) != list:
                     print(path)
@@ -425,7 +425,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
             
             picked_regions.append(focus_region)
         #assigns moveable count for contested regions
-
+        print(focus_region.is_contested())
         if focus_region.is_contested():
 
             num_enemy = len(focus_region.combat_dict['Attacking'])
@@ -512,12 +512,13 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                             if possible_paths:
                                 add_to_total_string(possible_paths)
-                                computer_path1 = random.choice(possible_paths)
+                                computer_paths_1 = random.choice(possible_paths)
 
-                                end = computer_path1[-1]
+                                end = computer_paths_1[-1]
 
                                 move_block(board, block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
-                                #move_pt +=1
+                                block_to_return = block
+                                move_pt +=1
                             else:
 
                                 add_to_total_string("Computer chosen region has no moves!")
@@ -608,6 +609,8 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                 
 
                                 move_block(board, block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
+
+                                block_to_return = block
                                 if board.regions[end].name == 'ENGLAND':
                                     prev_paths = tuple(prev_paths)
                                     can_go_again = False
@@ -626,3 +629,5 @@ def movement_execution(board, position, role, num_moves, truce=False):
         #add_to_total_string(can_go_again)
         add_to_total_string(move_pt)
         move_pt+=1
+    return computer_paths_1, block_to_return
+

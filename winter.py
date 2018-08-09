@@ -4,13 +4,63 @@ import search
 import blocks
 import board
 import weighted_prob
+def update_roster(board):
 
-def find_location(board, blok):
-	for region in board.regions:
-		for bllock in region.blocks_present:
+	for i, region in enumerate(board.regions):
+
+		for block_present in region.blocks_present:
+
+			if block_present in board.scot_pool:
+
+				board.scot_pool.remove(block_present)
+
+			if block_present in board.eng_pool:
+
+				board.eng_pool.remove(block_present)
+
+			if block_present not in board.eng_roster and block_present not in board.scot_roster:
+
+				if block_present.allegiance == 'ENGLAND':
+					print('Adding ' + block.name + ' to eng roster')
+					board.eng_roster.append(block)
+
+				else:
+					print('Adding ' + block.name + ' to scot roster')
+					board.scot_roster.append(block)
+
+	for block in board.eng_roster:
+
+		if not find_location(board, block):
+
+			board.eng_roster.remove(block)
+
+			if block not in board.eng_pool:
+
+				board.eng_pool.append(block)
+
+	for block in board.scot_roster:
+
+		if not find_location(board, block):
+
+			board.scot_roster.remove(block)
+
+			if block not in board.scot_pool:
+
+				board.scot_pool.append(block)
+
+
+
+def find_location(board, block_search):
+	#print(board.regions)
+
+	for i,region in enumerate(board.regions):
+
+		for block_present in region.blocks_present:
 			
-			if bllock.blockID == blok.blockID:
-				return region
+			if block_present.name == block_search.name:
+				#print(region.regionID)
+				return board.regions[i]
+
 	return False
 
 def choose_location(location_list,allegiance,eng_type,scot_type, block):
@@ -110,17 +160,22 @@ def go_home(board,noble,eng_type,scot_type):
 	if there is more than 1 home location, it randomly picks one.
 	changes allegiance based on who controls home area
 	'''
-
+	
 	if type(noble.home_location) == int:
-
 		
-		if not board.regions[noble.home_location].blocks_present or board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
+		if noble.home_location == find_location(board, noble).regionID:
+
+			print(noble.name + " is already home.")
+
+		elif not board.regions[noble.home_location].blocks_present or board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
 
 			print(noble.name)
+			start = find_location(board,noble).regionID
+			board.remove_from_region(noble, start)
 
-			board.regions[find_location(board,noble).regionID].blocks_present.remove(noble)
-
+			print(board.regions[start])
 			board.regions[noble.home_location].blocks_present.append(noble)
+
 
 		else:
 
@@ -128,7 +183,8 @@ def go_home(board,noble,eng_type,scot_type):
 
 			print(noble.name + '\'s allegiance was changed to ' + board.regions[noble.home_location].blocks_present[0].allegiance)
 
-			board.regions[find_location(board,noble).regionID].blocks_present.remove(noble)
+			start = find_location(board,noble).regionID
+			board.remove_from_region(noble, start)
 
 			board.regions[noble.home_location].blocks_present.append(noble)
 
@@ -161,6 +217,7 @@ def go_home(board,noble,eng_type,scot_type):
 				
 				noble_choice = search.region_id_to_object(board, choose_location(new_locations,noble.allegiance,eng_type,scot_type,noble))
 				print(noble.name + ' went home to ' + board.regions[noble_choice.regionID].name)
+
 				add_to_location(board,noble,noble_choice)
 
 			else:
@@ -182,16 +239,19 @@ def add_to_location(board,block,location):
 
 	if location == 'scottish pool':
 		board.regions[find_location(board, block).regionID].blocks_present.remove(block)
-
+		board.scot_roster.remove(block)
 		board.scot_pool.append(block)
 	elif location == 'english pool':
 		board.regions[find_location(board, block).regionID].blocks_present.remove(block)
 		board.eng_pool.append(block)
+		board.eng_roster.remove(block)
 		print("Sent" + block.name + ' to ' + location.name)
 
 	else:
+		if find_location(board, block) != location:
+			not_moving = True
 
-		if find_location(board,block):
+		if find_location(board,block) and find_location(board, block) != location:
 
 			find_location(board,block).blocks_present.remove(block)
 
@@ -199,13 +259,16 @@ def add_to_location(board,block,location):
 
 			print ("Sent " + block.name + " to " + location.name)
 
-		else:
+		elif not not_moving:
 
 			if block.allegiance == 'SCOTLAND':
 
+				#print(block.name)
 				board.scot_pool.remove(block)
 
 				board.scot_roster.append(block)
+
+				print (block.name + " added to reinforcements of " + location.name)
 
 			else:
 
@@ -213,6 +276,9 @@ def add_to_location(board,block,location):
 
 				board.eng_roster.append(roster)
 
+				print (block.name + " added to reinforcements of " + location.name)
+
+			
 			board.regions[location.regionID].blocks_present.append(block)	
 
 
@@ -474,6 +540,7 @@ def disband(board,block):
 	print(board.regions[find_location(board,block).regionID].blocks_present)
 	print(block)
 	print(block in board.regions[find_location(board,block).regionID].blocks_present)
+
 	board.regions[find_location(board,block).regionID].blocks_present.remove(block)
 
 
@@ -498,13 +565,20 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 	scot_king = []
 	eng_edward = []
 
+
+	update_roster(board)
+	print(board.scot_roster)
+	print(board.scot_pool)
 	for block in block_list:
 
 		if block in board.eng_roster or block in board.scot_roster:
-
-			if find_location(board,block).regionID == 22:
-				print(board.regions[22])
-				print(block)
+			#print(block.current_strength)
+			#print(block.is_dead())
+			#print(block in board.scot_roster)
+			#print(block in board.scot_pool)
+			if not block.is_dead() and find_location(board,block).regionID == 22:
+				#print(board.regions[22])
+				#print(block)
 				disband(board,block)
 			
 			else:
@@ -532,9 +606,11 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 				elif block.type == "EDWARD":
 
 					eng_edward.append(block)
-
+	print(eng_nobles)
+	print(scot_nobles)
 	for noble in eng_nobles:
-		
+		print(noble.name)
+		print(find_location(board, noble))
 		go_home(board,noble,eng_type,scot_type)
 
 		print ("Sent " + noble.name + " home!")
@@ -662,7 +738,7 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 
 				if (region.is_friendly('SCOTLAND')) and region.cathedral and len(region.blocks_present) <= region.castle_points:
 
-					region.append(possible_locations)
+					possible_locations.append(board.regions[region.regionID])
 
 			place = choose_location(possible_locations,block.allegiance,eng_type,scot_type,block)
 
@@ -845,7 +921,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 						while not valid_block:
 
 							draw_block = random.choice(board.scot_pool)
-
+							print('Trying to add ' + draw_block.name + ' to' +  region.name)
 							if draw_block.type == 'NORSE':
 
 								if region.coast:
@@ -876,7 +952,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 						draw_block.current_strength = 1 
 
-						add_to_location(board,draw_block,region)
+						add_to_location(board,draw_block,board.regions[region.regionID])
 
 						points -= 1
 
@@ -1045,11 +1121,11 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 							board.scot_pool.remove(draw_block)
 
-							region.blocks_present.append(draw_block)
+							board.regions[region.regionID].blocks_present.append(draw_block)
 
 							board.scot_roster.append(draw_block)
 
-							print (draw_block.name + "added to reinforcements of " + region.name)
+							print (draw_block.name + " added to reinforcements of " + region.name)
 
 							points -= 1
 

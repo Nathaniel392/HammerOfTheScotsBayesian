@@ -18,11 +18,11 @@ def find_location(board, blok):
 	'''
 
 	
-	for region in board.regions:
+	for i,region in enumerate(board.regions):
 		for bllock in region.blocks_present:
 			
 			if bllock.name == blok.name:
-				return region
+				return board.regions[i]
 	
 	return False
 	#print('CANNOT FIND BLOCK WITH BLOCK NAME', blok.name)

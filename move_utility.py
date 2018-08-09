@@ -32,6 +32,7 @@ def good_move(board, num_moves, role, turn, truce):
 
 	utility = 0
 
+	print(type(board))
 
 	#count how man value of location of homes owned before:
 
@@ -44,7 +45,7 @@ def good_move(board, num_moves, role, turn, truce):
 	
 	#does movement
 
-	other_movement.movement_execution(board_copy, 'comp', role, num_moves, truce=truce)
+	computer_path, computer_block = other_movement.movement_execution(board_copy, 'comp', role, num_moves, truce=truce)
 
 
 	#debugging why things aren't in combat dictionary
@@ -121,16 +122,18 @@ def good_move(board, num_moves, role, turn, truce):
 		#pause
 		print('computer ready to make a move')
 		input()
-		other_movement.print_total_string()
-
+		#other_movement.print_total_string()
+		board.move_block(computer_block,computer_path[0], end = computer_path[-1], position='comp',is_truce=truce)
 		other_movement.reset_total_string()
 		print('computer done with move')
 		input()
+		print(type(board))
+		return board
 		
 	else:
-		other_movement.reset_total_string()
+		#other_movement.reset_total_string()
 		
-		good_move(board, num_moves, role, turn, truce)
+		return good_move(board, num_moves, role, turn, truce)
 		
 
 

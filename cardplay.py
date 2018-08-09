@@ -114,8 +114,9 @@ def movement_execution(board, position, role, num_moves, truce=False):
     #this is where I started implementing move_utility (david)
 
     if position == 'comp':
-        move_utility.good_move(board, num_moves, role, board.turn, truce)
-        return None
+        board = move_utility.good_move(board, num_moves, role, board.turn, truce)
+        print(type(board))
+        input()
 
 
 
@@ -304,7 +305,8 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                 end = computer_path1[-1]
 
                                 board.move_block(block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
-                                #move_pt +=1
+
+                                move_pt +=1
                             else:
 
                                 print("Computer chosen region has no moves!")
@@ -692,19 +694,18 @@ def her_execution(board, position, role):
         noble_to_steal.change_allegiance()
 
         #Find the noble's region
-        for region in board.regions:
-            if noble_to_steal in region.blocks_present:
-                noble_region = region
+        noble_region = combat.find_location(board, noble_to_steal)
 
-        if len(noble_region.blocks_present) > 1:
+        if len(board.regions[noble_region.regionID].blocks_present) > 1:
             for block in noble_region.blocks_present:
                 if block == noble_to_steal:
-                    noble_region.combat_dict['Attacking'].append(block)
+                    board.regions[noble_region.regionID].combat_dict['Attacking'].append(block)
                 else:
-                    noble_region.combat_dict['Defending'].append(block)
+                    board.regions[noble_region.regionID].combat_dict['Defending'].append(block)
+
             print('DID HERALD BATTLE IN HERALD FUNCTION')
-            noble_region.combat_dict['Attacking'][0].change_allegiance()
-            combat.battle(noble_region.combat_dict['Attacking'], noble_region.combat_dict['Defending'], list(), list(), board, role)
+            board.regions[noble_region.regionID].combat_dict['Attacking'][0].change_allegiance()
+            combat.battle(board.regions[noble_region.regionID].combat_dict['Attacking'], board.regions[noble_region.regionID].combat_dict['Defending'], list(), list(), board, role)
 
         #Move the noble to its own region - will sort it into attacker/defender
         #board.move_block(noble_to_steal, noble_region.regionID, noble_region.regionID, position)
@@ -1192,7 +1193,7 @@ def resolve_card(board, eng_type, scot_type, card, role, truce=False):
                 if play_pass.lower() == 'play':
                     return True
                
-        
+    
             
 def compare_cards(board, eng_card, scot_card, eng_type, scot_type):
     """
