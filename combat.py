@@ -516,7 +516,7 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 				if block.name == 'FRENCH':
 					block.movement_points = 0
 				print(block.name, ' moved to ', search.region_id_to_name(current_board, place_to_go_to))
-	else:
+	elif winner_type == 'opp':
 		for block in winner_blocks:
 
 			original_location = find_location(current_board, block)
@@ -572,7 +572,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	
 	'''
-	
+	if attack == list():
+		attack = attack_reinforcements
+		attack_reinforcements = list()
+	elif defense == list():
+		defense = defense_reinforcements
+		defense_reinforcements = list()
 
 
 	attacking_allegiance = attack[0].allegiance
@@ -796,7 +801,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
 					print(current_board.regions)
 
-					update_roster.update_roster(current_board = current_board)
+					current_board = update_roster.update_roster(current_board = current_board)
 		
 					print('defender wins')
 					
@@ -808,7 +813,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
 					print(current_board.regions)
 
-					update_roster.update_roster(current_board = current_board)
+					current_board = update_roster.update_roster(current_board = current_board)
 					print('attacker wins')
 					
 					print(current_board.regions)
@@ -943,7 +948,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 				
 				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
 
-					update_roster.update_roster(current_board = current_board)
+					current_board = update_roster.update_roster(current_board = current_board)
 					
 					print('attacker wins')
 					print(current_board.regions)
@@ -952,7 +957,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 					return 'attacker wins'
 				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
 
-					update_roster.update_roster(current_board = current_board)
+					current_board = update_roster.update_roster(current_board = current_board)
 		
 					print('defender wins')
 					print(current_board.regions)
@@ -962,7 +967,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 					regroup(defense + defense_reinforcements, current_board, eng_type, scot_type)
 					return 'defender wins'
 
-	update_roster.update_roster(current_board = current_board)
+	current_board = update_roster.update_roster(current_board = current_board)
 	print('attacker retreats')
 	for attacking_block in attack + attack_reinforcements:
 		possible_locations = retreat_locations(current_board, [attacking_block],[], True)

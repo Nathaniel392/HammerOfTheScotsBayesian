@@ -114,9 +114,19 @@ def movement_execution(board, position, role, num_moves, truce=False):
     #this is where I started implementing move_utility (david)
 
     if position == 'comp':
-        board = move_utility.good_move(board, num_moves, role, board.turn, truce)
+        i = 0
+        while True:
+            i += 1
+            try:
+                board = move_utility.good_move(board, num_moves, role, board.turn, truce)
+
+                break
+            except:
+                if i == 25:
+                    print('computer passes')
+                    return None
         print(type(board))
-        input()
+        #input()
 
 
 
@@ -187,7 +197,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
         elif position == 'comp':
             print('Num of move= ', move_pt)
-            input('Computer Move Part 1')
+            #input('Computer Move Part 1')
             ###
             ###TEMPORARY
             ###
@@ -198,7 +208,10 @@ def movement_execution(board, position, role, num_moves, truce=False):
             while not unique_region:
 
                 friendly_regions = board.get_controlled_regions(role)
-                rand_startID = random.randint(0, len(friendly_regions) - 1)
+                if len(friendly_regions) > 1:
+                    rand_startID = random.randint(0, len(friendly_regions) - 1)
+                else:
+                    rand_startID = 0
                 focus_region = friendly_regions[rand_startID]
 
                 if focus_region not in picked_regions:
@@ -368,7 +381,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                 
 
                 elif position == 'comp' and can_go_again:
-                    input('Computer Move Part 2')
+                    #input('Computer Move Part 2')
                     print('It is computer turn to make a move')
 
                     computer_choice = random.randint(0,100)
@@ -429,6 +442,7 @@ def sea_execution(board, position, role):
     """
     quitt = False
     if position == 'comp':
+        print(1)
             #temporary for dumb AI
             #create and print a list of coastal, friendly regions where norse is not the ONLY one
         
@@ -436,6 +450,7 @@ def sea_execution(board, position, role):
         
         #loops through list of friendly, coastal, not just Norse regions to append to a possible_region_list
         for region in board.get_controlled_regions(role):
+            print(2)
             coastal = False
             just_norse = False
             if region.coast:
@@ -449,7 +464,8 @@ def sea_execution(board, position, role):
         
         #loops through list of friendly, coastal regions to append to a possible_final_region_list
             possible_final_region_list = []
-            for region in board.get_controlled_regions(role):                
+            for region in board.get_controlled_regions(role): 
+                print(3)               
                 if region.coast:
                     possible_final_region_list.append(region)
         
@@ -471,7 +487,9 @@ def sea_execution(board, position, role):
             
             move_block_list = []
             blocks_moved = 0
+            print(4)
             while blocks_moved < 2:
+                print(5)
                 block = original_region.blocks_present[random.randint(0, len(original_region.blocks_present)-1)]
                 #if it's not already on the list,append to move_block_list
                 if block not in move_block_list:
@@ -481,7 +499,7 @@ def sea_execution(board, position, role):
                     blocks_moved+=1
             
                     
-                    
+            print(6)    
             new_region = possible_final_region_list[random.randint(0, len(possible_final_region_list) - 1)]
                 
             for block in move_block_list:
@@ -848,7 +866,7 @@ def pil_execution(board, position, role):
             for x in range (0,2):
                 highest_block_lst = combat.find_max_strength(chosen_subtract_region.blocks_present)
             
-                if highest_block_lst:
+                if highest_block_lst and len(board.regions[chosen_subtract_region.regionID].blocks_present) > 0:
                     block = highest_block_lst[0]
                     #strike once
                     block.get_hurt(1)
@@ -860,9 +878,11 @@ def pil_execution(board, position, role):
                         if role == 'SCOTLAND':
                             board.eng_pool.append(block)
                             board.eng_roster.remove(block)
+                            board.remove_from_region(block, chosen_subtract_region.regionID)
                         elif role == 'ENGLAND':
                             board.scot_pool.append(block)
                             board.scot_roster.remove(block)
+                            board.remove_from_region(block, chosen_subtract_region.regionID)
                         
             
             
@@ -887,8 +907,8 @@ def pil_execution(board, position, role):
             #list for possible blocks to heal in chosen_add_region
             for block in chosen_add_region.blocks_present:
                 possible_add_block_list.append(block)
-            
-            while health_points > 0:
+            print('PILLAGE IS WORKING UNTIL NOW')
+            while health_points > 0 and possible_add_block_list:
 
                 block = possible_add_block_list[random.randint(0, len(possible_add_block_list) - 1)]
                 healing_points = random.randint(0, health_points)
@@ -899,7 +919,7 @@ def pil_execution(board, position, role):
         else:
             print('There are no possible regions in which to play this card.')
             
-            
+        print('PILLAGE SHOULD BE DONE')
         
     elif position == 'opp':
         quitt = False

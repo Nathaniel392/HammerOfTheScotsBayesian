@@ -121,12 +121,12 @@ def good_move(board, num_moves, role, turn, truce):
 		#total_string = ''
 		#pause
 		print('computer ready to make a move')
-		input()
+		#input()
 		#other_movement.print_total_string()
 		board.move_block(computer_block,computer_path[0], end = computer_path[-1], position='comp',is_truce=truce)
 		other_movement.reset_total_string()
 		print('computer done with move')
-		input()
+		#input()
 		print(type(board))
 		return board
 		

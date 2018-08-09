@@ -338,6 +338,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
     blocks_moved = []
     picked_regions = []
+    computer_path_1 = []
     move_pt = 0
     #Pick n regions to 
     while move_pt < num_moves:

@@ -226,7 +226,8 @@ def go_home(board,noble,eng_type,scot_type):
 				
 				#add_to_location(board,noble,noble_new_home)
 				current_loca = find_location(board, noble)
-				board.regions[current_loca.regionID].blocks_present.remove(noble)
+				
+				board.remove_from_region(noble, current_loca.regionID)
 				board.regions[noble_new_home.regionID].blocks_present.append(noble)
 
 def add_to_location(board,block,location):
@@ -236,7 +237,7 @@ def add_to_location(board,block,location):
 	removes block from its current region 
 	puts it into the new location
 	'''
-
+	not_moving = False
 	if location == 'scottish pool':
 		board.regions[find_location(board, block).regionID].blocks_present.remove(block)
 		board.scot_roster.remove(block)
@@ -566,9 +567,16 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 	eng_edward = []
 
 
-	update_roster(board)
+	
+	print('SCOT ROSTER')
 	print(board.scot_roster)
+	print('SCOT POOL')
 	print(board.scot_pool)
+
+	print('ENG ROSTER')
+	print(board.eng_roster)
+	print('ENG POOL')
+	print(board.eng_pool)
 	for block in block_list:
 
 		if block in board.eng_roster or block in board.scot_roster:
@@ -576,7 +584,8 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 			#print(block.is_dead())
 			#print(block in board.scot_roster)
 			#print(block in board.scot_pool)
-			if not block.is_dead() and find_location(board,block).regionID == 22:
+			print(block.name)
+			if block.name != 'MORAY' and not block.is_dead() and find_location(board,block).regionID == 22 and not type(block) == blocks.Noble:
 				#print(board.regions[22])
 				#print(block)
 				disband(board,block)

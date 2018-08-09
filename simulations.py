@@ -205,6 +205,14 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	'''
 
 	# Divide each side into letter groups (dictionary)
+
+	if attack == list():
+		attack = attack_reinforcements
+		attack_reinforcements = list()
+	elif defense == list():
+		defense = defense_reinforcements
+		defense_reinforcements = list()
+		
 	letter_found = False
 	number_found = False
 	turn_found = False

@@ -30,7 +30,7 @@ def update_roster(all_blocks_lst = None, current_board = None):
 				
 				current_board.scot_roster.remove(block)
 
-				#current_board.remove_from_region(block, find_location(current_board,block).regionID)
+				current_board.remove_from_region(block, find_location(current_board,block).regionID)
 				
 			else:
 
@@ -64,19 +64,25 @@ def update_roster(all_blocks_lst = None, current_board = None):
 		elif block.is_dead() and not block.has_cross:	
 
 			if block.allegiance == 'SCOTLAND':
+
 				current_board.scot_pool.append(current_board.remove_from_region(block, \
 					find_location(current_board, block).regionID))
 				current_board.scot_roster.remove(block)
+
 			elif block.allegiance == 'ENGLAND':
+
 				current_board.eng_pool.append(current_board.remove_from_region(block, \
 					find_location(current_board, block).regionID))
 				current_board.eng_roster.remove(block)
+
 		elif block.is_dead() and block.has_cross:
+
 			if block.type == 'EDWARD':
 				block.type = 'KING'
 				current_board.eng_pool.append(current_board.remove_from_region(block, \
 					find_location(current_board, block).regionID))
 				current_board.eng_roster.remove(block)
+
 			else:
 
 				current_board.remove_from_region(block, find_location(current_board, block).regionID)
@@ -98,6 +104,6 @@ def update_roster(all_blocks_lst = None, current_board = None):
 
 
 
-
+	return current_board
 
 

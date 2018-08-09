@@ -292,7 +292,7 @@ def play_game():
         winter.update_roster(current_board)
         print(current_board.scot_roster)
         print(current_board.scot_pool)
-        input()
+        #input()
 
 def main():
     try:
