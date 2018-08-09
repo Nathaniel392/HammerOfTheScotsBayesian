@@ -230,13 +230,13 @@ def play_game():
 
             #Find out what england wants to play
             if eng_type == 'opp':
-                eng_card = opp_hand[opp_card_choice(opp_hand)]
+                eng_card = eng_hand[opp_card_choice(eng_hand)]
             elif eng_type == 'comp':
                 eng_card = cardplay.select_comp_card(current_board, eng_hand, 'ENGLAND')
             
             #Find out what scotland wants to play
             if scot_type == 'opp':
-                scot_card = opp_hand[opp_card_choice(scot_hand)]
+                scot_card = scot_hand[opp_card_choice(scot_hand)]
             elif scot_type == 'comp':
                 scot_card = cardplay.select_comp_card(current_board, scot_hand, 'SCOTLAND')
 
