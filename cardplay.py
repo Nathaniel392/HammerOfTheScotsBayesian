@@ -88,15 +88,15 @@ def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND
     print('computer plays ', chosen_card)
     
     if chosen_card == '1' or chosen_card == '2' or chosen_card == '3' or chosen_card == 'TRU':
-        return value, 0 #empty second parameter because it's unnecessary
+        return chosen_card, 0 #empty second parameter because it's unnecessary
     elif chosen_card == 'SEA':
-        return value, 0 #empty parameter temp before strategy is coded in
+        return chosen_card, 0 #empty parameter temp before strategy is coded in
     elif chosen_card == 'HER':
-        return value, 0 #empty parameter temp before noble_to_steal strat
+        return chosen_card, 0 #empty parameter temp before noble_to_steal strat
     elif chosen_card == 'VIC':
-        return value, vic_block_list
+        return chosen_card, vic_block_list
     elif chosen_card == 'PIL':
-        return value, pil_data
+        return chosen_card, pil_data
 
 def random_card(computer_hand):
     """
