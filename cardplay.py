@@ -18,6 +18,7 @@ import copy
 import scottish_king
 import comp_card_utilities
 import move_utility
+import weighted_prob
 
     
 #ultimately: return card that the computer decides to play
