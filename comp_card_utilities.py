@@ -5,7 +5,6 @@ Created on Tue Aug	7 08:54:45 2018
 
 @author: amylvaganam
 """
-
 import search
 import blocks
 import weighted_prob
@@ -273,8 +272,14 @@ def vic_utility(board, role):
 	elif hits_taken == 2:
 		utility_value += .1
 			
+
+	#to convert victual block list to blocks from blockIDs before it's returned
+
+	for blockID in victual_block_list:
+		block = search.block_id_to_object(board.all_blocks, block_id)
+		return_victual_block_lst.append()
 	
-	return utility_value, victual_block_list
+	return utility_value, return_victual_block_lst
 		
 
 def victuals_region_utility(board, role): #+ prob tables
@@ -292,7 +297,7 @@ def victuals_region_utility(board, role): #+ prob tables
 	prob_dict = dict()
 	for region in friendly_list:
 		hits_taken = 0
-		region_utility = 0
+		region_utility = 0.000000001
 		for block in region.blocks_present:
 			
 			#for scotland:
@@ -345,7 +350,7 @@ def victuals_block_utility(chosen_region, role): #+ prob tables
 	prob_dict = dict()
 	
 	for block in chosen_region.blocks_present:
-		block_utility = 0
+		block_utility = 0.0000000001
 		#if block is below max strength
 		if block.current_strength < block.attack_strength:
 			if block.name == 'KING':
@@ -461,4 +466,7 @@ def tru_utility(board, comp_hand):
 		return 1.0
 	else:
 		return 0.0000001
+
+
+	
 
