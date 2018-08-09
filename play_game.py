@@ -231,14 +231,16 @@ def play_game():
             #Find out what england wants to play
             if eng_type == 'opp':
                 eng_card = eng_hand[opp_card_choice(eng_hand)]
+                eng_parameter = 0
             elif eng_type == 'comp':
-                eng_card = cardplay.select_comp_card(current_board, eng_hand, 'ENGLAND')
+                eng_card, eng_parameter = cardplay.select_comp_card(current_board, eng_hand, 'ENGLAND')
             
             #Find out what scotland wants to play
             if scot_type == 'opp':
+                scot_parameter = 0
                 scot_card = scot_hand[opp_card_choice(scot_hand)]
             elif scot_type == 'comp':
-                scot_card = cardplay.select_comp_card(current_board, scot_hand, 'SCOTLAND')
+                scot_card, scot_parameter = cardplay.select_comp_card(current_board, scot_hand, 'SCOTLAND')
 
             #Remove card from hands
             eng_hand.remove(eng_card)
@@ -248,7 +250,7 @@ def play_game():
 
 
             #Figure out who goes first, if it is true then Computer goes first - also resolves cards
-            who_goes_first, year_cut_short = cardplay.compare_cards(current_board, eng_card, scot_card, eng_type, scot_type)
+            who_goes_first, year_cut_short = cardplay.compare_cards(current_board, eng_card, scot_card, eng_type, scot_type, eng_parameter, scot_parameter)
             
             #Get a list all the regions that are contested
             contested_regions = current_board.get_contested_regions()
