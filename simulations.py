@@ -426,6 +426,8 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 	returns dictionary with estimated probabilities
 	"""
 
+	#temporary
+	num_times = 1
 
 
 
