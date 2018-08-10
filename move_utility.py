@@ -27,7 +27,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 	UNTIL FINDS GOOD MOVE AND THEN IT EXECUTES IT ON THE ACTUAL BOARD
 	"""
 
-	num_times = 1
+	num_times = 400
 	max_utility = 0
 	best_move_board = copy.deepcopy(board)
 	best_move_string = ''
