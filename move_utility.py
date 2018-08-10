@@ -90,12 +90,12 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 			'''
 			
 
-
-			if role == combat_dict['Attacking'][0].allegiance:
-				is_attacking = True
-			else:
-				is_attacking = False
-			utility += retreat.retreat(board_copy, region.regionID, [], simulation_dict, is_attacking, turn,combat_dict)['Staying value '] * 4
+			if len(combat_dict['Attacking']) > 0:
+				if role == combat_dict['Attacking'][0].allegiance:
+					is_attacking = True
+				else:
+					is_attacking = False
+				utility += retreat.retreat(board_copy, region.regionID, [], simulation_dict, is_attacking, turn,combat_dict)['Staying value '] * 4
 		
 
 
