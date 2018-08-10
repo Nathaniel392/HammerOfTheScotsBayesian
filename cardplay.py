@@ -252,7 +252,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
             print('Blocks in ENGLAND: each block requires one movement point.')
             for block in focus_region.blocks_present:
-                print(block)
+                print(block.name)
 
             if position == 'opp':
                 user_block_name = ''
