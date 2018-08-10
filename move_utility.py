@@ -27,10 +27,11 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 	UNTIL FINDS GOOD MOVE AND THEN IT EXECUTES IT ON THE ACTUAL BOARD
 	"""
 
-	num_times = 400
+	num_times = 1
 	max_utility = 0
 	best_move_board = copy.deepcopy(board)
 	best_move_string = ''
+	computer_passes = False
 	for k in range(num_times):
 		print('testing move #', k)
 
@@ -54,11 +55,13 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 		computer_block = None
 
 		original_blocks_moved = copy.deepcopy(blocks_moved)
-		while computer_block in blocks_moved or computer_block == None:
+		while computer_block in blocks_moved or computer_block == None and not computer_passes:
 			
 
 			
 			computer_path, computer_block = other_movement.movement_execution(board_copy, 'comp', role, num_moves, truce=truce, blocks_moved = blocks_moved)
+			if computer_block == None:
+				computer_passes = True
 			if computer_block in blocks_moved:
 				board_copy = copy.deepcopy(board)
 				blocks_moved = copy.deepcopy(original_blocks_moved)

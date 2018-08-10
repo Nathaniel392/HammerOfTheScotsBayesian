@@ -337,7 +337,7 @@ def movement_execution(board, position, role, num_moves, truce=False, blocks_mov
    
 
 
-
+    block_to_return = None
     blocks_moved = []
     picked_regions = []
     computer_paths_1 = []
@@ -414,6 +414,8 @@ def movement_execution(board, position, role, num_moves, truce=False, blocks_mov
             while not unique_region:
                 rand_startID = 0
                 friendly_regions = board.get_controlled_regions(role)
+                if len(friendly_regions) == 1:
+                    return None, None
 
                 if len(friendly_regions) > 1:
                     rand_startID = random.randint(0, len(friendly_regions) - 1)
