@@ -16,6 +16,12 @@ def update_roster(all_blocks_lst = None, current_board = None):
 	"""
 	all_blocks_lst = current_board.scot_roster + current_board.eng_roster
 	for block in all_blocks_lst:
+		if block.name == 'MORAY':
+			print(block)
+			print(str(block.has_cross)+" has cross")
+			print(str(block.is_dead())+" is dead")
+			input()
+
 		try:
 			if block.checked:
 				block.checked = False
@@ -26,7 +32,10 @@ def update_roster(all_blocks_lst = None, current_board = None):
 		if type(block) == blocks.Noble:
 
 			if block.has_cross and block.is_dead():
+				print(block.name)
+				
 				current_board.scot_roster.remove(block)
+
 				current_board.remove_from_region(block, find_location(current_board,block).regionID)
 				
 			else:
@@ -56,24 +65,30 @@ def update_roster(all_blocks_lst = None, current_board = None):
 					if not block_found_bool:
 						for i, block2 in enumerate(current_board.scot_roster):
 							if block is block2:
-								current_board.scot_roster.append(current_board.scot_roster.pop(i))
+								current_board.eng_roster.append(current_board.scot_roster.pop(i))
 								break
 		elif block.is_dead() and not block.has_cross:	
 
 			if block.allegiance == 'SCOTLAND':
+
 				current_board.scot_pool.append(current_board.remove_from_region(block, \
 					find_location(current_board, block).regionID))
 				current_board.scot_roster.remove(block)
+
 			elif block.allegiance == 'ENGLAND':
+
 				current_board.eng_pool.append(current_board.remove_from_region(block, \
 					find_location(current_board, block).regionID))
 				current_board.eng_roster.remove(block)
+
 		elif block.is_dead() and block.has_cross:
+
 			if block.type == 'EDWARD':
 				block.type = 'KING'
 				current_board.eng_pool.append(current_board.remove_from_region(block, \
 					find_location(current_board, block).regionID))
 				current_board.eng_roster.remove(block)
+
 			else:
 
 				current_board.remove_from_region(block, find_location(current_board, block).regionID)
@@ -95,6 +110,6 @@ def update_roster(all_blocks_lst = None, current_board = None):
 
 
 
-
+	return current_board
 
 
