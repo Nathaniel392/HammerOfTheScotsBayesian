@@ -959,7 +959,7 @@ def pil_execution(board, position, role, pil_data):
                 points_pillaged+=1
                 
                 if block.is_dead():
-                    board.kill(block, role)
+                    board.kill_block(block, role)
     
         #use weighted prob to choose blocks to add pts to
         #for block in blocks_present
