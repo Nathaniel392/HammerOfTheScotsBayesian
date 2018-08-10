@@ -483,7 +483,11 @@ def sea_execution(board, position, role):
         if len(possible_final_region_list) >= 2:
             #if you want to add in last-min strategy, do it here
             #random region from possible list
-            original_region = possible_region_list[random.randint(0, len(possible_region_list) - 1)]
+            england = search.region_name_to_object(board, 'ENGLAND')
+            if england in possible_region_list:
+                original_region = england
+            else:
+                original_region = possible_region_list[random.randint(0, len(possible_region_list) - 1)]
             #remove the original region from the possible end regions
             possible_final_region_list.remove(original_region)
             
