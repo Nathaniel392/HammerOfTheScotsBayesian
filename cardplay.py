@@ -223,7 +223,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                 if focus_region not in picked_regions:
                     unique_region = True
-            print(role + ' selected ' + focus_region.name + ' to move from.')
+            print(role + ' selected ' +focus_region.name + ' to move from.')
 
         if passed:
             move_pt += 1
@@ -255,16 +255,16 @@ def movement_execution(board, position, role, num_moves, truce=False):
                 print(block)
 
             if position == 'opp':
-
+                user_block_name = ''
                 valid_block = False
 
-                while not valid_block and num_moves > move_pt:
+                while not valid_block and num_moves > move_pt and user_bock_name != 'DONE':
 
                     user_block_name = input("Choose a block to move (type 'done' if done): ").strip().upper()
 
                     if user_block_name == "DONE":
 
-                        print (role + ' chose not to move a block and passed a movement point.')
+                        print (role + ' chose to stop moving blocks using current movement point.')
 
                         valid_block = True
 
@@ -299,7 +299,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                             print ("That block is not in the region!")
 
-                    else:
+                    elif user_block_name != 'DONE':
 
                         print ("Please input a valid block name!")
 
@@ -335,9 +335,10 @@ def movement_execution(board, position, role, num_moves, truce=False):
         else:
             count = 0
             can_go_again = True
+            user_block_name = ''
             for i in range(moveable_count):
 
-                if position == 'opp' and can_go_again:
+                if position == 'opp' and can_go_again and user_block_name != 'DONE':
 
                     valid_block = False
 
@@ -347,7 +348,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                         if user_block_name == "DONE":
 
-                            print (role + ' chose not to move a block and passed a movement point.')
+                            print (role + ' chose to stop moving blocks using current movement point.')
 
                             valid_block = True
 
@@ -381,7 +382,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                                 print ("That block is not in the region!")
 
-                        else:
+                        elif user_block_name != 'DONE':
 
                             print ("Please input a valid block name!")
 
