@@ -21,7 +21,9 @@ def print_total_string():
 
 def skip_input(*args):
     pass
-
+def get_total_string():
+    global total_string
+    return total_string
 
 def move_block(board, block, start, end = -1, position = 'comp', prev_paths = [], is_truce = False):
         '''
@@ -325,7 +327,7 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
         return True
 
 
-def movement_execution(board, position, role, num_moves, truce=False):
+def movement_execution(board, position, role, num_moves, truce=False, blocks_moved = list()):
     '''
     
     '''
@@ -342,6 +344,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
     move_pt = 0
     #Pick n regions to 
     while move_pt < num_moves:
+
         add_to_total_string("LOOPING AGAIN", move_pt, num_moves)
         #add_to_total_string(move_pt)
         #add_to_total_string (blocks_moved)
@@ -409,13 +412,18 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
             unique_region = False
             while not unique_region:
-
+                rand_startID = 0
                 friendly_regions = board.get_controlled_regions(role)
-                rand_startID = random.randint(0, len(friendly_regions) - 1)
+
+                if len(friendly_regions) > 1:
+                    rand_startID = random.randint(0, len(friendly_regions) - 1)
+                else:
+                    rand_startID = 0
                 focus_region = friendly_regions[rand_startID]
 
                 if focus_region not in picked_regions:
                     unique_region = True
+
             add_to_total_string('Focus Region = ', focus_region.name)
 
         if passed:
@@ -498,31 +506,25 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                 add_to_total_string('It is computer turn to make a move')
 
-                computer_choice = random.randint(0,100)
-
-                if computer_choice == 0:
-
-                    add_to_total_string ("Computer Passes a Movement Point")
-
-                else:
+                
 
 
-                    for block in focus_region.blocks_present:
-                        if num_moves > move_pt:
-                            possible_paths = board.check_all_paths(block.movement_points,focus_region.regionID,block,all_paths = [], truce=truce)
+                for block in focus_region.blocks_present:
+                    if num_moves > move_pt:
+                        possible_paths = board.check_all_paths(block.movement_points,focus_region.regionID,block,all_paths = [], truce=truce)
 
-                            if possible_paths:
-                                add_to_total_string(possible_paths)
-                                computer_paths_1 = random.choice(possible_paths)
+                        if possible_paths:
+                            add_to_total_string(possible_paths)
+                            computer_paths_1 = random.choice(possible_paths)
 
-                                end = computer_paths_1[-1]
+                            end = computer_paths_1[-1]
 
-                                move_block(board, block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
-                                block_to_return = block
-                                move_pt +=1
-                            else:
+                            move_block(board, block,focus_region.regionID,end=end,position='comp',prev_paths=prev_paths,is_truce=truce)
+                            block_to_return = block
+                            move_pt +=1
+                        else:
 
-                                add_to_total_string("Computer chosen region has no moves!")
+                            add_to_total_string("Computer chosen region has no moves!")
 
         else:
             count = 0
