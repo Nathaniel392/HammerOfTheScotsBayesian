@@ -62,7 +62,6 @@ def get_card_val(card):
 def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND'
     prob_dict = dict()
     for card in computer_hand:
-        print(role + ' is testing ' + card)
         if card == '1':
             value = 0.6
         elif card == '2':
@@ -145,9 +144,9 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
     blocks_moved = []
     picked_regions = []
-    move_pt = 0
+    move_pt = 1
     #Pick n regions to 
-    while move_pt < num_moves:
+    while move_pt <= num_moves:
         print("LOOPING AGAIN", move_pt, num_moves)
         #print(move_pt)
         #print (blocks_moved)
@@ -196,22 +195,21 @@ def movement_execution(board, position, role, num_moves, truce=False):
                         valid_region_input = True
                     #Not friendly or neutral
                     else:
-                        print('Invalid region. Please select a region you control that hasn\'t been moved')
+                        print('Invalid region. Please select a region you control that hasn\'t been moved.\n>')
                 
                 #Invalid region name
                 else:
-                    print('Invalid input. Please input a valid region name.')
+                    print('Invalid input. Please input a valid region name.\n>')
 
 
 
         elif position == 'comp':
-            print('Num of move= ', move_pt)
-            #input('Computer Move Part 1')
-            ###
-            ###TEMPORARY
-            ###
-
-            #Get a random starting region
+            if move_pt == 1:
+                print('First move:')
+            elif move_pt == 2:
+                print('Second move:')
+            elif move_pt == 3:
+                print('Third move:')
 
             unique_region = False
             while not unique_region:
@@ -225,10 +223,11 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                 if focus_region not in picked_regions:
                     unique_region = True
-            print('Focus Region = ', focus_region.name)
+            print(role + ' selected ' focus_region.name + ' to move from.')
 
         if passed:
             move_pt += 1
+            print(role + ' passed a movement point.')
             continue
 
         if focus_region.name != 'ENGLAND':
@@ -251,7 +250,9 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
         if focus_region.name == 'ENGLAND' and num_moves > move_pt:
 
-            print(focus_region.blocks_present)
+            print('Blocks in ENGLAND: each block requires one movement point.')
+            for block in focus_region.blocks_present:
+                print(block)
 
             if position == 'opp':
 
@@ -261,14 +262,13 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                     user_block_name = input("Choose a block to move (type 'done' if done): ").strip().upper()
 
-                    if user_block_name.lower() == "done":
+                    if user_block_name == "DONE":
 
-                        print ("You passed one movement point!")
+                        print (role + ' chose not to move a block and passed a movement point.')
 
                         valid_block = True
 
-                    board_blocks = board.eng_roster + board.scot_roster
-                    user_block = search.block_name_to_object(board_blocks, user_block_name)
+                    user_block = search.block_name_to_object(board.all_blocks, user_block_name)
 
                     if user_block:
 
@@ -305,13 +305,11 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
             elif position == 'comp':
 
-                print('It is computer turn to make a move')
-
                 computer_choice = random.randint(0,100)
 
                 if computer_choice == 0:
 
-                    print ("Computer Passes a Movement Point")
+                    print (role + " passes a Movement Point")
 
                 else:
 
@@ -321,6 +319,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                             possible_paths = board.check_all_paths(block.movement_points,focus_region.regionID,block,all_paths = [], truce=truce)
 
                             if possible_paths:
+                                print(role + ' may take the following paths from its selected region:')
                                 print(possible_paths)
                                 computer_path1 = random.choice(possible_paths)
 
@@ -331,7 +330,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                 move_pt +=1
                             else:
 
-                                print("Computer chosen region has no moves!")
+                                print("Computer chosen region has no moves from its selected region.")
 
         else:
             count = 0
@@ -346,14 +345,13 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                         user_block_name = input("Choose a block to move (type 'done' if done): ").strip().upper()
 
-                        if user_block_name.lower() == "done":
+                        if user_block_name == "DONE":
 
-                            print ("You passed one movement point!")
+                            print (role + ' chose not to move a block and passed a movement point.')
 
                             valid_block = True
 
-                        board_blocks = board.eng_roster + board.scot_roster
-                        user_block = search.block_name_to_object(board_blocks, user_block_name)
+                        user_block = search.block_name_to_object(board.all_blocks, user_block_name)
 
                         if user_block:
 
@@ -400,7 +398,6 @@ def movement_execution(board, position, role, num_moves, truce=False):
                         print ("Computer Passes a Movement Point")
 
                     else:
-                        print('Reset List')
                         possible_paths_2 = list()
                         
                         block_index = i - count
@@ -428,14 +425,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                         prev_paths.append(computer_paths_1)
                                 count+=1
                                 blocks_moved.append(block)
-
-                            #print(move_pt)
-
-                        else:
-
-                            print("Computer chosen region has no moves!")
         #print(can_go_again)
-        print(move_pt)
         move_pt+=1
 
 def sea_execution(board, position, role):
@@ -483,7 +473,11 @@ def sea_execution(board, position, role):
         if len(possible_final_region_list) >= 2:
             #if you want to add in last-min strategy, do it here
             #random region from possible list
-            original_region = possible_region_list[random.randint(0, len(possible_region_list) - 1)]
+            england = board.regions[22]
+            if england in possible_region_list:
+                original_region = england
+            else:
+                original_region = possible_region_list[random.randint(0, len(possible_region_list) - 1)]
             #remove the original region from the possible end regions
             possible_final_region_list.remove(original_region)
             
