@@ -233,7 +233,7 @@ def play_game():
     current_board.fill_board(block_list, scenario)
     
     for block in current_board.all_blocks:
-        if type(block) == block.Noble:
+        if type(block) == blocks.Noble:
             current_board.all_nobles.append(block)
 
     
