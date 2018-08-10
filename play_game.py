@@ -64,9 +64,6 @@ def set_up_combat_dict(current_board, battle_region):
         current_board.regions[battle_regionID].combat_dict['Defending'].append(first_block)
         defending_allegiance = first_block.allegiance
 
-
-
-
     attacking_path = None
     for role in battle_region.enterers:
         for path in battle_region.enterers[role]:
@@ -222,7 +219,7 @@ def play_game():
     #Determine which side the computer plays:
     #computer_role, opp_role = prompt_ai_side()
     eng_type = 'comp'
-    scot_type = 'comp'
+    scot_type = 'opp'
     
 
     #Create list of blocks
@@ -304,7 +301,7 @@ def play_game():
             
             #Get a list all the regions that are contested
             contested_regions = current_board.get_contested_regions()
-            print(contested_regions)
+            #print(contested_regions)
 
 
             #If the human goes first find out what region they want to battle in

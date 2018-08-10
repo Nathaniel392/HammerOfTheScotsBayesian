@@ -678,7 +678,7 @@ class Board(object):
 						path_taken = True
 
 						break
-
+				path = user_path
 
 				#If the final region in the path is contested
 				if self.regions[end].is_contested():
