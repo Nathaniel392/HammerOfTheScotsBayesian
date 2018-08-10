@@ -527,13 +527,30 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 			for block in winner_blocks:
 
 				original_location = find_location(current_board, block)
-				bad_input = False
+				bad_input = True
 				#print('22222222')
 				possible_locations = regroup_locations(current_board, [block], [], False)
 
-				for region in possible_locations:
-					place_to_go_to = region.regionID
-					break
+				for i, region in enumerate(possible_locations):
+					print(region.name, region.regionID, end = '; ')
+
+				while bad_input:
+					place_to_go_to_str = input('Which location to regroup to? (type number) >')
+					if not place_to_go_to_str.isdigit():
+						print('type a number')
+						
+					else:
+						place_to_go_to = int(place_to_go_to_str)
+
+						for region in possible_locations:
+							if place_to_go_to == region.regionID:
+								bad_input = False
+							else:
+								print('Enter a valid region ID.')
+
+
+				place_to_go_to = region.regionID
+					
 
 
 				if not bad_input:
