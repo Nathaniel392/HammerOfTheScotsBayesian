@@ -44,8 +44,8 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 	
 	#does movement
 	
-
-	computer_path, computer_block = other_movement.movement_execution(board_copy, 'comp', role, num_moves, truce=truce)
+	while computer_block in blocks_moved or computer_block == None:
+		computer_path, computer_block = other_movement.movement_execution(board_copy, 'comp', role, num_moves, truce=truce)
 
 
 	#debugging why things aren't in combat dictionary
@@ -135,7 +135,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 		
 	
 		
-		return good_move(board, num_moves, role, turn, truce, bad_move_utility)
+		return good_move(board, num_moves, role, turn, truce, blocks_moved)
 
 
 
