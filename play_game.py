@@ -343,7 +343,7 @@ def play_game():
         input('Start Winter')
         winter.update_roster(current_board)
         moray_loca = combat.find_location(current_board, search.block_name_to_object(current_board.all_blocks, 'MORAY'))
-        winter.initialize_winter(current_board, block_list, eng_type, scot_type, moray_loca, edward_prev_winter)
+        winter.initialize_winter(current_board, block_list, eng_type, scot_type,edward_prev_winter)
         winter.winter_builds(current_board, eng_type, scot_type)
         winter.update_roster(current_board)
         print(current_board.scot_roster)
