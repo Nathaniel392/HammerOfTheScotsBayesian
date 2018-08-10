@@ -231,6 +231,10 @@ def play_game():
 
     #Fill board with pieces
     current_board.fill_board(block_list, scenario)
+    
+    for block in current_board.all_blocks:
+        if type(block) == block.Noble:
+            current_board.all_nobles.append(block)
 
     
     #Initialize table with known probabilities
