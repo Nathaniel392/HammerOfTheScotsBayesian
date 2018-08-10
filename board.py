@@ -702,7 +702,8 @@ class Board(object):
 
 						break
 
-
+				path = user_path
+				
 				#If the final region in the path is contested
 				if self.regions[end].is_contested():
 					if tuple(path) not in self.regions[end].enterers[block.allegiance]:
