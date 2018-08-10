@@ -484,66 +484,68 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 	current_board is board
 	"""
 	
-	if winner_blocks[0].allegiance == 'ENGLAND':
-		winner_type = eng_type
-	elif winner_blocks[0].allegiance == 'SCOTLAND':
-		winner_type = scot_type
-		
-	if winner_type == 'comp':
-		for block in winner_blocks:
+	if winner_blocks:
 
-			original_location = find_location(current_board, block)
-			#print(original_location)
-			#print('111111111')
+		if winner_blocks[0].allegiance == 'ENGLAND':
+			winner_type = eng_type
+		elif winner_blocks[0].allegiance == 'SCOTLAND':
+			winner_type = scot_type
 
-			possible_locations = regroup_locations(current_board, [block], [], False)
+		if winner_type == 'comp':
+			for block in winner_blocks:
 
-			possible_locations_id = list()
-			for location in possible_locations:
-				possible_locations_id.append(location.regionID)
+				original_location = find_location(current_board, block)
+				#print(original_location)
+				#print('111111111')
 
-			current_location = find_location(current_board, winner_blocks[0])
-			#Call the regrouping utility function which returns the ID of a region that the block should regroup to
-			place_to_go_to = search.region_id_to_object(current_board, regroup_util.regroup_utility(current_board, current_location.regionID, possible_locations_id))
+				possible_locations = regroup_locations(current_board, [block], [], False)
 
-			if len(possible_locations) == 1:
-				print(block.name, ' stays')
-				continue
-			else:
+				possible_locations_id = list()
+				for location in possible_locations:
+					possible_locations_id.append(location.regionID)
 
-				#place_to_go_to is now a regionID, now a Region
-				place_to_go_to = place_to_go_to.regionID
-				#print(place_to_go_to)
-				current_board.add_to_location(block, place_to_go_to)
+				current_location = find_location(current_board, winner_blocks[0])
+				#Call the regrouping utility function which returns the ID of a region that the block should regroup to
+				place_to_go_to = search.region_id_to_object(current_board, regroup_util.regroup_utility(current_board, current_location.regionID, possible_locations_id))
 
-				current_board.dynamic_borders[original_location.regionID][place_to_go_to] -= 1
+				if len(possible_locations) == 1:
+					print(block.name, ' stays')
+					continue
+				else:
 
-				if block.name == 'FRENCH':
-					block.movement_points = 0
-				print(block.name, ' moved to ', search.region_id_to_name(current_board, place_to_go_to))
-	elif winner_type == 'opp':
-		for block in winner_blocks:
-
-			original_location = find_location(current_board, block)
-			bad_input = False
-			#print('22222222')
-			possible_locations = regroup_locations(current_board, [block], [], False)
-
-			for region in possible_locations:
-				place_to_go_to = region.regionID
-				break
-
-			
-			if not bad_input:
-				if place_to_go_to != -1:
-
+					#place_to_go_to is now a regionID, now a Region
+					place_to_go_to = place_to_go_to.regionID
+					#print(place_to_go_to)
 					current_board.add_to_location(block, place_to_go_to)
 
 					current_board.dynamic_borders[original_location.regionID][place_to_go_to] -= 1
 
-				if block.name == 'FRENCH':
-					block.movement_points = 0
+					if block.name == 'FRENCH':
+						block.movement_points = 0
 					print(block.name, ' moved to ', search.region_id_to_name(current_board, place_to_go_to))
+		elif winner_type == 'opp':
+			for block in winner_blocks:
+
+				original_location = find_location(current_board, block)
+				bad_input = False
+				#print('22222222')
+				possible_locations = regroup_locations(current_board, [block], [], False)
+
+				for region in possible_locations:
+					place_to_go_to = region.regionID
+					break
+
+
+				if not bad_input:
+					if place_to_go_to != -1:
+
+						current_board.add_to_location(block, place_to_go_to)
+
+						current_board.dynamic_borders[original_location.regionID][place_to_go_to] -= 1
+
+					if block.name == 'FRENCH':
+						block.movement_points = 0
+						print(block.name, ' moved to ', search.region_id_to_name(current_board, place_to_go_to))
 
 	current_board.reset_borders()
 	current_board.reset_attacked_borders()
