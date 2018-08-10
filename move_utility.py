@@ -32,7 +32,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 	best_move_board = copy.deepcopy(board)
 	best_move_string = ''
 	for k in range(num_times):
-		print(k)
+		print('testing move #', k)
 
 
 		board_copy = copy.deepcopy(board)
@@ -74,7 +74,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 		
 
 		#checks utilitiy of the battles using the retreat elliot's thing
-		print(board.regions)
+
 		for region in board_copy.regions:
 
 			if region.is_contested():
@@ -146,7 +146,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 
 
 
-
+		
 	input('move is going to be utility of:' + str(max_utility))
 	print(best_move_string)
 	return copy.deepcopy(best_move_board)
