@@ -663,7 +663,6 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	
 	'''
-	
 	if attack == list():
 		attack = attack_reinforcements
 		attack_reinforcements = list()
@@ -719,7 +718,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 		
 	for combat_round in range(3):
-		
+
 
 
 		current_board.reset_borders()
@@ -762,11 +761,13 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						
 			
 		for letter in 'ABC':
-			input()
 			
+			input()
 					
 				
 			for attacking_block in defenders[letter]:
+				if attacking_block.allegiance != defenders_allegiance:
+					break
 				print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
 
 				if attack == list():
@@ -851,7 +852,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 			
 		
 			for attacking_block in attackers[letter]:
-
+				if attacking_block.allegiance != attackers_allegiance:
+					break
 				print_situation(attack, defense, attack_reinforcements, defense_reinforcements)
 
 				if defense == list():
