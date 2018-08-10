@@ -16,11 +16,7 @@ def update_roster(all_blocks_lst = None, current_board = None):
 	"""
 	all_blocks_lst = current_board.scot_roster + current_board.eng_roster
 	for block in all_blocks_lst:
-		if block.name == 'MORAY':
-			print(block)
-			print(str(block.has_cross)+" has cross")
-			print(str(block.is_dead())+" is dead")
-			input()
+		
 
 		try:
 			if block.checked:
@@ -32,7 +28,7 @@ def update_roster(all_blocks_lst = None, current_board = None):
 		if type(block) == blocks.Noble:
 
 			if block.has_cross and block.is_dead():
-				print(block.name)
+		
 				
 				current_board.scot_roster.remove(block)
 
