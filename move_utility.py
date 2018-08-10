@@ -27,7 +27,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 	UNTIL FINDS GOOD MOVE AND THEN IT EXECUTES IT ON THE ACTUAL BOARD
 	"""
 
-	num_times = 400
+	num_times = 1
 	max_utility = 0
 	best_move_board = copy.deepcopy(board)
 	best_move_string = ''
@@ -59,7 +59,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 
 			
 			computer_path, computer_block = other_movement.movement_execution(board_copy, 'comp', role, num_moves, truce=truce, blocks_moved = blocks_moved)
-			if computer_block not in blocks_moved:
+			if computer_block in blocks_moved:
 				board_copy = copy.deepcopy(board)
 				blocks_moved = copy.deepcopy(original_blocks_moved)
 
@@ -74,8 +74,9 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 		
 
 		#checks utilitiy of the battles using the retreat elliot's thing
-		noble_home_after = 0
+		print(board.regions)
 		for region in board_copy.regions:
+
 			if region.is_contested():
 				'''
 				
@@ -112,8 +113,9 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 				else:
 					is_attacking = False
 				utility += retreat.retreat(board_copy, region.regionID, [], simulation_dict, is_attacking, turn)['Staying value '] * 4
+				print(retreat.retreat(board_copy, region.regionID, [], simulation_dict, is_attacking, turn)['Staying value '] * 4)
 
-				
+
 			
 
 
@@ -140,6 +142,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 			best_move_board = copy.deepcopy(board_copy)
 			best_move_string = other_movement.get_total_string()
 		other_movement.reset_total_string()
+	
 
 
 
