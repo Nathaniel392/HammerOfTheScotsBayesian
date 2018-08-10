@@ -223,7 +223,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                 if focus_region not in picked_regions:
                     unique_region = True
-            print(role + ' selected ' +focus_region.name + ' to move from.')
+            print(role + ' selected ' + focus_region.name + ' to move from.')
 
         if passed:
             move_pt += 1
@@ -252,19 +252,19 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
             print('Blocks in ENGLAND: each block requires one movement point.')
             for block in focus_region.blocks_present:
-                print(block.name)
+                print(block)
 
             if position == 'opp':
-                user_block_name = ''
+
                 valid_block = False
 
-                while not valid_block and num_moves > move_pt and user_bock_name != 'DONE':
+                while not valid_block and num_moves > move_pt:
 
                     user_block_name = input("Choose a block to move (type 'done' if done): ").strip().upper()
 
                     if user_block_name == "DONE":
 
-                        print (role + ' chose to stop moving blocks using current movement point.')
+                        print (role + ' chose not to move a block and passed a movement point.')
 
                         valid_block = True
 
@@ -299,7 +299,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                             print ("That block is not in the region!")
 
-                    elif user_block_name != 'DONE':
+                    else:
 
                         print ("Please input a valid block name!")
 
@@ -335,10 +335,9 @@ def movement_execution(board, position, role, num_moves, truce=False):
         else:
             count = 0
             can_go_again = True
-            user_block_name = ''
             for i in range(moveable_count):
 
-                if position == 'opp' and can_go_again and user_block_name != 'DONE':
+                if position == 'opp' and can_go_again:
 
                     valid_block = False
 
@@ -348,7 +347,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                         if user_block_name == "DONE":
 
-                            print (role + ' chose to stop moving blocks using current movement point.')
+                            print (role + ' chose not to move a block and passed a movement point.')
 
                             valid_block = True
 
@@ -382,7 +381,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                                 print ("That block is not in the region!")
 
-                        elif user_block_name != 'DONE':
+                        else:
 
                             print ("Please input a valid block name!")
 
@@ -555,9 +554,9 @@ def sea_execution(board, position, role):
             valid_region = False
             while not valid_region:
                 
-                original_region_name = input('What region would you like to move block(s) from? Enter a name or \'none\'.\n>')
+                original_region_name = input('What region would you like to move block(s) from? Enter a name or \'none\'.\n>').upper()
             
-                if original_region_name.lower() != 'none':
+                if original_region_name != 'NONE':
             
                     original_region = search.region_name_to_object(board, original_region_name)
                 
@@ -595,7 +594,7 @@ def sea_execution(board, position, role):
                         
                         block_name = input('Which block would you like to move? Enter a name or \'none\'.\n>').upper()
                     
-                        if block_name.lower() != 'none':
+                        if block_name != 'NONE':
                             
                             block_to_move = search.block_name_to_object(possible_block_list, block_name)
                     
@@ -624,9 +623,9 @@ def sea_execution(board, position, role):
                     valid_region = False
                     while not valid_region:
                         
-                        new_region_name = input('What region would you like to move block(s) to? Enter a name or \'none\'.\n>')
+                        new_region_name = input('What region would you like to move block(s) to? Enter a name or \'none\'.\n>').upper()
                     
-                        if new_region_name.lower() != 'none':
+                        if new_region_name != 'NONE':
                     
                             new_region = search.region_name_to_object(board, new_region_name)
                         
@@ -718,8 +717,13 @@ def her_execution(board, position, role):
         #STEAL NOBLE
         noble_to_steal.change_allegiance()
 
+        print('Success')
+        print(noble_to_steal.name, 'changed allegiance.' )
+
         #Find the noble's region
         noble_region = combat.find_location(board, noble_to_steal)
+
+
 
         if len(board.regions[noble_region.regionID].blocks_present) > 1:
             for block in noble_region.blocks_present:
@@ -737,7 +741,6 @@ def her_execution(board, position, role):
         #Move the noble to its own region - will sort it into attacker/defender
         #board.move_block(noble_to_steal, noble_region.regionID, noble_region.regionID, position)
 
-        print('Success')
     else:
         print('Failure')
 
@@ -956,15 +959,7 @@ def pil_execution(board, position, role, pil_data):
                 points_pillaged+=1
                 
                 if block.is_dead():
-                    print(block.name, 'goes to the pool')
-                    if role == 'SCOTLAND':
-                        board.eng_pool.append(block)
-                        board.eng_roster.remove(block)
-                        board.remove_from_region(block, region_to_pil.regionID)
-                    elif role == 'ENGLAND':
-                        board.scot_pool.append(block)
-                        board.scot_roster.remove(block)
-                        board.remove_from_region(block, region_to_pil.regionID)
+                    board.kill(block, role)
     
         #use weighted prob to choose blocks to add pts to
         #for block in blocks_present
@@ -1028,7 +1023,8 @@ def pil_execution(board, position, role, pil_data):
                 new_list.append(region.regionID)
                 for neighbor_region in board.find_all_borders(new_list):
                     if not neighbor_region.is_friendly(role) and not neighbor_region.is_neutral():
-                        possible_pill_lst.append(neighbor_region)
+                        if not neighbor_region in possible_pill_lst:
+                            possible_pill_lst.append(neighbor_region)
             
             print('Possible pillaging regions: ')
             for region in possible_pill_lst:
@@ -1044,7 +1040,9 @@ def pil_execution(board, position, role, pil_data):
                     quitt = True
                     valid_region = True
                 
-                if not quitt:
+                if quitt:
+                    valid_region = True
+                else:
                     chosen_subtract_region = search.region_name_to_object(board, chosen_subtract_region_name)
                         
                     if chosen_subtract_region in possible_pill_lst:
@@ -1068,15 +1066,7 @@ def pil_execution(board, position, role, pil_data):
                             points_pillaged+=1
                             
                             if block.is_dead():
-                                print(block.name, 'goes to the pool')
-                                if role == 'SCOTLAND':
-                                    board.eng_pool.append(block)
-                                    board.eng_roster.remove(block)
-                                    board.remove_from_region(block, chosen_subtract_region.regionID)
-                                elif role == 'ENGLAND':
-                                    board.scot_pool.append(block)
-                                    board.scot_roster.remove(block)
-                                    board.remove_from_region(block, chosen_subtract_region.regionID)
+                                board.kill_block(block, role)
                         
             
             

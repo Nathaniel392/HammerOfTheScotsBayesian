@@ -246,24 +246,24 @@ def vic_utility(board, role):
 		#for scotland:
 		#if block is king and he needs it
 		if block.name == 'KING' and block.current_strength < block.attack_strength:
-			utility_value += .5
+			utility_value += .9
 		#if block is wallace and he needs it
 		elif block.name == 'WALLACE' and block.current_strength < block.attack_strength:
-			utility_value += .4
+			utility_value += .8
 		#for england:
 		#if block is edward and he needs it
 		if block.name == 'EDWARD' and block.current_strength < block.attack_strength:
-			utility_value += .45
+			utility_value += .85
 		#if block is hobelars and he needs it
 		elif block.name == 'HOBELARS' and block.current_strength < block.attack_strength:
-			utility_value += .3
+			utility_value += .7
 			
 		#if block is type noble and he needs it
 		elif type(block) == blocks.Noble and block.current_strength < block.attack_strength:
-			utility_value += .25
+			utility_value += .65
 		#if block is below full health
 		elif block.current_strength < block.attack_strength:
-			utility_value += .1
+			utility_value += .2
 		
 		hits_taken += block.attack_strength - block.current_strength
 		
