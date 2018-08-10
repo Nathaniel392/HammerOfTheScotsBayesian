@@ -113,6 +113,7 @@ class Board(object):
 		self.scot_roster = []
 		self.eng_roster = []
 		self.all_blocks = []
+		self.all_nobles = []
 		self.turn = 0
 
 		#print(self.static_borders)
