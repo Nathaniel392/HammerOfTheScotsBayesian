@@ -223,7 +223,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                 if focus_region not in picked_regions:
                     unique_region = True
-            print(role + ' selected ' focus_region.name + ' to move from.')
+            print(role + ' selected ' + focus_region.name + ' to move from.')
 
         if passed:
             move_pt += 1
