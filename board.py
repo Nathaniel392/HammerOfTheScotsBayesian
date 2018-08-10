@@ -131,6 +131,28 @@ class Board(object):
 			self.regionID_dict[region.name] = regionID
 		self.attacked_borders = attacked_borders.make_attacked_borders()
 
+	def kill_block(block, role):
+		#if noble, switches sides
+		#if block, move to pool
+
+		if type(block) == blocks.Noble:
+			print(block.name, 'switched sides!')
+			if role == 'SCOTLAND':
+				board.eng_roster.remove(block)
+				board.scot_roster.append(block)
+			elif role == 'ENGLAND':
+				board.scot_roster.remove(block)
+				board.scot_roster.remove(block)
+
+		else:
+			if role == 'SCOTLAND':
+				board.eng_pool.append(block)
+				board.eng_roster.remove(block)
+				board.remove_from_region(block, chosen_subtract_region.regionID)
+			elif role == 'ENGLAND':
+				board.scot_pool.append(block)
+				board.scot_roster.remove(block)
+				board.remove_from_region(block, chosen_subtract_region.regionID)
 
 	def reset_attacked_borders(self):
 		attacked_borders.reset_attacked_borders(self.attacked_borders)
@@ -678,7 +700,7 @@ class Board(object):
 						path_taken = True
 
 						break
-				path = user_path
+
 
 				#If the final region in the path is contested
 				if self.regions[end].is_contested():
