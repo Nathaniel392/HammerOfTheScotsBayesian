@@ -614,10 +614,10 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 
 			eng_nobles.append(noble)
 	
-	print('ENG NOBLES:')
-	print(eng_nobles)
-	print('SCOT NOBLES:')
-	print(scot_nobles)
+	#print('ENG NOBLES:')
+	#print(eng_nobles)
+	#print('SCOT NOBLES:')
+	#print(scot_nobles)
 	
 	for noble in eng_nobles:
 		print(noble.name)
