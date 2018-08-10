@@ -8,7 +8,7 @@ def weighted_prob(dictionary, num_times = 1):
 			dictionary[key] = 0.00000001
 
 
-	print('weighted_prob: ' + str(dictionary))
+
 
 	prev_keys = set()
 	return_stuff = weighted_prob2(dictionary, num_times, prev_keys)

@@ -40,7 +40,7 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
         
 
         if position == 'comp':
-            add_to_total_string('comp tried to move')
+           
 
 
             #Find every path from the start regionID to the end regionID and put them in a list
@@ -53,7 +53,7 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
             #print(paths)
             for path in paths:
                 if type(path) != list:
-                    print(path)
+                    
                     raise Exception('here is where it"s not being a list')
 
 
@@ -66,7 +66,7 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
             #If valid paths exist, keep going
             if paths:
 
-                add_to_total_string('THERE IS A VALID PATH')
+               
                 computer_path = random.choice(paths)
                 add_to_total_string('computer chose ' + str(computer_path))
 
@@ -107,7 +107,7 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
                     #Add it to the region's overall block list as well
                     board.regions[end].blocks_present.append(block)
 
-                    add_to_total_string('Moved into contested region.')
+                  
                     add_to_total_string(block.name + " was moved from " + board.regions[start].name + " to " + board.regions[end].name)
 
                 #End location is not contested
@@ -145,7 +145,7 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
                                 prev_paths = tuple(prev_paths)
 
                         
-                        add_to_total_string('Moved into enemy region')
+                
                         add_to_total_string(block.name + " was moved from " + board.regions[start].name + " to " + board.regions[end].name)
 
                         #Set the border between the last and second to last region in the path to attacked
@@ -153,8 +153,7 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
 
 
                         ###temporary
-                        add_to_total_string(computer_path)
-                        add_to_total_string('updating border between', computer_path[-2], 'and', end)
+                
                         ###
                         board.attacked_borders[computer_path[-2]][end] = 'attack'
 
@@ -164,7 +163,7 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
                     else:
                         board.regions[start].blocks_present.remove(block)
                         board.regions[end].blocks_present.append(block)
-                        add_to_total_string('Moved to friendly or neutral region')
+                        
                         add_to_total_string(block.name + " was moved from " + board.regions[start].name + " to " + board.regions[end].name)
 
                 #Decrement the border limits of each border in the path
@@ -343,7 +342,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
     block_to_return = None
     #Pick n regions to 
     while move_pt < num_moves:
-        add_to_total_string("LOOPING AGAIN", move_pt, num_moves)
+        
         #add_to_total_string(move_pt)
         #add_to_total_string (blocks_moved)
 
@@ -400,7 +399,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
 
         elif position == 'comp':
-            add_to_total_string('Num of move= ', move_pt)
+            
             skip_input('Computer Move Part 1')
             ###
             ###TEMPORARY
@@ -417,8 +416,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                 if focus_region not in picked_regions:
                     unique_region = True
-            print('CHOSE REGION: ', focus_region.name)
-            add_to_total_string('Focus Region = ', focus_region.name)
+    
 
         if passed:
             move_pt += 1
@@ -498,13 +496,13 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
             elif position == 'comp':
 
-                add_to_total_string('It is computer turn to make a move')
+              
 
                 computer_choice = random.randint(0,100)
 
                 if computer_choice == 0:
-
-                    add_to_total_string ("Computer Passes a Movement Point")
+                    pass
+                   
 
                 else:
 
@@ -523,8 +521,9 @@ def movement_execution(board, position, role, num_moves, truce=False):
                                 block_to_return = block
                                 move_pt +=1
                             else:
+                                pass
 
-                                add_to_total_string("Computer chosen region has no moves!")
+                       
 
         else:
             count = 0
@@ -584,16 +583,16 @@ def movement_execution(board, position, role, num_moves, truce=False):
 
                 elif position == 'comp' and can_go_again:
                     skip_input('Computer Move Part 2')
-                    add_to_total_string('It is computer turn to make a move')
+
 
                     computer_choice = random.randint(0,100)
                     
                     if computer_choice == 0:
-
-                        add_to_total_string ("Computer Passes a Movement Point")
+                        pass
+             
 
                     else:
-                        add_to_total_string('Reset List')
+                 
                         possible_paths_2 = list()
                         
                         block_index = i - count
@@ -627,10 +626,10 @@ def movement_execution(board, position, role, num_moves, truce=False):
                             #add_to_total_string(move_pt)
 
                         else:
+                            pass
 
-                            add_to_total_string("Computer chosen region has no moves!")
         #add_to_total_string(can_go_again)
-        add_to_total_string(move_pt)
+
         move_pt+=1
     return computer_paths_1, block_to_return
 

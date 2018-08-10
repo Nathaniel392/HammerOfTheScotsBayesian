@@ -201,9 +201,9 @@ class Board(object):
 		"""
 		for i, bllock in enumerate(self.regions[regionID].blocks_present):
 			if bllock.name == block.name:
-				print(bllock.name + ' GOT REMOVED FROM ' + self.regions[regionID].name)
+			
 				return_block = self.regions[regionID].blocks_present.pop(i)
-				print(str(self.regions[regionID].blocks_present) + ' SHOULD NOT HAVE ' + block.name + ' IN IT!')
+
 				return return_block
 				
 		raise Exception('cannot find block to remove')
@@ -486,8 +486,7 @@ class Board(object):
 		
 
 		if position == 'comp':
-			print('comp tried to move')
-
+			
 			#Find every path from the start regionID to the end regionID and put them in a list
 			#paths = self.check_path(block.movement_points,start,end, block, all_paths = list())
 
@@ -514,9 +513,9 @@ class Board(object):
 				# 		break
 
 				#If the final region in the path is contested
-				print('IS IT CONTESTED: ', self.regions[end].is_contested())
+			
 				if self.regions[end].is_contested():
-					print("WE ARE IN HERE")
+
 					if tuple(path) not in self.regions[end].enterers[block.allegiance]:
 						self.regions[end].enterers[block.allegiance][tuple(path)] = []
 					number_enterers = self.regions[end].get_number_enters()
@@ -543,7 +542,6 @@ class Board(object):
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
 
-					print('Moved into contested region.')
 					print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 				#End location is not contested
@@ -551,9 +549,9 @@ class Board(object):
 				else:
 
 					#If it's an enemy controlled region
-					print('IS IT ENEMY CONTROLLED: ', len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance)
+					
 					if len(self.regions[end].blocks_present) != 0 and self.regions[end].blocks_present[0].allegiance != block.allegiance:
-						print("WE ARE IN HERE")
+					
 						if tuple(path) not in self.regions[end].enterers[block.allegiance]:
 							self.regions[end].enterers[block.allegiance][tuple(path)] = []
 
@@ -589,7 +587,7 @@ class Board(object):
 								prev_paths = tuple(prev_paths)
 
 						
-						print('Moved into enemy region')
+						
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 						#Set the border between the last and second to last region in the path to attacked
@@ -597,8 +595,7 @@ class Board(object):
 
 
 						###temporary
-						print(path)
-						print('updating border between', path[-2], 'and', end)
+						
 						###
 						self.attacked_borders[path[-2]][end] = 'attack'
 
@@ -607,14 +604,13 @@ class Board(object):
 					#Friendly or neutral
 
 					else:
-						print("IT IS FRIENDLY OR NEUTRAL")
-						print("WE ARE IN HERE")
+						
 						if tuple(path) not in self.regions[end].enterers[block.allegiance]:
 							self.regions[end].enterers[block.allegiance][tuple(path)] = []
 						self.regions[end].enterers[block.allegiance][tuple(path)].append((block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
 						self.regions[start].blocks_present.remove(block)
 						self.regions[end].blocks_present.append(block)
-						print('Moved to friendly or neutral region')
+						
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 				#Decrement the border limits of each border in the path
@@ -709,7 +705,7 @@ class Board(object):
 
 					#Add it to the region's overall block list as well
 					self.regions[end].blocks_present.append(block)
-					print('Moved into contested region.')
+		
 					print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 				#End location is not contested
@@ -744,14 +740,13 @@ class Board(object):
 								
 
 
-						print('Moved into enemy region')
+					
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 						#Set the border between the last and second to last region in the path to attacked
 
 						###temporary
-						print(user_path)
-						print('updating border between', user_path[-2], 'and', end)
+						
 						###
 						self.attacked_borders[user_path[-2]][end] = 'attack'
 
@@ -762,7 +757,7 @@ class Board(object):
 						self.regions[end].enterers[block.allegiance][tuple(path)].append((block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
 						self.regions[start].blocks_present.remove(block)
 						self.regions[end].blocks_present.append(block)
-						print('Moved to friendly or neutral region')
+					
 						print(block.name + " was moved from " + self.regions[start].name + " to " + self.regions[end].name)
 
 				#Decrement border limits on borders crossed in the path
@@ -822,10 +817,7 @@ class Board(object):
 				#print(region)
 				self.regions[location.regionID].blocks_present.append(block)
 
-				if block.name == "MORAY":
-					print('retreating')
-					print(block)
-					input()
+				
 
 			print ("Sent " + block.name + " to " + location.name)
 

@@ -436,12 +436,7 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 		possible_locations_id.append(location.regionID)
 	choice_dictionary = retreat.retreat(board, current_location, possible_locations_id, simulation_dict, is_attacking, board.turn)
 	choice = weighted_prob.weighted_prob(choice_dictionary)
-	###temporary
-	print('Computer says "I can move to these locations: "')
-	for region in possible_locations:
-		print(region.name, end = '; ')
-	print()
-	###
+	
 
 	if choice == 'Staying value ':
 		return False
@@ -751,14 +746,14 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							input()
 
 							regionID_to_retreat_to = option.regionID
-							print('THIS ONE')
+					
 						
 							original_location = find_location(current_board, attacking_block)
 
 
-							print(original_location, current_board.regions[regionID_to_retreat_to])
+							
 							current_board.add_to_location(attacking_block, regionID_to_retreat_to)
-							print(original_location, current_board.regions[regionID_to_retreat_to])
+				
 							
 							
 
@@ -787,27 +782,21 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
-					print(current_board.regions)
+				
 					regroup(defense + defense_reinforcements, current_board, eng_type, scot_type)
 					current_board = update_roster.update_roster(current_board = current_board)
 		
 					print('defender wins')
 					
-					print(current_board.regions)
-					
-					print(current_board.regions)
+				
 
 					return 'defender wins'
 				if (defender_is_dead and combat_round != 0) or (defender_is_dead and defense_reinforcements == []):
-					print(current_board.regions)
+		
 					regroup(attack + attack_reinforcements, current_board, eng_type, scot_type)
 					current_board = update_roster.update_roster(current_board = current_board)
 					print('attacker wins')
-					
-					print(current_board.regions)
-
-					
-					print(current_board.regions)
+			
 
 
 					return 'attacker wins'
@@ -902,16 +891,13 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						
 						if option != False:
 							regionID_to_retreat_to = option.regionID
-							print('NO! THIS ONE')
-							print(attacking_block.name)
-
-							print(regionID_to_retreat_to)
+						
 							original_location = find_location(current_board, attacking_block)
 
 							
-							print(original_location, current_board.regions[regionID_to_retreat_to])
+							#print(original_location, current_board.regions[regionID_to_retreat_to])
 							current_board.add_to_location(attacking_block, regionID_to_retreat_to)
-							print(original_location, current_board.regions[regionID_to_retreat_to])
+							#print(original_location, current_board.regions[regionID_to_retreat_to])
 
 							
 							current_board.dynamic_borders[original_location.regionID][regionID_to_retreat_to] -= 1
@@ -940,8 +926,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 					current_board = update_roster.update_roster(current_board = current_board)
 					
 					print('attacker wins')
-					print(current_board.regions)
-
+			
 					
 					return 'attacker wins'
 				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
@@ -949,7 +934,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 					current_board = update_roster.update_roster(current_board = current_board)
 		
 					print('defender wins')
-					print(current_board.regions)
+				
 
 
 
