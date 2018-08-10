@@ -173,8 +173,6 @@ def go_home(board,noble,eng_type,scot_type):
 			start = find_location(board,noble).regionID
 			board.remove_from_region(noble, start)
 
-			print (noble.name + " went home from " + board.regions[start])
-
 			board.regions[noble.home_location].blocks_present.append(noble)
 
 
@@ -242,16 +240,19 @@ def add_to_location(board,block,location):
 	removes block from its current region 
 	puts it into the new location
 	'''
+
+	print(location)
 	not_moving = False
 	if location == 'scottish pool':
 		board.regions[find_location(board, block).regionID].blocks_present.remove(block)
 		board.scot_roster.remove(block)
 		board.scot_pool.append(block)
+		print("Sent " + block.name + ' to ' + location.name)
 	elif location == 'english pool':
 		board.regions[find_location(board, block).regionID].blocks_present.remove(block)
 		board.eng_pool.append(block)
 		board.eng_roster.remove(block)
-		print("Sent" + block.name + ' to ' + location.name)
+		print("Sent " + block.name + ' to ' + location.name)
 
 	else:
 		if find_location(board, block) != location:
@@ -265,7 +266,7 @@ def add_to_location(board,block,location):
 
 			print ("Sent " + block.name + " to " + location.name)
 
-		elif not not_moving:
+		elif not_moving and type(location) != str:
 
 			if block.allegiance == 'SCOTLAND':
 
@@ -286,6 +287,7 @@ def add_to_location(board,block,location):
 
 			
 			board.regions[location.regionID].blocks_present.append(block)	
+
 
 
 def moray_util(board,noble):
@@ -542,10 +544,6 @@ def disband(board,block):
 	sends the block to the board's draw pool
 	'''
 
-	print(board.regions[find_location(board,block).regionID])
-	print(board.regions[find_location(board,block).regionID].blocks_present)
-	print(block)
-	print(block in board.regions[find_location(board,block).regionID].blocks_present)
 
 	board.regions[find_location(board,block).regionID].blocks_present.remove(block)
 
@@ -559,7 +557,7 @@ def disband(board,block):
 
 	print ("Disbanded " + block.name + "!")	
 
-def initialize_winter(board,block_list,eng_type,scot_type, moray_loca, edward_prev_winter = [False]):
+def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = [False]):
 
 	'''
 	takes a board object, list of all blocks in game, and which side the computer is playing
@@ -571,19 +569,16 @@ def initialize_winter(board,block_list,eng_type,scot_type, moray_loca, edward_pr
 	scot_king = []
 	eng_edward = []
 
-	if search.block_name_to_object(board.all_blocks, 'MORAY') not in moray_loca.blocks_present:
-
-		board.regions[moray_loca.regionID].blocks_present.append(search.block_name_to_object(board.all_blocks, 'MORAY'))
 	
-	print('SCOT ROSTER')
-	print(board.scot_roster)
-	print('SCOT POOL')
-	print(board.scot_pool)
+	# print('SCOT ROSTER')
+	# print(board.scot_roster)
+	# print('SCOT POOL')
+	# print(board.scot_pool)
 
-	print('ENG ROSTER')
-	print(board.eng_roster)
-	print('ENG POOL')
-	print(board.eng_pool)
+	# print('ENG ROSTER')
+	# print(board.eng_roster)
+	# print('ENG POOL')
+	# print(board.eng_pool)
 	for block in block_list:
 
 		if block in board.eng_roster or block in board.scot_roster:
@@ -591,42 +586,42 @@ def initialize_winter(board,block_list,eng_type,scot_type, moray_loca, edward_pr
 			#print(block.is_dead())
 			#print(block in board.scot_roster)
 			#print(block in board.scot_pool)
-			print(block.name)
 			if block.name != 'MORAY' and not block.is_dead() and find_location(board,block).regionID == 22 and not type(block) == blocks.Noble:
 				#print(board.regions[22])
 				#print(block)
 				disband(board,block)
-			
-			elif not find_location(board,block):
 
-				if type(block) == blocks.Noble:
+			elif block.type == "KING":
 
-					if block.allegiance == "ENGLAND":
+				if block.allegiance == "ENGLAND":
 
-						eng_nobles.append(block)
+					eng_king.append(block)
 
-					elif block.allegiance == "SCOTLAND":
+				if block.allegiance == "SCOTLAND":
 
-						scot_nobles.append(block)
+					scot_king.append(block)
 
-				elif block.type == "KING":
+			elif block.type == "EDWARD":
 
-					if block.allegiance == "ENGLAND":
+				eng_edward.append(block)
+	
+	for noble in board.all_nobles:
+		
+		if noble.allegiance == 'SCOTLAND' and not noble.is_dead() and noble in board.scot_roster:
+			scot_nobles.append(noble)
 
-						eng_king.append(block)
+		elif not noble.is_dead() and noble in board.eng_roster:
 
-					if block.allegiance == "SCOTLAND":
-
-						scot_king.append(block)
-
-				elif block.type == "EDWARD":
-
-					eng_edward.append(block)
+			eng_nobles.append(noble)
+	
+	print('ENG NOBLES:')
 	print(eng_nobles)
+	print('SCOT NOBLES:')
 	print(scot_nobles)
+	
 	for noble in eng_nobles:
 		print(noble.name)
-		print(find_location(board, noble))
+	
 		go_home(board,noble,eng_type,scot_type)
 
 		print ("Sent " + noble.name + " home!")
@@ -883,8 +878,6 @@ def initialize_winter(board,block_list,eng_type,scot_type, moray_loca, edward_pr
 			if display_blocks:
 
 				disbanding_utilities,have_to_move = disband_block_util(board,region)
-				print(region)
-				print(have_to_move)
 
 
 				computer_choices = []
