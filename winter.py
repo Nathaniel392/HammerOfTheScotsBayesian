@@ -247,12 +247,12 @@ def add_to_location(board,block,location):
 		board.regions[find_location(board, block).regionID].blocks_present.remove(block)
 		board.scot_roster.remove(block)
 		board.scot_pool.append(block)
-		print("Sent " + block.name + ' to ' + location.name)
+		print("Sent " + block.name + ' to ' + location)
 	elif location == 'english pool':
 		board.regions[find_location(board, block).regionID].blocks_present.remove(block)
 		board.eng_pool.append(block)
 		board.eng_roster.remove(block)
-		print("Sent " + block.name + ' to ' + location.name)
+		print("Sent " + block.name + ' to ' + location)
 
 	else:
 		if find_location(board, block) != location:
@@ -754,7 +754,9 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 			place = choose_location(possible_locations,block.allegiance,eng_type,scot_type,block)
 
 			add_to_location(board,block,place)
-
+	print('ENGLAND ROSTER: ', end = ' ')
+	for block in board.eng_roster:
+		print(block.name, end = ' ')
 	for brit in board.eng_roster:
 
 		if brit.type == 'ARCHER' or brit.type == 'KNIGHT' and find_location(board,search.block_name_to_object(board.all_blocks,'EDWARD')) != find_location(board,brit):
@@ -1166,7 +1168,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 							for index,name in enumerate(potential_blocks):
 
-								print (str(index) + ":" + " "*5 + str(name))
+								print (str(index) + ":" + " "*5 + str(name.name))
 
 							user_choice2 = input("Which block would you like to bump in " + region.name + "? ")
 
@@ -1215,7 +1217,7 @@ def winter_builds(board,eng_type,scot_type):
 			else:
 
 				scottish_rp = region.castle_points
-
+			print('SHOULD BE ON REGION: ', region.name)
 			distribute_rp(board,scottish_rp,region,eng_type,scot_type)
 
 		elif len(region.blocks_present) > 0 and region.is_friendly('ENGLAND'):

@@ -74,7 +74,9 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 			'''
 			
 			combat_dict = copy.deepcopy(region.combat_dict)
-
+			print(combat_dict)
+			print('REGION IS: ', region)
+			print(region.is_contested())
 			simulation_dict = simulations.simulation(combat_dict['Attacking'], combat_dict['Defending'], 1000, \
 				combat_dict['Attacking Reinforcements'], combat_dict['Defending Reinforcements'])
 			'''
@@ -124,12 +126,12 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
 		#total_string = ''
 		#pause
 		print('computer ready to make a move')
-		input()
+		#input()
 		
 		board.move_block(computer_block,computer_path[0], end = computer_path[-1], position='comp', is_truce=truce, path = computer_path)
 		other_movement.reset_total_string()
 		print('computer done with move')
-		input()
+		#input()
 		return board
 	else:
 		

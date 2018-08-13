@@ -38,19 +38,20 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
         
         block_to_return = None
         
+        paths = board.check_path(block.movement_points,start,end, block, all_paths = list())
 
-        if position == 'comp':
+        if position == 'comp' and type(paths[0]) == list:
            
 
 
             #Find every path from the start regionID to the end regionID and put them in a list
-            paths = board.check_path(block.movement_points,start,end, block, all_paths = list())
-
 
 
 
             #debugging why type int have no thing len()
-            #print(paths)
+            print('START', start)
+            print('END', end)
+            print('PATHS', paths)
             for path in paths:
                 if type(path) != list:
                     

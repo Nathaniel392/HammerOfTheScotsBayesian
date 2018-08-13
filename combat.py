@@ -89,7 +89,7 @@ def attack_block(attack_block_block, defending_blocks, eng_type, scot_type):
 	print(attack_block_block.name, ' rolled ' , dice_lst)
 
 
-
+	print(attacker_type, defender_type)
 	for num in dice_lst:
 
 		strong_blocks = find_max_strength(defending_blocks)
@@ -176,9 +176,12 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 			block.change_allegiance()
 			
 			defense_reinforcements.append(attackers_lst[i])
+
 			indexes_to_pop.append(i)
 
 			print('\n', block.name, ' has changed sides and has been added to defense reinforcements')
+
+			print(block.allegiance)
 		elif type(block) != blocks.Noble and block.is_dead():
 
 			print('\n', block.name, ' has died and goes to the pool')
@@ -234,6 +237,7 @@ def check_if_dead(attackers_lst, defenders_lst, attack_reinforcements, defense_r
 			indexes_to_pop.append(i)
 
 			print('\n', block.name, ' has changed sides and has been added to attack reinforcements')
+			print(block.allegiance)
 		
 		elif type(block) != blocks.Noble and block.is_dead():
 
@@ -351,6 +355,7 @@ def regroup_locations(board, attacking, defending, is_attacking):
 	possible_locations = []
 	#Create list of possible locations to retreat to
 	region_allegiance = None
+
 	for x, border in enumerate(board.dynamic_borders[current_location.regionID]):
 		went_through_loop = False
 		
@@ -444,6 +449,7 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	possible_locations_id = list()
 	for location in possible_locations:
 		possible_locations_id.append(location.regionID)
+	print('CURRENT LOCATION: ', current_location)
 	choice_dictionary = retreat.retreat(board, current_location, possible_locations_id, simulation_dict, is_attacking, board.turn)
 	choice = weighted_prob.weighted_prob(choice_dictionary)
 	
@@ -497,7 +503,7 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 				original_location = find_location(current_board, block)
 				#print(original_location)
 				#print('111111111')
-
+				print('LOCATION OF BLOCK: ', find_location(current_board, block))
 				possible_locations = regroup_locations(current_board, [block], [], False)
 
 				possible_locations_id = list()
@@ -544,12 +550,13 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 
 						for region in possible_locations:
 							if place_to_go_to == region.regionID:
+								region_to_go_to = region
 								bad_input = False
-							else:
-								print('Enter a valid region ID.')
+						else:
+							print('Enter a valid region ID.')
 
 
-				place_to_go_to = region.regionID
+				place_to_go_to = region_to_go_to.regionID
 					
 
 
@@ -779,7 +786,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 			
 		for letter in 'ABC':
 			
-			input()
+			#input()
 					
 				
 			for attacking_block in defenders[letter]:
@@ -847,7 +854,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 				if (attacker_is_dead and combat_round != 0) or (attacker_is_dead and attack_reinforcements == []):
-				
+					for block in defense + defense_reinforcements:
+						print('LOCATION OF ' + block.name + ': ', find_location(current_board, defense[0]))
 					regroup(defense + defense_reinforcements, current_board, eng_type, scot_type)
 					current_board = update_roster.update_roster(current_board = current_board)
 		

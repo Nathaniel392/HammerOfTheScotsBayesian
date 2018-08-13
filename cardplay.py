@@ -129,6 +129,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
             
             
             for j in range(num_moves):
+
                 board = move_utility.good_move(board, num_moves, role, board.turn, truce, blocks_moved)
             move_found = True
             
@@ -585,10 +586,11 @@ def sea_execution(board, position, role):
                 
                 move_block_list = []
                 blocks_moved = 0
-                quitt = False
-                while blocks_moved < 2 and not quitt:
-                    valid_block = False
-                    
+                quittt = False
+                block_name = ''
+                while blocks_moved < 2 and not quittt:
+                    if block_name != 'NONE':
+                        valid_block = False
                     while not valid_block:
                         
                         
@@ -610,10 +612,10 @@ def sea_execution(board, position, role):
                                 print('Invalid block.')
                                 continue
                         else:
-                            
                             valid_block = True
-                            quitt = True
-
+                            if len(move_block_list) == 1:
+                                quittt = True
+                quitt = False
                 if len(move_block_list) > 0:              
                     print('Possible final regions:')
                     for region in possible_final_region_list:
