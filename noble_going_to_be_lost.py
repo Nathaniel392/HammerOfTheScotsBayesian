@@ -14,19 +14,19 @@ def noble_going_to_be_lost(board, noble_object, role, turn):
 	if type(noble_object.home_location) == int:
 		home_location_tuple = (noble_object.home_location,)
 	else:
-		home_location_tuple = noble_object.home_location
+		home_location_tuple = noble.object.home_location
 
 	#checking who occupies it
 	for home_location_id in home_location_tuple:
-		if board.regions[home_location_id].is_enemy(role):
+		if current_board.regions[home_location_id].is_enemy(role):
 			lost_flt += 0.7
-		elif board.regions[home_location_id].is_friendly(role):
+		elif current_board.regions[home_location_id].is_friendly(role):
 			lost_flt += 0.03
 		else:
 			lost_flt += 0.2
 
 		#checking who is around the noble_home_location
-		current_location = find_location(board, noble_object)
+
 		for regionID, border in enumerate(board.dynamic_borders[current_location.regionID]):
 			if border != 0:
 				if board.regions[regionID].is_enemy(role):
@@ -50,23 +50,22 @@ def noble_not_going_to_be_occupied(board, noble_object, turn, role):
 	1.0 home locatino more likely to be not occupied
 	"""
 	lost_flt = 0.0
-	close_to_winter = .2 * turn
 	if type(noble_object.home_location) == int:
 		home_location_tuple = (noble_object.home_location, )
 	else:
-		home_location_tuple = noble_object.home_location
+		home_location_tuple = noble.object.home_location
 
 	#checking who occupies it
 	for home_location_id in home_location_tuple:
-		if board.regions[home_location_id].is_enemy(role):
+		if current_board.regions[home_location_id].is_enemy(role):
 			lost_flt += 0.05
-		elif board.regions[home_location_id].is_friendly(role):
+		elif current_board.regions[home_location_id].is_friendly(role):
 			lost_flt += 0.05
 		else:
 			lost_flt += 0.7
 
 		#checking who is around the noble_home_location
-		current_location = find_location(board, noble_object)
+
 		for regionID, border in enumerate(board.dynamic_borders[current_location.regionID]):
 			if border != 0:
 				if board.regions[regionID].is_enemy(role):
@@ -113,8 +112,11 @@ ENGLAND         22 F T 0
 		value_lst[i] = value_lst[i] / 60
 		if value_lst[i] < 0:
 			value_lst[i] = 0
-	#print('VALUE ' + str(value_lst[regionID]))
+
 	return value_lst[regionID]
+
+
+
 
 
 

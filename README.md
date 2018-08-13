@@ -8,6 +8,3 @@ Before you make changes, check which branch you are on (right above the list of 
 CURRENTLY EDWARD CAN WINTER 2 YEARS IN A ROW
 NORSE MOVEMENT DOES NOT WORK
 ENGLAND MOVEMENT TO AND FROM WON'T WORK
-output options before user input for user ease
-if scots have nobody in pool, program crashes (winter)
-attacking reinforcements not working if blocks come from same location (currently categorizing as reinforcements, but it shouldn't do that)

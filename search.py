@@ -22,10 +22,13 @@ def region_object_to_id(region):
 
 def region_id_to_object(board, regionID):
 	'''Takes a regionID and returns the Region object'''
+	regionID = int(regionID)
 	return board.regions[regionID] 
 
 def region_id_to_name(board, regionID):
 	'''Takes a regionID and returns the name'''
+	regionID = int(regionID)
+
 	return board.regions[regionID].name
 
 def block_name_to_object(block_list, block_name):
