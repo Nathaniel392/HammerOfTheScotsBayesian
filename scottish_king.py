@@ -145,7 +145,7 @@ def fight(current_board, eng_type, scot_type):
 
 			if type(attack) != list or type(defense) != list:
 				raise Exception('attack and defense are not lists')
-			combat.battle(attack, defense, list(), list(), current_board, computer_role)
+			combat.battle(attack, defense, list(), list(), current_board, eng_type, scot_type)
 
 			contested_regions = list()
 			for region in current_board.regions:
@@ -187,7 +187,7 @@ def fight(current_board, eng_type, scot_type):
 
 			if type(attack) != list or type(defense) != list:
 				raise Exception('attack and defense are not lists')
-			combat.battle(attack, defense, list(), list(), current_board, computer_role)
+			combat.battle(attack, defense, list(), list(), current_board, eng_type, scot_type)
 
 			contested_regions = list()
 			for region in current_board.regions:
