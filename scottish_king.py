@@ -253,7 +253,7 @@ def run_king(current_board, eng_type, scot_type):
 			possible_kings.append(key)
 
 
-	if scot_type == 'comp':
+	if scot_type == 'opp':
 		bad_input = True
 		while bad_input:
 			want_to_king = input('Would you like to make a king (y) or (n): ')
