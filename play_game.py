@@ -279,7 +279,7 @@ def play_game():
 
     
     #Initialize table with known probabilities
-    location_prob_table = location_prob.init_probability_table(current_board, block_list)
+    #location_prob_table = location_prob.init_probability_table(current_board, block_list)
 
     #Initialize card deck
     deck = cards.Deck()
