@@ -689,11 +689,22 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	
 	'''
 	if attack == list():
-		attack = attack_reinforcements
+		attack = copy.deepcopy(attack_reinforcements)
 		attack_reinforcements = list()
 	elif defense == list():
-		defense = defense_reinforcements
+		defense = copy.deepcopy(defense_reinforcements)
 		defense_reinforcements = list()
+
+	if len(attack) == 0:
+		defense_allegiance = defenders[0].allegiance
+		for i, block in enumerate(defense):
+			if block.allegiance != defense_allegiance:
+				attack.append(defense.pop(i))
+	if len(defense) == 0:
+		attack_allegiance = attackers[0].allegiance
+		for i, block in enumerate(attack):
+			if block.allegiance != attack_allegiance:
+				defense.append(attack.pop(i))
 
 	if len(attack) > 0:
 		attacking_allegiance = attack[0].allegiance

@@ -922,9 +922,9 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 		if region.is_friendly('SCOTLAND'):
 
 			points = rp
-
+			count = 0
 			while points > 0:
-
+				
 				choice_utilities = choose_what_to_do_util(board,region,rp)
 
 				computer_choice = weighted_prob.weighted_prob(choice_utilities)
@@ -935,8 +935,8 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 						if not (len(board.scot_pool) == 2 and board.all_blocks[14] in board.scot_pool and board.all_blocks[16] in board.scot_pool) or not (len(board.scot_pool) == 1 and board.all_blocks[16] in board.scot_pool):
 							valid_block = False
 
-							while not valid_block:
-
+							while not valid_block and count < 25:
+								count+=1
 								draw_block = random.choice(board.scot_pool)
 								print('Trying to add ' + draw_block.name + ' to' +  region.name)
 								if draw_block.type == 'NORSE':
@@ -967,11 +967,12 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 									valid_block = True
 
-							draw_block.current_strength = 1 
+							if count < 25:
+								draw_block.current_strength = 1 
 
-							add_to_location(board,draw_block,board.regions[region.regionID])
+								add_to_location(board,draw_block,board.regions[region.regionID])
 
-							points -= 1
+								points -= 1
 
 				elif computer_choice == 'b':
 
@@ -991,7 +992,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 						bump_block = search.block_name_to_object(board.all_blocks,bump_choice)
 
-						bump_block.current_strength += 1
+						bump_block.heal_until_full(1)
 
 						print ("Bumped " + bump_block.name + " up!")
 

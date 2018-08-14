@@ -249,7 +249,7 @@ class Board(object):
 
 		#Loop through the blocks and assign allegiance according to the init list
 		#Pick the scenario based on input
-		if scenario == 'BRAVEHEART':
+		if scenario == 'BRAVEHEART' or scenario == 'CAMPAIGN':
 			file = 'braveheart_init.txt'
 		elif scenario == 'BRUCE':
 			file = 'bruce_init.txt'
