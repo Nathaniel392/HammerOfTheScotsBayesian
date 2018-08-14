@@ -33,7 +33,7 @@ def clean_up_dict(region):
         for block in region.combat_dict[key]:
 
             if block.current_strength <= 0:
-                print("THIS BLOCK SHOULD NOT BE HERE!!!!!", block)
+                
                 region.combat_dict[key].remove(block)
                 if block in region.blocks_present:
                     region.blocks_present.remove(block)
