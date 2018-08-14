@@ -622,8 +622,8 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 	#print('SCOT NOBLES:')
 	#print(scot_nobles)
 	
-	for noble in eng_nobles:
-		print(noble.name)
+	#for noble in eng_nobles:
+		#print(noble.name)
 	
 		noble = go_home(board,noble,eng_type,scot_type)
 
@@ -757,9 +757,9 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 			place = choose_location(possible_locations,block.allegiance,eng_type,scot_type,block)
 
 			add_to_location(board,block,place)
-	print('ENGLAND ROSTER: ', end = ' ')
-	for block in board.eng_roster:
-		print(block.name, end = ' ')
+	#print('ENGLAND ROSTER: ', end = ' ')
+	#for block in board.eng_roster:
+		#print(block.name, end = ' ')
 	for brit in board.eng_roster:
 
 		if brit.type == 'ARCHER' or brit.type == 'KNIGHT' and find_location(board,search.block_name_to_object(board.all_blocks,'EDWARD')) != find_location(board,brit):
@@ -1226,9 +1226,9 @@ def winter_builds(board,eng_type,scot_type):
 			else:
 
 				scottish_rp = region.castle_points
-			print('SHOULD BE ON REGION: ', region.name)
+			#print('SHOULD BE ON REGION: ', region.name)
 			distribute_rp(board,scottish_rp,region,eng_type,scot_type)
-			print('DONE WITH REGION: ', region.name)
+			#print('DONE WITH REGION: ', region.name)
 		elif len(region.blocks_present) > 0 and region.is_friendly('ENGLAND'):
 
 			english_rp = region.castle_points

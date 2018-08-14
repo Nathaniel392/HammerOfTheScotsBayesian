@@ -154,13 +154,13 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
             '''
             
             combat_dict = copy.deepcopy(region.combat_dict)
-            print('IN COMPUTER:',combat_dict)
-            print('REGION IS: ', region)
-            print('ENTERERS:', region.enterers)
-            print(region.is_contested())
+            #print('IN COMPUTER:',combat_dict)
+            #print('REGION IS: ', region)
+            #print('ENTERERS:', region.enterers)
+            #print(region.is_contested())
 
             set_up_combat_dict(board_copy, region)
-            print('AFTER:',board_copy.regions[region.regionID].combat_dict)
+            #print('AFTER:',board_copy.regions[region.regionID].combat_dict)
             simulation_dict = simulations.simulation(region.combat_dict['Attacking'], region.combat_dict['Defending'], 1000, \
                 region.combat_dict['Attacking Reinforcements'], region.combat_dict['Defending Reinforcements'])
             '''

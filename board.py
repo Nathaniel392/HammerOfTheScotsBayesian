@@ -523,9 +523,9 @@ class Board(object):
 
 			#print(paths)
 			#If valid paths exist, keep going
-			print('START:', start)
-			print('END', end)
-			print('PATH: ', path)
+			#print('START:', start)
+			#print('END', end)
+			#print('PATH: ', path)
 			if path:
 
 				# print('THERE IS A VALID PATH')

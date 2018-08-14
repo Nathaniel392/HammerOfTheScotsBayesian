@@ -49,9 +49,9 @@ def move_block(board, block, start, end = -1, position = 'comp', prev_paths = []
 
 
             #debugging why type int have no thing len()
-            print('START', start)
-            print('END', end)
-            print('PATHS', paths)
+            #print('START', start)
+            #print('END', end)
+            #print('PATHS', paths)
             for path in paths:
                 if type(path) != list:
                     

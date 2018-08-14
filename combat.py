@@ -449,7 +449,7 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	possible_locations_id = list()
 	for location in possible_locations:
 		possible_locations_id.append(location.regionID)
-	print('CURRENT LOCATION: ', current_location)
+	#print('CURRENT LOCATION: ', current_location)
 	choice_dictionary = retreat.retreat(board, current_location, possible_locations_id, simulation_dict, is_attacking, board.turn)
 	choice = weighted_prob.weighted_prob(choice_dictionary)
 	
@@ -503,7 +503,7 @@ def regroup(winner_blocks, current_board, eng_type, scot_type):
 				original_location = find_location(current_board, block)
 				#print(original_location)
 				#print('111111111')
-				print('LOCATION OF BLOCK: ', find_location(current_board, block))
+				#print('LOCATION OF BLOCK: ', find_location(current_board, block))
 				possible_locations = regroup_locations(current_board, [block], [], False)
 
 				possible_locations_id = list()
@@ -696,7 +696,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 		defense_reinforcements = list()
 
 	if len(attack) == 0:
-		defense_allegiance = defenders[0].allegiance
+		defense_allegiance = defense[0].allegiance
 		for i, block in enumerate(defense):
 			if block.allegiance != defense_allegiance:
 				attack.append(defense.pop(i))
@@ -792,14 +792,14 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 						block.checked = True
 						block.current_strength = 0
 						if block in attack:
-							input(block.name +' has skedaddled')
+							#input(block.name +' has skedaddled')
 							current_board.remove_from_region(block, find_location(current_board, block).regionID)
 							attack.remove(block)
 							block.current_strength = block.attack_strength
 							current_board.eng_roster.remove(block)
 							current_board.eng_pool.append(block)
 						else:
-							input(block.name + ' has skedaddled')
+							#input(block.name + ' has skedaddled')
 							current_board.remove_from_region(block, find_location(current_board, block).regionID)
 							defense.remove(block)
 							block.current_strength = block.attack_strength
@@ -851,7 +851,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 							elif option == 'f':
 								#fight
-								print('ENG:', eng_type, 'SCOT:', scot_type)
+								#print('ENG:', eng_type, 'SCOT:', scot_type)
 								attack_block(attacking_block, attack, eng_type, scot_type)
 
 							
@@ -866,7 +866,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 
 						if retreat_block(current_board, attacking_block, False, eng_type, scot_type, attack, defense, attack_reinforcements, defense_reinforcements, letter, combat_round, 'defender') == False:
-							print('ENG:', eng_type, 'SCOT:', scot_type)
+							#print('ENG:', eng_type, 'SCOT:', scot_type)
 
 							attack_block(attacking_block, attack, eng_type, scot_type)
 

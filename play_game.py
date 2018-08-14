@@ -19,7 +19,7 @@ def clean_up_dict(region):
         for block in region.combat_dict[key]:
 
             if block.current_strength <= 0:
-                print("THIS BLOCK SHOULD NOT BE HERE!!!!!", block)
+                #print("THIS BLOCK SHOULD NOT BE HERE!!!!!", block)
                 region.combat_dict[key].remove(block)
                 region.blocks_present.remove(block)
 
@@ -75,9 +75,9 @@ def prompt_scenario():
     return scenario
 
 def set_up_combat_dict(current_board, battle_region):
-    print(battle_region)
-    for block in battle_region.blocks_present:
-        print(block)
+    #print(battle_region)
+    #for block in battle_region.blocks_present:
+        #print(block)
     battle_regionID = battle_region.regionID
 
     battle_region = current_board.regions[battle_regionID]
@@ -361,11 +361,11 @@ def play_game():
                 if who_goes_first == False:
 
                     battle_region = contested_regions[opp_battle_choice(contested_regions)]
-                    print('BEFORE:', battle_region.combat_dict)
-                    print('BEFORE ENTERERS:', battle_region.enterers)
-                    print('REAL BOARD ENTERERS:', current_board.regions[battle_region.regionID].enterers)
+                    #print('BEFORE:', battle_region.combat_dict)
+                    #print('BEFORE ENTERERS:', battle_region.enterers)
+                    #print('REAL BOARD ENTERERS:', current_board.regions[battle_region.regionID].enterers)
                     battle_region = set_up_combat_dict(current_board, battle_region)
-                    print('AFTER:', battle_region.combat_dict)
+                    #print('AFTER:', battle_region.combat_dict)
                     #battle_region.combat_dict = clean_up_dict(battle_region.combat_dict)
                     #print('AFTER CLEAN UP:', battle_region.combat_dict)
                     if battle_region.is_contested():
@@ -377,10 +377,10 @@ def play_game():
                 else:
                     
                     battle_region = contested_regions[random.randint(0, len(contested_regions)-1)]
-                    print('BEFORE:', battle_region.combat_dict)
-                    print('BEFORE ENTERERS:', battle_region.enterers)
+                    #print('BEFORE:', battle_region.combat_dict)
+                    #print('BEFORE ENTERERS:', battle_region.enterers)
                     battle_region = set_up_combat_dict(current_board, battle_region)
-                    print('AFTER:', battle_region.combat_dict)
+                    #print('AFTER:', battle_region.combat_dict)
                     #battle_region.combat_dict = clean_up_dict(battle_region.combat_dict)
                     #print('AFTER CLEAN UP:', battle_region.combat_dict)
                     if battle_region.is_contested():
@@ -400,15 +400,15 @@ def play_game():
             for i,region in enumerate(current_board.regions):
                 current_board.regions[i].enterers = {'ENGLAND':dict(), 'SCOTLAND':dict()}
 
-        print(current_board.regions)
+        #print(current_board.regions)
         #input('Start Winter')
         winter.update_roster(current_board)
         moray_loca = combat.find_location(current_board, search.block_name_to_object(current_board.all_blocks, 'MORAY'))
         winter.initialize_winter(current_board, block_list, eng_type, scot_type,edward_prev_winter)
         winter.winter_builds(current_board, eng_type, scot_type)
         winter.update_roster(current_board)
-        print(current_board.scot_roster)
-        print(current_board.scot_pool)
+        #print(current_board.scot_roster)
+        #print(current_board.scot_pool)
         #input()
 
 def main():
