@@ -112,6 +112,7 @@ def fight(current_board, eng_type, scot_type):
 		while len(contested_regions) > 0:
 			
 
+
 			try:
 				region_index_to_fight = random.randint(0, len(contested_regions) - 1)
 				'''
@@ -138,7 +139,11 @@ def fight(current_board, eng_type, scot_type):
 			except AttributeError:
 				raise Exception('error in cardplay not assigning who_goes_first to board')
 
-
+			for block in contested_regions[region_index_to_fight].blocks_present:
+				if block.allegiance == 'ENGLAND':
+					contested_regions[region_index_to_fight].combat_dict['Defending'].append(block)
+				else:
+					contested_regions[region_index_to_fight].combat_dict['Attacking'].append(block)
 
 			attack = contested_regions[region_index_to_fight].combat_dict['Attacking']
 			defense = contested_regions[region_index_to_fight].combat_dict['Defending']
@@ -179,7 +184,11 @@ def fight(current_board, eng_type, scot_type):
 			except AttributeError:
 				raise Exception('error in cardplay not assigning who_goes_first to board')
 
-					
+			for block in contested_region[region_index_to_fight].blocks_present:
+				if block.allegiance == 'ENGLAND':
+					contested_regions[region_index_to_fight].combat_dict['Defending'].append(block)
+				else:
+					conteseted_regions[region_index_to_fight].combat_dict['Attacking'].append(block)
 				
 				
 			attack = contested_regions[region_index_to_fight].combat_dict['Attacking']
@@ -198,14 +207,14 @@ def make_king(current_board, type_of_king):
 	"""
 	puts the king on the board
 	"""
-	
+	french_location = False
 	for region in current_board.regions:
 		for block in region.blocks_present:
 			if block.name == 'FRENCH':
 				french_location = region
 
 
-	if type_of_king == 'BALLIOL':
+	if type_of_king == 'BALLIOL' and current_board.all_blocks[28] in current_board.scot_pool and french_location:
 		kinging_location = french_location
 		for i, block in enumerate(current_board.scot_pool):
 			if block.name == 'KING':

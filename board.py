@@ -287,7 +287,23 @@ class Board(object):
 				elif allegiance == 'SCOTLAND':
 					self.scot_roster.append(block_to_add)
 
+
+
 		self.all_blocks = self.scot_roster + self.scot_pool + self.eng_roster + self.eng_pool
+
+
+		sortedd = False
+		while not sortedd:
+			sortedd = True
+			for i in range(len(self.all_blocks) - 1):
+				#print(self.all_blocks[i].name, self.all_blocks[i].blockID, self.all_blocks[i].allegiance)
+				#print(self.all_blocks[i + 1].name, self.all_blocks[i + 1].blockID, self.all_blocks[i].allegiance)
+				if self.all_blocks[i].blockID > self.all_blocks[i + 1].blockID:
+					temp = self.all_blocks[i]
+					self.all_blocks[i] = self.all_blocks[i + 1]
+					self.all_blocks[i + 1] = temp
+					sortedd = False
+
 		
 	def initialize_regions(self):
 		'''
@@ -699,7 +715,7 @@ class Board(object):
 
 			end = user_path[-1]
 			potential_paths = self.check_path(block.movement_points,user_path[0],user_path[-1], block, all_paths = [])
-			print(potential_paths)
+			#print(potential_paths)
 			if user_path in potential_paths:
 
 				path_taken = False
@@ -752,7 +768,7 @@ class Board(object):
 						self.regions[end].enterers[block.allegiance][tuple(path)].append((block,len(self.regions[end].enterers['ENGLAND']) + len(self.regions[end].enterers['SCOTLAND']) +1))
 						#Stop the function if it's truce
 						if is_truce:
-							print("You can't move there fool, issa truce")
+							print("You can't move there it's a truce")
 							return False
 			  
 						#Set the defending blocks into the defending dictionary

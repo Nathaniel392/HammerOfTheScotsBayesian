@@ -118,7 +118,7 @@ class Noble(Block):
                  has_cross = None, blockID = None, home_location = None, loyalty = None, allegiance = None):
 
         super(Noble, self).__init__(name, movement_points, attack_letter, attack_number, max_attack_strength, \
-                 has_cross, blockID, allegiance)
+                 has_cross, 'NOBLE', blockID, allegiance)
 
         self.home_location = home_location
         self.loyalty = loyalty

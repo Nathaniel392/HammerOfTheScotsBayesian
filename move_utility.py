@@ -33,7 +33,7 @@ def clean_up_dict(region):
         for block in region.combat_dict[key]:
 
             if block.current_strength <= 0:
-                
+                #print("THIS BLOCK SHOULD NOT BE HERE!!!!!", block)
                 region.combat_dict[key].remove(block)
                 if block in region.blocks_present:
                     region.blocks_present.remove(block)
@@ -212,12 +212,12 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
         print('computer ready to make a move')
 
         #input()
-        if computer_path[0] != computer_path[-1]:
+        if computer_path[0] != computer_path[-1] and computer_block in board.regions[computer_path[0]].blocks_present:
             board.move_block(computer_block,computer_path[0], end = computer_path[-1], position='comp', is_truce=truce, path = computer_path)
         else:
             print('Computer passes a movement point')
         other_movement.reset_total_string()
-        print('computer done with move')
+        print('computer done with move\n')
         #input()
         return board
     else:

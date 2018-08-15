@@ -28,17 +28,17 @@ WALES-INFANTRY     2 C 3 3 INFANTRY    F   25
 WALLACE            3 A 3 4 WALLACE     T   26
 EDWARD             3 B 4 4 EDWARD      T   27
 KING               3 A 3 4 KING        T   28
-ATHOLL      2 B 2 3 BRUCE       F   29  10
-ARGYLL      2 B 2 3 COMYN       F   30  9
-COMYN       2 B 2 4 COMYN       F   31  (6,5)
-BRUCE       2 B 2 4 BRUCE       F   32  (20,14)
-MENTIETH    2 B 2 3 BRUCE       F   33  13
-ROSS        2 B 2 3 COMYN       F   34  0
-ANGUS       2 B 2 3 COMYN       F   35  8
-GALLOWAY    2 B 2 3 COMYN       F   36  19
-MAR         2 B 2 3 BRUCE       F   37  7
-STEWARD     2 B 2 3 BRUCE       F   38  15
-DUNBAR      2 B 2 3 BRUCE       F   39  17
-LENNOX      2 B 2 3 BRUCE       F   40  12
-MORAY       2 B 2 3 COMYN       T   41  2
-BUCHAN      2 B 2 3 COMYN       F   42  4
+ATHOLL      2 B 2 3 BRUCE       F   29  10	29
+ARGYLL      2 B 2 3 COMYN       F   30  9	30
+COMYN       2 B 2 4 COMYN       F   31  (6,5)	31
+BRUCE       2 B 2 4 BRUCE       F   32  (20,14)	32
+MENTIETH    2 B 2 3 BRUCE       F   33  13	33
+ROSS        2 B 2 3 COMYN       F   34  0	34
+ANGUS       2 B 2 3 COMYN       F   35  8	35
+GALLOWAY    2 B 2 3 COMYN       F   36  19	36
+MAR         2 B 2 3 BRUCE       F   37  7	37
+STEWARD     2 B 2 3 BRUCE       F   38  15	38
+DUNBAR      2 B 2 3 BRUCE       F   39  17	39
+LENNOX      2 B 2 3 BRUCE       F   40  12	40
+MORAY       2 B 2 3 COMYN       T   41  2	41
+BUCHAN      2 B 2 3 COMYN       F   42  4	42

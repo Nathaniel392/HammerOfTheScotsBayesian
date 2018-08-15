@@ -65,7 +65,7 @@ def update_roster(all_blocks_lst = None, current_board = None):
 								current_board.eng_roster.append(current_board.scot_roster.pop(i))
 								break
 		elif block.is_dead() and not block.has_cross and (block in current_board.eng_roster or block in current_board.scot_roster):	
-			print(block.name, ' is dead and we are looking for him')
+			#print(block.name, ' is dead and we are looking for him')
 			if block.allegiance == 'SCOTLAND':
 				
 				if find_location(current_board, block):
@@ -94,8 +94,8 @@ def update_roster(all_blocks_lst = None, current_board = None):
 				current_board.eng_roster.remove(block)
 
 			else:
-
-				current_board.remove_from_region(block, find_location(current_board, block).regionID)
+				if find_location(current_board, block):
+					current_board.remove_from_region(block, find_location(current_board, block).regionID)
 				if block.allegiance == 'ENGLAND':
 					current_board.eng_roster.remove(block)
 				elif block.allegiance == 'SCOTLAND':

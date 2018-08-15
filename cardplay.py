@@ -148,7 +148,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
     move_pt = 1
     #Pick n regions to 
     while move_pt <= num_moves:
-        print("LOOPING AGAIN", move_pt, num_moves)
+        #print("LOOPING AGAIN", move_pt, num_moves)
         #print(move_pt)
         #print (blocks_moved)
 
@@ -276,7 +276,7 @@ def movement_execution(board, position, role, num_moves, truce=False):
                         if user_block in focus_region.blocks_present:
 
                             if user_block not in blocks_moved:
-
+                
                                 if board.move_block(user_block,focus_region.regionID,position='opp',prev_paths=prev_paths,is_truce=truce) == False:
 
                                     print ("That path was not valid!")
@@ -949,10 +949,18 @@ def pil_execution(board, position, role, pil_data):
         
         #pillage combat style
         points_pillaged = 0
-            
+        good_list = True
+        for block in region_to_pil.blocks_present:
+            if block.current_strength > 0:
+                good_list = True
+            else:
+                good_list = False
         for x in range (0,2):
-            highest_block_lst = combat.find_max_strength(region_to_pil.blocks_present)
-        
+            if len(region_to_pil.blocks_present) != 0 and good_list:
+                highest_block_lst = combat.find_max_strength(region_to_pil.blocks_present)
+            else:
+                highest_block_lst = False
+
             if highest_block_lst:
                 block = highest_block_lst[0]
                 #strike once
@@ -961,6 +969,7 @@ def pil_execution(board, position, role, pil_data):
                 points_pillaged+=1
                 
                 if block.is_dead():
+                    print(block.name + ' has been pillaged to death')
                     board.kill_block(block, role)
     
         #use weighted prob to choose blocks to add pts to

@@ -162,7 +162,7 @@ def go_home(board,noble,eng_type,scot_type):
 	'''
 	
 	if type(noble.home_location) == int:
-		
+		print(noble.name)
 		if noble.home_location == find_location(board, noble).regionID:
 
 			print(noble.name + " is already home.")
@@ -622,7 +622,7 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 	#print('SCOT NOBLES:')
 	#print(scot_nobles)
 	
-	#for noble in eng_nobles:
+	for noble in eng_nobles:
 		#print(noble.name)
 	
 		noble = go_home(board,noble,eng_type,scot_type)
@@ -731,10 +731,17 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 		block = scot_king[0]
 
 		if scot_type == 'comp':
+			possible_regions_dict = dict()
 
-			scot_king_utilities = {'disband': 0.01, 'stay': 0.99}
+			for region in board.regions:
+				if (region.is_friendly('SCOTLAND') and region.cathedral) or board.all_blocks[28] in region.blocks_present:
+					possible_regions_dict[region.regionID] = 0.8
+			
+			possible_regions_dict['disband'] = 0.01
 
-			scot_king_choice = weighted_prob.weighted_prob(scot_king_utilities)
+			
+
+			scot_king_choice = weighted_prob.weighted_prob(possible_regions_dict)
 
 			if scot_king_choice == 'disband':
 
@@ -971,10 +978,10 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 								else:
 
 									valid_block = True
+							if num_drawings <= MAX_DRAWINGS:
+								draw_block.current_strength = 1 
 
-							draw_block.current_strength = 1 
-
-							add_to_location(board,draw_block,board.regions[region.regionID])
+								add_to_location(board,draw_block,board.regions[region.regionID])
 
 							points -= 1
 
@@ -996,7 +1003,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 						bump_block = search.block_name_to_object(board.all_blocks,bump_choice)
 
-						bump_block.current_strength += 1
+						bump_block.heal_until_full(1)
 
 						print ("Bumped " + bump_block.name + " up!")
 
@@ -1041,7 +1048,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 					else:
 
-						potential_blocks[int(user_choice)].current_strength += 1
+						potential_blocks[int(user_choice)].heal_until_full(1)
 
 						points -= 1
 
@@ -1074,7 +1081,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 					bump_block = search.block_name_to_object(board.all_blocks,bump_choice)
 					if bump_block.current_strength < bump_block.attack_strength:
-						bump_block.current_strength += 1 
+						bump_block.heal_until_full(1) 
 
 						print ("Bumped " + bump_block.name + " up!")
 
@@ -1181,7 +1188,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 							user_choice2 = input("Which block would you like to bump in " + region.name + "? ")
 
-							potential_blocks[int(user_choice2)].current_strength += 1
+							potential_blocks[int(user_choice2)].heal_until_full(1)
 
 							points -= 1
 

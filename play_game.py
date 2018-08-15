@@ -12,6 +12,22 @@ import random
 import combat
 import exceptions
 import search
+def find_location(board, blok):
+    '''
+    This function takes a board object and the name of a block
+    and returns a region object where the block is
+    '''
+
+    
+    for i,region in enumerate(board.regions):
+        for bllock in region.blocks_present:
+            
+            if bllock.name == blok.name:
+                return board.regions[i]
+    
+    return False
+    #print('CANNOT FIND BLOCK WITH BLOCK NAME', blok.name)
+    #raise Exception('cannot find block')
 
 def clean_up_dict(region):
 
@@ -19,9 +35,9 @@ def clean_up_dict(region):
         for block in region.combat_dict[key]:
 
             if block.current_strength <= 0:
-                #print("THIS BLOCK SHOULD NOT BE HERE!!!!!", block)
                 region.combat_dict[key].remove(block)
-                region.blocks_present.remove(block)
+                if block in region.blocks_present:
+                    region.blocks_present.remove(block)
 
     return region
 
@@ -75,9 +91,6 @@ def prompt_scenario():
     return scenario
 
 def set_up_combat_dict(current_board, battle_region):
-    #print(battle_region)
-    #for block in battle_region.blocks_present:
-        #print(block)
     battle_regionID = battle_region.regionID
 
     battle_region = current_board.regions[battle_regionID]
@@ -201,7 +214,7 @@ def opp_battle_choice(contested_regions):
             if reg.name == choice:
                 return(i)
 
-def win(block_list, year, scenario):
+def win(block_list, year, scenario, current_board):
     """
     returns string of who wins
     or false
@@ -219,9 +232,9 @@ def win(block_list, year, scenario):
             scot_noble_count += 1
         elif type(block) == blocks.Noble and block.allegiance == 'ENGLAND':
             eng_noble_count += 1
-        if block.name == 'WALLACE' and block.current_strength != 0:
+        if block.name == 'WALLACE' and block.current_strength != 0 and find_location(current_board, block):
             wallace_is_dead = False
-
+            #print('WALLACES LOCATION: ', find_location(current_board, block))
     if scot_noble_count == 0:
         return 'ENGLAND WINS, SCOTLAND NOBLES ARE 0'
     elif eng_noble_count == 0:
@@ -235,14 +248,14 @@ def win(block_list, year, scenario):
                 return 'SCOTLAND WINS, ON DECISION WITH WALLACE'
         else:
             if scot_noble_count > eng_noble_count:
-                return 'SCOTLAND WINS, WITH MORE NOBLES' + str(scot_noble_count) + ' to ' + str(eng_noble_count)
+                return 'SCOTLAND WINS, WITH MORE NOBLES ' + str(scot_noble_count) + ' to ' + str(eng_noble_count)
             else:
-                return 'ENGLAND WINS, WITH MORE NOBLES' + str(eng_noble_count) + ' to ' + str(scot_noble_count)
+                return 'ENGLAND WINS, WITH MORE NOBLES ' + str(eng_noble_count) + ' to ' + str(scot_noble_count)
     elif year == 1315 and scenario == 'BRUCE':
         if scot_noble_count > eng_noble_count:
-            return 'SCOTLAND WINS, WITH MORE NOBLES' + str(scot_noble_count) + ' to ' + str(eng_noble_count)
+            return 'SCOTLAND WINS, WITH MORE NOBLES ' + str(scot_noble_count) + ' to ' + str(eng_noble_count)
         else:
-            return 'ENGLAND WINS, WITH MORE NOBLES' + str(eng_noble_count) + ' to ' + str(scot_noble_count)
+            return 'ENGLAND WINS, WITH MORE NOBLES ' + str(eng_noble_count) + ' to ' + str(scot_noble_count)
     elif year == 1306 and scenario == 'CAMPAIGN':
         block_list[27].type = 'KING'
         
@@ -255,7 +268,7 @@ def win(block_list, year, scenario):
 def play_game():
     #Determine scenario
     #scenario = prompt_scenario()
-    scenario = 'CAMPAIGN'
+    scenario = 'BRAVEHEART'
 
     #Determine which side the computer plays:
     #computer_role, opp_role = prompt_ai_side()
@@ -295,6 +308,12 @@ def play_game():
     winter.levy(current_board, 'start')
 
     edward_prev_winter = [False]
+    if scenario == 'BRUCE':
+        if current_board.all_blocks[28] in current_board.scot_pool:
+            current_board.scot_pool.remove(current_board.all_blocks[28])
+        if current_board.all_blocks[21] in current_board.scot_pool:
+            current_board.scot_pool.remove(current_board.all_blocks[21])
+
     while game_playing:
 
         """INITIALIZE YEAR - deal, etc"""
@@ -306,8 +325,6 @@ def play_game():
         turn_counter = 0
         play_turn = True
 
-        #for i,block in enumerate(current_board.all_blocks):
-        #   print(i, block.name)
         while play_turn:
             print('Year: ' + str(year))
 
@@ -347,27 +364,19 @@ def play_game():
             
             #Get a list all the regions that are contested
             contested_regions = current_board.get_contested_regions()
-            #print(contested_regions)
 
             for i,region in enumerate(contested_regions):
                 contested_regions[i] = clean_up_dict(contested_regions[i])
                 current_board.regions[contested_regions[i].regionID] = contested_regions[i]
             current_board = clean_up_board(current_board)
             contested_regions = current_board.get_contested_regions()
-            print(contested_regions)
             #If the human goes first find out what region they want to battle in
             while len(contested_regions) > 0:
 
                 if who_goes_first == False:
 
                     battle_region = contested_regions[opp_battle_choice(contested_regions)]
-                    #print('BEFORE:', battle_region.combat_dict)
-                    #print('BEFORE ENTERERS:', battle_region.enterers)
-                    #print('REAL BOARD ENTERERS:', current_board.regions[battle_region.regionID].enterers)
                     battle_region = set_up_combat_dict(current_board, battle_region)
-                    #print('AFTER:', battle_region.combat_dict)
-                    #battle_region.combat_dict = clean_up_dict(battle_region.combat_dict)
-                    #print('AFTER CLEAN UP:', battle_region.combat_dict)
                     if battle_region.is_contested():
                         combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], battle_region.combat_dict['Defending Reinforcements'],current_board, eng_type, scot_type) 
                     contested_regions.remove(battle_region)
@@ -377,12 +386,8 @@ def play_game():
                 else:
                     
                     battle_region = contested_regions[random.randint(0, len(contested_regions)-1)]
-                    #print('BEFORE:', battle_region.combat_dict)
-                    #print('BEFORE ENTERERS:', battle_region.enterers)
+                   
                     battle_region = set_up_combat_dict(current_board, battle_region)
-                    #print('AFTER:', battle_region.combat_dict)
-                    #battle_region.combat_dict = clean_up_dict(battle_region.combat_dict)
-                    #print('AFTER CLEAN UP:', battle_region.combat_dict)
                     if battle_region.is_contested():
                         combat.battle(battle_region.combat_dict['Attacking'], battle_region.combat_dict['Defending'], battle_region.combat_dict['Attacking Reinforcements'], battle_region.combat_dict['Defending Reinforcements'],current_board, eng_type, scot_type)
                     contested_regions.remove(battle_region)
@@ -394,21 +399,20 @@ def play_game():
             if year_cut_short or turn_counter >= 5:
                 play_turn = False
                 year += 1
-            if win(block_list, year, scenario):
-                print(win(block_list, year, scenario))
+            if win(block_list, year, scenario, current_board):
+                print(win(block_list, year, scenario, current_board))
                 return 'game over'
             for i,region in enumerate(current_board.regions):
                 current_board.regions[i].enterers = {'ENGLAND':dict(), 'SCOTLAND':dict()}
 
-        #print(current_board.regions)
+        
         #input('Start Winter')
         winter.update_roster(current_board)
-        moray_loca = combat.find_location(current_board, search.block_name_to_object(current_board.all_blocks, 'MORAY'))
+        #moray_loca = combat.find_location(current_board, search.block_name_to_object(current_board.all_blocks, 'MORAY'))
         winter.initialize_winter(current_board, block_list, eng_type, scot_type,edward_prev_winter)
         winter.winter_builds(current_board, eng_type, scot_type)
         winter.update_roster(current_board)
-        #print(current_board.scot_roster)
-        #print(current_board.scot_pool)
+        
         #input()
 
 def main():

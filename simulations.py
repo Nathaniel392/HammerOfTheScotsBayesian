@@ -465,6 +465,8 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 	# print('**************************************')
 
 
+	#temporary
+	num_times = 20
 
 	original_attack = copy.deepcopy(attack)
 	original_defense = copy.deepcopy(defense)
