@@ -77,13 +77,14 @@ def defect_nobles(current_board, loyalty_to_defect):
 
 			
 			
-				
+		'''		
 		if region.is_contested():
 			for block in region.blocks_present:
 				if block.allegiance == 'ENGLAND':
 					region.combat_dict['Attacking'].append(block)
 				else:
 					region.combat_dict['Defending'].append(block)
+		'''
 
 def fight(current_board, eng_type, scot_type):
 	"""
