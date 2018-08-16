@@ -160,81 +160,79 @@ def go_home(board,noble,eng_type,scot_type):
 	if there is more than 1 home location, it randomly picks one.
 	changes allegiance based on who controls home area
 	'''
-	try:
-		if type(noble.home_location) == int:
+	
+	if type(noble.home_location) == int:
+		print(noble.name)
+		if noble.home_location == find_location(board, noble).regionID:
+
+			print(noble.name + " is already home.")
+
+		elif not board.regions[noble.home_location].blocks_present or board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
+
 			print(noble.name)
-			if noble.home_location == find_location(board, noble).regionID:
+			start = find_location(board,noble).regionID
+			board.remove_from_region(noble, start)
 
-				print(noble.name + " is already home.")
-
-			elif not board.regions[noble.home_location].blocks_present or board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
-
-				print(noble.name)
-				start = find_location(board,noble).regionID
-				board.remove_from_region(noble, start)
-
-				board.regions[noble.home_location].blocks_present.append(noble)
-
-
-			else:
-
-				noble.allegiance = board.regions[noble.home_location].blocks_present[0].allegiance
-
-				print(noble.name + '\'s allegiance was changed to ' + board.regions[noble.home_location].blocks_present[0].allegiance)
-
-				start = find_location(board,noble).regionID
-				board.remove_from_region(noble, start)
-
-				board.regions[noble.home_location].blocks_present.append(noble)
+			board.regions[noble.home_location].blocks_present.append(noble)
 
 
 		else:
 
-			possible_locations = []
+			noble.allegiance = board.regions[noble.home_location].blocks_present[0].allegiance
 
-			new_locations = []
-			
-			for home in noble.home_location:
+			print(noble.name + '\'s allegiance was changed to ' + board.regions[noble.home_location].blocks_present[0].allegiance)
 
-				new_locations.append(home)
+			start = find_location(board,noble).regionID
+			board.remove_from_region(noble, start)
 
-				if not board.regions[home].blocks_present or board.regions[home].blocks_present[0].allegiance == noble.allegiance:
+			board.regions[noble.home_location].blocks_present.append(noble)
 
-					possible_locations.append(board.regions[home])
 
-			else:
+	else:
 
-				if not possible_locations:
-					print(noble.name + ' changes their allegiance')
-					if noble.allegiance == "SCOTLAND":
+		possible_locations = []
 
-						noble.allegiance == "ENGLAND"
-						board.scot_roster.remove(noble)
-						board.eng_roster.append(noble)
+		new_locations = []
+		
+		for home in noble.home_location:
 
-					else:
+			new_locations.append(home)
 
-						noble.allegiance == "SCOTLAND"
-						board.eng_roster.remove(noble)
-						board.scot_roster.append(noble)
-					print('IN THE BOARD NOBLE ALLEGIANCE IS: ', search.block_name_to_object(board.all_blocks, noble.name))
-					noble_choice = search.region_id_to_object(board, choose_location(new_locations,noble.allegiance,eng_type,scot_type,noble))
-					print(noble.name + ' went home to ' + board.regions[noble_choice.regionID].name)
+			if not board.regions[home].blocks_present or board.regions[home].blocks_present[0].allegiance == noble.allegiance:
 
-					add_to_location(board,noble,noble_choice)
+				possible_locations.append(board.regions[home])
+
+		else:
+
+			if not possible_locations:
+				print(noble.name + ' changes their allegiance')
+				if noble.allegiance == "SCOTLAND":
+
+					noble.allegiance == "ENGLAND"
+					board.scot_roster.remove(noble)
+					board.eng_roster.append(noble)
 
 				else:
 
-					noble_new_home = choose_location(possible_locations,noble.allegiance,eng_type,scot_type,noble)
-					
-					#add_to_location(board,noble,noble_new_home)
-					current_loca = find_location(board, noble)
-					
-					board.remove_from_region(noble, current_loca.regionID)
-					board.regions[noble_new_home.regionID].blocks_present.append(noble)
-		return noble
-	except AttributeError:
-		return None
+					noble.allegiance == "SCOTLAND"
+					board.eng_roster.remove(noble)
+					board.scot_roster.append(noble)
+				print('IN THE BOARD NOBLE ALLEGIANCE IS: ', search.block_name_to_object(board.all_blocks, noble.name))
+				noble_choice = search.region_id_to_object(board, choose_location(new_locations,noble.allegiance,eng_type,scot_type,noble))
+				print(noble.name + ' went home to ' + board.regions[noble_choice.regionID].name)
+
+				add_to_location(board,noble,noble_choice)
+
+			else:
+
+				noble_new_home = choose_location(possible_locations,noble.allegiance,eng_type,scot_type,noble)
+				
+				#add_to_location(board,noble,noble_new_home)
+				current_loca = find_location(board, noble)
+				
+				board.remove_from_region(noble, current_loca.regionID)
+				board.regions[noble_new_home.regionID].blocks_present.append(noble)
+	return noble
 def add_to_location(board,block,location):
 
 	'''
@@ -550,11 +548,13 @@ def disband(board,block):
 	board.regions[find_location(board,block).regionID].blocks_present.remove(block)
 
 
-	if block.allegiance == 'SCOTLAND' and block in scot_roster:
-		board.scot_roster.remove(block)
+	if block.allegiance == 'SCOTLAND':
+		if block in board.scot_roster:
+			board.scot_roster.remove(block)
 		board.scot_pool.append(block)
-	elif block in eng_roster:
-		board.eng_roster.remove(block)
+	else:
+		if block in board.eng_roster:
+			board.eng_roster.remove(block)
 		board.eng_pool.append(block)
 
 	print ("Disbanded " + block.name + "!")	
@@ -628,9 +628,6 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 		#print(noble.name)
 	
 		noble = go_home(board,noble,eng_type,scot_type)
-
-		if noble == None:
-			continue
 
 		print ("Sent " + noble.name + " home!")
 
@@ -896,8 +893,6 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 
 				disbanding_utilities,have_to_move = disband_block_util(board,region)
 
-				if disbanding_utilities = dict():
-					continue
 
 				computer_choices = []
 				for i in range(have_to_move):
@@ -937,9 +932,21 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 			points = rp
 
+			update_count = 0
+
 			while points > 0:
 
+				update_count += 1
+
+				if update_count > 25:
+					break
+
 				choice_utilities = choose_what_to_do_util(board,region,rp)
+
+
+				if choice_utilities == dict():
+					break
+
 
 				computer_choice = weighted_prob.weighted_prob(choice_utilities)
 
@@ -957,7 +964,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 								num_drawings += 1
 
 								draw_block = random.choice(board.scot_pool)
-								print('Trying to add ' + draw_block.name + ' to' +  region.name)
+								#print('Trying to add ' + draw_block.name + ' to' +  region.name)
 								if draw_block.type == 'NORSE':
 
 									if region.coast:
@@ -1069,7 +1076,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 			points = rp
 			potential_blocks = []
-			while points > 0 or potential_blocks:
+			while points > 0 or (potential_blocks != list()):
 
 				potential_blocks = []
 				
@@ -1097,7 +1104,9 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 				else:
 
 					print (region.name + " has nothing to build!")
-
+					points = 0
+					potential_blocks = list()
+					break
 					points = 0
 				potential_blocks = []
 
