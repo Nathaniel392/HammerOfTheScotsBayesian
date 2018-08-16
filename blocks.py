@@ -57,20 +57,6 @@ class Block(object):
                 self.current_strength = 0
             return True
           
-         
-    def heal(self, health_points):
-        """
-        heals block as much as possible with health_points sent
-        returns number of health_points left
-        """
-        while health_points > 0:
-        
-            if self.current_strength + 1 > self.attack_strength:
-                return health_points
-            else:
-                self.current_strength = self.attack_strength + 1
-                health_points -=1
-        return health_points
     
     def heal_until_full(self, health_points = 1):
         """
@@ -100,6 +86,7 @@ class Block(object):
         output += '\tMoves:' + str(self.movement_points) + '\n'
         output += '\tStrength:' + str(self.current_strength) + '/' + str(self.attack_strength) + '\n'
         output += '\tCombat:' + str(self.attack_letter) + str(self.attack_number) + '\n'
+        output += '\tAllegiance:' + str(self.allegiance) + '\n'
         output += '-'*20
         return output
       
@@ -110,10 +97,16 @@ class Block(object):
         output = str(self)
         return output
 
+    def __eq__(self,other):
+        if type(self) == type(other):
+            return self.name == other.name
+        else:
+            return False
+
 
       
     def is_dead(self):
-        return self.current_strength == 0
+        return self.current_strength <= 0
  
 
 class Noble(Block):
@@ -125,9 +118,9 @@ class Noble(Block):
                  has_cross = None, blockID = None, home_location = None, loyalty = None, allegiance = None):
 
         super(Noble, self).__init__(name, movement_points, attack_letter, attack_number, max_attack_strength, \
-                 has_cross, blockID, allegiance)
+                 has_cross, 'NOBLE', blockID, allegiance)
 
-        #self.home_location = home_location
+        self.home_location = home_location
         self.loyalty = loyalty
        
     #def go_home(self):
@@ -138,18 +131,35 @@ class Noble(Block):
         No parameter: flips noble's alliegance
         Parameter ('SCOTLAND' or 'ENGLAND'): sets alliegance to that side
         """
+        
+        
         if self.has_cross:
             raise Exception('Moray can\'t change sides')
         else:
             if allegiance == None:
+                
                 if self.allegiance == 'SCOTLAND':
                     self.allegiance = 'ENGLAND'
                     
-                else:
-                    self.allegiance == 'SCOTLAND'
+                elif self.allegiance == 'ENGLAND':
+
+                    self.allegiance = 'SCOTLAND'
+
                     
             else:
+                
                 self.allegiance = allegiance   
         if self.current_strength == 0:
                 self.current_strength = 1
+        
+
+
+    def b2_to_b3(self, change = None):
+        if change == None:
+            if self.attack_number == 3:
+                self.attack_number = 2
+            else:
+                self.attack_number = 3
+        else:
+            self.attack_number = change
             

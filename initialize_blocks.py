@@ -77,7 +77,7 @@ def initialize_blocks():
 		block_type = line[5]
 		cross = line[6]
 		block_id = line[7]
-
+		#print(line[0], line[7])
 		# Check if it's a noble
 		if block_type == 'BRUCE' or block_type == 'COMYN':
 			is_noble = True
@@ -87,8 +87,9 @@ def initialize_blocks():
 
 			# Assign noble loyalty
 			loyalty = block_type
+			#print(block_id)
 			temp_block = blocks.Noble(name, movement_points, attack_letter, attack_number, attack_strength, cross, block_id, home, loyalty)
-
+			#print(temp_block.name, temp_block.blockID, temp_block.allegiance)
 		else:
 			is_noble = False
 			temp_block = blocks.Block(name, movement_points, attack_letter, attack_number, attack_strength, cross, block_type, block_id)

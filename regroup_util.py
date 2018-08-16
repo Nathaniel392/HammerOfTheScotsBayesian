@@ -3,7 +3,7 @@ import search
 import weighted_prob
 import region_danger
 
-def Regroup(board, regionID, locations):
+def regroup_utility(board, regionID, locations):
 
 	return_dict = {}
 
@@ -13,7 +13,7 @@ def Regroup(board, regionID, locations):
 
 		location_utility = 0
 
-		if len(board.regions[location].blocks_present) == 0 and noble_home_to_object(board, location) and noble_homt_to_object(board, location).allegiance != role:
+		if len(board.regions[location].blocks_present) == 0 and noble_home_to_object(board, location) and noble_home_to_object(board, location).allegiance != role:
 			location_utility += value_of_location(board, location, role) * 3
 
 		elif len(board.regions[location].blocks_present) == 0 and noble_home_to_object(board, location):
@@ -30,7 +30,11 @@ def Regroup(board, regionID, locations):
 
 		return_dict[location] = location_utility
 
-	return weighted_prob.weighted_prob(return_dict)
+	#print(return_dict)
+
+	return_value = weighted_prob.weighted_prob(return_dict)
+
+	return int(return_value)
 
 
 
@@ -67,7 +71,7 @@ def noble_home_to_object(board, regionID):
 
 	elif regionID == 7:
 
-		return serach.block_name_to_object(board.all_blocks, 'MAR')
+		return search.block_name_to_object(board.all_blocks, 'MAR')
 
 	elif regionID == 8:
 
@@ -145,7 +149,7 @@ ENGLAND         22 F T 0
 		if number != -1:
 			value_lst[i] -= number
 		value_lst[i] = value_lst[i] / 50
-		if value_lst[i] < 0:
-			value_lst[i] = 0
+		if value_lst[i] <= 0:
+			value_lst[i] = 0.0000001
 
 	return value_lst[regionID]
