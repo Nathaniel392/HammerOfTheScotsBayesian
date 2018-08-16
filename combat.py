@@ -10,7 +10,7 @@ import regroup_util
 import retreat
 import exceptions
 import weighted_prob
-import input_toggle
+
 def find_location(board, blok):
 	'''
 	This function takes a board object and the name of a block
@@ -130,8 +130,6 @@ def attack_block(attack_block_block, defending_blocks, eng_type, scot_type):
 				block_to_get_hurt = strong_blocks[index]
 				block_to_get_hurt.get_hurt(1)
 				print(block_to_get_hurt.name, 'got hurt!')
-
-				input_toggle.toggle_input('combat')
 
 
 
@@ -406,8 +404,6 @@ def regroup_locations(board, attacking, defending, is_attacking):
 				possible_locations.append(board.regions[x])
 		possible_locations.append(current_location)
 		return possible_locations
-	else:
-		return board.regions[0]
 
 def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
 	combat_letter = 'A', combat_round = 0, turn = 'defender', retreat_constant = 0.3, attacking_block = None):
@@ -462,7 +458,7 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	for location in possible_locations:
 		possible_locations_id.append(location.regionID)
 	#print('CURRENT LOCATION: ', current_location)
-	choice_dictionary = retreat.retreat(board, current_location, possible_locations_id, simulation_dict, is_attacking, board.turn, board.regions[current_location].combat_dict)
+	choice_dictionary = retreat.retreat(board, current_location, possible_locations_id, simulation_dict, is_attacking, board.turn)
 	choice = weighted_prob.weighted_prob(choice_dictionary)
 	
 
@@ -700,6 +696,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 
 	
 	'''
+
+
 	if attack == list():
 		attack = copy.deepcopy(attack_reinforcements)
 		attack_reinforcements = list()
@@ -721,7 +719,6 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	if len(attack) > 0:
 		attacking_allegiance = attack[0].allegiance
 	else:
-		return None
 		raise Exception('There are no attacking blocks')
 	if attacking_allegiance == 'ENGLAND':
 		attacker_type = eng_type
@@ -729,6 +726,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 	elif attacking_allegiance == 'SCOTLAND':
 		attacker_type = scot_type
 		defender_type = eng_type
+
+
+	if attack[0].current_strength == 0:
+		attack[0].current_strength = 1
+	if defense[0].current_strength == 0:
+		defense[0].current_strength = 1
 		
 		
 
@@ -769,7 +772,6 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 		
 	for combat_round in range(3):
 
-		#input_toggle.toggle_input('combat')
 
 
 		current_board.reset_borders()
@@ -821,19 +823,12 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							current_board.eng_pool.append(block)
 
 
-		attackers = organize(attack)
-		defenders = organize(defense)
-
-
-
 						
 			
 		for letter in 'ABC':
 			
 			#input()
-			input_toggle.toggle_input('combat')
-			attackers = organize(attack)
-			defenders = organize(defense)
+					
 				
 			for attacking_block in defenders[letter]:
 				if attacking_block.allegiance != defenders_allegiance:
