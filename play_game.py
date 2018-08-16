@@ -262,7 +262,7 @@ def win(block_list, year, scenario, current_board):
             return 'SCOTLAND WINS, WITH MORE NOBLES ' + str(scot_noble_count) + ' to ' + str(eng_noble_count)
         else:
             return 'ENGLAND WINS, WITH MORE NOBLES ' + str(eng_noble_count) + ' to ' + str(scot_noble_count)
-    elif year == 1306 and scenario == 'CAMPAIGN':
+    elif year == 1307 and scenario == 'CAMPAIGN':
         block_list[27].type = 'KING'
         
             
