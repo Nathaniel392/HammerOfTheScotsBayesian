@@ -10,7 +10,7 @@ import regroup_util
 import retreat
 import exceptions
 import weighted_prob
-
+import input_toggle
 def find_location(board, blok):
 	'''
 	This function takes a board object and the name of a block
@@ -458,7 +458,7 @@ def should_retreat(board, attacking = None, defending = None, attacking_reinforc
 	for location in possible_locations:
 		possible_locations_id.append(location.regionID)
 	#print('CURRENT LOCATION: ', current_location)
-	choice_dictionary = retreat.retreat(board, current_location, possible_locations_id, simulation_dict, is_attacking, board.turn)
+	choice_dictionary = retreat.retreat(board, current_location, possible_locations_id, simulation_dict, is_attacking, board.turn, board.regions[current_location].combat_dict)
 	choice = weighted_prob.weighted_prob(choice_dictionary)
 	
 
@@ -764,6 +764,7 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 		
 	for combat_round in range(3):
 
+		#input_toggle.toggle_input('combat')
 
 
 		current_board.reset_borders()
@@ -820,7 +821,8 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 		for letter in 'ABC':
 			
 			#input()
-					
+			input_toggle.toggle_input('combat')
+
 				
 			for attacking_block in defenders[letter]:
 				if attacking_block.allegiance != defenders_allegiance:

@@ -548,11 +548,13 @@ def disband(board,block):
 	board.regions[find_location(board,block).regionID].blocks_present.remove(block)
 
 
-	if block.allegiance == 'SCOTLAND' and block in scot_roster:
-		board.scot_roster.remove(block)
+	if block.allegiance == 'SCOTLAND':
+		if block in board.scot_roster:
+			board.scot_roster.remove(block)
 		board.scot_pool.append(block)
-	elif block in eng_roster:
-		board.eng_roster.remove(block)
+	else:
+		if block in board.eng_roster:
+			board.eng_roster.remove(block)
 		board.eng_pool.append(block)
 
 	print ("Disbanded " + block.name + "!")	

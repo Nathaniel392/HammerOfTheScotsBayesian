@@ -4,6 +4,7 @@ import weighted_prob
 import copy
 import simulations
 import other_movement
+import input_toggle
 def clean_up_board(board1):
     '''
     This function is a function that is meant
@@ -209,6 +210,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
     #if utility > bad_move_utility:
         #total_string = ''
         #pause
+        input_toggle.toggle_input('movement')
         print('computer ready to make a move')
 
         #input()
@@ -218,6 +220,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
             print('Computer passes a movement point')
         other_movement.reset_total_string()
         print('computer done with move\n')
+        #input_toggle.toggle_input('movement')
         #input()
         return board
     else:

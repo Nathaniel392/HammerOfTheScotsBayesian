@@ -12,6 +12,7 @@ import random
 import combat
 import exceptions
 import search
+import input_toggle
 def find_location(board, blok):
     '''
     This function takes a board object and the name of a block
@@ -101,7 +102,7 @@ def set_up_combat_dict(current_board, battle_region):
     has_defenders = False
     defending_path = None
     defending_allegiance = None
-
+    first_block = None
     for block in battle_region.blocks_present:
 
 
@@ -114,10 +115,15 @@ def set_up_combat_dict(current_board, battle_region):
 
     if not has_defenders:
         first_block,defending_path = battle_region.find_first_enterer()
-        current_board.regions[battle_regionID].combat_dict['Defending'].append(first_block)
-        defending_allegiance = first_block.allegiance
+        if first_block != None:
+            current_board.regions[battle_regionID].combat_dict['Defending'].append(first_block)
+            defending_allegiance = first_block.allegiance
+        else:
+            current_board.regions[battle_regionID].combat_dict['Defending'].append(battle_region.blocks_present[0])
+            defending_allegiance = battle_region.blocks_present[0].allegiance
 
     attacking_path = None
+    
     for role in battle_region.enterers:
         for path in battle_region.enterers[role]:
             for block,order in battle_region.enterers[role][path]:
@@ -406,14 +412,14 @@ def play_game():
                 current_board.regions[i].enterers = {'ENGLAND':dict(), 'SCOTLAND':dict()}
 
         
-        #input('Start Winter')
+        input_toggle.toggle_input('other')
         winter.update_roster(current_board)
         #moray_loca = combat.find_location(current_board, search.block_name_to_object(current_board.all_blocks, 'MORAY'))
         winter.initialize_winter(current_board, block_list, eng_type, scot_type,edward_prev_winter)
         winter.winter_builds(current_board, eng_type, scot_type)
         winter.update_roster(current_board)
         
-        #input()
+        input_toggle.toggle_input('other')
 
 def main():
     try:
