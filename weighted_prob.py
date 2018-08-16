@@ -1,5 +1,6 @@
 import random
 import exceptions
+import copy
 import numpy as np
 def weighted_prob(dictionary, num_times = 1):
 
@@ -56,7 +57,8 @@ def weighted_prob2(dictionary, num_times = 1, prev_keys = set()):
 
 	if sum(probs) < 1:
 		probs.append(1-sum(probs))
-		keys.append('do nothing')
+		#keys.append('do nothing')
+		keys.append(copy.deepcopy(keys[0]))
 
 
 

@@ -819,13 +819,19 @@ def battle(attack, defense, attack_reinforcements = list(), defense_reinforcemen
 							current_board.eng_pool.append(block)
 
 
+		attackers = organize(attack)
+		defenders = organize(defense)
+
+
+
 						
 			
 		for letter in 'ABC':
 			
 			#input()
 			input_toggle.toggle_input('combat')
-
+			attackers = organize(attack)
+			defenders = organize(defense)
 				
 			for attacking_block in defenders[letter]:
 				if attacking_block.allegiance != defenders_allegiance:

@@ -81,6 +81,7 @@ def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND
             value = comp_card_utilities.tru_utility(board, role)
         
         prob_dict[card] = value
+        
     chosen_card = weighted_prob.weighted_prob(prob_dict)
 
     print(role, computer_hand)

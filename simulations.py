@@ -482,6 +482,9 @@ def simulation(attack, defense, num_times, attack_reinforcements = list(), defen
 		before_defense_strength += block.current_strength
 
 	totals_dict = {'attacker wins':0, 'defender wins':0, 'attacker retreats':0, 'Attacker strength lost':0, 'Defender strength lost':0}
+
+	if original_attack == list() or original_defense == list():
+		return {'attacker wins': .25, 'defender wins': .25, 'attacker retreats': .5, 'Attacker strength lost': 1.0, 'Defender strength lost': 1.0}
 	count = 0
 	for j in range(num_times):
 
