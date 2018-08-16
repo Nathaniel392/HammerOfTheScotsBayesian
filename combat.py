@@ -406,6 +406,8 @@ def regroup_locations(board, attacking, defending, is_attacking):
 				possible_locations.append(board.regions[x])
 		possible_locations.append(current_location)
 		return possible_locations
+	else:
+		return board.regions[0]
 
 def should_retreat(board, attacking = None, defending = None, attacking_reinforcement = list(), defending_reinforcement = list(), is_attacking = None,\
 	combat_letter = 'A', combat_round = 0, turn = 'defender', retreat_constant = 0.3, attacking_block = None):
