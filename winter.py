@@ -550,13 +550,11 @@ def disband(board,block):
 	board.regions[find_location(board,block).regionID].blocks_present.remove(block)
 
 
-	if block.allegiance == 'SCOTLAND':
-		if block in board.scot_roster:
-			board.scot_roster.remove(block)
+	if block.allegiance == 'SCOTLAND' and block in scot_roster:
+		board.scot_roster.remove(block)
 		board.scot_pool.append(block)
-	else:
-		if block in board.eng_roster:
-			board.eng_roster.remove(block)
+	elif block in eng_roster:
+		board.eng_roster.remove(block)
 		board.eng_pool.append(block)
 
 	print ("Disbanded " + block.name + "!")	
@@ -630,6 +628,7 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 		#print(noble.name)
 	
 		noble = go_home(board,noble,eng_type,scot_type)
+
 		if noble == None:
 			continue
 
@@ -897,6 +896,8 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 
 				disbanding_utilities,have_to_move = disband_block_util(board,region)
 
+				if disbanding_utilities = dict():
+					continue
 
 				computer_choices = []
 				for i in range(have_to_move):
@@ -936,21 +937,9 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 			points = rp
 
-			update_count = 0
-
 			while points > 0:
 
-				update_count += 1
-
-				if update_count > 25:
-					break
-
 				choice_utilities = choose_what_to_do_util(board,region,rp)
-
-
-				if choice_utilities == dict():
-					break
-
 
 				computer_choice = weighted_prob.weighted_prob(choice_utilities)
 
@@ -968,7 +957,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 								num_drawings += 1
 
 								draw_block = random.choice(board.scot_pool)
-								#print('Trying to add ' + draw_block.name + ' to' +  region.name)
+								print('Trying to add ' + draw_block.name + ' to' +  region.name)
 								if draw_block.type == 'NORSE':
 
 									if region.coast:
@@ -1080,7 +1069,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 
 			points = rp
 			potential_blocks = []
-			while points > 0 or (potential_blocks != list()):
+			while points > 0 or potential_blocks:
 
 				potential_blocks = []
 				
@@ -1108,9 +1097,7 @@ def distribute_rp(board,rp,region,eng_type,scot_type):
 				else:
 
 					print (region.name + " has nothing to build!")
-					points = 0
-					potential_blocks = list()
-					break
+
 					points = 0
 				potential_blocks = []
 
