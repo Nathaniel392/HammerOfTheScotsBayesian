@@ -428,6 +428,8 @@ def main():
         print('\n\n\nThe English King is Dead!\nSCOTLAND WINS')
     except exceptions.ScottishKingDeadException:
         print('\n\n\nThe Scottish King is Dead!\nENGLAND WINS')
+    except:
+        main()
 
 if __name__ == '__main__':
     main()
