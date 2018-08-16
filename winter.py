@@ -160,79 +160,81 @@ def go_home(board,noble,eng_type,scot_type):
 	if there is more than 1 home location, it randomly picks one.
 	changes allegiance based on who controls home area
 	'''
-	
-	if type(noble.home_location) == int:
-		print(noble.name)
-		if noble.home_location == find_location(board, noble).regionID:
-
-			print(noble.name + " is already home.")
-
-		elif not board.regions[noble.home_location].blocks_present or board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
-
+	try:
+		if type(noble.home_location) == int:
 			print(noble.name)
-			start = find_location(board,noble).regionID
-			board.remove_from_region(noble, start)
+			if noble.home_location == find_location(board, noble).regionID:
 
-			board.regions[noble.home_location].blocks_present.append(noble)
+				print(noble.name + " is already home.")
 
+			elif not board.regions[noble.home_location].blocks_present or board.regions[noble.home_location].blocks_present[0].allegiance == noble.allegiance:
 
-		else:
+				print(noble.name)
+				start = find_location(board,noble).regionID
+				board.remove_from_region(noble, start)
 
-			noble.allegiance = board.regions[noble.home_location].blocks_present[0].allegiance
+				board.regions[noble.home_location].blocks_present.append(noble)
 
-			print(noble.name + '\'s allegiance was changed to ' + board.regions[noble.home_location].blocks_present[0].allegiance)
-
-			start = find_location(board,noble).regionID
-			board.remove_from_region(noble, start)
-
-			board.regions[noble.home_location].blocks_present.append(noble)
-
-
-	else:
-
-		possible_locations = []
-
-		new_locations = []
-		
-		for home in noble.home_location:
-
-			new_locations.append(home)
-
-			if not board.regions[home].blocks_present or board.regions[home].blocks_present[0].allegiance == noble.allegiance:
-
-				possible_locations.append(board.regions[home])
-
-		else:
-
-			if not possible_locations:
-				print(noble.name + ' changes their allegiance')
-				if noble.allegiance == "SCOTLAND":
-
-					noble.allegiance == "ENGLAND"
-					board.scot_roster.remove(noble)
-					board.eng_roster.append(noble)
-
-				else:
-
-					noble.allegiance == "SCOTLAND"
-					board.eng_roster.remove(noble)
-					board.scot_roster.append(noble)
-				print('IN THE BOARD NOBLE ALLEGIANCE IS: ', search.block_name_to_object(board.all_blocks, noble.name))
-				noble_choice = search.region_id_to_object(board, choose_location(new_locations,noble.allegiance,eng_type,scot_type,noble))
-				print(noble.name + ' went home to ' + board.regions[noble_choice.regionID].name)
-
-				add_to_location(board,noble,noble_choice)
 
 			else:
 
-				noble_new_home = choose_location(possible_locations,noble.allegiance,eng_type,scot_type,noble)
-				
-				#add_to_location(board,noble,noble_new_home)
-				current_loca = find_location(board, noble)
-				
-				board.remove_from_region(noble, current_loca.regionID)
-				board.regions[noble_new_home.regionID].blocks_present.append(noble)
-	return noble
+				noble.allegiance = board.regions[noble.home_location].blocks_present[0].allegiance
+
+				print(noble.name + '\'s allegiance was changed to ' + board.regions[noble.home_location].blocks_present[0].allegiance)
+
+				start = find_location(board,noble).regionID
+				board.remove_from_region(noble, start)
+
+				board.regions[noble.home_location].blocks_present.append(noble)
+
+
+		else:
+
+			possible_locations = []
+
+			new_locations = []
+			
+			for home in noble.home_location:
+
+				new_locations.append(home)
+
+				if not board.regions[home].blocks_present or board.regions[home].blocks_present[0].allegiance == noble.allegiance:
+
+					possible_locations.append(board.regions[home])
+
+			else:
+
+				if not possible_locations:
+					print(noble.name + ' changes their allegiance')
+					if noble.allegiance == "SCOTLAND":
+
+						noble.allegiance == "ENGLAND"
+						board.scot_roster.remove(noble)
+						board.eng_roster.append(noble)
+
+					else:
+
+						noble.allegiance == "SCOTLAND"
+						board.eng_roster.remove(noble)
+						board.scot_roster.append(noble)
+					print('IN THE BOARD NOBLE ALLEGIANCE IS: ', search.block_name_to_object(board.all_blocks, noble.name))
+					noble_choice = search.region_id_to_object(board, choose_location(new_locations,noble.allegiance,eng_type,scot_type,noble))
+					print(noble.name + ' went home to ' + board.regions[noble_choice.regionID].name)
+
+					add_to_location(board,noble,noble_choice)
+
+				else:
+
+					noble_new_home = choose_location(possible_locations,noble.allegiance,eng_type,scot_type,noble)
+					
+					#add_to_location(board,noble,noble_new_home)
+					current_loca = find_location(board, noble)
+					
+					board.remove_from_region(noble, current_loca.regionID)
+					board.regions[noble_new_home.regionID].blocks_present.append(noble)
+		return noble
+	except AttributeError:
+		return None
 def add_to_location(board,block,location):
 
 	'''
@@ -628,6 +630,8 @@ def initialize_winter(board,block_list,eng_type,scot_type, edward_prev_winter = 
 		#print(noble.name)
 	
 		noble = go_home(board,noble,eng_type,scot_type)
+		if noble == None:
+			continue
 
 		print ("Sent " + noble.name + " home!")
 
