@@ -83,8 +83,8 @@ def select_comp_card(board, computer_hand, role): #role = 'ENGLAND' or 'SCOTLAND
         prob_dict[card] = value
     chosen_card = weighted_prob.weighted_prob(prob_dict)
 
-    print('computer hand: ', computer_hand)
-    print('computer plays ', chosen_card)
+    print(role, computer_hand)
+    print(role, 'plays', chosen_card)
     
     if chosen_card == '1' or chosen_card == '2' or chosen_card == '3' or chosen_card == 'TRU':
         return chosen_card, 0 #empty second parameter because it's unnecessary

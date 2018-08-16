@@ -211,7 +211,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
         #total_string = ''
         #pause
         input_toggle.toggle_input('movement')
-        print('computer ready to make a move')
+        print(computer_block.allegiance, 'ready to make a move')
 
         #input()
         if computer_path[0] != computer_path[-1] and computer_block in board.regions[computer_path[0]].blocks_present:
@@ -219,7 +219,7 @@ def good_move(board, num_moves, role, turn, truce, blocks_moved):
         else:
             print('Computer passes a movement point')
         other_movement.reset_total_string()
-        print('computer done with move\n')
+        print(computer_block.allegiance, 'done with move\n')
         #input_toggle.toggle_input('movement')
         #input()
         return board

@@ -274,7 +274,7 @@ def win(block_list, year, scenario, current_board):
 def play_game():
     #Determine scenario
     #scenario = prompt_scenario()
-    scenario = 'BRAVEHEART'
+    scenario = 'CAMPAIGN'
 
     #Determine which side the computer plays:
     #computer_role, opp_role = prompt_ai_side()

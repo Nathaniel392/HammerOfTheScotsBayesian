@@ -1,5 +1,8 @@
-new_lst = list('1')
-second_lst = list('1')
-
-print(new_lst is second_lst)
-print(new_lst == second_lst)
+"""
+great program
+"""
+while True:
+	num = input('Enter a realistic number: ').strip()
+	if num == '20' or num.lower() == 'twenty':
+		print('hi sreya')
+		break

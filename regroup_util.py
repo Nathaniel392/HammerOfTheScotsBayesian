@@ -30,7 +30,7 @@ def regroup_utility(board, regionID, locations):
 
 		return_dict[location] = location_utility
 
-	print(return_dict)
+	#print(return_dict)
 
 	return_value = weighted_prob.weighted_prob(return_dict)
 
